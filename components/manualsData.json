@@ -1,0 +1,151 @@
+{
+    "topics": [
+        {
+            "_id": "5ed038cc92a9db000d105e0c",
+            "name": "Medicina interna",
+            "subtopics": [
+                {
+                    "_id": "5da179c60269b7000d16e46c",
+                    "name": "Infectolog\u00eda"
+                },
+                {
+                    "_id": "5da179cdb804390018513941",
+                    "name": "Cardiovascular"
+                },
+                {
+                    "_id": "5da179e3422fd300239e5a6f",
+                    "name": "Reumatolog\u00eda"
+                },
+                {
+                    "_id": "5da179f1f81bb5002e5c8efa",
+                    "name": "Endocrinolog\u00eda"
+                },
+                {
+                    "_id": "5da179fc7b336c0039cde973",
+                    "name": "Hematolog\u00eda"
+                },
+                {
+                    "_id": "5da17a05b4585400441e15fc",
+                    "name": "Dermatolog\u00eda"
+                },
+                {
+                    "_id": "5da17a0de4ce62004ff2b1a9",
+                    "name": "Gastroenterolog\u00eda"
+                },
+                {
+                    "_id": "5da17a15a6848a005ab768c1",
+                    "name": "Nefrolog\u00eda"
+                },
+                {
+                    "_id": "5da17a254de9ed00656e70c9",
+                    "name": "Neumolog\u00eda"
+                },
+                {
+                    "_id": "5da17a2e5f37c50070d64e2d",
+                    "name": "Neurolog\u00eda"
+                },
+                {
+                    "_id": "5da17a38179036007bd97282",
+                    "name": "Psiquiatr\u00eda"
+                },
+                {
+                    "_id": "5da17a3f3fd6d90086cffd21",
+                    "name": "Geriatr\u00eda y gerontolog\u00eda"
+                },
+                {
+                    "_id": "5da17a485422fc0091ae03cf",
+                    "name": "Inmunoalergia"
+                }
+            ]
+        },
+        {
+            "_id": "5ed038cd92a9db000d105e0d",
+            "name": "Ginecología y Obstetricia",
+            "subtopics": [
+                {
+                    "_id": "5da17a8e7bd148009c834730",
+                    "name": "Ginecolog\u00eda"
+                },
+                {
+                    "_id": "5da17a93d021d400a7097016",
+                    "name": "Obstetricia"
+                }
+            ]
+        },
+        {
+            "_id": "5ed038cd92a9db000d105e0e",
+            "name": "Pediatr\u00eda",
+            "subtopics": [
+                {
+                    "_id": "5da17b0abb3ff7010ae8df1e",
+                    "name": "Crecimiento y desarrollo"
+                },
+                {
+                    "_id": "5da17b6ccf3e5b0115764e99",
+                    "name": "Infectolog\u00eda pedi\u00e1trica"
+                },
+                {
+                    "_id": "5da17b7e17f16901206eb413",
+                    "name": "Pediatr\u00eda general"
+                },
+                {
+                    "_id": "5da17b8440a5a2012b25d45b",
+                    "name": "Urgencias pedi\u00e1tricas"
+                }
+            ]
+        },
+        {
+            "_id": "5ed038cd92a9db000d105e0f",
+            "name": "Cirug\u00eda",
+            "subtopics": [
+                {
+                    "_id": "5da17abe9f672600b266e15e",
+                    "name": "Cirug\u00eda abdominal"
+                },
+                {
+                    "_id": "5da17ac52cc87000bd3bee35",
+                    "name": "Urgencias"
+                },
+                {
+                    "_id": "5da17ad543fbb500c8eb09f1",
+                    "name": "Proctolog\u00eda"
+                },
+                {
+                    "_id": "5da17adaf3095900d3a761b8",
+                    "name": "Traumatolog\u00eda y ortopedia"
+                },
+                {
+                    "_id": "5da17ae1e1090d00de1aa555",
+                    "name": "Urolog\u00eda"
+                },
+                {
+                    "_id": "5da17ae610164300e91b2cf9",
+                    "name": "Angiolog\u00eda"
+                },
+                {
+                    "_id": "5da17aeebfa15b00f483fb6d",
+                    "name": "Oftalmolog\u00eda"
+                },
+                {
+                    "_id": "5da17af465e32100ff609139",
+                    "name": "Otorrinolaringolog\u00eda"
+                }
+            ]
+        },
+        {
+            "_id": "5ed038cd92a9db000d105e10",
+            "name": "Otros",
+            "subtopics": [
+                {
+                    "_id": "5da17b95626c47013640e769",
+                    "name": "Bio\u00e9tica"
+                },
+                {
+                    "_id": "5da17b9ad63bdf0141b51a36",
+                    "name": "Epidemiolog\u00eda y estad\u00edstica"
+                }
+            ]
+        }
+    ]
+
+}
