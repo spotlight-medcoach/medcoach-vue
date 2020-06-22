@@ -1,14 +1,19 @@
 <template>
   <div class="content">
+    <div class="row" v-if="loading">
+      <div class="col-sm-12 mt-5 mb-5 text-center">
+        <b class="mb-2">Cargando planes de estudio</b><br>
+        <img src="@/assets/loading.svg" width="40" />
+      </div>
+    </div>
     <div class="row">
-      <div v-if="loading">Cargando</div>
       <div class="col-sm-4" v-for="(plan, index) in study_plans" :key="plan._id">
         <b-card
             :id="plan._id"
             class="mb-2 mr-2 text-center"
             :class="[
                 index == 0 ? 'blue-theme' : (index == 1 ? 'rose-theme' : 'orange-theme'),
-                plan_selected != null && plan_selected._id == plan._id ? 'selected' : ''
+                plan_selected != null && plan_selected._id == plan._id ? 'selected-item' : ''
             ]"
             :footer="plan_selected != null && plan_selected._id == plan._id ? 'PLAN SELECCIONADO' : 'SELECCIONAR PLAN'"
             @click="selectPlan(plan)"
@@ -55,6 +60,7 @@ export default {
       if (process.client) {
         token = localStorage.getItem('usertoken')
       }
+      this.$emit('can-continue', { value: true })
       console.log('Plan selected:', plan)
       this.plan_selected = plan
       this.$axios
@@ -92,7 +98,7 @@ export default {
     color: #fff;
 }
 
-.blue-theme.selected > .card-footer {
+.blue-theme.selected-item > .card-footer {
     background-color: #0083da;
     color: #fff;
 }
@@ -106,7 +112,7 @@ export default {
     color: #fff;
 }
 
-.rose-theme.selected > .card-footer {
+.rose-theme.selected-item > .card-footer {
     background-color: #b30059;
     color: #fff;
 }
@@ -120,7 +126,7 @@ export default {
     color: #fff;
 }
 
-.orange-theme.selected > .card-footer {
+.orange-theme.selected-item > .card-footer {
     background-color: #d16c00;
     color: #fff;
 }

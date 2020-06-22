@@ -7,7 +7,7 @@
             :steps="steps"
             @completed-step="completeStep"
             @active-step="isStepActive"
-            @stepper-finished="alert"
+            @stepper-finished="finishWelcome"
           />
         </div>
       </div>
@@ -34,7 +34,8 @@ export default {
           name: 'first',
           title: 'Bienvenida',
           component: Welcome,
-          completed: true
+          completed: true,
+          alwaysActive: true
 
         },
         {
@@ -49,7 +50,8 @@ export default {
           name: 'third',
           title: 'Examen de diagnóstico',
           component: DiagnosticTest,
-          completed: true
+          completed: true,
+          alwaysActive: true
         }
       ],
       plan_selected: null
@@ -61,12 +63,15 @@ export default {
     if (token !== undefined) {
       const decoded = jwtDecode(token)
       console.log('Decoded:', decoded)
-      localStorage.setItem('studentData', JSON.stringify(decoded))
-      localStorage.setItem('usertoken', token)
+      if (process.client) {
+        localStorage.setItem('studentData', JSON.stringify(decoded))
+        localStorage.setItem('usertoken', token)
+      }
+    } else {
+      this.$router.push({ path: '/' })
     }
   },
   mounted () {
-    this.removeIcons()
   },
   methods: {
     completeStep (payload) {
@@ -87,15 +92,29 @@ export default {
       })
     },
     // Executed when @stepper-finished event is triggered
-    alert (payload) {
-      alert('end')
-    },
-    removeIcons () {
-      const icons = document.getElementsByTagName('i')
-      for (let i = 0; i < icons.length; i++) {
-        icons[i].innerHTML = ''
+    finishWelcome (payload) {
+      let token = ''
+      if (process.client) {
+        token = localStorage.getItem('usertoken')
       }
-      // console.log('Icons:', icons)
+      // alert('end')
+      this.$axios
+        .post('/students/diagnostic',
+          {
+            first: true
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        .then((response) => {
+          console.log('Response:', response)
+        })
+        .catch((err) => {
+          console.log('Error:', err)
+        })
     }
   }
 }

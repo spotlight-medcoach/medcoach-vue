@@ -30,21 +30,21 @@ Vue.component('header', {
         <router-link to="/calendar">
         <img src="@/assets/calendario_logo_off.svg" class="menu-item" v-if="$route.name!='Calendario'">
         <img src="@/assets/calendario_logo_on.svg" class="menu-item" v-if="$route.name==='Calendario'">
-        <p class="textH" v-if="$route.name==='Calendario'">Calendario</p>
+        <p class="textH" v-if="$route.name==='calendario'">Calendario</p>
         </router-link>
         </b-col>
         <b-col>
-          <router-link to="/student_manuals">
+          <router-link to="/manuals">
         <img src="@/assets/manuales_logo_off.svg" class="menu-item" v-if="$route.name!='Student Manuals'">
         <img src="@/assets/manuales_logo_on.svg" class="menu-item" v-if="$route.name==='Student Manuals'">
-        <p class="textH" v-if="$route.name==='Student Manuals'">Manuales</p>
+        <p class="textH" v-if="$route.name==='manuals'">Manuales</p>
           </router-link>
         </b-col>
         <b-col>
-              <router-link to="/student_notes">
+              <router-link to="/notes">
         <img src="@/assets/notas_logo_off.svg" class="menu-item" v-if="$route.name!='Student Notes'">
         <img src="@/assets/notas_logo_on.svg" class="menu-item" v-if="$route.name==='Student Notes'">
-          <p class="textH" v-if="$route.name==='Student Notes'">Notas</p>
+          <p class="textH" v-if="$route.name==='notes'">Notas</p>
               </router-link>
         </b-col>
         <b-col>
@@ -63,7 +63,7 @@ Vue.component('header', {
             <img src="@/assets/sandwich.svg" width="30" height="30">
           </template>
           <b-dropdown-item href="#">Notificaciones</b-dropdown-item>
-          <b-dropdown-item href="#">Configuración</b-dropdown-item>
+          <b-dropdown-item href="/settings">Configuración</b-dropdown-item>
           <b-dropdown-item href="#">Cerrar Sesión</b-dropdown-item>
 
         </b-nav-item-dropdown>

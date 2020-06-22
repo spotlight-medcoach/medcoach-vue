@@ -30,7 +30,12 @@
             <transition :enter-active-class="enterAnimation" :leave-active-class="leaveAnimation" mode="out-in">
                 <!--If keep alive-->
                 <keep-alive v-if="keepAliveData">
-                    <component :is="steps[currentStep.index].component" :clickedNext="nextButton[currentStep.name]" @can-continue="proceed" @change-next="changeNextBtnValue" :current-step="currentStep"></component>
+                    <component
+                      :is="steps[currentStep.index].component"
+                      :clickedNext="nextButton[currentStep.name]"
+                      @can-continue="proceed"
+                      @change-next="changeNextBtnValue"
+                      :current-step="currentStep"></component>
                 </keep-alive>
                 <!--If not show component and destroy it in each step change-->
                 <component
@@ -131,6 +136,9 @@ export default {
           name: this.steps[index].name,
           index
         }
+        if (this.steps[index].alwaysActive) {
+          this.canContinue = true
+        }
 
         if (index + 1 === this.steps.length) {
           this.finalStep = true
@@ -180,6 +188,7 @@ export default {
     },
 
     proceed (payload) {
+      console.log('Proceed:', payload)
       this.canContinue = payload.value
     },
 

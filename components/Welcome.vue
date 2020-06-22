@@ -32,15 +32,15 @@ export default {
     // this.$emit('can-continue', {value: true});
   },
   mounted () {
-    this.enable()
+    // this.enable()
   },
   methods: {
-    enable () {
-      const self = this
-      this.intervalid1 = setInterval(function () {
-        self.$emit('can-continue', { value: true })
-      }, 500)
-    }
+    // enable () {
+    //   const self = this
+    //   this.intervalid1 = setInterval(function () {
+    //     self.$emit('can-continue', { value: true })
+    //   }, 500)
+    // }
   }
 }
 </script>

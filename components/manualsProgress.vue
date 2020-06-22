@@ -5,16 +5,16 @@
 </template>
 <script>
 export default {
-    props:['data'],
-    data(){
-        return{
-        }
-    },
-    methods:{
-        onClickButton (name,id, event) {
-         this.$emit('clicked', name,id)
-     }
+  props: ['data'],
+  data () {
+    return {
     }
+  },
+  methods: {
+    onClickButton (name, id, event) {
+      this.$emit('clicked', name, id)
+    }
+  }
 }
 </script>
 <style scoped>

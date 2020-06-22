@@ -11,17 +11,17 @@
 
 <script>
 export default {
-    props:['subTopics','data'],
-    data(){
-        return{
-            
-        }
-    },
-    methods:{
-        onPassSubtopicId (id, event) {
-        this.$emit('clicked', id)
-     }
+  props: ['subTopics', 'data'],
+  data () {
+    return {
+
     }
+  },
+  methods: {
+    onPassSubtopicId (id, event) {
+      this.$emit('clicked', id)
+    }
+  }
 }
 </script>
 
