@@ -98,6 +98,7 @@ export default {
         token = localStorage.getItem('usertoken')
       }
       // alert('end')
+      // loading
       this.$axios
         .post('/students/diagnostic',
           {
@@ -111,6 +112,7 @@ export default {
         )
         .then((response) => {
           console.log('Response:', response)
+          // redireccionar a diagnostic/test
         })
         .catch((err) => {
           console.log('Error:', err)

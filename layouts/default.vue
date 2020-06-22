@@ -1,6 +1,7 @@
 <template>
   <div>
     <landing-header v-if="$route.name==='index'"></landing-header>
+    <diagnostic-test-header v-else-if="$route.name === 'diagnostic-test'"></diagnostic-test-header>
     <student-header v-else-if="$route.name!=='manual'"></student-header>
     <nuxt />
   </div>
@@ -8,10 +9,13 @@
 <script>
 import LandingHeader from '@/components/LandingHeader'
 import StudentHeader from '@/components/StudentHeader'
+import DiagnosticTestHeader from '@/components/DiagnosticTestHeader'
+
 export default {
   components: {
     LandingHeader,
-    StudentHeader
+    StudentHeader,
+    DiagnosticTestHeader
   },
   mounted () {
     console.log('Route name:', this.$route.name)
