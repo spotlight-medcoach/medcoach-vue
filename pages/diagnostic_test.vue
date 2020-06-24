@@ -1,9 +1,25 @@
 <template>
-<div class="d-flex" id="wrapper">
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="list-group list-group-flush">
-        <b-form-group label="Preguntas">
+<div :style="{'background-color': $store.state.actualColorBg}">
+  <b-navbar :style="{'background-color':`${$store.state.actualColorBg} !important`, 'color':`${$store.state.actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
+    <b-navbar-nav>
+      <div :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`">
+        2 / 10
+      </div>
+    </b-navbar-nav>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+          <b-button @click="$store.commit('changeFontSize')" size="sm" class="btnLetterChange mr-2" type="submit">A</b-button>
+          <b-button :style="{'background-color':$store.state.actualColorBtn}" @click="$store.commit('changeColorBg')" size="sm" class="btnColorChange mr-2" type="submit"/>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+  <b-container id="container" :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`">
+    <b-row class="m-0" style="height: 100%;">
+      <!-- SCROLL CON LAS PREGUNTAS -->
+      <b-col cols="1" class="p-0 scroll" id="questions" :style="{'background-color': $store.state.test.sideBar}">
+        <b-form-group label="">
           <b-form-radio
             v-for="(quest, index) in questions"
             v-model="question_index"
@@ -13,20 +29,17 @@
               {{ index + 1 }}
           </b-form-radio>
         </b-form-group>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-      <div class="container-fluid" id="question">
-        <div v-if="question" class="col-12">
+      </b-col>
+      <!-- CONTENIDO DE LA PREGUNTA -->
+      <b-col cols="11" class="p-0 scroll" id="question">
+         <div v-if="question" class="pb-5 px-5">
           <div class="mt-4">
             <span class="font-weight-bold">Pregunta {{ question_index + 1 }}.</span>
             <br>
             <span v-html="question.id.question.html"></span>
           </div>
           <div class="mt5">
-            <b-form-group label="Opciones">
+            <b-form-group label="">
               <b-form-radio
                 v-for="(ans, index) in question.id.answers"
                 v-model="selected_answer"
@@ -37,17 +50,18 @@
               </b-form-radio>
             </b-form-group>
           </div>
-          <div class="float-right">
-             <b-button variant="outline-success" v-if="question_index != 99" @click="question_index++">Siguiente</b-button>
-             <b-button variant="outline-success" v-else @click="finishTest">Finalizar</b-button>
+          <div>
+             <b-button variant="success" v-if="question_index != 99" @click="question_index++">Guardar y Continuar</b-button>
+             <b-button variant="success" v-else @click="finishTest">Finalizar</b-button>
           </div>
         </div>
         <div v-else class="col-12">
           <h1>No hay preguntas</h1>
         </div>
-      </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
+</div>
 </template>
 
 <script>
@@ -112,7 +126,6 @@ export default {
       }
     }
   },
-
   methods: {
     getQuestions () {
       return new Promise((resolve, reject) => {
@@ -152,14 +165,57 @@ export default {
 </script>
 
 <style>
-  #sidebar-wrapper{
-    min-width: 150px;
-    height: calc(100vh - 5rem);
-    overflow-y: scroll;
+  .navbarBg{
+    border-bottom: 1px solid black;
   }
-  #question{
-    height: calc(100vh - 5rem);
+  .finishManualBtn{
+      width:350px;
+      height:35px;
+      background-color: #20B000;
+      border: none;
+      border-radius: 10px;
+  }
+  .btnColorChange{
+      height:50px;
+      width: 50px;
+      border-radius: 50%;
+      border:3px solid #5F5F5F;
+  }
+  .btnLetterChange{
+      height:50px;
+      width: 50px;
+      background-color: #5F5F5F;
+      border-radius: 50%;
+      font-size: 25px;
+  }
+  #container{
+    max-width: 100vw;
+    padding: 0px;
+    height: calc(100vh - 50px - 1rem - 1px) !important; /* 50px => btnColor, 1rem=>padding nav, 1px => extra */
+  }
+  .scroll{
     overflow-y: scroll;
-    width: auto;
+    height: 100%;
+  }
+  #questions .custom-radio .custom-control-label::before{
+    border-color: darkorange;  /* orange */
+    border-width: 2px;
+    border-radius: 50%;
+  }
+  #questions label{
+    color: darkorange;
+    font-weight: bold;
+  }
+  #questions .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    border-color: darkorange;  /* orange */
+    background: darkorange;
+    border-width: 10px;
+    border-radius: 50%;
+  }
+
+  #question .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-color: darkorange;  /* orange */
+    border-width: 2px;
+    border-radius: 50%;
   }
 </style>
