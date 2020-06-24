@@ -34,7 +34,15 @@
       </b-container>
       <br/>
       <b-container>
-        <div align="left">
+        <div class="pb-5" v-if="load">
+          <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
+            Cargando calendario, por favor espere
+          </div>
+          <div class="mt-5 d-flex justify-content-around">
+            <img src="@/assets/loading.svg" width="100" />
+          </div>
+        </div>
+        <div align="left" v-else>
           <h3><b>{{ currentMonth }}</b></h3>
           <b-row
             cols="7"
@@ -78,6 +86,7 @@ export default {
   data () {
     moment.locale('es')
     return {
+      load: true,
       value: 33.333333333,
       max: 50,
       free_day: 0,
@@ -180,6 +189,7 @@ export default {
             element.data = this.studentSyllabus[index].manuals
             element.index = this.studentSyllabus[index].index
           })
+          this.load = false
         })
         .catch((err) => {
           if (err.response.status === 401 || err.response.status === 402 || err.response.status === 403) {

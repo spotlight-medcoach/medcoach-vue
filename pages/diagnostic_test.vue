@@ -1,44 +1,77 @@
 <template>
-<div :style="{'background-color': $store.state.actualColorBg}">
-  <b-navbar :style="{'background-color':`${$store.state.actualColorBg} !important`, 'color':`${$store.state.actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
-    <b-navbar-nav>
-      <div :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`">
-        2 / 10
+<div :style="{'background-color': $store.state.actualColorBg}" id="diagnostic_test">
+  <b-navbar :style="{'background-color':`${$store.state.actualColorBg} !important`, 'color':`${$store.state.actualColorFont} !important`}" class="navbarBg pl-0" toggleable="lg" type="dark" variant="info">
+    <b-navbar-nav style="width: 8.333333%;" class="mr-5">
+      <div :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`" class="center">
+        <span class="darkorange">{{ question_index + 1 }} / {{ questions.length }} </span>
       </div>
     </b-navbar-nav>
+    <b-navbar-nav>
+      <!-- BACK -->
+      <div class="mr-5 pointer" @click="backQuestion" :class="{'disabled': question_index === 0}">
+        <i class="fas fa-arrow-left fa-2x"></i>
+        <div> Back </div>
+      </div>
 
+      <!-- NEXT -->
+      <div class="ml-5 pointer" @click="nextQuestion" :class="{'disabled': question_index === (questions.length - 1)}">
+        <i class="fas fa-arrow-right fa-2x"></i>
+        <div> Next </div>
+      </div>
+    </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
           <b-button @click="$store.commit('changeFontSize')" size="sm" class="btnLetterChange mr-2" type="submit">A</b-button>
-          <b-button :style="{'background-color':$store.state.actualColorBtn}" @click="$store.commit('changeColorBg')" size="sm" class="btnColorChange mr-2" type="submit"/>
+          <b-button :style="{'background-color':$store.state.actualColorBtn}" @click="$store.dispatch('changeThemeColor')" size="sm" class="btnColorChange mr-2" type="submit"/>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-  <b-container id="container" :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`">
+  <b-container id="container" :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`" :class="[themeColor]">
     <b-row class="m-0" style="height: 100%;">
       <!-- SCROLL CON LAS PREGUNTAS -->
-      <b-col cols="1" class="p-0 scroll" id="questions" :style="{'background-color': $store.state.test.sideBar}">
-        <b-form-group label="">
-          <b-form-radio
-            v-for="(quest, index) in questions"
-            v-model="question_index"
-            name="side-bar-radios"
-            :key="`side-radio-${index}`"
-            :value="index">
-              {{ index + 1 }}
-          </b-form-radio>
-        </b-form-group>
+      <b-col cols="1" class="p-0 scroll" id="questions" ref="questions">
+        <div class="quest-rd"></div>
+        <!-- v-for -->
+        <div
+             class="d-flex justify-content-around pointer align-items-center quest-rd"
+             v-for="(quest, index) in questions"
+             :key="`side-radio-${index}`"
+             :class="{ 'selected-quest': question_index === index }">
+          <div
+            class="radio"
+            @click="question_index = index"
+            :class="{ 'fill-circle': answers[index].response !== null }">
+          </div>
+          <div class="number" @click="question_index = index">
+            {{ index + 1 }}
+          </div>
+          <div class="flag d-flex align-items-center" @click="toggleFlag(index)">
+            <div v-show="quest.flag">
+              <img src="@/assets/orange_flag.svg" alt="" v-if="themeColor === 'light'">
+              <img src="@/assets/flag.svg" alt="" v-else-if="themeColor === 'sepia' || question_index === index">
+              <img src="@/assets/black_flag.svg" alt="" v-else>
+            </div>
+          </div>
+        </div>
+        <!-- /v-for --->
       </b-col>
       <!-- CONTENIDO DE LA PREGUNTA -->
-      <b-col cols="11" class="p-0 scroll" id="question">
-         <div v-if="question" class="pb-5 px-5">
-          <div class="mt-4">
-            <span class="font-weight-bold">Pregunta {{ question_index + 1 }}.</span>
-            <br>
-            <span v-html="question.id.question.html"></span>
+      <b-col cols="11" class="scroll" id="question" ref="question">
+        <div class="pt-5" style="height: 100%;" v-if="sending_questions">
+          <div class="mt-5 d-flex justify-content-around" style="font-size: 32px;">
+            Enviando preguntas, por favor espere
           </div>
-          <div class="mt5">
+          <div class="mt-5 d-flex justify-content-around">
+            <img src="@/assets/loading.svg" width="100" />
+          </div>
+        </div>
+        <div v-else-if="question">
+          <div class="title-question mt-5">
+            <span class="font-weight-bold">Pregunta {{ question_index + 1 }}</span>
+          </div>
+          <div class="mt-5" v-html="question.id.question.html"></div>
+          <div>
             <b-form-group label="">
               <b-form-radio
                 v-for="(ans, index) in question.id.answers"
@@ -50,13 +83,21 @@
               </b-form-radio>
             </b-form-group>
           </div>
-          <div>
-             <b-button variant="success" v-if="question_index != 99" @click="question_index++">Guardar y Continuar</b-button>
+          <div class="my-5">
+             <b-button class="rounded-pill" variant="success" v-if="question_index != 99" @click="nextQuestion">Guardar y Continuar</b-button>
              <b-button variant="success" v-else @click="finishTest">Finalizar</b-button>
           </div>
         </div>
-        <div v-else class="col-12">
-          <h1>No hay preguntas</h1>
+        <div class="mt-5" style="font-size: 32px;" v-else-if="error_request">
+          {{ message_error }}
+        </div>
+        <div class="pt-5" style="height: 100%;" v-else>
+          <div class="mt-5 d-flex justify-content-around" style="font-size: 32px;">
+            Cargando preguntas, por favor espere
+          </div>
+          <div class="mt-5 d-flex justify-content-around">
+            <img src="@/assets/loading.svg" width="100" />
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -65,14 +106,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
       questions: [],
       answers: [],
-      token: '',
       question_index: 0,
-      selected_answer: null
+      selected_answer: null,
+      error_request: false,
+      message_error: 'No se pudieron obtener las preguntas',
+      sending_questions: false
     }
   },
   computed: {
@@ -82,7 +126,8 @@ export default {
       } else {
         return null
       }
-    }
+    },
+    ...mapState(['themeColor'])
   },
   watch: {
     'selected_answer' (value) {
@@ -100,33 +145,51 @@ export default {
     'question_index' (value) {
       if (!isNaN(value)) {
         this.selected_answer = this.answers[value].response
+        /* el 48 es el height del .quest-rd */
+        this.$refs.question.scrollTop = 0
       }
     }
   },
   async created () {
     const token = localStorage.getItem('usertoken')
 
-    if (token === undefined) {
+    if (!token) {
       alert('No tiene token')
-      this.$router.push('/')
+      this.$router.push({ path: '/' })
     } else {
       this.token = token
       try {
         const response = await this.getQuestions()
-        this.questions = response.data.questions
-
+        this.questions = response.data.questions.map((question) => {
+          question.flag = false
+          return question
+        })
         this.answers = this.questions.map((question) => {
           return { response: null, correct: false }
         })
-
         console.log('respuesta', response)
       } catch (e) {
-        alert('Error al obtener las preguntas')
+        this.error_request = true
         console.error(e)
       }
     }
   },
   methods: {
+    toggleFlag (index) {
+      this.questions[index].flag = !this.questions[index].flag
+    },
+    backQuestion () {
+      if (this.question_index > 0) {
+        this.question_index--
+        this.$refs.questions.scrollTop = 48 * this.question_index
+      }
+    },
+    nextQuestion () {
+      if (this.question_index < (this.questions.length - 1)) {
+        this.question_index++
+        this.$refs.questions.scrollTop = 48 * this.question_index
+      }
+    },
     getQuestions () {
       return new Promise((resolve, reject) => {
         this.$axios
@@ -143,6 +206,7 @@ export default {
     },
     finishTest () {
       const body = { answers: this.answers }
+      this.sending_questions = true
       this.$axios
         .put('https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api/students/diagnostic',
           body,
@@ -153,11 +217,14 @@ export default {
           }
         )
         .then((response) => {
-          alert('Respuestas enviadas correctamente')
+          this.$router.push({ path: '/dashboard' })
         })
         .catch((error) => {
           console.error(error)
           alert('ocurrio un error al enviar las respuestas')
+          this.error_request = true
+          this.sending_questions = false
+          this.message_error = 'Lo sentimos. No se pudieron enviar las respuestas'
         })
     }
   }
@@ -165,6 +232,9 @@ export default {
 </script>
 
 <style>
+  #diagnostic_test{
+    font-family: 'Montserrat', sans-serif;
+  }
   .navbarBg{
     border-bottom: 1px solid black;
   }
@@ -191,31 +261,98 @@ export default {
   #container{
     max-width: 100vw;
     padding: 0px;
-    height: calc(100vh - 50px - 1rem - 1px) !important; /* 50px => btnColor, 1rem=>padding nav, 1px => extra */
+    height: calc(100vh - 50px - 1rem - 10px) !important; /* 50px => btnColor, 1rem=>padding nav, 1px => extra */
+  }
+  #question{
+    padding-right: 8.333%;
+    padding-left: 8.333%
+  }
+  #question .custom-radio .custom-control-input:checked~.custom-control-label::after {
+    background-color: darkorange;  /* orange */
+    border-width: 2px;
+    border-radius: 50%;
   }
   .scroll{
     overflow-y: scroll;
     height: 100%;
   }
-  #questions .custom-radio .custom-control-label::before{
-    border-color: darkorange;  /* orange */
-    border-width: 2px;
-    border-radius: 50%;
+  .center{
+    margin-right: auto;
+    margin-left: auto;
   }
-  #questions label{
+  .pointer{
+    cursor: pointer;
+  }
+  .disabled{
+    cursor: auto !important;
+    opacity: 30%;
+  }
+  .darkorange{
     color: darkorange;
     font-weight: bold;
   }
-  #questions .custom-radio .custom-control-input:checked~.custom-control-label::after {
-    border-color: darkorange;  /* orange */
-    background: darkorange;
-    border-width: 10px;
-    border-radius: 50%;
+  .title-question{
+    border-left: thin solid darkorange;
+    font-size: 1.5rem !important;
+    padding: 0.2em 0.5em;
   }
-
-  #question .custom-radio .custom-control-input:checked~.custom-control-label::after {
-    background-color: darkorange;  /* orange */
-    border-width: 2px;
-    border-radius: 50%;
+  .radio{
+    border: 3px solid;
+    border-radius: 50px;
+    width: 15px;
+    height: 15px;
+  }
+  .quest-rd{
+    height: 3rem;
+    border-bottom: 2px solid;
+  }
+  .light #questions{
+    background-color: #F0F0F0;
+    color: darkorange;
+    font-weight: bold;
+  }
+  .sepia #questions{
+    background-color: #FCEAD2;
+    color: #4A4A4A;
+  }
+  .dark #questions{
+    background-color: #4A4A4A;
+    color: black;
+  }
+  .light .quest-rd{
+    border-color: white;
+  }
+  .sepia .quest-rd{
+    border-color: white;
+  }
+  .dark .quest-rd{
+    border-color: black;
+  }
+  .light #questions .selected-quest{
+    background-color: white;
+  }
+  .sepia #questions .selected-quest{
+    background-color: #FDF1E1;
+  }
+  .dark #questions .selected-quest{
+    background-color: black;
+    color: white;
+    border-color: black;
+  }
+  .selected-quest .radio{
+    background-color: darkorange;
+  }
+  .dark .selected-quest .radio{
+    border-color: darkorange;
+  }
+  .fill-circle{
+    background-color: darkorange;
+  }
+  .dark .fill-circle{
+    border-color: darkorange;
+  }
+  .flag{
+    height: 100%;
+    width: 25px;
   }
 </style>

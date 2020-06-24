@@ -80,7 +80,8 @@ export default {
       default: false
     },
     steps: {
-      type: Array
+      type: Array,
+      required: true
     },
     keepAlive: {
       type: Boolean,

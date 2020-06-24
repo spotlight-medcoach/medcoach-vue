@@ -13,7 +13,11 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href:"https://fonts.googleapis.com/css2?family=Montserrat&display=swap"}
+    ],
+    script: [
+      { src: 'https://kit.fontawesome.com/b9fa278f43.js', crossorigin:'anonymous' }
     ]
   },
   /*

@@ -5,7 +5,10 @@ export const state = () => ({
   actualColorBg: '#ffffff',
   actualColorFont: '#000000',
   actualColorBtn: '#fff2b4',
-  fontSize: 1
+  fontSize: 1,
+  themeColors: ['light', 'sepia', 'dark'],
+  themeColorIndex: 0,
+  themeColor: 'light'
 })
 
 export const mutations = {
@@ -29,5 +32,18 @@ export const mutations = {
       state.actualColorBtn = '#fff2b4'
       state.actualColorFont = '#000000'
     }
+  },
+  setThemeColor (state) {
+    let index = state.themeColorIndex
+    index = (index + 1) % state.themeColors.length
+    state.themeColorIndex = index
+    state.themeColor = state.themeColors[index]
+  }
+}
+
+export const actions = {
+  changeThemeColor ({ commit }) {
+    commit('setThemeColor')
+    commit('changeColorBg')
   }
 }
