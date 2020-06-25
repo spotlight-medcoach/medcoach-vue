@@ -48,7 +48,7 @@ export default {
         {
           icon: '',
           name: 'third',
-          title: 'Examen de diagnóstico',
+          title: 'Diagnóstico',
           component: DiagnosticTest,
           completed: true,
           alwaysActive: true
@@ -90,33 +90,6 @@ export default {
           }
         }
       })
-    },
-    // Executed when @stepper-finished event is triggered
-    finishWelcome (payload) {
-      let token = ''
-      if (process.client) {
-        token = localStorage.getItem('usertoken')
-      }
-      // alert('end')
-      // loading
-      this.$axios
-        .post('/students/diagnostic',
-          {
-            first: true
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        )
-        .then((response) => {
-          console.log('Response:', response)
-          // redireccionar a diagnostic/test
-        })
-        .catch((err) => {
-          console.log('Error:', err)
-        })
     }
   }
 }

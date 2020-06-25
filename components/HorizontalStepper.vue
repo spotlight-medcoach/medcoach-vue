@@ -1,7 +1,7 @@
 <template>
     <div class="stepper-box">
         <div class="top">
-            <div class="divider-line" :style="{width: `${(100/(steps.length) * (steps.length - 1)) - 10}%`}"></div>
+            <div class="divider-line" :style="{width: `${(100/(steps.length) * (steps.length - 1))}%`}"></div>
             <div class="steps-wrapper">
                 <template v-if="topButtons">
                     <div v-if="currentStep.index > 0" class="stepper-button-top previous" @click="backStep()">
@@ -9,15 +9,15 @@
                     </div>
                 </template>
                 <template v-for="(step, index) in steps">
-                    <div :class="['step', isStepActive(index, step)]" :key="index" :style="{width: `${100 / steps.length}%`}">
+                    <div :class="['step', isVisited(index, step)]" :key="index" :style="{width: `${100 / steps.length}%`}">
+                        <div class="step-title">
+                            <h4>{{step.title}}</h4>
+                            <h5 class="step-subtitle">{{step.subtitle}}</h5>
+                        </div>
                         <div class="circle">
                             <i class="material-icons md-18">
                                 <!--{{ (step.completed) ? 'done' : step.icon }}-->
                             </i>
-                        </div>
-                        <div class="step-title">
-                            <h4>{{step.title}}</h4>
-                            <h5 class="step-subtitle">{{step.subtitle}}</h5>
                         </div>
                     </div>
                 </template>
@@ -52,7 +52,7 @@
                 <i class="material-icons">keyboard_arrow_left</i>
                 <span>{{ 'back' | translate(locale) }}</span>
             </div>
-            <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
+            <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()" v-if="currentStep.index !== 2">
                 <span>{{ (finalStep) ? 'finish' : 'next' | translate(locale) }}</span>
                 <i class="material-icons">keyboard_arrow_right</i>
             </div>
@@ -122,8 +122,8 @@ export default {
   },
 
   methods: {
-    isStepActive (index, step) {
-      if (this.currentStep.index === index) {
+    isVisited (index, step) {
+      if (this.currentStep.index >= index) {
         return 'activated'
       } else {
         return 'deactivated'

@@ -2,7 +2,26 @@ Vue.component('header', {
 <template>
 <div>
 <div class="maincontainer"><br/></div>
-  <b-navbar toggleable="lg" type="white" variant="white" fixed="top" class="bottomBorder">
+  <b-navbar
+            toggleable="lg"
+            type="white"
+            variant="white"
+            fixed="top"
+            class="bottomBorder"
+            v-if="$route.name === 'welcome'">
+    <b-navbar-brand href="#" class="col-lg-1">
+      <router-link to="/">
+        <img src="@/assets/Medcoach_logo.svg" id="logo" align="left">
+      </router-link>
+    </b-navbar-brand>
+  </b-navbar>
+  <b-navbar
+            toggleable="lg"
+            type="white"
+            variant="white"
+            fixed="top"
+            class="bottomBorder"
+            v-else>
     <b-navbar-brand href="#" class="col-lg-1">
       <router-link to="/">
         <img src="@/assets/Medcoach_logo.svg" id="logo" align="left">

@@ -137,7 +137,8 @@ export default {
 }
 
 .card {
-    border-radius: 30px!important;
+  border-radius: 22px !important;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
 }
 
 .card-title {
@@ -145,10 +146,10 @@ export default {
 }
 
 .card-footer {
-    border-radius: 0 0 30px 30px!important;
     letter-spacing: 5px;
     min-height: 70px;
     padding-top: 18px;
     cursor: pointer;
+    border-radius: 0px 0px 22px 22px !important;
 }
 </style>

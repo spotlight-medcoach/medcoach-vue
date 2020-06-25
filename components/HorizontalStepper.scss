@@ -76,7 +76,7 @@
     position: relative;
     justify-content: center;
     .divider-line {
-      border-bottom: 1px solid #cccccc;
+      border-bottom: 4px solid #00A1FF;
       height: 2px;
       position: absolute;
       @include breakpoint(xs) {
@@ -88,9 +88,9 @@
       align-items: center;
       justify-content: space-between;
       position: relative;
-      width: 95%;
+      width: 100%;
       left: 0;
-      padding: 2% 4%;
+      padding: 2% 0%;
       @include breakpoint(xs) {
         width: 90%;
         justify-content: center;
@@ -110,19 +110,22 @@
           }
           .circle {
             i {
-              background-color: #bbbbbb !important;
+              background-color: black !important;
             }
           }
-          .step-title {
-            opacity: .35;
+          .step-title  {
+            color: black !important;
+            h4 {
+              color: inherit !important;
+            }
           }
         }
         .circle {
           margin-bottom: 1rem;
-          padding: 0 1rem;
+          /*padding: 0 1rem;*/
           background-color: white;
           i {
-            background-color: #3383c8;
+            background-color: #00A1FF;
             color: #fff;
             border-radius: 100rem;
             padding: 1rem;
@@ -130,7 +133,7 @@
         }
         .step-title {
           position: absolute;
-          top: 90%;
+          top: -80%;
           width: 100%;
           h1,
           h2,
@@ -138,7 +141,7 @@
           h4,
           h5 {
             margin: 0 0 .2rem 0;
-            color: #333333;
+            color: #00A1FF;
             font-weight: bold;
           }
           .step-subtitle {

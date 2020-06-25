@@ -1,9 +1,36 @@
 <template>
-  <div class="content">
-      Estás listo para tu examen de diagnóstico<br> <br>
-      El examen de diagnóstico consta de 100 preguntas, y toma alrededor de 3 horas. <br>
-      Te recomendamos realizarlo en un lugar tranquilo y contar con el tiempo necesario.<br><br>
-      Da clic en el botón de "Finalizar" para comenzar tu examen
+  <div class="content mt-0">
+    <div class="row" v-if="test_error">
+      <div class="col-sm-12 mt-5 mb-5 text-center">
+        <h3 class="mb-2" style="font-weight: bold">Lo sentimos. No se pudo crear su examen</h3>
+      </div>
+    </div>
+    <div class="row" v-else-if="loading">
+      <div class="col-sm-12 mt-5 mb-5 text-center">
+        <b class="mb-2">Preparando examen</b><br>
+        <img src="@/assets/loading.svg" width="40" />
+      </div>
+    </div>
+    <div class="row justify-content-around" v-else>
+      <div class="col-sm-5">
+        <b-card
+            id="diagnostic-card"
+            class="mb-2 mr-2 text-center blue-theme"
+            footer="INICIAR EXAMEN DIAGNÓSTICO"
+            @click="createTest"
+        >
+          <h3 class="card-title" style="color: black;">Examen diagnóstico I</h3>
+          <span class="body">
+            <ul>
+              <li>Consta de 100 preguntas de opción múltiple</li>
+              <li>Tiene un alto grado de complejidad y evaluación</li>
+              <li>NO es formato ENARM</li>
+              <li>Tendrás 3 horas para contestarlo</li>
+            </ul>
+          </span>
+        </b-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -12,6 +39,8 @@ export default {
   name: 'DiagnosticTest',
   data () {
     return {
+      loading: false,
+      test_error: false
     }
   },
   created () {
@@ -19,6 +48,33 @@ export default {
   mounted () {
   },
   methods: {
+    // Executed when @stepper-finished event is triggered
+    createTest () {
+      this.loading = true
+      let token = ''
+      if (process.client) {
+        token = localStorage.getItem('usertoken')
+      }
+      this.$axios
+        .post('/students/diagnostic',
+          {
+            first: true
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        .then((response) => {
+          console.log('Response:', response)
+          this.$router.push({ path: '/diagnostic_test' })
+        })
+        .catch((err) => {
+          console.log('Error:', err)
+          this.test_error = true
+        })
+    }
   }
 }
 </script>
