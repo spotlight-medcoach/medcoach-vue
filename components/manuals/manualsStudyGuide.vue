@@ -3,7 +3,7 @@
         <!-- <div>{{topicId}}</div>
         <div>{{subTopicId}}</div> -->
         <div v-if="isNotesComponent === true">
-            <div v-for="manual in manuals" :key="manual._id" >
+            <div v-for="manual in manuals" :key="manual._id" class="mb-3">
                 <div v-if="manual.finished === false">
                         <router-link target="_blank" :to="`/manual?manual_id=${manual.id}`">{{manual.name}}</router-link>
                 </div>
@@ -17,7 +17,7 @@
         </div>
 
         <div v-else>
-            <div  v-for="manual in manuals" :key="manual._id" >
+            <div  v-for="manual in manuals" :key="manual._id" class="mb-3">
                 <router-link target="_blank" :to="`/student_manual?manual_id=${manual.id}`">{{manual.name}}</router-link>
             </div>
         </div>

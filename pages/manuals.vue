@@ -1,63 +1,69 @@
 <template>
-<div style="margin-top:200px">
-    <b-container>
-    <b-row class="text-center">
-        <b-col class="containerProgress"><ManualsProgress  @clicked="onClickChild" :data='manualData'/></b-col>
-        <b-col ><ManualsSubtopics @clicked="onRecieveSubtopicId" :subTopics='subTopics' :data='manualData'/></b-col>
-        <b-col ><ManualsStudyGuide :allManuals='allManuals' :topicId='topicId' :subTopicId='subTopicId'/></b-col>
-    </b-row>
-    </b-container>
-</div>
+<b-container class="mt-5">
+  <b-row class="text-center mt-5" v-if="manuals_not_found">
+    <b-col class="mt-5">
+      <h3>No se encontraron resultados</h3>
+    </b-col>
+  </b-row>
+  <b-row v-else>
+    <b-col cols="3">
+      <div class="containerProgress py-3 px-2">
+        <ManualsProgress  @clicked="onClickChild" :data='manualData' :manuals="allManuals"/>
+      </div>
+    </b-col>
+    <b-col cols="9">
+      <b-row>
+        <b-col cols="3"><ManualsSubTopics @clicked="onRecieveSubtopicId" :subTopics='subTopics' :data='manualData'/></b-col>
+        <b-col cols="9"><ManualsStudyGuide :allManuals='allManuals' :topicId='topicId' :subTopicId='subTopicId'/></b-col>
+      </b-row>
+    </b-col>
+  </b-row>
+</b-container>
 </template>
 
 <script>
-import * as data from '../components/manualsData.json'
-import ManualsProgress from '@/components/manualsProgress.vue'
-import ManualsSubtopics from '@/components/manualsSubTopics.vue'
-import ManualsStudyGuide from '@/components/ManualsStudyGuide.vue'
+import * as data from '@/components/manuals/manualsData.json'
+import ManualsProgress from '@/components/manuals/manualsProgress.vue'
+import ManualsSubTopics from '@/components/manuals/ManualsSubTopics.vue'
+import ManualsStudyGuide from '@/components/manuals/ManualsStudyGuide.vue'
+
 export default {
   components: {
     ManualsProgress,
-    ManualsSubtopics,
+    ManualsSubTopics,
     ManualsStudyGuide
   },
   data () {
     return {
       manualData: data.topics,
-      topicId: '',
+      topicId: '5ed038cc92a9db000d105e0c',
       subTopics: '',
       studyGuide: '',
-      subTopicId: '',
-      allManuals: []
+      subTopicId: '5da179c60269b7000d16e46c',
+      allManuals: [],
+      manuals_not_found: false
     }
   },
-  created () {
-    this.getAllManuals()
+  async created () {
+    const response = await this.getAllManuals()
+    console.log(response)
     this.topicId = this.manualData[0]._id
   },
-
   methods: {
     getAllManuals () {
-      let token = ''
-      if (process.client) {
-        token = localStorage.getItem('usertoken')
-      }
-      this.$axios
+      return this.$axios
         .get('/topics', {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${this.$store.state.token}`
           }
         })
         .then((res) => {
           this.allManuals = res.data.topics
           console.log('Manuals')
-          // let topics = res.data.topics
-          // let manuals = topics.filter((topic) => topic.id == this.topicId)[0].subtopics.filter((subtopic) => subtopic.id == this.subTopicId)[0].manuals
-          // console.log('Manuals: ', manuals)
-          // this.manuals = manuals
         })
         .catch((err) => {
           console.log(err)
+          this.manuals_not_found = true
         })
     },
     onClickChild (name, id) {
@@ -78,5 +84,10 @@ export default {
   -webkit-box-shadow: 0 0 8px black;
   box-shadow: 0 0 8px black;
   border-radius: 20px;
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: 97vw !important;
+  }
 }
 </style>

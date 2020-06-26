@@ -280,9 +280,6 @@ export default {
     margin-right: auto;
     margin-left: auto;
   }
-  .pointer{
-    cursor: pointer;
-  }
   .disabled{
     cursor: auto !important;
     opacity: 30%;

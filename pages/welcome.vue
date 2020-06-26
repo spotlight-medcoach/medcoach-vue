@@ -17,10 +17,10 @@
 
 <script>
 import jwtDecode from 'jwt-decode'
-import HorizontalStepper from '../components/HorizontalStepper'
-import Welcome from '../components/Welcome'
-import StudyPlans from '../components/StudyPlans'
-import DiagnosticTest from '../components/DiagnosticTest'
+import HorizontalStepper from '@/components/HorizontalStepper'
+import Welcome from '@/components/welcome/Welcome'
+import StudyPlans from '@/components/welcome/StudyPlans'
+import DiagnosticTest from '@/components/welcome/DiagnosticTest'
 export default {
   name: 'Welcome',
   components: {

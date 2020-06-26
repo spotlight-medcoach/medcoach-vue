@@ -1,4 +1,5 @@
 export const state = () => ({
+  token: localStorage.getItem('usertoken'),
   light: '#ffff',
   dark: '#000000',
   sepia: '#fff2b4',

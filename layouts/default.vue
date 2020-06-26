@@ -1,19 +1,21 @@
 <template>
   <div>
     <landing-header v-if="$route.name==='index'"></landing-header>
-    <!--<diagnostic-test-header v-else-if="$route.name === 'diagnostic-test'"></diagnostic-test-header>-->
+    <welcome-header v-else-if="$route.name === 'welcome'" />
     <student-header v-else-if="$route.name!=='manual' && $route.name!=='diagnostic_test'"></student-header>
     <nuxt />
   </div>
 </template>
 <script>
-import LandingHeader from '@/components/LandingHeader'
-import StudentHeader from '@/components/StudentHeader'
+import LandingHeader from '@/components/headers/LandingHeader'
+import StudentHeader from '@/components/headers/StudentHeader'
+import WelcomeHeader from '@/components/headers/WelcomeHeader'
 
 export default {
   components: {
     LandingHeader,
-    StudentHeader
+    StudentHeader,
+    WelcomeHeader
   },
   mounted () {
     console.log('Route name:', this.$route.name)
@@ -34,17 +36,13 @@ export default {
     color: #2c3e50;
     height: 100%;
   }
-
   #nav {
     padding: 30px;
   }
-
-  #nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
-
   #nav a.router-link-exact-active {
     color: #42b983;
+  }
+  .pointer{
+    cursor: pointer;
   }
 </style>

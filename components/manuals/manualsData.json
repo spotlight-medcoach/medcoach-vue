@@ -3,6 +3,7 @@
         {
             "_id": "5ed038cc92a9db000d105e0c",
             "name": "Medicina interna",
+            "orange": true,
             "subtopics": [
                 {
                     "_id": "5da179c60269b7000d16e46c",

@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import * as data from '../components/manualsData.json'
-import ManualsProgress from '@/components/manualsProgress.vue'
-import ManualsSubtopics from '@/components/manualsSubTopics.vue'
-import ManualsStudyGuide from '@/components/ManualsStudyGuide.vue'
+import * as data from '@/components/manuals/manualsData.json'
+import ManualsProgress from '@/components/manuals/manualsProgress.vue'
+import ManualsSubtopics from '@/components/manuals/manualsSubTopics.vue'
+import ManualsStudyGuide from '@/components/manuals/ManualsStudyGuide.vue'
 
 export default {
   components: {
