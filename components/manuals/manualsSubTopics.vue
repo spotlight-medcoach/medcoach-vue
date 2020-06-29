@@ -1,27 +1,28 @@
 <template>
   <b-container>
-    <div v-if="subTopics == ''" >
-      <div @click="onPassSubtopicId(subtopic._id, $event)" v-for="subtopic in data[0].subtopics" :key="subtopic._id" class="mb-3 pointer">
+      <div
+        v-for="(subtopic, index) in topic.subtopics"
+        @click="selectSubtopic(index)"
+        :key="subtopic._id"
+        class="mb-3 pointer"
+        :class="{'orange': index === subtopic_index }">
         {{subtopic.name}}
       </div>
-    </div>
-    <div v-else @click="onPassSubtopicId(subTopic._id, $event)" v-for="subTopic in subTopics[0].subtopics" :key="subTopic" class="mb-3 pointer">
-      {{subTopic.name}}
-    </div>
   </b-container>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  props: ['subTopics', 'data'],
-  data () {
-    return {
-
-    }
+  computed: {
+    ...mapState({
+      topic: state => state.topics.topic,
+      subtopic_index: state => state.topics.subtopic_index
+    })
   },
   methods: {
-    onPassSubtopicId (id, event) {
-      this.$emit('clicked', id)
+    selectSubtopic (index) {
+      this.$store.dispatch('topics/changeSubtopic', index)
     }
   }
 }

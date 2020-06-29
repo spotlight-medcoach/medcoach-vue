@@ -1,29 +1,35 @@
 <template>
-    <b-container>
-        <!-- <div>{{topicId}}</div>
-        <div>{{subTopicId}}</div> -->
-        <div v-if="isNotesComponent === true">
-            <div v-for="manual in manuals" :key="manual._id" class="mb-3">
-                <div v-if="manual.finished === false">
-                        <router-link target="_blank" :to="`/manual?manual_id=${manual.id}`">{{manual.name}}</router-link>
-                </div>
-                <div v-else>
-                    <div style="color:red">{{manual.name}}</div>
-                </div>
-                <div>
-
-                </div>
-            </div>
+  <div class="h-100">
+    <div v-if="isNotesComponent === true">
+      <div v-for="manual in manuals" :key="manual._id" class="mb-3">
+        <div v-if="manual.finished === false">
+                <router-link target="_blank" :to="`/manual?manual_id=${manual.id}`">{{manual.name}}</router-link>
         </div>
-
         <div v-else>
-            <div  v-for="manual in manuals" :key="manual._id" class="mb-3">
-                <router-link target="_blank" :to="`/student_manual?manual_id=${manual.id}`">{{manual.name}}</router-link>
-            </div>
+            <div style="color:red">{{manual.name}}</div>
         </div>
-    </b-container>
+      </div>
+    </div>
+
+    <div class="h-100" v-else>
+      <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
+        <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
+          <nuxt-link class="pointer" target="_blank" :to="`/student_manual?manual_id=${manual.id}`">{{manual.name}}</nuxt-link>
+        </div>
+      </div>
+      <div class="row h-100" v-else-if="!fetchedManuals">
+        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+          <div>
+            <b class="mb-2">Cargando manuales</b>
+            <div><img src="@/assets/loading.svg" width="40" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   props: ['topicId', 'subTopicId', 'allManuals', 'isNotesComponent'],
   data () {
@@ -53,14 +59,36 @@ export default {
       }
     }
   },
-  created () {
-
+  computed: {
+    columnCount () {
+      let count = 1
+      if (this.subtopic.manuals.length >= 12) {
+        count = 2
+      } else if (this.subtopic.manuals.length >= 24) {
+        count = 3
+      }
+      return count
+    },
+    ...mapState({
+      subtopic: state => state.topics.subtopic,
+      fetchedManuals: state => state.topics.fetchedManuals
+    })
   },
   methods: {
 
   }
 }
 </script>
-<style scoped>
+<style>
+.manuals-list{
+  height: 100%;
+  overflow-y:hidden;
+  width: auto;
+  overflow-x: scroll;
+}
+
+a{
+  color: black;
+}
 
 </style>

@@ -5,16 +5,28 @@
       <h3>No se encontraron resultados</h3>
     </b-col>
   </b-row>
-  <b-row v-else>
-    <b-col cols="3">
-      <div class="containerProgress py-3 px-2">
-        <ManualsProgress  @clicked="onClickChild" :data='manualData' :manuals="allManuals"/>
+  <b-row v-else ref="mainContainer" id="mainContainer" :style="{'height': height}">
+    <b-col cols="3" class="h-100 mb-4">
+      <div class="containerProgress py-3 px-2" id="containerProgress" ref="containerProgress">
+        <ManualsProgress />
       </div>
     </b-col>
-    <b-col cols="9">
+    <b-col cols="9" class="h-100">
       <b-row>
-        <b-col cols="3"><ManualsSubTopics @clicked="onRecieveSubtopicId" :subTopics='subTopics' :data='manualData'/></b-col>
-        <b-col cols="9"><ManualsStudyGuide :allManuals='allManuals' :topicId='topicId' :subTopicId='subTopicId'/></b-col>
+        <b-col cols="12">
+          <div class="input-group md-form form-sm form-2 pl-0" id="search-input">
+            <input class="form-control my-0 py-1 lime-border" type="text">
+            <div class="input-group-append">
+              <span class="input-group-text lime lighten-2" id="basic-text1">
+                <i class="fas fa-search text-grey" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row class="mt-3" style="height: 90%">
+        <b-col cols="3" class="h-100" style="border-right: solid thin #1CA4FC"><ManualsSubTopics/></b-col>
+        <b-col cols="9" class="h-100"><ManualsStudyGuide/></b-col>
       </b-row>
     </b-col>
   </b-row>
@@ -22,10 +34,9 @@
 </template>
 
 <script>
-import * as data from '@/components/manuals/manualsData.json'
 import ManualsProgress from '@/components/manuals/manualsProgress.vue'
-import ManualsSubTopics from '@/components/manuals/ManualsSubTopics.vue'
-import ManualsStudyGuide from '@/components/manuals/ManualsStudyGuide.vue'
+import ManualsSubTopics from '@/components/manuals/manualsSubTopics.vue'
+import ManualsStudyGuide from '@/components/manuals/manualsStudyGuide.vue'
 
 export default {
   components: {
@@ -35,19 +46,15 @@ export default {
   },
   data () {
     return {
-      manualData: data.topics,
-      topicId: '5ed038cc92a9db000d105e0c',
-      subTopics: '',
-      studyGuide: '',
-      subTopicId: '5da179c60269b7000d16e46c',
       allManuals: [],
-      manuals_not_found: false
+      manuals_not_found: false,
+      height: 'auto'
     }
   },
-  async created () {
-    const response = await this.getAllManuals()
-    console.log(response)
-    this.topicId = this.manualData[0]._id
+  async mounted () {
+    const height = this.$refs.containerProgress.clientHeight
+    this.height = `${height}px!important`
+    await this.getAllManuals()
   },
   methods: {
     getAllManuals () {
@@ -59,21 +66,12 @@ export default {
         })
         .then((res) => {
           this.allManuals = res.data.topics
-          console.log('Manuals')
+          this.$store.commit('topics/setTopics', this.allManuals)
         })
         .catch((err) => {
           console.log(err)
           this.manuals_not_found = true
         })
-    },
-    onClickChild (name, id) {
-      console.log(name, id)
-      const searchTopic = this.manualData.filter(elm => elm.name === name)
-      this.subTopics = searchTopic
-      this.topicId = id
-    },
-    onRecieveSubtopicId (id) {
-      this.subTopicId = id
     }
   }
 }
@@ -89,5 +87,17 @@ export default {
   .container {
     max-width: 97vw !important;
   }
+}
+#search-input{
+  border-radius: 12px;
+}
+#search-input input{
+  background-color: #F1F1F1
+}
+#search-input span{
+  background: #5E5E5E;
+}
+#search-input i{
+  color: white;
 }
 </style>
