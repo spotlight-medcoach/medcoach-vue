@@ -37,7 +37,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~plugins/nuxt-quill-plugin', ssr: false }
+    { src: '~plugins/nuxt-quill-plugin', ssr: false },
+    { src: '~plugins/vue-event-calendar-plugin', ssr:false }
   ],
   /*
   ** Nuxt.js dev-modules

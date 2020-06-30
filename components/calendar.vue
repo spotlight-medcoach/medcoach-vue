@@ -1,17 +1,22 @@
-Vue.component('calendar',{
 <template>
-  <vue-event-calendar :title="title" :events="demoEvents" @dayChanged="handleDayChange"></vue-event-calendar>
+  <vue-event-calendar :events="demoEvents"></vue-event-calendar>
 </template>
-})
+
 <script>
 export default {
+  props: {
+    days: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       demoEvents: [{
-        date: '2016/11/12', // Required
+        date: '2020/11/12', // Required
         title: 'Foo' // Required
       }, {
-        date: '2016/12/15',
+        date: '2020/12/15',
         title: 'Bar',
         desc: 'description',
         customClass: 'disabled highlight' // Custom classes to an calendar cell
