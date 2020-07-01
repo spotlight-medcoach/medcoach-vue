@@ -1,12 +1,22 @@
 <template>
   <div class="h-100">
-    <div v-if="isNotesComponent === true">
-      <div v-for="manual in manuals" :key="manual._id" class="mb-3">
-        <div v-if="manual.finished === false">
-                <router-link target="_blank" :to="`/manual?manual_id=${manual.id}`">{{manual.name}}</router-link>
+    <div v-if="isNotes === true" class="h-100">
+      <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
+        <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
+          <nuxt-link class="pointer" target="_blank" :to="`/student_manual?manual_id=${manual.id}`" v-if="manual.finished === false">
+            {{manual.name}}
+          </nuxt-link>
+          <div style="opacity: 0.30" v-else>
+            {{manual.name}}
+          </div>
         </div>
-        <div v-else>
-            <div style="color:red">{{manual.name}}</div>
+      </div>
+      <div class="row h-100" v-else-if="!fetchedManuals">
+        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+          <div>
+            <b class="mb-2">Cargando manuales</b>
+            <div><img src="@/assets/loading.svg" width="40" /></div>
+          </div>
         </div>
       </div>
     </div>
@@ -31,7 +41,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  props: ['topicId', 'subTopicId', 'allManuals', 'isNotesComponent'],
+  props: ['topicId', 'subTopicId', 'allManuals', 'isNotes'],
   data () {
     return {
       manuals: []

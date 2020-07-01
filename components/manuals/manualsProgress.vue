@@ -8,13 +8,21 @@
       class="pointer">
       <div class="mb-2">{{manual.name}}</div>
       <b-progress :value="manual.progress" :max="manual.total" class="mb-1 ml-1"></b-progress>
-      <div class="mb-3">
+      <div class="mb-3" v-if="load">
         {{ manual.progress }} / {{ manual.total }}
+      </div>
+      <div class="mb-3" v-else>
+        cargando...
       </div>
     </div>
     <hr>
     <div class="text-center mt-5 mb-5">
-      <h3 class="font-weight-bolder">{{ total_progress }} / {{ total_manuals }}</h3>
+      <h3 class="font-weight-bolder" v-if="load">
+        {{ total_progress }} / {{ total_manuals }}
+      </h3>
+      <h3 class="font-weight-bolder" v-else>
+        cargando...
+      </h3>
       <h5 class="font-weight-bolder">Manuales</h5>
     </div>
   </b-container>
@@ -23,6 +31,12 @@
 <script>
 import { mapState } from 'vuex'
 export default {
+  props: {
+    load: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     total_progress () {
       let progress = 0

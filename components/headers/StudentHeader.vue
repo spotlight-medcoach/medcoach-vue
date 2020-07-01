@@ -52,7 +52,7 @@
         </template>
         <b-dropdown-item href="#">Notificaciones</b-dropdown-item>
         <b-dropdown-item href="/settings">Configuración</b-dropdown-item>
-        <b-dropdown-item href="#">Cerrar Sesión</b-dropdown-item>
+        <b-dropdown-item @click="logout">Cerrar Sesión</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-collapse>
@@ -74,6 +74,12 @@ export default {
     },
     isNotes () {
       return this.$route.name === 'notes'
+    }
+  },
+  methods: {
+    logout () {
+      localStorage.clear()
+      this.$router.push({ path: '/' })
     }
   }
 }

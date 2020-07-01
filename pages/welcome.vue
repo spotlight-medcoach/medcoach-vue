@@ -7,7 +7,6 @@
             :steps="steps"
             @completed-step="completeStep"
             @active-step="isStepActive"
-            @stepper-finished="finishWelcome"
           />
         </div>
       </div>

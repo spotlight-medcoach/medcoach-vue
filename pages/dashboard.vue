@@ -36,10 +36,20 @@
       <b-container>
         <div class="pb-5" v-if="load">
           <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
-            Cargando calendario, por favor espere
+            {{ message_load }}
           </div>
           <div class="mt-5 d-flex justify-content-around">
             <img src="@/assets/loading.svg" width="100" />
+          </div>
+        </div>
+        <div class="pb-5" v-else-if="second_stage">
+          <div class="mt-5 d-flex justify-content-around">
+            <div class="text-center">
+              <h3 class="mb-4" style="font-weight: bolder">¡Felicidades!</h3>
+              <h5 class="mb-4">Entraste a la segunda fase de tu plan de estudios.</h5>
+              <p class="mb-4">Haz tu examen diagnóstico para organizar el contenido dependiendo de tus fortalezas.</p>
+              <b-button variant="primary" @click="goToSecondStage">Hacer exmaen diagnóstico</b-button>
+            </div>
           </div>
         </div>
         <div align="left" v-else>
@@ -93,6 +103,9 @@ export default {
       show: false,
       currentMonth: this.capitalizeFirstLetter(moment().format('MMMM')),
       studentSyllabus: [],
+      student: {
+        free_day: null
+      },
       week: [
         {
           day: 'Lunes',
@@ -136,7 +149,11 @@ export default {
           index: null,
           data: []
         }
-      ]
+      ],
+      day: null,
+      second_stage: false,
+      daysDisabled: [0, 0, 0, 0, 0, 0, 0],
+      message_load: 'Cargando calendario, por favor espere'
     }
   },
   created () {
@@ -158,9 +175,9 @@ export default {
       if (day < 0) {
         day = 6
       }
+      this.day = day
       const minDay = 0 - day
       const maxDay = minDay + 6
-
       this.$axios
         .get('/students/info', {
           headers: {
@@ -168,11 +185,13 @@ export default {
           }
         })
         .then((res) => {
+          this.student = res.data.student
+          this.daysDisabled[this.student.free_day] = 1
           return this.$axios
             .post('/students/syllabus', {
               min_index: minDay,
               max_index: maxDay,
-              days_disabled: [0, 0, 0, 0, 0, 0, 0]
+              days_disabled: this.daysDisabled
             },
             {
               headers: {
@@ -189,6 +208,10 @@ export default {
             element.data = this.studentSyllabus[index].manuals
             element.index = this.studentSyllabus[index].index
           })
+          const today = data.find(day => day.index === 0)
+          if (!today.manuals.length && this.day !== this.student.free_day) {
+            this.second_stage = true
+          }
           this.load = false
         })
         .catch((err) => {
@@ -224,6 +247,33 @@ export default {
     },
     goToManual (id) {
       this.$router.push({ path: '/student_manual', query: { manual_id: id } })
+    },
+    goToSecondStage () {
+      this.message_load = 'Preparando examen'
+      this.load = true
+      let token = ''
+      if (process.client) {
+        token = localStorage.getItem('usertoken')
+      }
+      this.$axios
+        .post('/students/diagnostic',
+          {
+            first: false
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        )
+        .then((response) => {
+          console.log('Response:', response)
+          this.$router.push({ path: '/diagnostic_test' })
+        })
+        .catch((err) => {
+          console.log('Error:', err)
+          this.test_error = true
+        })
     }
   },
   computed: {

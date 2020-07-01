@@ -135,11 +135,12 @@ export default {
         const index = this.question_index
         this.answers[index].response = value
 
-        if (value === this.question.response) {
+        if (value === this.question.id.correct_answer) {
           this.answers[index].correct = true
         } else {
           this.answers[index].correct = false
         }
+        localStorage.setItem('diagnostic_test_answers', JSON.stringify(this.answers))
       }
     },
     'question_index' (value) {
@@ -164,9 +165,16 @@ export default {
           question.flag = false
           return question
         })
-        this.answers = this.questions.map((question) => {
-          return { response: null, correct: false }
-        })
+        let answers = JSON.parse(localStorage.getItem('diagnostic_test_answers'))
+        if (answers === null) {
+          answers = this.questions.map((question) => {
+            return { response: null, correct: false }
+          })
+          localStorage.setItem('diagnostic_test_answers', JSON.stringify(answers))
+        } else {
+          this.selected_answer = answers[0].response
+        }
+        this.answers = answers
         console.log('respuesta', response)
       } catch (e) {
         this.error_request = true
@@ -218,6 +226,7 @@ export default {
         )
         .then((response) => {
           this.$router.push({ path: '/dashboard' })
+          localStorage.removeItem('diagnostic_test_answers')
         })
         .catch((error) => {
           console.error(error)
@@ -259,7 +268,7 @@ export default {
       font-size: 25px;
   }
   #container{
-    max-width: 100vw;
+    max-width: 100vw !important;
     padding: 0px;
     height: calc(100vh - 50px - 1rem - 10px) !important; /* 50px => btnColor, 1rem=>padding nav, 1px => extra */
   }
