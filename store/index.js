@@ -39,6 +39,9 @@ export const mutations = {
     index = (index + 1) % state.themeColors.length
     state.themeColorIndex = index
     state.themeColor = state.themeColors[index]
+  },
+  setToken (state, token) {
+    state.token = token
   }
 }
 

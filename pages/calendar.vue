@@ -1,23 +1,41 @@
 <template>
 <b-container>
-  <div v-if="dayEvents.length" class="my-5">
-    <b-row class="my-1">
+  <div v-if="dayEvents.length" class="my-4">
+    <b-row>
       <b-col cols="12">
-        <label for="range">Fase I</label>
+        <h3 class="mb-1" style="font-weight: bold"> Fase I </h3>
       </b-col>
     </b-row>
-    <b-row class="my-1">
+    <b-row class="mb-5">
       <b-col cols="12">
         <b-form-input id="range" type="range"></b-form-input>
+        <div align="right">
+          <h6><b>130 días</b></h6>
+        </div>
       </b-col>
     </b-row>
     <vue-event-calendar :events="dayEvents" title="Temas">
       <template scope="props">
         <div v-for="(event, index) in props.showEvents" class="event-item" :key="'llave' + index">
-          <!-- In here do whatever you want, make you owner event template -->
-          {{ event.date }}
           <div v-for="(manual, indexManuals) in event.manuals" :key="'manual' + index + indexManuals">
-            {{ manual.manual_name }} - {{ manual.manual_subtopic_name }}
+            <div class="item-card-done d-flex justify-content-between align-items-center" v-if="manual.finished">
+              <div>
+                <div class="item-manual mb-1">{{ manual.manual_name }}</div>
+                <div>{{ manual.manual_subtopic_name }}</div>
+              </div>
+              <div class="pr-2">
+                <img src="@/assets/orange_check.svg" width="33">
+              </div>
+            </div>
+            <div class="item-card" v-else>
+              <nuxt-link
+              class="pointer text-decoration-none"
+              target="_blank"
+              :to="`/student_manual?manual_id=${manual.manual_id}`">
+                <div class="item-manual">{{ manual.manual_name }}</div>
+                <div>{{ manual.manual_subtopic_name }}</div>
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </template>
@@ -110,3 +128,10 @@ export default {
   }
 }
 </script>
+<style>
+@media screen and (min-width: 1600px) {
+  .container {
+    max-width: 1400px !important;
+  }
+}
+</style>

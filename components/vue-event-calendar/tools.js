@@ -1,4 +1,4 @@
-export function dateTimeFormatter (date, format) {
+export function dateTimeFormatter (date, format, months = []) {
   // 时间格式化辅助函数 date:毫秒数 format:'yyyy-MM-dd hh:mm:ss'
   if (!date || date === '') {
     return ''
@@ -26,21 +26,25 @@ export function dateTimeFormatter (date, format) {
     S: date.getMilliseconds()
   }
 
-  format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
-    let v = map[t]
-    if (v !== undefined) {
-      if (all.length > 1) {
-        v = '0' + v
-        v = v.substr(v.length - 2)
+  if (months.length === 0) {
+    format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+      let v = map[t]
+      if (v !== undefined) {
+        if (all.length > 1) {
+          v = '0' + v
+          v = v.substr(v.length - 2)
+        }
+        return v
+      } else if (t === 'y') {
+        return (date.getFullYear() + '').substr(4 - all.length)
       }
-      return v
-    } else if (t === 'y') {
-      return (date.getFullYear() + '').substr(4 - all.length)
-    }
-    return all
-  })
-
-  return format
+      return all
+    })
+    return format
+  } else {
+    const string = months[date.getMonth()] + ' ' + date.getFullYear()
+    return string
+  }
 }
 export function isEqualDateStr (dateStr1, dateStr2) {
   const dateArr1 = dateStr1.split('/')

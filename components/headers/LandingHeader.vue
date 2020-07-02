@@ -108,6 +108,7 @@ export default {
           if (process.client) {
             localStorage.setItem('studentData', JSON.stringify(userData))
             localStorage.setItem('usertoken', res.data.token)
+            this.$store.commit('setToken', res.data.token)
           }
           this.$router.push({ path: '/dashboard' })
         })

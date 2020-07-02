@@ -1,6 +1,6 @@
 <template>
   <div class="events-wrapper" :style="bgColor">
-    <h2 class="date">
+    <h2 class="title">
       {{dayEventsTitle}}
     </h2>
     <div class="cal-events">
@@ -64,7 +64,8 @@ export default {
       return this.dayEvents.events
     },
     bgColor () {
-      return { backgroundColor: this.color }
+      /* return { backgroundColor: this.color } */
+      return { backgroundColor: '#ffffff' }
     }
   },
   methods: {

@@ -64,7 +64,7 @@ export default {
         return {
           options: {
             locale: 'en', // zh
-            color: ' #f29543'
+            color: ' #ffffff'
           },
           params: {
             curYear: dateObj.getFullYear(),
@@ -149,22 +149,45 @@ export default {
 @small-padding: 10px;
 
 @icon-border-size: 1px;
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1600px) {
   .__vev_calendar-wrapper{
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     .cal-wrapper{
       width: 50%;
-      padding: 0px 50px 100px 50px;
+      padding-bottom: 160px !important;
       .date-num{
         line-height: 50px;
       }
     }
     .events-wrapper{
       width: 50%;
-      background-color: @base-orange;
-      color: @white;
+      background-color: @white;
+      color: @gray-dark;
       padding: 40px 45px;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .__vev_calendar-wrapper{
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    .cal-wrapper{
+      width: 50%;
+      padding-bottom: 30px;
+      .date-num{
+        line-height: 60px;
+      }
+    }
+    .events-wrapper{
+      width: 50%;
+      background-color: @white;
+      color: @gray-dark;
+      padding: 0px 45px 40px 45px;
       position: absolute;
       left: 50%;
       top: 0;
@@ -208,15 +231,16 @@ export default {
     background: rgba(0,0,0,.2);
   }
   .cal-wrapper{
+    // border: thin solid;
     .cal-header{
       position: relative;
-      border-bottom: solid thin black;
+      border-bottom: solid black;
       width: 100%;
       background-color: @white;
       // box-shadow: 0 6px 5px rgba(0,0,0,.1);
       font-weight: 500;
       overflow: hidden;
-      padding-bottom: 10px;
+      // padding-bottom: 10px;
       &>div{
         float: left;
         line-height: 20px;
@@ -224,14 +248,17 @@ export default {
       }
       .title{
         width: 60%;
-        text-align: center;
+        text-align: left;
+        font-size: 1.6rem;
+        font-weight: bold;
       }
       .l{
         text-align: left;
-        width: 20%;
+        width: 3%;
         cursor: pointer;
         user-select: none;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        padding-left: 0px;
       }
       .r{
         text-align: right;
@@ -252,6 +279,7 @@ export default {
           line-height: 50px;
           float: left;
           width: 14.285%;
+          font-weight: bold;
         }
       }
       .dates{
@@ -313,11 +341,22 @@ export default {
   }
   .events-wrapper{
     border-radius: 10px;
+    // border: thin solid;
     .cal-events{
       height: 95%;
       overflow-y: auto;
       padding: 0 5px;
       margin: 15px 0;
+    }
+    .title{
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-bottom: solid;
+      font-size: 1.6rem;
+      line-height: 20px;
+      color: black;
+      font-weight: bold;
     }
     .date{
       max-width: 60%;
@@ -330,9 +369,9 @@ export default {
       font-size: 22px;
     }
     .event-item{
-      padding: 5px 20px;
+      // padding: 5px 20px;
       margin-top: 15px;
-      box-shadow: 0 3px 11px 2px rgba(0,0,0,.1);
+      // box-shadow: 0 3px 11px 2px rgba(0,0,0,.1);
       background-color: #fff;
       border-radius: 5px;
       color: #323232;
@@ -346,6 +385,7 @@ export default {
         color: #323232;
         font-size: 16px;
         border-bottom: 1px solid #f2f2f2;
+        padding-top: 12px !important;
       }
       .time{
         position: absolute;
@@ -359,12 +399,31 @@ export default {
         font-size: 14px;
         padding: 7px 0;
       }
+      .item-card{
+        background-color: #C4C4C4;
+        margin-bottom: 10px;
+        border-radius: 18px;
+        padding: 10px 15px;
+        .item-manual{
+          font-weight: bold;
+        }
+      }
+      .item-card-done{
+        background-color: #FE9501;
+        margin-bottom: 10px;
+        border-radius: 18px;
+        padding: 10px 15px;
+        color: white;
+        .item-manual{
+          font-weight: bold;
+        }
+      }
     }
   }
   .arrow-left.icon {
     color: #000;
     position: absolute;
-    /* left: 6%; */
+    left: 1%;
     margin-top: 10px;
   }
   .arrow-left.icon:before {
@@ -382,7 +441,7 @@ export default {
   .arrow-right.icon {
     color: #000;
     position: absolute;
-    /* right: 6%; */
+    right: 1%;
     margin-top: 10px;
   }
   .arrow-right.icon:before {
