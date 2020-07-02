@@ -1,6 +1,16 @@
 <template>
-<div>
+<b-container>
   <div v-if="dayEvents.length" class="my-5">
+    <b-row class="my-1">
+      <b-col cols="12">
+        <label for="range">Fase I</label>
+      </b-col>
+    </b-row>
+    <b-row class="my-1">
+      <b-col cols="12">
+        <b-form-input id="range" type="range"></b-form-input>
+      </b-col>
+    </b-row>
     <vue-event-calendar :events="dayEvents" title="Temas">
       <template scope="props">
         <div v-for="(event, index) in props.showEvents" class="event-item" :key="'llave' + index">
@@ -26,7 +36,7 @@
       <img src="@/assets/loading.svg" width="100" />
     </div>
   </div>
-</div>
+</b-container>
 </template>
 
 <script>

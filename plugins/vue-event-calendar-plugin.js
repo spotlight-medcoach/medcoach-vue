@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import 'vue-event-calendar/dist/style.css'
-import vueEventCalendar from 'vue-event-calendar'
+// import '@/components/vue-event-calendar/style.css'
+import vueEventCalendar from '@/components/vue-event-calendar'
 Vue.use(vueEventCalendar, { locale: 'es' })
