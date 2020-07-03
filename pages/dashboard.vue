@@ -1,38 +1,13 @@
 <template>
   <div>
-    <b-overlay :show="show" class="main-container-dashboard">
+    <b-overlay :show="show" class="main-container-dashboard mt-5">
       <div class="about" align="center">
         <h6>"I put my heart and my soul into my work, and have lost my mind in the process"</h6>
         <h6><b>- Vincent van Gogh</b></h6>
       </div>
-      <b-container class="bottomBorder">
-        <b-row cols="12" cols-sm="12" cols-md="12" cols-lg="12" align="left">
-          <b-col cols="10">
-            <br>
-            <h3><b>Fase 1</b></h3>
-            <div align="left">
-              <b-progress
-                :value="value"
-                :max="max"
-                :precision="2"
-                show-progress
-                class="mb-3"
-              ></b-progress>
-              <div align="right">
-                <h6><b>130 días</b></h6>
-              </div>
-            </div>
-          </b-col>
-          <b-col cols="2">
-            <div align="center">
-              <h1><b>260</b></h1>
-              <p style="font-size:20px"><b>Días restantes</b></p>
-              <p style="font-size:11px">Calculado al 22 de Septiembre</p>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-      <br/>
+      <div v-show="phase.id" class="mt-5">
+        <phases-index :student="student" :phase="phase" />
+      </div>
       <b-container>
         <div class="pb-5" v-if="load">
           <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
@@ -48,7 +23,17 @@
               <h3 class="mb-4" style="font-weight: bolder">¡Felicidades!</h3>
               <h5 class="mb-4">Entraste a la segunda fase de tu plan de estudios.</h5>
               <p class="mb-4">Haz tu examen diagnóstico para organizar el contenido dependiendo de tus fortalezas.</p>
-              <b-button variant="primary" @click="goToSecondStage">Hacer exmaen diagnóstico</b-button>
+              <b-button variant="primary" @click="goToSecondStage">Hacer examen diagnóstico</b-button>
+            </div>
+          </div>
+        </div>
+        <div class="pb-5" v-else-if="third_stage">
+          <div class="mt-5 d-flex justify-content-around">
+            <div class="text-center">
+              <h3 class="mb-4" style="font-weight: bolder">¡Comienza tu último repaso!</h3>
+              <h5 class="mb-4">Este es el repaso general de todos los temas ya vistos.</h5>
+              <p class="mb-4">En esta etapa repasarás los temas más importantes para el ENARM</p>
+              <b-button variant="primary" @click="goToThirdStage">Presiona el botón para comenzar tu fase 3</b-button>
             </div>
           </div>
         </div>
@@ -60,7 +45,7 @@
             cols-md="12"
             cols-lg="12"
             align="left"
-            no-gutters=true>
+            :no-gutters="true">
             <b-col>
               <div style="display:flex" align="center">
                 <div v-for="day in week" :key="day.number" class="day">
@@ -88,10 +73,14 @@
 </template>
 <script>
 import moment from 'moment'
+import { mapState } from 'vuex'
 import ManualCard from '../components/ManualCard'
+import PhasesIndex from '@/components/phases/phasesIndex.vue'
+
 export default {
   components: {
-    ManualCard
+    ManualCard,
+    PhasesIndex
   },
   data () {
     moment.locale('es')
@@ -104,7 +93,15 @@ export default {
       currentMonth: this.capitalizeFirstLetter(moment().format('MMMM')),
       studentSyllabus: [],
       student: {
-        free_day: null
+        free_day: null,
+        end_date: null,
+        test_date: null
+      },
+      phase: {
+        id: null,
+        progress: 0,
+        total: 0,
+        init_date_phase_2: null
       },
       week: [
         {
@@ -185,7 +182,8 @@ export default {
           }
         })
         .then((res) => {
-          this.student = res.data.student
+          const data = res.data
+          this.student = data.student
           this.daysDisabled[this.student.free_day] = 1
           return this.$axios
             .post('/students/syllabus', {
@@ -201,14 +199,18 @@ export default {
             })
         })
         .then((res) => {
-          const data = res.data.days
-          console.log('SILLABUS', data)
-          this.studentSyllabus = data
+          const data = res.data
+          this.phase.id = data.phase
+          this.phase.progress = data.progress
+          this.phase.total = data.total
+          this.phase.init_date_phase_2 = data.start_phase_two
+          console.log('SILLABUS', data.days)
+          this.studentSyllabus = data.days
           this.week.forEach((element, index) => {
             element.data = this.studentSyllabus[index].manuals
             element.index = this.studentSyllabus[index].index
           })
-          const today = data.find(day => day.index === 0)
+          const today = data.days.find(day => day.index === 0)
           if (!today.manuals.length && this.day !== this.student.free_day) {
             this.second_stage = true
           }
@@ -237,16 +239,12 @@ export default {
       for (let i = 1; i <= maxIndex; i++) {
         days.push(moment(today).add(i, 'days').format('D'))
       }
-      console.log('Today:', today.format('YYYY-MM-DD H:mm:ss'))
-      console.log('Day of the week:', dayOfWeek)
-      console.log('Days:', days)
-      console.log(this.studentSyllabus)
       this.week.forEach((element, index) => {
         element.number = days[index]
       })
     },
     goToManual (id) {
-      this.$router.push({ path: '/student_manual', query: { manual_id: id } })
+      this.$router.push({ path: '/manual', query: { manual_id: id } })
     },
     goToSecondStage () {
       this.message_load = 'Preparando examen'
@@ -274,17 +272,25 @@ export default {
           console.log('Error:', err)
           this.test_error = true
         })
+    },
+    goToThirdStage () {
+      this.phase.id = 3
+      return true
     }
   },
   computed: {
-
+    third_stage () {
+      if (this.rest_days && this.rest_days <= this.phase_3_days && this.phase.id !== 3) {
+        return true
+      } else {
+        return false
+      }
+    },
+    ...mapState(['rest_days', 'phase_3_days'])
   }
 }
 </script>
 <style>
-.main-container-dashboard {
-  top: 150px;
-}
 .bottomBorder{
   border-bottom:1px solid;
 }

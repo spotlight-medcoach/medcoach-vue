@@ -1,26 +1,21 @@
-Vue.component('landingheader', {
 <template>
-  <div class="footer">
-    <br>
-    <b-container align="right">
-      <b-row cols="12" cols-sm="7" cols-md="12" cols-lg="12">
-        <b-col cols="">
-
-        </b-col>
-        <b-col>
-          <p>FACEBOOK</p>
-        </b-col>
-        <b-col>
-          <p>TWITTER</p>
-        </b-col>
-        <b-col>
-          <p>INSTAGRAM</p>
-        </b-col>
-      </b-row>
-    </b-container>
+  <div class="footer d-flex justify-content-between">
+    <div class="p-4 info-extra">
+      <a href="https://spotlightmed.com/">INFORMACIÓN EXTRA</a>
+    </div>
+    <div class="d-flex justify-content-between">
+      <div class="p-4 redes">
+        <a href="#">FACEBOOK</a>
+      </div>
+      <div class="p-4 redes">
+        <a href="#">TWITTER</a>
+      </div>
+      <div class="p-4 redes">
+        <a href="#">INSTAGRAM</a>
+      </div>
+    </div>
   </div>
 </template>
-})
 
 <style>
 .footer {
@@ -31,5 +26,14 @@ Vue.component('landingheader', {
   background-color: white;
   color: grey;
   text-align: center;
+}
+.footer .info-extra{
+  color: black;
+}
+.footer .redes{
+  color: #929292;
+}
+a {
+  color: inherit;
 }
 </style>

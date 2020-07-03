@@ -34,7 +34,7 @@ export default {
   .bg {
     background-image: url("https://spotlightmed.s3-us-west-2.amazonaws.com/assets/background.png");
     /* Full height */
-    height: 100vh;
+    height: 94vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

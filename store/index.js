@@ -9,7 +9,9 @@ export const state = () => ({
   fontSize: 1,
   themeColors: ['light', 'sepia', 'dark'],
   themeColorIndex: 0,
-  themeColor: 'light'
+  themeColor: 'light',
+  rest_days: null,
+  phase_3_days: 40
 })
 
 export const mutations = {
@@ -42,6 +44,9 @@ export const mutations = {
   },
   setToken (state, token) {
     state.token = token
+  },
+  setRestDays (state, days) {
+    state.rest_days = days
   }
 }
 

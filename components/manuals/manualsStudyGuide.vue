@@ -19,6 +19,13 @@
           </div>
         </div>
       </div>
+      <div class="row h-100" v-else>
+        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+          <div>
+            <b class="mb-2">No hay manuales</b>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="h-100" v-else>

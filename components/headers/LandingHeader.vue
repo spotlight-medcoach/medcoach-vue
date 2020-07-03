@@ -13,15 +13,17 @@ Vue.component('landingheader', {
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
 
-        <b-nav-item class="item-border-right"><b>DEMO</b></b-nav-item>
+        <b-nav-item class="item-border-right pr-3 mr-3" href="https://app.spotlightmed.com/version-test/demo_dashboard">
+          <b>DEMO</b>
+        </b-nav-item>
 
-        <b-nav-item>
-          <img src="@/assets/cart.svg" width="30" height="30">
+        <b-nav-item href="https://app.spotlightmed.com/version-test/welcome_payment" class="mr-3">
+          <img src="@/assets/cart.svg" width="35" height="35">
         </b-nav-item>
 
         <b-nav-item-dropdown class="landing-item">
           <template v-slot:button-content>
-            <img src="@/assets/login.svg" width="30" height="30">
+            <img src="@/assets/login.svg" width="35" height="35">
           </template>
           <div class="login-form">
             <b-row cols="6">
@@ -58,7 +60,7 @@ Vue.component('landingheader', {
             </div>
             <br>
             <div align="center">
-              <p style="font-size:12px">Ha olvidado la contraseña</p>
+              <p style="font-size:12px">He olvidado la contraseña</p>
             </div>
           </div>
         </b-nav-item-dropdown>
@@ -153,9 +155,15 @@ export default {
     position:fixed;
     z-index:0;
   }
-
+  .landing-item {
+    color: white !important;
+  }
   .landing-item > .dropdown-menu {
-    left: -275px !important;
+    left: -265px !important;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
+    border-radius: 23px;
   }
 
   .dropdown-item.active, .dropdown-item:active{
