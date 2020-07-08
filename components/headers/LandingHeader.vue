@@ -28,12 +28,12 @@ Vue.component('landingheader', {
           <div class="login-form">
             <div class="control-input d-flex">
               <p><b-icon-person></b-icon-person></p>
-              <b-form-input v-model="user" placeholder="Usuario"></b-form-input>
+              <input type="text" v-model="user" placeholder="Usuario" />
             </div>
             <br>
              <div class="control-input d-flex">
               <p><b-icon-lock-fill></b-icon-lock-fill></p>
-              <b-form-input v-model="password" type="password" placeholder="Contraseña"></b-form-input>
+              <input v-model="password" type="password" placeholder="Contraseña" />
             </div>
             <br>
             <div align="center">
@@ -218,6 +218,10 @@ export default {
     font-size: 1.4rem;
     margin-bottom: 0px;
     color: #929292;
+  }
+  .login-form input:focus {
+    outline: none !important;
+    outline-width: 0 !important;
   }
   ::placeholder {
     color: black !important;

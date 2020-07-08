@@ -39,7 +39,8 @@ export default {
   plugins: [
     { src: '~plugins/nuxt-quill-plugin', ssr: false },
     { src: '~plugins/vue-event-calendar-plugin', ssr:false },
-    { src: '~plugins/vue-simple-context-menu-plugin', ssr:false }
+    { src: '~plugins/vue-simple-context-menu-plugin', ssr:false },
+    { src: '~plugins/vue-toastr-plugin' }
   ],
   /*
   ** Nuxt.js dev-modules

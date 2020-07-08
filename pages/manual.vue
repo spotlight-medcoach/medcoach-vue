@@ -1,5 +1,5 @@
 <template>
-<div :style="{'background-color':actualColorBg}">
+<div :style="{'background-color':actualColorBg}" id="manual">
   <!-- NAVBAR -->
   <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
     <b-navbar-brand href="/dashboard"><img src="@/assets/home_logo_off.svg" width="50" height="50"/></b-navbar-brand>
@@ -9,31 +9,64 @@
       <b-navbar-nav class="ml-auto">
           <b-button @click="onChangeFontSize" size="sm" class="btnLetterChange mr-2" type="submit">A</b-button>
           <b-button :style="{'background-color':actualColorBtn}" @click="onchangeColorBg" size="sm" class="btnColorChange mr-2" type="submit"/>
-          <b-button size="sm" class="my-2 my-sm-0 finishManualBtn" type="submit" @click="finishManual">Finalizar Manual</b-button>
+          <b-button size="sm" class="my-2 my-sm-0 finishManualBtn" type="submit" @click="finishManual" v-show="!showLoading">Finalizar Manual</b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
+  <!-- Loading State -->
+  <div v-if="showLoading" id="loading-state" class="d-flex align-items-center justify-content-center" style="height: 85vh">
+    <loading-state :message="message" v-if="!error_http"/>
+    <div style="font-size: 28px;" v-else>
+      {{message_error}}
+    </div>
+  </div>
   <!-- CONTAINER -->
-  <b-container style="height: 90.4vh; max-width: 98vw;">
+  <b-container style="height: 90.4vh; max-width: 98vw;" v-else>
     <b-row class="mt-3">
       <b-col cols="8">
         <div :style="`font-size:${fontSize}em; color: ${actualColorFont}`" id="content" oncopy="return false" oncut="return false" onpaste="return false">
           <div @contextmenu.prevent.stop="handleClick($event, {selection: my_window.getSelection()})" v-html="manualHTML">
           </div>
           <div class="flashcards-edit">
-            <div class="controls"></div>
-            <div class="quill-editors">
-              <!--
-              <client-only>
-                <quill-editor
-                  ref="flashAQuillEditor"
-                  v-model="flashA"
-                  :options="editorOption"
-                />
-              </client-only>
-              -->
-            </div>
-            <div class="trigger">
+            <transition name="slide-fade">
+              <div v-if="showFlashCards">
+                <div class="controls d-flex justify-content-end pr-4 pb-4">
+                  <b-overlay
+                    :show="savingFlashcard"
+                    rounded
+                    opacity="0.6"
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block"
+                  >
+                    <img src="@/assets/save.svg" width="35" @click="saveFlashcard">
+                  </b-overlay>
+                  <img src="@/assets/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
+                </div>
+                <div class="editors">
+                  <div class="labels-editors d-flex justify-content-between">
+                    <div>Frente</div>
+                    <div>Detrás</div>
+                  </div>
+                  <div class="content-editors d-flex">
+                    <quill-editor
+                      class="flashA"
+                      ref="flashAQuillEditor"
+                      v-model="flashA"
+                      :options="editorOption"
+                    />
+                    <div class="division"></div>
+                    <quill-editor
+                      class="flashB"
+                      ref="flashBQuillEditor"
+                      v-model="flashB"
+                      :options="editorOption"
+                    />
+                  </div>
+                </div>
+              </div>
+            </transition>
+            <div class="trigger" @click="showFlashCards = !showFlashCards">
               <img src="@/assets/flashcard_trigger.svg" height="50px">
             </div>
           </div>
@@ -51,10 +84,6 @@
       </b-col>
     </b-row>
   </b-container>
-  <!-- MODAL -->
-  <b-modal id="modal-1" title="BootstrapVue">
-    <p class="my-4">Hello from modal!</p>
-  </b-modal>
   <!-- CONTEXT MENU -->
   <vue-simple-context-menu
       :elementId="'contextMenu'"
@@ -62,12 +91,16 @@
       :ref="'vueContextMenu'"
       @option-clicked="optionClicked"
     >
-    </vue-simple-context-menu>
+  </vue-simple-context-menu>
 </div>
 </template>
 
 <script>
+import LoadingState from '@/components/LoadingState.vue'
 export default {
+  components: {
+    LoadingState
+  },
   data () {
     return {
       my_window: window,
@@ -79,7 +112,7 @@ export default {
       actualColorBg: '#ffffff',
       actualColorFont: '#000000',
       actualColorBtn: '#fff2b4',
-      content: '',
+      content: 'Cargando notas...',
       fontSize: 1,
       selectedImage: '',
       editorOption: {
@@ -118,24 +151,42 @@ export default {
       selection: '',
       cursor_index: 0,
       flashA: '',
-      flashB: ''
+      flashB: '',
+      showFlashCards: false,
+      showLoading: true,
+      message: 'Cargando manual, por favor espere',
+      savingFlashcard: false,
+      message_error: 'Ocurrió un error su petición',
+      error_http: false
     }
   },
-  created () {
-    this.getManualHTML()
-    this.getManualNote()
+  async created () {
+    await this.getManualHTML()
+    this.showLoading = false
+    await this.getManualNote()
+  },
+  mounted () {
+    window.toastr.options = {
+      positionClass: 'toast-bottom-right'
+    }
   },
   computed: {
     editor () {
       return this.$refs.noteQuillEditor.quill
+    },
+    flashBEditor () {
+      return this.$refs.flashBQuillEditor.quill
     }
   },
   methods: {
     finishManual () {
+      this.message = 'Finalizando manual, espere un momento'
+      this.showLoading = true
       let token = ''
       if (process.client) {
         token = localStorage.getItem('usertoken')
       }
+      this.saveNote()
       this.$axios
         .put('/students/syllabus', {
           manual_id: this.manual_id
@@ -147,12 +198,14 @@ export default {
         })
         .then((res) => {
           console.log(res.data)
+          this.$router.push({ path: '/dashboard' })
         }).catch((err) => {
-          console.log(err)
+          this.error_http = true
+          this.message_error = err.response.data.message
         })
     },
     getManualNote () {
-      this.$axios
+      return this.$axios
         .get(`/manuals/note?manual_id=${this.manual_id}`,
           {
             headers: {
@@ -162,7 +215,7 @@ export default {
           }
         )
         .then((res) => {
-          this.editor.clipboard.dangerouslyPasteHTML(this.cursor_index, res.data.note)
+          this.editor.clipboard.dangerouslyPasteHTML(res.data.note)
         }).catch((err) => {
           console.log(err)
         })
@@ -188,12 +241,48 @@ export default {
           console.error(error)
         })
     },
+    saveFlashcard () {
+      if (this.flashA.trim() === '') {
+        this.$toastr.error('Debes introducir el contenido de la parte frontal de la flashcard', 'Error')
+        return false
+      }
+      if (this.flashB.trim() === '') {
+        this.$toastr.error('Debes introducir el contenido de la parte trasera de la flashcard', 'Error')
+        return false
+      }
+      this.savingFlashcard = true
+      const params = {
+        manual_id: this.manual_id,
+        body_note: this.flashA,
+        body_user: this.flashB
+      }
+      this.$axios
+        .post('/manuals/flashcard', params,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+              'Content-type': 'application/json'
+            }
+          }
+        )
+        .then((response) => {
+          this.$toastr.success('Flashcard guardada correctamente', '¡Éxito!')
+          this.closeFlashcard()
+        })
+        .catch((error) => {
+          alert('Error al guardar la flashcard')
+          console.error(error)
+        })
+        .finally(() => {
+          this.savingFlashcard = false
+        })
+    },
     getManualHTML () {
       let token = ''
       if (process.client) {
         token = localStorage.getItem('usertoken')
       }
-      this.$axios
+      return this.$axios
         .get(`/manuals?manual_id=${this.manual_id}`,
           {
             headers: {
@@ -244,6 +333,11 @@ export default {
     optionClicked (event) {
       if (event.option.id === 1) {
         this.copyText()
+      } else {
+        this.showFlashCards = true
+        setTimeout(() => {
+          this.flashBEditor.clipboard.dangerouslyPasteHTML(this.html_selection)
+        }, 500)
       }
     },
     selection2Html (selection) {
@@ -260,6 +354,11 @@ export default {
     },
     handlerPrevent () {
       return false
+    },
+    closeFlashcard () {
+      this.flashA = ''
+      this.flashB = ''
+      this.showFlashCards = false
     }
   }
 }
@@ -324,11 +423,13 @@ export default {
   width: 100%;
 }
 #content img {
-    cursor: pointer;
-    background-color: #fff;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 50px;
 }
 #content img:hover {
-   opacity: 0.5;
+  /* opacity: 0.7; */
+  border: 3px solid darkorange;
 }
 .dark {
   color: #FFFFFF!important;
@@ -482,5 +583,78 @@ export default {
 }
 .trigger {
   text-align: center;
+  width: 97%;
+  margin: auto;
+}
+.editors {
+  height: 90px;
+  width: 97%;
+  background-color: white;
+  border-radius: 16px;
+  margin: 0px auto 10px auto;
+  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
+}
+.labels-editors {
+  font-size: 13px;
+  padding: 7px 15px 0px 15px;
+  font-weight: bold;
+}
+.content-editors {
+  height: inherit;
+  width: 100%;
+}
+.flashA {
+  width: 49%;
+  margin-left: 1%;
+}
+.flashB {
+}
+.division {
+  height: 48%;
+  border: thin solid black;
+}
+.editors .quill-editor {
+  border-radius: 0px;
+  box-shadow: none;
+  background-color: white;
+  height: 60px;
+  min-height: 60px;
+  margin-top: 3px;
+  width: 49%;
+  display: flex;
+  flex-wrap: wrap !important;
+  align-content: center;
+}
+.editors .ql-container {
+  height: 20px !important;
+  order: 1;
+  width: 100%;
+}
+.editors .ql-editor {
+  min-height: 20px !important;
+  height: 20px !important;
+  padding: 0px 15px !important;
+}
+.editors .ql-toolbar {
+  order: 2;
+  border-bottom: none !important;
+  border-top: 1px solid #000 !important;
+  width: 100%;
+  padding: 0px 8px !important;
+}
+#manual .ql-toolbar {
+  display: flex !important;
+  justify-content: center !important;
+}
+.slide-fade-enter-active {
+  transition: all .8s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(150px);
+  opacity: 0;
 }
 </style>
