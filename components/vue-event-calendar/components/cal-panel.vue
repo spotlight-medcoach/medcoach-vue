@@ -132,11 +132,21 @@ export default {
   methods: {
     nextMonth () {
       this.$EventCalendar.nextMonth()
-      this.$emit('month-changed', this.curYearMonth)
+      const param = {
+        prev: false,
+        next: true,
+        curYearMonth: this.curYearMonth
+      }
+      this.$emit('month-changed', param)
     },
     preMonth () {
       this.$EventCalendar.preMonth()
-      this.$emit('month-changed', this.curYearMonth)
+      const param = {
+        prev: true,
+        next: false,
+        curYearMonth: this.curYearMonth
+      }
+      this.$emit('month-changed', param)
     },
     handleChangeCurday (date) {
       if (date.status) {

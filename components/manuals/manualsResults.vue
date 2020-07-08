@@ -6,7 +6,7 @@
         <nuxt-link
           class="pointer text-decoration-none"
           target="_blank"
-          :to="`/student_manual?manual_id=${manual.manual_id}`"
+          :to="`/manual?manual_id=${manual.manual_id}`"
           v-if="!manual.finished || !isNotes">
           <div class="manual-txt">{{ manual.manual_name }}</div>
           <div style="font-size: 0.95rem"> {{ manual.subtopic_name }}, {{ manual.topic_name }} </div>

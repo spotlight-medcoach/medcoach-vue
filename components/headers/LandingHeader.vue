@@ -13,7 +13,7 @@ Vue.component('landingheader', {
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
 
-        <b-nav-item class="item-border-right pr-3 mr-3" href="https://app.spotlightmed.com/version-test/demo_dashboard">
+        <b-nav-item class="item-border-right pr-4 mr-4 demo mt-2" href="https://app.spotlightmed.com/version-test/demo_dashboard">
           <b>DEMO</b>
         </b-nav-item>
 
@@ -26,23 +26,15 @@ Vue.component('landingheader', {
             <img src="@/assets/login.svg" width="35" height="35">
           </template>
           <div class="login-form">
-            <b-row cols="6">
-              <b-col>
-                <b-icon-person style="width: 35px; height: 35px;" shift-h="5"></b-icon-person>
-              </b-col>
-              <b-col cols="5">
-                <b-form-input style="width:200px; font-size:15px"  v-model="user" placeholder="Usuario"></b-form-input>
-              </b-col>
-            </b-row>
+            <div class="control-input d-flex">
+              <p><b-icon-person></b-icon-person></p>
+              <b-form-input v-model="user" placeholder="Usuario"></b-form-input>
+            </div>
             <br>
-            <b-row cols="6">
-              <b-col>
-                <b-icon-lock-fill style="width: 30px; height: 30px;" shift-h="8" shift-v="-3"></b-icon-lock-fill>
-              </b-col>
-              <b-col cols="5">
-                <b-form-input style="width:200px; font-size:15px" v-model="password" type="password" placeholder="Contraseña"></b-form-input>
-              </b-col>
-            </b-row>
+             <div class="control-input d-flex">
+              <p><b-icon-lock-fill></b-icon-lock-fill></p>
+              <b-form-input v-model="password" type="password" placeholder="Contraseña"></b-form-input>
+            </div>
             <br>
             <div align="center">
               <div class="divlogin" align="center">
@@ -134,7 +126,7 @@ export default {
   .divlogin {
     width: 30%;
     height: auto;
-    border-color: black;
+    border-color: #929292;
     border-top-style: none;
     border-right-style: solid;
     border-bottom-style: none;
@@ -159,11 +151,12 @@ export default {
     color: white !important;
   }
   .landing-item > .dropdown-menu {
-    left: -265px !important;
+    left: -275px !important;
     border: 1px solid #C4C4C4;
     box-sizing: border-box;
     box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
     border-radius: 23px;
+    width: 320px;
   }
 
   .dropdown-item.active, .dropdown-item:active{
@@ -171,7 +164,7 @@ export default {
   }
 
   .login-form {
-    margin: 20px;
+    margin: 30px;
   }
 
   .textH{
@@ -200,5 +193,33 @@ export default {
 
   .menu {
     height: 60px;
+  }
+  .demo {
+    height: 2rem;
+    padding-top: 0px;
+  }
+  .demo a{
+    padding-top: 0.3rem !important;
+  }
+  .control-input {
+    border-bottom: thin solid #929292;
+  }
+  .control-input input {
+    width: 85%;
+    padding-left: 5px;
+    border: none;
+    font-size: 15px;
+    color: black;
+  }
+  .control-input input:focus{
+    border: none !important;
+  }
+  .control-input p {
+    font-size: 1.4rem;
+    margin-bottom: 0px;
+    color: #929292;
+  }
+  ::placeholder {
+    color: black !important;
   }
 </style>

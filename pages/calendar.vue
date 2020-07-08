@@ -1,20 +1,10 @@
 <template>
 <b-container>
-  <div v-if="dayEvents.length" class="my-4">
-    <b-row>
-      <b-col cols="12">
-        <h3 class="mb-1" style="font-weight: bold"> Fase I </h3>
-      </b-col>
-    </b-row>
-    <b-row class="mb-5">
-      <b-col cols="12">
-        <b-form-input id="range" type="range"></b-form-input>
-        <div align="right">
-          <h6><b>130 días</b></h6>
-        </div>
-      </b-col>
-    </b-row>
-    <vue-event-calendar :events="dayEvents" title="Temas">
+  <div v-if="fethcedData" class="my-4">
+    <div v-show="phase.id" class="mt-5">
+      <phases-index :student="student" :phase="phase" />
+    </div>
+    <vue-event-calendar :events="dayEvents" title="Temas" @month-changed="handleMonthChanged" v-if="!reloadData">
       <template scope="props">
         <div v-for="(event, index) in props.showEvents" class="event-item" :key="'llave' + index">
           <div v-for="(manual, indexManuals) in event.manuals" :key="'manual' + index + indexManuals">
@@ -31,7 +21,7 @@
               <nuxt-link
               class="pointer text-decoration-none"
               target="_blank"
-              :to="`/student_manual?manual_id=${manual.manual_id}`">
+              :to="`/manual?manual_id=${manual.manual_id}`">
                 <div class="item-manual">{{ manual.manual_name }}</div>
                 <div>{{ manual.manual_subtopic_name }}</div>
               </nuxt-link>
@@ -40,49 +30,53 @@
         </div>
       </template>
     </vue-event-calendar>
+    <loading-state message="Cargando el calendario, por favor espere" v-else/>
   </div>
-  <div v-else-if="syllabus_error">
+  <div v-else-if="http_error">
     <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
       Error al obtener el Calendario
     </div>
   </div>
   <div v-else>
-    <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
-      Cargando calendario, por favor espere
-    </div>
-    <div class="mt-5 d-flex justify-content-around">
-      <img src="@/assets/loading.svg" width="100" />
-    </div>
+    <loading-state message="Cargando el calendario, por favor espere" />
   </div>
 </b-container>
 </template>
 
 <script>
+import moment from 'moment'
+import PhasesIndex from '@/components/phases/phasesIndex.vue'
+import LoadingState from '@/components/LoadingState.vue'
 
 export default {
+  components: {
+    PhasesIndex,
+    LoadingState
+  },
   data () {
+    moment.locale('es')
     return {
       days: null,
-      syllabus_error: false,
-      demoEvents: [
-        {
-          date: '2020/06/12', // Required
-          title: 'Foo' // Required
-        }, {
-          date: '2020/06/15',
-          title: 'Bar',
-          desc: 'description',
-          customClass: 'disabled highlight' // Custom classes to an calendar cell
-        }
-      ]
+      http_error: false,
+      fethcedData: false,
+      student: {
+        free_day: null,
+        end_date: null,
+        test_date: null
+      },
+      phase: {
+        id: null,
+        progress: 0,
+        total: 0,
+        init_date_phase_2: null
+      },
+      daysDisabled: [0, 0, 0, 0, 0, 0, 0],
+      min_day: null,
+      max_day: null,
+      current_month: 0,
+      now: null,
+      reloadData: false
     }
-  },
-  async created () {
-    const now = new Date()
-    const actualDay = parseInt(now.getUTCDate())
-    const minDay = 1 - actualDay
-    const maxDay = 31 - actualDay
-    await this.fetchSyllabus(minDay, maxDay)
   },
   computed: {
     dayEvents () {
@@ -97,11 +91,18 @@ export default {
           }
           return false
         })
-        const actual = events.find(event => event.index === 0)
-        this.$EventCalendar.toDate(actual.date || '')
+        this.$EventCalendar.toDate(this.now.format('YYYY/MM/DD'))
       }
       return events
     }
+  },
+  async created () {
+    this.now = moment()
+    const actualDay = this.now.date()
+    this.min_day = 1 - actualDay
+    this.max_day = this.now.daysInMonth() - actualDay
+    await this.fetchInfo()
+    await this.fetchSyllabus(this.min_day, this.max_day)
   },
   methods: {
     fetchSyllabus (minDay, maxDay) {
@@ -109,7 +110,7 @@ export default {
         .post('/students/syllabus', {
           min_index: minDay,
           max_index: maxDay,
-          days_disabled: [0, 0, 0, 0, 0, 0, 0]
+          days_disabled: this.daysDisabled
         },
         {
           headers: {
@@ -118,12 +119,46 @@ export default {
           }
         })
         .then((response) => {
-          this.days = response.data.days
+          const data = response.data
+          this.days = data.days
+          this.phase.id = data.phase
+          this.phase.progress = data.progress
+          this.phase.total = data.total
+          this.phase.init_date_phase_2 = data.start_phase_two
+          this.fethcedData = true
         })
         .catch((error) => {
-          this.syllabus_error = true
+          this.http_error = true
           console.error(error)
         })
+    },
+    fetchInfo () {
+      return this.$axios
+        .get('/students/info', {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((response) => {
+          const data = response.data
+          this.student = data.student
+          this.daysDisabled[this.student.free_day] = 1
+        })
+    },
+    async handleMonthChanged (params) {
+      if (params.next) {
+        this.now.add(1, 'M')
+        this.min_day = this.max_day + 1
+        this.max_day = this.min_day + this.now.daysInMonth() - 1
+      } else if (params.prev) {
+        this.now.subtract(1, 'M')
+        this.max_day = this.min_day - 1
+        this.min_day = this.max_day - this.now.daysInMonth() + 1
+      }
+      this.reloadData = true
+      await this.fetchSyllabus(this.min_day, this.max_day)
+      this.reloadData = false
     }
   }
 }
