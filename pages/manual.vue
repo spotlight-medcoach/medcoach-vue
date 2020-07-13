@@ -173,9 +173,6 @@ export default {
   computed: {
     editor () {
       return this.$refs.noteQuillEditor.quill
-    },
-    flashBEditor () {
-      return this.$refs.flashBQuillEditor.quill
     }
   },
   methods: {
@@ -336,8 +333,8 @@ export default {
       } else {
         this.showFlashCards = true
         setTimeout(() => {
-          this.flashBEditor.clipboard.dangerouslyPasteHTML(this.html_selection)
-        }, 500)
+          this.$refs.flashBQuillEditor.quill.clipboard.dangerouslyPasteHTML(this.html_selection)
+        }, 700)
       }
     },
     selection2Html (selection) {
@@ -357,7 +354,7 @@ export default {
     },
     closeFlashcard () {
       this.flashA = ''
-      this.flashB = ''
+      this.flashB = '<p></p>'
       this.showFlashCards = false
     }
   }
@@ -629,11 +626,15 @@ export default {
   height: 20px !important;
   order: 1;
   width: 100%;
+  margin-bottom: 2px;
 }
 .editors .ql-editor {
   min-height: 20px !important;
   height: 20px !important;
   padding: 0px 15px !important;
+}
+.ql-editor p {
+  margin-top: 2px;
 }
 .editors .ql-toolbar {
   order: 2;

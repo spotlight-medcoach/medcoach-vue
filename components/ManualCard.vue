@@ -9,7 +9,7 @@
     <p><b>{{manual.manual_name}}</b></p>
     <p>{{manual.manual_subtopic_name}}</p>
     <div class="finished-icon" v-if="manual.finished">
-      <img src="@/assets/check.svg" width="25" height="25">
+      <img src="@/assets/orange_check.svg" width="25" height="25">
     </div>
   </div>
 </template>
