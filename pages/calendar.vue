@@ -91,7 +91,7 @@ export default {
           }
           return false
         })
-        this.$EventCalendar.toDate(this.now.format('YYYY/MM/DD'))
+        this.$EventCalendar.toDate(this.now.format('YYYY/M/DD'))
       }
       return events
     }

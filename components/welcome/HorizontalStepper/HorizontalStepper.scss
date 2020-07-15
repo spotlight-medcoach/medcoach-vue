@@ -83,6 +83,15 @@
         width: 90%;
       }
     }
+    .line-1 {
+      left: 16%;
+    }
+    .line-2 {
+      right: 16%;
+    }
+    .disabled {
+      opacity: 0.3;
+    }
     .steps-wrapper {
       display: flex;
       align-items: center;
@@ -110,12 +119,12 @@
           }
           .circle {
             i {
-              background-color: black !important;
+              background-color: #B4B4B4 !important;
             }
           }
           .step-title  {
-            color: black !important;
-            h4 {
+            color: #B4B4B4 !important;
+            h5 {
               color: inherit !important;
             }
           }

@@ -3,7 +3,7 @@
     <div v-if="isNotes === true" class="h-100">
       <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
         <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
-          <nuxt-link class="pointer" target="_blank" :to="`/manual?manual_id=${manual.id}`" v-if="manual.finished === false">
+          <nuxt-link class="pointer" target="_blank" :to="`/review?manual_id=${manual.id}`" v-if="manual.finished">
             {{manual.name}}
           </nuxt-link>
           <div style="opacity: 0.30" v-else>

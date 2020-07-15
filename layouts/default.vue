@@ -51,7 +51,18 @@ export default {
     font-family: Avenir;
     src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
   }
-
+  @font-face {
+    font-family: 'Helvetica Neue Light';
+    src: url('./../assets/fonts/helvetica-neue-light.ttf');
+  }
+  @font-face {
+    font-family: 'Helvetica Neue';
+    src: url('./../assets/fonts/HelveticaNeue.ttf');
+  }
+  @font-face {
+    font-family: Helvetica;
+    src: url('./../assets/fonts/Helvetica.ttf');
+  }
   html {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

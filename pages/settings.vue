@@ -1,9 +1,9 @@
 <template>
-  <div style="margin-top:100px">
+  <div style="margin-top:50px">
     <b-container style="margin-bottom: 400px;">
       <b-row >
         <!-- //Perfil y usuario -->
-        <b-col >
+        <b-col style="margin-bottom: 50px">
           <div align="left">
             <p class="title">Perfil</p>
             <b-row class="my-1">
@@ -57,7 +57,7 @@
             <b-container>
               <p class="title">Usuario</p>
               <label class="lblInfo">Fecha de examen</label>
-              <b-form-datepicker id="dateExam" v-model="userInfo.test_date" class="mb-2"></b-form-datepicker>
+              <b-form-datepicker id="dateExam" v-model="userInfo.test_date" class="mb-2" :disabled="true"></b-form-datepicker>
               <!-- <p>Value: '{{ userInfo.dateExam }}'</p> -->
               <label class="lblInfo">Dia de descanso</label>
               <b-form-select v-model="userInfo.free_day">
@@ -66,8 +66,17 @@
               <!--<span>Selected: {{ userInfo.free_day }}</span>-->
             </b-container>
           </b-card>
-          <b-row class="justify-content-md-center">
-            <b-button @click="isEmailValid" class="mt-3" variant="outline-primary">Guardar & Salir</b-button>
+          <b-row class="justify-content-md-center mt-3">
+            <b-overlay
+                    :show="saving"
+                    rounded
+                    opacity="0.6"
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block"
+                  >
+              <b-button @click="isEmailValid" variant="outline-primary">Guardar & Salir</b-button>
+            </b-overlay>
           </b-row>
         </b-col>
       </b-row>
@@ -103,6 +112,7 @@ export default {
   },
   data () {
     return {
+      saving: false,
       userInfo: {
         first_name: '',
         last_name: '',
@@ -160,6 +170,11 @@ export default {
     this.getSpecialitiesData()
     this.setLocalStorageValues()
   },
+  mounted () {
+    window.toastr.options = {
+      positionClass: 'toast-bottom-right'
+    }
+  },
   methods: {
     getUniversitiesData () {
       this.$axios
@@ -184,18 +199,6 @@ export default {
           console.log(err)
         })
     },
-    // getStudentData(){
-    //       this.$http.get("/students/info",{headers:{
-    //     "Authorization": `Bearer ${localStorage.getItem("usertoken")}`,
-    //   }}).then(res =>{
-    //       const getList = res.data.universities;
-    //       getList.forEach(element => {
-    //         this.universitiesList.push(element.name)
-    //       });
-    //       // console.log(res.data.universities)
-    //   }).catch(err=>console.log(err))
-    // },
-
     saveDataLS () {
       if (process.client) {
         localStorage.setItem('studentData', JSON.stringify(this.userInfo))
@@ -221,6 +224,7 @@ export default {
         speciality: this.userInfo.speciality
       }
       console.log('Data:', data)
+      this.saving = true
       this.$axios
         .put('/students/info', data, {
           headers: {
@@ -230,9 +234,14 @@ export default {
         })
         .then((res) => {
           console.log(res.data)
+          this.$toastr.success('Información guardada correctamente', '¡Éxito!')
         })
         .catch((err) => {
           console.log(err)
+          this.$toastr.error('Error al guardar la información', 'Error')
+        })
+        .finally(() => {
+          this.saving = false
         })
     },
 

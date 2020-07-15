@@ -301,6 +301,7 @@ export default {
           }
           &.event{
             cursor: pointer;
+            font-weight: 700;
           }
           &.selected-day{
             .is-event{

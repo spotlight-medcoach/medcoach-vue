@@ -60,8 +60,16 @@
                     v-for="(item,index) in day.data"
                     :key="index"
                     :manual="item"
+                    :today="day.index == 0"
                   >
                   </manual-card>
+                  <hr v-if="day.reviewed.length" style="border-color: black;" />
+                  <manual-card
+                    v-for="(item,index) in day.reviewed"
+                    :key="'reviewed' + index"
+                    :manual="item"
+                    :today="day.index == 0"
+                    :review="true"/>
                 </div>
               </div>
             </b-col>
@@ -108,43 +116,50 @@ export default {
           day: 'Lunes',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         },
         {
           day: 'Martes',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         },
         {
           day: 'Miercoles',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         },
         {
           day: 'Jueves',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         },
         {
           day: 'Viernes',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         },
         {
           day: 'Sabado',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         },
         {
           day: 'Domingo',
           number: null,
           index: null,
-          data: []
+          data: [],
+          reviewed: []
         }
       ],
       day: null,
@@ -209,6 +224,7 @@ export default {
           this.week.forEach((element, index) => {
             element.data = this.studentSyllabus[index].manuals
             element.index = this.studentSyllabus[index].index
+            element.reviewed = this.studentSyllabus[index].reviewed
           })
           const today = data.days.find(day => day.index === 0)
           if (!today.manuals.length && this.day !== this.student.free_day) {

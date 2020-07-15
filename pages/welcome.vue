@@ -16,7 +16,7 @@
 
 <script>
 import jwtDecode from 'jwt-decode'
-import HorizontalStepper from '@/components/HorizontalStepper'
+import HorizontalStepper from '@/components/welcome/HorizontalStepper/HorizontalStepper'
 import Welcome from '@/components/welcome/Welcome'
 import StudyPlans from '@/components/welcome/StudyPlans'
 import DiagnosticTest from '@/components/welcome/DiagnosticTest'
@@ -61,12 +61,12 @@ export default {
     const token = this.$route.query.token
     if (token !== undefined) {
       const decoded = jwtDecode(token)
-      console.log('Decoded:', decoded)
       if (process.client) {
         localStorage.setItem('studentData', JSON.stringify(decoded))
         localStorage.setItem('usertoken', token)
       }
     } else {
+      alert('No tiene token será redireccionado')
       this.$router.push({ path: '/' })
     }
   },

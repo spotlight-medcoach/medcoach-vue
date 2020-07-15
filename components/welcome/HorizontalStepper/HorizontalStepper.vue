@@ -1,7 +1,8 @@
 <template>
     <div class="stepper-box">
         <div class="top">
-            <div class="divider-line" :style="{width: `${(100/(steps.length) * (steps.length - 1))}%`}"></div>
+            <div class="divider-line line-1" :style="{width: `${(100/(steps.length))}%`}" :class="{'disabled': currentStep.index == 0}"></div>
+            <div class="divider-line line-2" :style="{width: `${(100/(steps.length))}%`}" :class="{'disabled': currentStep.index <= 1}"></div>
             <div class="steps-wrapper">
                 <template v-if="topButtons">
                     <div v-if="currentStep.index > 0" class="stepper-button-top previous" @click="backStep()">
@@ -11,8 +12,7 @@
                 <template v-for="(step, index) in steps">
                     <div :class="['step', isVisited(index, step)]" :key="index" :style="{width: `${100 / steps.length}%`}">
                         <div class="step-title">
-                            <h4>{{step.title}}</h4>
-                            <h5 class="step-subtitle">{{step.subtitle}}</h5>
+                            <h5>{{step.title}}</h5>
                         </div>
                         <div class="circle">
                             <i class="material-icons md-18">

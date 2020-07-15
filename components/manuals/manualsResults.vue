@@ -35,7 +35,7 @@ export default {
   props: {
     manuals: {
       type: Array,
-      required: true
+      default: () => { return [] }
     },
     isNotes: {
       type: Boolean,

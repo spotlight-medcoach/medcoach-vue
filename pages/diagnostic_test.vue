@@ -8,15 +8,15 @@
     </b-navbar-nav>
     <b-navbar-nav>
       <!-- BACK -->
-      <div class="mr-5 pointer" @click="backQuestion" :class="{'disabled': question_index === 0}">
+      <div class="mr-5 pointer text-center" @click="backQuestion" :class="{'disabled': question_index === 0}">
         <i class="fas fa-arrow-left fa-2x"></i>
-        <div> Back </div>
+        <div> Anterior </div>
       </div>
 
       <!-- NEXT -->
-      <div class="ml-5 pointer" @click="nextQuestion" :class="{'disabled': question_index === (questions.length - 1)}">
+      <div class="ml-5 pointer text-center" @click="nextQuestion" :class="{'disabled': question_index === (questions.length - 1)}">
         <i class="fas fa-arrow-right fa-2x"></i>
-        <div> Next </div>
+        <div> Siguiente </div>
       </div>
     </b-navbar-nav>
     <b-collapse id="nav-collapse" is-nav>
@@ -225,8 +225,8 @@ export default {
           }
         )
         .then((response) => {
-          this.$router.push({ path: '/dashboard' })
           localStorage.removeItem('diagnostic_test_answers')
+          this.$router.push({ path: '/dashboard' })
         })
         .catch((error) => {
           console.error(error)

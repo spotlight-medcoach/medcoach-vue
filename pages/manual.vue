@@ -9,7 +9,7 @@
       <b-navbar-nav class="ml-auto">
           <b-button @click="onChangeFontSize" size="sm" class="btnLetterChange mr-2" type="submit">A</b-button>
           <b-button :style="{'background-color':actualColorBtn}" @click="onchangeColorBg" size="sm" class="btnColorChange mr-2" type="submit"/>
-          <b-button size="sm" class="my-2 my-sm-0 finishManualBtn" type="submit" @click="finishManual" v-show="!showLoading">Finalizar Manual</b-button>
+          <b-button size="sm" class="my-2 my-sm-0 finishManualBtn" type="submit" @click="finishManual" v-show="!showLoading && !finished">Finalizar Manual</b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -25,7 +25,7 @@
     <b-row class="mt-3">
       <b-col cols="8">
         <div :style="`font-size:${fontSize}em; color: ${actualColorFont}`" id="content" oncopy="return false" oncut="return false" onpaste="return false">
-          <div @contextmenu.prevent.stop="handleClick($event, {selection: my_window.getSelection()})" v-html="manualHTML">
+          <div @contextmenu.prevent.stop="return true" @mouseup.prevent.stop="handleMouseUp($event, {selection: my_window.getSelection()})" v-html="manualHTML">
           </div>
           <div class="flashcards-edit">
             <transition name="slide-fade">
@@ -74,6 +74,18 @@
       </b-col>
       <b-col>
         <client-only>
+          <div class="save-note">
+            <b-overlay
+              :show="savingNotes"
+              rounded
+              opacity="0.6"
+              spinner-small
+              spinner-variant="primary"
+              class="d-inline-block"
+            >
+              <img src="@/assets/save.svg" width="30" @click="saveNote">
+            </b-overlay>
+          </div>
           <quill-editor
             ref="noteQuillEditor"
             v-model="content"
@@ -157,7 +169,9 @@ export default {
       message: 'Cargando manual, por favor espere',
       savingFlashcard: false,
       message_error: 'Ocurrió un error su petición',
-      error_http: false
+      error_http: false,
+      finished: true,
+      savingNotes: false
     }
   },
   async created () {
@@ -186,7 +200,8 @@ export default {
       this.saveNote()
       this.$axios
         .put('/students/syllabus', {
-          manual_id: this.manual_id
+          manual_id: this.manual_id,
+          review: true
         },
         {
           headers: {
@@ -213,6 +228,7 @@ export default {
         )
         .then((res) => {
           this.editor.clipboard.dangerouslyPasteHTML(res.data.note)
+          this.finished = res.data.finished
         }).catch((err) => {
           console.log(err)
         })
@@ -222,6 +238,7 @@ export default {
         manual_id: this.manual_id,
         body: this.content
       }
+      this.savingNotes = true
       this.$axios
         .post('/manuals/note', params,
           {
@@ -236,6 +253,10 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          this.$toastr.error('Hubo un problema al guardar su nota', 'Error')
+        })
+        .finally(() => {
+          this.savingNotes = false
         })
     },
     saveFlashcard () {
@@ -267,7 +288,7 @@ export default {
           this.closeFlashcard()
         })
         .catch((error) => {
-          alert('Error al guardar la flashcard')
+          this.$toastr.error('Error al guardar la flashcard', 'Error')
           console.error(error)
         })
         .finally(() => {
@@ -317,15 +338,50 @@ export default {
     },
     onEditorBlur (event) {
       this.cursor_index = event.selection.savedRange.index
-      this.saveNote()
+      this.cursor_index = event.getLength()
+      // this.saveNote()
     },
     copyText () {
       this.editor.clipboard.dangerouslyPasteHTML(this.cursor_index, this.html_selection)
     },
-    handleClick (event, item) {
+    handleMouseUp (event, item) {
+      console.log('event', event)
+      console.log('item', item)
       this.selection = item.selection.toString().trim()
       this.html_selection = this.selection2Html(item.selection)
-      this.$refs.vueContextMenu.showMenu(event, item)
+      if (this.html_selection !== '') {
+        setTimeout(() => {
+          this.showMenu(event, item)
+        }, 250)
+      }
+      this.html_selection += '<p><br></p>'
+    },
+    showMenu (event, item) {
+      const vueContextMenu = this.$refs.vueContextMenu
+      vueContextMenu.item = item
+      const menu = document.getElementById(vueContextMenu.elementId)
+      if (!menu) {
+        alert('No hay elemento')
+        return
+      }
+      if (!vueContextMenu.menuWidth || !vueContextMenu.menuHeight) {
+        menu.style.visibility = 'hidden'
+        menu.style.display = 'block'
+        vueContextMenu.menuWidth = menu.offsetWidth
+        vueContextMenu.menuHeight = menu.offsetHeight
+        menu.removeAttribute('style')
+      }
+      if ((vueContextMenu.menuWidth + event.pageX) >= window.innerWidth) {
+        menu.style.left = (event.pageX - vueContextMenu.menuWidth + 2) + 'px'
+      } else {
+        menu.style.left = (event.pageX - 2) + 'px'
+      }
+      if ((vueContextMenu.menuHeight + event.pageY) >= window.innerHeight) {
+        menu.style.top = (event.pageY - vueContextMenu.menuHeight + 2) + 'px'
+      } else {
+        menu.style.top = (event.pageY - 2) + 'px'
+      }
+      menu.classList.add('vue-simple-context-menu--active')
     },
     optionClicked (event) {
       if (event.option.id === 1) {
@@ -334,7 +390,7 @@ export default {
         this.showFlashCards = true
         setTimeout(() => {
           this.$refs.flashBQuillEditor.quill.clipboard.dangerouslyPasteHTML(this.html_selection)
-        }, 700)
+        }, 500)
       }
     },
     selection2Html (selection) {
@@ -344,7 +400,7 @@ export default {
         for (let i = 0, len = selection.rangeCount; i < len; ++i) {
           container.appendChild(selection.getRangeAt(i).cloneContents())
         }
-        html = container.innerHTML + '<p><br></p>'
+        html = container.innerHTML
       }
       console.log('html', html)
       return html
@@ -583,8 +639,17 @@ export default {
   width: 97%;
   margin: auto;
 }
+.trigger img {
+  opacity: 0.5;
+}
+.trigger img:hover {
+  opacity: 1;
+  border: none !important;
+}
 .editors {
-  height: 90px;
+  min-height: 90px;
+  max-height: 165px;
+  height: auto;
   width: 97%;
   background-color: white;
   border-radius: 16px;
@@ -607,14 +672,16 @@ export default {
 .flashB {
 }
 .division {
-  height: 48%;
+  height: auto;
+  margin-bottom: 14px;
   border: thin solid black;
 }
 .editors .quill-editor {
   border-radius: 0px;
   box-shadow: none;
   background-color: white;
-  height: 60px;
+  height: auto;
+  max-height: 133px;
   min-height: 60px;
   margin-top: 3px;
   width: 49%;
@@ -623,15 +690,19 @@ export default {
   align-content: center;
 }
 .editors .ql-container {
-  height: 20px !important;
+  min-height: 20px !important;
+  max-height: 100px !important;
+  height: auto;
   order: 1;
   width: 100%;
   margin-bottom: 2px;
 }
 .editors .ql-editor {
   min-height: 20px !important;
-  height: 20px !important;
+  max-height: 100px !important;
+  height: auto;
   padding: 0px 15px !important;
+  width: 96%;
 }
 .ql-editor p {
   margin-top: 2px;
@@ -657,5 +728,11 @@ export default {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(150px);
   opacity: 0;
+}
+.save-note {
+  position: absolute;
+  left: 42px;
+  top: 7px;
+  cursor: pointer;
 }
 </style>
