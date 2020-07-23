@@ -70,7 +70,7 @@
           <div class="title-question mt-5">
             <span class="font-weight-bold">Pregunta {{ question_index + 1 }}</span>
           </div>
-          <div class="mt-5" v-html="question.id.question.html"></div>
+          <div class="mt-5 text-justify" v-html="question.id.question.html"></div>
           <div>
             <b-form-group label="">
               <b-form-radio
