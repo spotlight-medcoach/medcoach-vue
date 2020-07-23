@@ -5,7 +5,7 @@ Vue.component('landingheader', {
     <b-navbar toggleable="lg" type="white" variant="white" fixed="top" class="bottomBorder">
     <b-navbar-brand href="#" class="col-lg-1">
       <router-link to="/">
-        <img src="@/assets/Medcoach_logo.svg" id="logo" align="left">
+        <img src="@/assets/images/logo.svg" id="logo" align="left">
       </router-link>
     </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

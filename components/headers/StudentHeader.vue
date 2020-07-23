@@ -7,7 +7,7 @@
           class="bottomBorder">
   <b-navbar-brand href="#" class="mr-5">
     <router-link to="/">
-      <img src="@/assets/Medcoach_logo.svg" id="logo" align="left">
+      <img src="@/assets/images/logo.svg" id="logo" align="left">
     </router-link>
   </b-navbar-brand>
   <!-- HOME  -->

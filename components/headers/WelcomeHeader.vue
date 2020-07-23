@@ -8,7 +8,7 @@
             v-if="$route.name === 'welcome'">
     <b-navbar-brand href="#" class="col-lg-1">
       <nuxt-link to="/">
-        <img src="@/assets/Medcoach_logo.svg" id="logo" align="left">
+        <img src="@/assets/images/logo.svg" id="logo" align="left">
       </nuxt-link>
     </b-navbar-brand>
   </b-navbar>
