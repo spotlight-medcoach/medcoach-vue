@@ -63,7 +63,7 @@
                     :today="day.index == 0"
                   >
                   </manual-card>
-                  <hr v-if="day.reviewed.length" style="border-color: black;" />
+                  <hr v-if="day.reviewed && day.reviewed.length" style="border-color: black;" />
                   <manual-card
                     v-for="(item,index) in day.reviewed"
                     :key="'reviewed' + index"
