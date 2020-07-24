@@ -1,10 +1,12 @@
 <template>
-<div>
-  <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
-    {{ message }}
-  </div>
-  <div class="mt-5 d-flex justify-content-around">
-    <img src="@/assets/loading.svg" width="100" />
+<div class="d-flex align-items-center justify-content-center" :style="{'height': height}">
+  <div>
+    <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
+      {{ message }}
+    </div>
+    <div class="mt-5 d-flex justify-content-around">
+      <img src="@/assets/icons/loading.svg" width="100" />
+    </div>
   </div>
 </div>
 </template>
@@ -15,6 +17,10 @@ export default {
     message: {
       type: String,
       default: 'Espere un momento por favor'
+    },
+    height: {
+      type: String,
+      default: '85vh'
     }
   }
 }

@@ -1,0 +1,250 @@
+#manual {
+  .navbarBg{
+    border-bottom: 1px solid black;
+  }
+  .finishManualBtn{
+    width:350px;
+    height:35px;
+    background-color: #20B000;
+    border: none;
+    border-radius: 10px;
+  }
+  .btnColorChange{
+    height:50px;
+    width: 50px;
+    border-radius: 50%;
+    border:3px solid #5F5F5F;
+  }
+  .btnLetterChange{
+    height:50px;
+    width: 50px;
+    background-color: #5F5F5F;
+    border-radius: 50%;
+    font-size: 25px;
+  }
+  .my-sm-0 {
+    margin-top: 6px !important;
+  }
+  #content {
+    text-align: initial;
+    overflow-y:scroll;
+    height: 85vh;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  .flashcards-edit img {
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 50px;
+  }
+  .flashcards-edit img:hover {
+    /* opacity: 0.7; */
+    border: 3px solid darkorange;
+  }
+  .dark {
+    color: #FFFFFF!important;
+  }
+  .light {
+    color: #000000;
+  }
+  .textBoxDark {
+    background-color: #487a94!important;
+  }
+  ::selection
+  {
+      background:rgba(254, 148, 0, 0.15);
+  }
+  ::-moz-selection{
+      background: rgba(254, 148, 0, 0.15);
+  }
+  #tooltip {
+    position:absolute;
+    display:none;
+    border:grey solid 1px;
+    background:white;
+  }
+  #cal1{
+      position:absolute;
+      height:0px;
+      width:0px;
+      top:100px;
+      left:100px;
+      overflow:none;
+      z-index:-100;
+  }
+  #cal2{
+      position:absolute;
+      height:0px;
+      width:0px;
+      top:0px;
+      left:0px;
+      overflow:none;
+      z-index:-100;
+  }
+  #button_copy{
+    color: #4A4A4A;
+    border:none;
+    background-color: #FFFFFF;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    font-family: Montserrat;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  #button_flashcard{
+    color: #4A4A4A;
+    border:none;
+    background-color: #FFFFFF;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    font-family: Montserrat;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  #contextMenu{
+    position:absolute;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    background: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    border-radius: 20px;
+    border-width: 100%;
+    width: 255px;
+    height: 40px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  .vue-simple-context-menu--active {
+    display: flex;
+  }
+  .note-option{
+    margin-top: 0px !important;
+    border-radius: 20px;
+  }
+  .flashcard-option{
+    margin-bottom: 0px !important;
+    border-radius: 20px;
+    margin-left: 0.6rem !important;
+  }
+  .divTableCell1{
+    border-right: 1px solid #EAEAEA;
+    display: table-cell;
+    padding: 3px 10px;
+  }
+  .divTableBody {
+    display: table-row-group;
+    position: absolute;
+    top: 18%;
+  }
+  .flashcards-edit {
+    position: sticky;
+    bottom: 2px;
+    width: 100%
+  }
+  .trigger {
+    text-align: center;
+    width: 97%;
+    margin: auto;
+  }
+  .trigger img {
+    opacity: 0.5;
+  }
+  .trigger img:hover {
+    opacity: 1;
+    border: none !important;
+  }
+  .editors {
+    min-height: 90px;
+    max-height: 165px;
+    height: auto;
+    width: 97%;
+    background-color: white;
+    border-radius: 16px;
+    margin: 0px auto 10px auto;
+    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
+  }
+  .labels-editors {
+    font-size: 13px;
+    padding: 7px 15px 0px 15px;
+    font-weight: bold;
+  }
+  .content-editors {
+    height: inherit;
+    width: 100%;
+  }
+  .flashA {
+    width: 49%;
+    margin-left: 1%;
+  }
+  .division {
+    height: auto;
+    margin-bottom: 14px;
+    border: thin solid black;
+  }
+  .editors .quill-editor {
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: white;
+    height: auto;
+    max-height: 133px;
+    min-height: 60px;
+    margin-top: 3px;
+    width: 49%;
+    display: flex;
+    flex-wrap: wrap !important;
+    align-content: center;
+  }
+  .editors .ql-container {
+    min-height: 20px !important;
+    max-height: 100px !important;
+    height: auto;
+    order: 1;
+    width: 100%;
+    margin-bottom: 2px;
+  }
+  .editors .ql-editor {
+    min-height: 20px !important;
+    max-height: 100px !important;
+    height: auto;
+    padding: 0px 15px !important;
+    width: 96%;
+  }
+  .editors .ql-toolbar {
+    order: 2;
+    border-bottom: none !important;
+    border-top: 1px solid #000 !important;
+    width: 100%;
+    padding: 0px 8px !important;
+  }
+  .ql-toolbar {
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    display: flex !important;
+    margin-top: -6px;
+  }
+  .ql-snow .ql-icon-picker .ql-picker-item {
+    padding: 2px 0px !important;
+  }
+  .slide-fade-enter-active {
+    transition: all .8s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s ease;
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+    transform: translateY(150px);
+    opacity: 0;
+  }
+  .save-note {
+    position: absolute;
+    left: 42px;
+    top: 7px;
+    cursor: pointer;
+  }
+}

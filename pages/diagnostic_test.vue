@@ -48,9 +48,9 @@
           </div>
           <div class="flag d-flex align-items-center" @click="toggleFlag(index)">
             <div v-show="quest.flag">
-              <img src="@/assets/orange_flag.svg" alt="" v-if="themeColor === 'light'">
-              <img src="@/assets/flag.svg" alt="" v-else-if="themeColor === 'sepia' || question_index === index">
-              <img src="@/assets/black_flag.svg" alt="" v-else>
+              <img src="@/assets/icons/orange_flag.svg" alt="" v-if="themeColor === 'light'">
+              <img src="@/assets/icons/flag.svg" alt="" v-else-if="themeColor === 'sepia' || question_index === index">
+              <img src="@/assets/icons/black_flag.svg" alt="" v-else>
             </div>
           </div>
         </div>
@@ -58,13 +58,8 @@
       </b-col>
       <!-- CONTENIDO DE LA PREGUNTA -->
       <b-col cols="11" class="scroll" id="question" ref="question">
-        <div class="pt-5" style="height: 100%;" v-if="sending_questions">
-          <div class="mt-5 d-flex justify-content-around" style="font-size: 32px;">
-            Enviando preguntas, por favor espere
-          </div>
-          <div class="mt-5 d-flex justify-content-around">
-            <img src="@/assets/loading.svg" width="100" />
-          </div>
+        <div v-if="sending_questions">
+          <loading-state message="Enviando preguntas, por favor espere" />
         </div>
         <div v-else-if="question">
           <div class="title-question mt-5">
@@ -91,13 +86,8 @@
         <div class="mt-5" style="font-size: 32px;" v-else-if="error_request">
           {{ message_error }}
         </div>
-        <div class="pt-5" style="height: 100%;" v-else>
-          <div class="mt-5 d-flex justify-content-around" style="font-size: 32px;">
-            Cargando preguntas, por favor espere
-          </div>
-          <div class="mt-5 d-flex justify-content-around">
-            <img src="@/assets/loading.svg" width="100" />
-          </div>
+        <div v-else>
+          <loading-state message="Cargando preguntas, por favor espere" />
         </div>
       </b-col>
     </b-row>
@@ -107,7 +97,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import LoadingState from '@/components/LoadingState.vue'
 export default {
+  components: {
+    LoadingState
+  },
   data () {
     return {
       questions: [],
@@ -239,126 +233,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  #diagnostic_test{
-    font-family: 'Montserrat', sans-serif;
-  }
-  .navbarBg{
-    border-bottom: 1px solid black;
-  }
-  .finishManualBtn{
-      width:350px;
-      height:35px;
-      background-color: #20B000;
-      border: none;
-      border-radius: 10px;
-  }
-  .btnColorChange{
-      height:50px;
-      width: 50px;
-      border-radius: 50%;
-      border:3px solid #5F5F5F;
-  }
-  .btnLetterChange{
-      height:50px;
-      width: 50px;
-      background-color: #5F5F5F;
-      border-radius: 50%;
-      font-size: 25px;
-  }
-  #container{
-    max-width: 100vw !important;
-    padding: 0px;
-    height: calc(100vh - 50px - 1rem - 10px) !important; /* 50px => btnColor, 1rem=>padding nav, 1px => extra */
-  }
-  #question{
-    padding-right: 8.333%;
-    padding-left: 8.333%
-  }
-  #question .custom-radio .custom-control-input:checked~.custom-control-label::after {
-    background-color: darkorange;  /* orange */
-    border-width: 2px;
-    border-radius: 50%;
-  }
-  .scroll{
-    overflow-y: scroll;
-    height: 100%;
-  }
-  .center{
-    margin-right: auto;
-    margin-left: auto;
-  }
-  .disabled{
-    cursor: auto !important;
-    opacity: 30%;
-  }
-  .darkorange{
-    color: darkorange;
-    font-weight: bold;
-  }
-  .title-question{
-    border-left: thin solid darkorange;
-    font-size: 1.5rem !important;
-    padding: 0.2em 0.5em;
-  }
-  .radio{
-    border: 3px solid;
-    border-radius: 50px;
-    width: 15px;
-    height: 15px;
-  }
-  .quest-rd{
-    height: 3rem;
-    border-bottom: 2px solid;
-  }
-  .light #questions{
-    background-color: #F0F0F0;
-    color: darkorange;
-    font-weight: bold;
-  }
-  .sepia #questions{
-    background-color: #FCEAD2;
-    color: #4A4A4A;
-  }
-  .dark #questions{
-    background-color: #4A4A4A;
-    color: black;
-  }
-  .light .quest-rd{
-    border-color: white;
-  }
-  .sepia .quest-rd{
-    border-color: white;
-  }
-  .dark .quest-rd{
-    border-color: black;
-  }
-  .light #questions .selected-quest{
-    background-color: white;
-  }
-  .sepia #questions .selected-quest{
-    background-color: #FDF1E1;
-  }
-  .dark #questions .selected-quest{
-    background-color: black;
-    color: white;
-    border-color: black;
-  }
-  .selected-quest .radio{
-    background-color: darkorange;
-  }
-  .dark .selected-quest .radio{
-    border-color: darkorange;
-  }
-  .fill-circle{
-    background-color: darkorange;
-  }
-  .dark .fill-circle{
-    border-color: darkorange;
-  }
-  .flag{
-    height: 100%;
-    width: 25px;
-  }
-</style>

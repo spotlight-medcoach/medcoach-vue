@@ -14,7 +14,7 @@
                 <div>{{ manual.manual_subtopic_name }}</div>
               </div>
               <div class="pr-2">
-                <img src="@/assets/orange_check.svg" width="33">
+                <img src="@/assets/icons/orange_check.svg" width="33">
               </div>
             </div>
             <div class="item-card" v-else>
@@ -163,10 +163,3 @@ export default {
   }
 }
 </script>
-<style>
-@media screen and (min-width: 1600px) {
-  .container {
-    max-width: 1400px !important;
-  }
-}
-</style>

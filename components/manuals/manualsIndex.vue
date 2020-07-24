@@ -167,11 +167,6 @@ export default {
     box-shadow: 0 0 8px black;
     border-radius: 20px;
   }
-  @media (min-width: 1200px) {
-    .container {
-      max-width: 97vw !important;
-    }
-  }
   #search-input{
     border-radius: 12px;
   }

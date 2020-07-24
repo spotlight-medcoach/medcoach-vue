@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="dashboard">
     <b-overlay :show="show" class="main-container-dashboard mt-5">
       <div class="about" align="center">
         <h6>"I put my heart and my soul into my work, and have lost my mind in the process"</h6>
@@ -9,13 +9,8 @@
         <phases-index :student="student" :phase="phase" />
       </div>
       <b-container>
-        <div class="pb-5" v-if="load">
-          <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
-            {{ message_load }}
-          </div>
-          <div class="mt-5 d-flex justify-content-around">
-            <img src="@/assets/loading.svg" width="100" />
-          </div>
+        <div class="w-100" v-if="load">
+          <loading-state :message="message_load" height="60vh" />
         </div>
         <div class="pb-5" v-else-if="second_stage">
           <div class="mt-5 d-flex justify-content-around">
@@ -84,11 +79,13 @@ import moment from 'moment'
 import { mapState } from 'vuex'
 import ManualCard from '../components/ManualCard'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
+import LoadingState from '@/components/LoadingState.vue'
 
 export default {
   components: {
     ManualCard,
-    PhasesIndex
+    PhasesIndex,
+    LoadingState
   },
   data () {
     moment.locale('es')
@@ -215,6 +212,7 @@ export default {
         })
         .then((res) => {
           const data = res.data
+          this.$store.commit('changePhase', data.phase)
           this.phase.id = data.phase
           this.phase.progress = data.progress
           this.phase.total = data.total
@@ -306,22 +304,3 @@ export default {
   }
 }
 </script>
-<style>
-.bottomBorder{
-  border-bottom:1px solid;
-}
-@media (min-width: 1200px) {
-  .container {
-    max-width: 97vw !important;
-  }
-}
-
-.day {
-  width: 14%!important;
-}
-
-.today {
-  color: #FC9326;
-  font-weight: 900;
-}
-</style>

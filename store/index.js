@@ -11,7 +11,11 @@ export const state = () => ({
   themeColorIndex: 0,
   themeColor: 'light',
   rest_days: null,
-  phase_3_days: 40
+  phase_3_days: 40,
+  phase: 1,
+  onHttpRequest: false,
+  message: 'Espere un momento, por favor',
+  errorHttp: false
 })
 
 export const mutations = {
@@ -47,6 +51,18 @@ export const mutations = {
   },
   setRestDays (state, days) {
     state.rest_days = days
+  },
+  changePhase (state, phase) {
+    state.phase = phase
+  },
+  setMessage (state, message) {
+    state.message = message
+  },
+  setErrorHttp (state, flag) {
+    state.errorHttp = flag
+  },
+  setOnHttpRequest (state, flag) {
+    state.onHttpRequest = flag
   }
 }
 
@@ -54,5 +70,20 @@ export const actions = {
   changeThemeColor ({ commit }) {
     commit('setThemeColor')
     commit('changeColorBg')
+  },
+  init ({ commit }) {
+    commit('setOnHttpRequest', true)
+    commit('setErrorHttp', false)
+    commit('setMessage', 'Espere un momento, por favor')
+  },
+  initHttpRequest ({ commit }, message) {
+    commit('setOnHttpRequest', true)
+    commit('setErrorHttp', false)
+    commit('setMessage', message)
+  },
+  errorHttp ({ commit }, message) {
+    commit('setOnHttpRequest', false)
+    commit('setErrorHttp', true)
+    commit('setMessage', message)
   }
 }

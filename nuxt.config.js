@@ -31,7 +31,17 @@ export default {
     // ...
     'quill/dist/quill.core.css',
     // for snow theme
-    'quill/dist/quill.snow.css'
+    'quill/dist/quill.snow.css',
+    // main css
+    '@assets/css/main.css',
+    // dashboard css
+    '@assets/css/dashboard.scss',
+    // settings css
+    '@assets/css/settings.scss',
+    // diagnostic_test css
+    '@assets/css/diagnostic_test.scss',
+    // manual css
+    '@assets/css/manual.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -40,7 +50,8 @@ export default {
     { src: '~plugins/nuxt-quill-plugin', ssr: false },
     { src: '~plugins/vue-event-calendar-plugin', ssr:false },
     { src: '~plugins/vue-simple-context-menu-plugin', ssr:false },
-    { src: '~plugins/vue-toastr-plugin' }
+    { src: '~plugins/vue-toastr-plugin', ssr:false },
+    { src: '~plugins/vue-html-to-paper-plugin', ssr:false }
   ],
   /*
   ** Nuxt.js dev-modules

@@ -4,17 +4,18 @@
     <div v-if="onHttpRequest">
       <loading-state :message="message" />
     </div>
-    <div v-else-if="error_http">
+    <div v-else-if="errorHttp">
       <p>{{ message }}</p>
     </div>
     <div v-else>
-      <notes-review :notes="notes" :manual_id="manual_id" :flashcards="flashcards"/>
+      <notes-review :notes="notes" :manual_id="manual_id" :flashcards="flashcards" :review="review"/>
     </div>
   </b-container>
 </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
 import NotesReview from '@/components/review/Notes.vue'
 export default {
@@ -25,17 +26,19 @@ export default {
   data () {
     return {
       manual_id: this.$route.query.manual_id,
-      error_http: false,
-      message: 'Cargando notas, por favor espere',
-      onHttpRequest: true,
+      review: this.$route.query.review === 'true',
       flashcards: [],
       notes: ''
     }
   },
   async created () {
+    this.$store.dispatch('init')
     await this.getManualNote(this.manual_id)
     await this.getFlashcards(this.manual_id)
-    this.onHttpRequest = false
+    this.$store.commit('setOnHttpRequest', false)
+  },
+  computed: {
+    ...mapState(['onHttpRequest', 'message', 'errorHttp'])
   },
   methods: {
     getManualNote (manualId) {
@@ -77,3 +80,9 @@ export default {
   }
 }
 </script>
+<style>
+  #review .ql-toolbar {
+    display: flex !important;
+    justify-content: center !important;
+  }
+</style>

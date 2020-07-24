@@ -1,12 +1,9 @@
 <template>
   <div class="content">
-    <div class="row" v-if="loading">
-      <div class="col-sm-12 mt-5 mb-5 text-center">
-        <b class="mb-2">Cargando planes de estudio</b><br>
-        <img src="@/assets/loading.svg" width="40" />
-      </div>
+    <div class="w-100 mb-5" v-if="loading">
+      <loading-state message="Cargando planes de estudio" />
     </div>
-    <div class="row">
+    <div class="row" v-else>
       <div class="col-sm-4" v-for="(plan, index) in study_plans" :key="plan._id">
         <b-card
             :id="plan._id"
@@ -27,9 +24,11 @@
 </template>
 
 <script>
+import LoadingState from '@/components/LoadingState.vue'
 export default {
   name: 'study_plans',
   components: {
+    LoadingState
   },
   data () {
     return {

@@ -15,7 +15,7 @@
         <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
           <div>
             <b class="mb-2">Cargando manuales</b>
-            <div><img src="@/assets/loading.svg" width="40" /></div>
+            <div><img src="@/assets/icons/loading.svg" width="40" /></div>
           </div>
         </div>
       </div>
@@ -38,7 +38,14 @@
         <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
           <div>
             <b class="mb-2">Cargando manuales</b>
-            <div><img src="@/assets/loading.svg" width="40" /></div>
+            <div><img src="@/assets/icons/loading.svg" width="40" /></div>
+          </div>
+        </div>
+      </div>
+      <div class="row h-100" v-else>
+        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+          <div>
+            <b class="mb-2">No hay manuales</b>
           </div>
         </div>
       </div>
@@ -103,9 +110,10 @@ export default {
   width: auto;
   overflow-x: scroll;
 }
-
+.manuals-list::-webkit-scrollbar{
+  height: 10px;
+}
 a{
   color: black;
 }
-
 </style>

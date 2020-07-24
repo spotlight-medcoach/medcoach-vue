@@ -2,14 +2,11 @@
   <div class="content mt-0">
     <div class="row" v-if="test_error">
       <div class="col-sm-12 mt-5 mb-5 text-center">
-        <h3 class="mb-2" style="font-weight: bold">Lo sentimos. No se pudo crear su examen</h3>
+        <h3 class="mb-2" style="font-weight: bold">Lo sentimos. No se pudo crear su examen.</h3>
       </div>
     </div>
-    <div class="row" v-else-if="loading">
-      <div class="col-sm-12 mt-5 mb-5 text-center">
-        <b class="mb-2">Preparando examen</b><br>
-        <img src="@/assets/loading.svg" width="40" />
-      </div>
+    <div class="w-100 mb-5" v-else-if="loading">
+      <loading-state message="Preparando examen" />
     </div>
     <div class="row justify-content-around" v-else>
       <div class="col-sm-5">
@@ -35,17 +32,17 @@
 </template>
 
 <script>
+import LoadingState from '@/components/LoadingState.vue'
 export default {
   name: 'DiagnosticTest',
+  components: {
+    LoadingState
+  },
   data () {
     return {
       loading: false,
       test_error: false
     }
-  },
-  created () {
-  },
-  mounted () {
   },
   methods: {
     // Executed when @stepper-finished event is triggered

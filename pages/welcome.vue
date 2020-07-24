@@ -95,7 +95,7 @@ export default {
 </script>
 <style>
 .mt-10 {
-    margin-top: 8rem !important;
+  margin-top: 8rem !important;
 }
 .content{
   margin: 150px;
@@ -104,10 +104,9 @@ export default {
   line-height: 2em;
 }
 .btn-primary {
-    background-color: #FC9326;
-    border-color: #FC9326;
+  background-color: #FC9326;
+  border-color: #FC9326;
 }
-
 .btn-primary:hover {
     background-color: #fc8200;
     border-color: #fc8200;
@@ -116,6 +115,6 @@ export default {
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.12), 0 0px 0px rgba(0, 0, 0, 0.24) !important;
 }
 .divider-line {
-    top: 36px;
+  top: 36px;
 }
 </style>

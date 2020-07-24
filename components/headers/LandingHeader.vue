@@ -3,10 +3,8 @@ Vue.component('landingheader', {
   <div>
     <div class="maincontainer"></div>
     <b-navbar toggleable="lg" type="white" variant="white" fixed="top" class="bottomBorder">
-    <b-navbar-brand href="#" class="col-lg-1">
-      <router-link to="/">
-        <img src="@/assets/images/logo.svg" id="logo" align="left">
-      </router-link>
+    <b-navbar-brand class="col-lg-1">
+      <img src="@/assets/images/logo.svg" id="logo" align="left">
     </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
@@ -18,12 +16,12 @@ Vue.component('landingheader', {
         </b-nav-item>
 
         <b-nav-item href="https://app.spotlightmed.com/version-test/welcome_payment" class="mr-3">
-          <img src="@/assets/cart.svg" width="35" height="35">
+          <img src="@/assets/icons/cart.svg" width="35" height="35">
         </b-nav-item>
 
         <b-nav-item-dropdown class="landing-item">
           <template v-slot:button-content>
-            <img src="@/assets/login.svg" width="35" height="35">
+            <img src="@/assets/icons/login.svg" width="35" height="35">
           </template>
           <div class="login-form">
             <div class="control-input d-flex">

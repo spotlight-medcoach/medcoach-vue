@@ -28,9 +28,6 @@ export default {
 </script>
 
 <style>
-  body, html {
-    height: 100%;
-  }
   .bg {
     background-image: url("https://spotlightmed.s3-us-west-2.amazonaws.com/assets/background.png");
     /* Full height */

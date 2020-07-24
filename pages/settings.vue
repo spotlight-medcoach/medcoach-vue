@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:50px">
+  <div id="settings" style="margin-top:50px">
     <b-container style="margin-bottom: 400px;">
       <b-row >
         <!-- //Perfil y usuario -->
@@ -274,26 +274,3 @@ export default {
   }
 }
 </script>
-<style>
-.title{
-  font-size:30px;
-  border-bottom:1px solid;
-}
-.inputForm{
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  border-radius: 0;
-}
-
-.lblInfo{
-  display: flex;
-  text-align: start;
-}
-.boxInfo{
-  border: solid 2px black;
-  border-radius: 10px;
-  -webkit-box-shadow: 0 0 5px black;
-        box-shadow: 0 0 5px black;
-}
-</style>

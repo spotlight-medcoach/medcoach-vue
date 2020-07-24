@@ -2,7 +2,7 @@
 <div :style="{'background-color':actualColorBg}" id="manual">
   <!-- NAVBAR -->
   <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="/dashboard"><img src="@/assets/home_logo_off.svg" width="50" height="50"/></b-navbar-brand>
+    <b-navbar-brand href="/dashboard"><img src="@/assets/icons/home_logo_off.svg" width="50" height="50"/></b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
@@ -39,9 +39,9 @@
                     spinner-variant="primary"
                     class="d-inline-block"
                   >
-                    <img src="@/assets/save.svg" width="35" @click="saveFlashcard">
+                    <img src="@/assets/icons/save.svg" width="35" @click="saveFlashcard">
                   </b-overlay>
-                  <img src="@/assets/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
+                  <img src="@/assets/icons/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
                 </div>
                 <div class="editors">
                   <div class="labels-editors d-flex justify-content-between">
@@ -67,7 +67,7 @@
               </div>
             </transition>
             <div class="trigger" @click="showFlashCards = !showFlashCards">
-              <img src="@/assets/flashcard_trigger.svg" height="50px">
+              <img src="@/assets/icons/flashcard_trigger.svg" height="50px">
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@
               spinner-variant="primary"
               class="d-inline-block"
             >
-              <img src="@/assets/save.svg" width="30" @click="saveNote">
+              <img src="@/assets/icons/save.svg" width="30" @click="saveNote">
             </b-overlay>
           </div>
           <quill-editor
@@ -200,8 +200,7 @@ export default {
       this.saveNote()
       this.$axios
         .put('/students/syllabus', {
-          manual_id: this.manual_id,
-          review: true
+          manual_id: this.manual_id
         },
         {
           headers: {
@@ -249,6 +248,7 @@ export default {
           }
         )
         .then((response) => {
+          this.$toastr.success('Su nota se ha acualizado correctamente', '¡Éxito!')
           console.log(response)
         })
         .catch((error) => {
@@ -416,323 +416,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.navbarBg{
-    border-bottom: 1px solid black;
-}
-.finishManualBtn{
-    width:350px;
-    height:35px;
-    background-color: #20B000;
-    border: none;
-    border-radius: 10px;
-}
-.btnColorChange{
-    height:50px;
-    width: 50px;
-    border-radius: 50%;
-    border:3px solid #5F5F5F;
-}
-.btnLetterChange{
-    height:50px;
-    width: 50px;
-    background-color: #5F5F5F;
-    border-radius: 50%;
-    font-size: 25px;
-}
-
-.my-sm-0 {
-  margin-top: 6px !important;
-}
-
-@media print {
-    html, body {
-       display: none;  /* hide whole page */
-    }
-}
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #FD9326;
-  border-radius: 10px;
-}
-
-#content {
-  text-align: initial;
-  overflow-y:scroll;
-  height: 85vh;
-  overflow-x: hidden;
-  width: 100%;
-}
-#content img {
-  cursor: pointer;
-  background-color: transparent;
-  border-radius: 50px;
-}
-#content img:hover {
-  /* opacity: 0.7; */
-  border: 3px solid darkorange;
-}
-.dark {
-  color: #FFFFFF!important;
-}
-.light {
-  color: #000000;
-}
-.textBoxDark {
-  background-color: #487a94!important;
-}
-.quill-editor {
-  background-color: #FCFCFC;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-  min-height: 85vh;
-  border-radius: 8px;
-}
-.ql-editor {
-  min-height: 80vh;
-}
-.ql-toolbar {
-   border-top: none!important;
-   border-left: none!important;
-   border-right: none!important;
-   border-bottom: 1px solid #000!important;
-   margin-left: 24px;
-   margin-right: 24px;
-}
-.ql-formats {
-   margin-right: 0px!important;
-}
-.ql-container {
-   border: none!important;
-   margin-left: 10px!important;
-   margin-right: 10px!important;
-}
-.Popup .ql-toolbar {
-   position: absolute;
-   bottom: 0;
-   border-bottom: 0!important;
-   border-top: 1px solid #000!important;
-   opacity: 0;
-   transition: all ease 0.8s;
-   width: 87%!important;
-}
-.o-hide {
-  opacity: 1!important;
-}
-.Popup .ql-container {
-   height: 88%!important;
-}
-.ql-picker-options {
-   top: -110%!important;
-   width: 75px!important;
-}
-::selection
-{
-    background:rgba(254, 148, 0, 0.15);
-}
-::-moz-selection{
-    background: rgba(254, 148, 0, 0.15);
-}
-#tooltip {
-    position:absolute;
-    display:none;
-    border:grey solid 1px;
-    background:white;
-}
-#cal1{
-    position:absolute;
-    height:0px;
-    width:0px;
-    top:100px;
-    left:100px;
-    overflow:none;
-    z-index:-100;
-}
-#cal2{
-    position:absolute;
-    height:0px;
-    width:0px;
-    top:0px;
-    left:0px;
-    overflow:none;
-    z-index:-100;
-}
-#button_copy{
-  color: #4A4A4A;
-  border:none;
-  background-color: #FFFFFF;
-  margin: 0;
-  top: 50%;
-  left: 50%;
-  font-family: Montserrat;
-  font-size: 14px;
-  cursor: pointer;
-}
-#button_flashcard{
-  color: #4A4A4A;
-  border:none;
-  background-color: #FFFFFF;
-  margin: 0;
-  top: 50%;
-  left: 50%;
-  font-family: Montserrat;
-  font-size: 14px;
-  cursor: pointer;
-}
-#contextMenu{
-  position:absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-  background: #FFFFFF;
-  border: 1px solid #EAEAEA;
-  border-radius: 20px;
-  border-width: 100%;
-  width: 255px;
-  height: 40px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-.vue-simple-context-menu--active {
-  display: flex;
-}
-.note-option{
-  margin-top: 0px !important;
-  border-radius: 20px;
-}
-.flashcard-option{
-  margin-bottom: 0px !important;
-  border-radius: 20px;
-  margin-left: 0.6rem !important;
-}
-.divTableCell1{
-  border-right: 1px solid #EAEAEA;
-  display: table-cell;
-  padding: 3px 10px;
-}
-.divTableBody {
-  display: table-row-group;
-  position: absolute;
-  top: 18%;
-}
-.Popup img:hover {
-  opacity: 1!important;
-}
-.flashcards-edit {
-  position: sticky;
-  bottom: 2px;
-  width: 100%
-}
-.trigger {
-  text-align: center;
-  width: 97%;
-  margin: auto;
-}
-.trigger img {
-  opacity: 0.5;
-}
-.trigger img:hover {
-  opacity: 1;
-  border: none !important;
-}
-.editors {
-  min-height: 90px;
-  max-height: 165px;
-  height: auto;
-  width: 97%;
-  background-color: white;
-  border-radius: 16px;
-  margin: 0px auto 10px auto;
-  box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
-}
-.labels-editors {
-  font-size: 13px;
-  padding: 7px 15px 0px 15px;
-  font-weight: bold;
-}
-.content-editors {
-  height: inherit;
-  width: 100%;
-}
-.flashA {
-  width: 49%;
-  margin-left: 1%;
-}
-.flashB {
-}
-.division {
-  height: auto;
-  margin-bottom: 14px;
-  border: thin solid black;
-}
-.editors .quill-editor {
-  border-radius: 0px;
-  box-shadow: none;
-  background-color: white;
-  height: auto;
-  max-height: 133px;
-  min-height: 60px;
-  margin-top: 3px;
-  width: 49%;
-  display: flex;
-  flex-wrap: wrap !important;
-  align-content: center;
-}
-.editors .ql-container {
-  min-height: 20px !important;
-  max-height: 100px !important;
-  height: auto;
-  order: 1;
-  width: 100%;
-  margin-bottom: 2px;
-}
-.editors .ql-editor {
-  min-height: 20px !important;
-  max-height: 100px !important;
-  height: auto;
-  padding: 0px 15px !important;
-  width: 96%;
-}
-.ql-editor p {
-  margin-top: 2px;
-}
-.editors .ql-toolbar {
-  order: 2;
-  border-bottom: none !important;
-  border-top: 1px solid #000 !important;
-  width: 100%;
-  padding: 0px 8px !important;
-}
-#manual .ql-toolbar {
-  display: flex !important;
-  justify-content: center !important;
-}
-.slide-fade-enter-active {
-  transition: all .8s ease;
-}
-.slide-fade-leave-active {
-  transition: all .8s ease;
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateY(150px);
-  opacity: 0;
-}
-.save-note {
-  position: absolute;
-  left: 42px;
-  top: 7px;
-  cursor: pointer;
-}
-</style>

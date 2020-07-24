@@ -1,0 +1,8 @@
+@font-face {
+    font-family: Avenir;
+    src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
+}
+html {
+	margin: 1.5rem;
+	font-family: Avenir;
+}

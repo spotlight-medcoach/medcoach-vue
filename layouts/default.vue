@@ -45,38 +45,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  @font-face {
-    font-family: Avenir;
-    src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
-  }
-  @font-face {
-    font-family: 'Helvetica Neue Light';
-    src: url('./../assets/fonts/helvetica-neue-light.ttf');
-  }
-  @font-face {
-    font-family: 'Helvetica Neue';
-    src: url('./../assets/fonts/HelveticaNeue.ttf');
-  }
-  @font-face {
-    font-family: Helvetica;
-    src: url('./../assets/fonts/Helvetica.ttf');
-  }
-  html {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    height: 100%;
-  }
-  #nav {
-    padding: 30px;
-  }
-  #nav a.router-link-exact-active {
-    color: #42b983;
-  }
-  .pointer{
-    cursor: pointer;
-  }
-</style>

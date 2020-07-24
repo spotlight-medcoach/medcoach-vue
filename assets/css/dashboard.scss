@@ -1,0 +1,55 @@
+#dashboard {
+  .bottomBorder {
+    border-bottom:1px solid;
+  }
+  .day {
+    width: 14%!important;
+  }
+  .today {
+    color: #FC9326;
+    font-weight: 900;
+  }
+  // estilos de los cards
+  .manual {
+    padding: 10px 20px;
+    margin: 20px 12px;
+    border-radius: 10px;
+    text-align: initial;
+    position: relative;
+    opacity: 0.45;
+  }
+  .manual-today {
+    opacity: 1;
+  }
+  .normal {
+    cursor: pointer;
+    background-color: #C4C4C4;
+    color: black;
+  }
+  .finished {
+    background-color: #FD9326;
+    color: white;
+    cursor: default;
+  }
+  .review {
+    cursor: pointer;
+    background-color: #C5F5FF;
+    color: black;
+  }
+  .finished-review {
+    cursor: default;
+    background-color: #1CA4FC;
+    color: white;
+  }
+  .finished-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .text-overflow {
+    text-overflow: clip;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    margin-bottom: 10px;
+  }
+}
