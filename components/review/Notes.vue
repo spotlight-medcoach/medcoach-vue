@@ -55,9 +55,100 @@
     </div>
   </div>
   <!-- Modal Flashcards -->
-  <b-modal id="modal-flashcards" title="BootstrapVue">
-    <p class="my-4">Hello from modal!</p>
+  <b-modal id="modal-flashcards" :hide-footer="true" size="lg" :centered="true" :no-close-on-backdrop="true">
+    <template v-slot:modal-title>
+      <div>Flashcards</div>
+      <div style="font-size: 16px;"> {{flashcards_index + 1}} / {{ flashcards.length }}</div>
+    </template>
+    <div class="h2 mb-0 chevron" :class="{'disabled-chevron': flashcards_index <= 0}" @click="prevFlashcard">
+      <b-icon icon="chevron-left"></b-icon>
+    </div>
+    <div id="flip-container">
+      <vue-flip v-model="flipped" width="100%" height="100%">
+        <!-- FRONT -->
+        <template v-slot:front class="front">
+          <div class="tarjeta frente" v-if="flashcard">
+            <div v-if="showQuillA">
+              <quill-editor
+                ref="noteQuillA"
+                v-model="flashcard.body_note"
+                :options="editorOption"
+              />
+              <div class="mt-2 d-flex justify-content-end">
+                <div class="mr-3">
+                  <b-overlay
+                    :show="savingFlashcard"
+                    rounded
+                    opacity="0.6"
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block">
+                    <b-button size="sm" variant="outline-success" @click.stop.prevent="updateFlashcard('A')">Guardar</b-button>
+                  </b-overlay>
+                </div>
+                <b-button size="sm" variant="danger" @click.stop.prevent="cancelQuillA">Cancelar</b-button>
+              </div>
+            </div>
+            <div v-else @click="flipped =! flipped">
+              <div class="h4 mb-1 text-right" @click.stop.prevent="openQuillA">
+                <b-icon icon="pencil-square"></b-icon>
+              </div>
+              <div class="note-content d-flex justify-content-center align-items-center">
+                <div v-html="flashcard.body_note"></div>
+              </div>
+              <div class="mt-3">
+                Frente
+              </div>
+            </div>
+          </div>
+          <div v-else> No hay flashcards </div>
+        </template>
+        <!-- BACK -->
+        <template v-slot:back class="back">
+          <div class="tarjeta detras" v-if="flashcard">
+            <div v-if="showQuillB">
+              <quill-editor
+                ref="noteQuillB"
+                v-model="flashcard.body_user"
+                :options="editorOption"
+              />
+              <div class="mt-2 d-flex justify-content-end">
+                <div class="mr-3">
+                  <b-overlay
+                    :show="savingFlashcard"
+                    rounded
+                    opacity="0.6"
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block">
+                    <b-button size="sm" variant="outline-success" @click.stop.prevent="updateFlashcard('B')">Guardar</b-button>
+                  </b-overlay>
+                </div>
+                <b-button size="sm" variant="danger" @click.stop.prevent="cancelQuillB">Cancelar</b-button>
+              </div>
+            </div>
+            <div v-else @click="flipped =! flipped">
+              <div class="h4 mb-2 text-right" @click.stop.prevent="openQuillB">
+                <b-icon icon="pencil-square"></b-icon>
+              </div>
+              <div class="note-content d-flex justify-content-center align-items-center"  v-if="flashcard">
+                <div v-html="flashcard.body_user"></div>
+              </div>
+              <div class="mt-3">
+                Detrás
+              </div>
+            </div>
+          </div>
+          <div v-else> No hay flashcards </div>
+        </template>
+        <!-- END BACK -->
+      </vue-flip>
+    </div>
+    <div class="h2 mb-0 chevron" :class="{'disabled-chevron': flashcards_index >= flashcards.length - 1}" @click="nextFlashcard">
+      <b-icon icon="chevron-right"></b-icon>
+    </div>
   </b-modal>
+  <!-- End Modal Flashcards -->
 </div>
 </template>
 
@@ -103,10 +194,42 @@ export default {
         }
       },
       savingNotes: false,
-      content: ''
+      content: '',
+      flashcards_index: 0,
+      showQuillA: false,
+      showQuillB: false,
+      flipped: false,
+      savingFlashcard: false,
+      prevText: 'cancelado'
     }
   },
   methods: {
+    openQuillA () {
+      this.prevText = this.flashcard.body_note
+      this.showQuillA = true
+    },
+    openQuillB () {
+      this.prevText = this.flashcard.body_user
+      this.showQuillB = true
+    },
+    cancelQuillA () {
+      this.showQuillA = false
+      this.flashcard.body_note = this.prevText
+    },
+    cancelQuillB () {
+      this.showQuillB = false
+      this.flashcard.body_user = this.prevText
+    },
+    prevFlashcard () {
+      if (this.flashcards_index > 0) {
+        this.flashcards_index--
+      }
+    },
+    nextFlashcard () {
+      if (this.flashcards_index < this.flashcards.length - 1) {
+        this.flashcards_index++
+      }
+    },
     openFlashcards () {
       this.$bvModal.show('modal-flashcards')
     },
@@ -166,15 +289,102 @@ export default {
         .finally(() => {
           this.savingNotes = false
         })
+    },
+    updateFlashcard (side) {
+      const params = {
+        flashcard_id: this.flashcard._id,
+        body_note: this.flashcard.body_note,
+        body_user: this.flashcard.body_user
+      }
+      this.savingFlashcard = true
+      this.$axios
+        .put('/manuals/flashcard', params,
+          {
+            headers: {
+              Authorization: `Bearer ${this.$store.state.token}`,
+              'Content-type': 'application/json'
+            }
+          }
+        )
+        .then((response) => {
+          console.log(response)
+          this.$toastr.success('Flashcard actualizada correctamente', '¡Éxito!')
+          if (side === 'A') {
+            this.showQuillA = false
+          } else {
+            this.showQuillB = false
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          this.$toastr.error('Hubo un problema al guardar su flashcard', 'Error')
+        })
+        .finally(() => {
+          this.savingFlashcard = false
+        })
     }
   },
   created () {
     this.content = this.notes.slice(0, -1)
+  },
+  computed: {
+    flashcard: {
+      get () {
+        if (this.flashcards.length) {
+          return this.flashcards[this.flashcards_index]
+        }
+        return null
+      },
+      set (newVal) {
+        this.flashcard = newVal
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
+  #flip-container {
+    width: 100%;
+    height: 350px;
+    padding: 30px;
+    .front, .back {
+      width: 100%;
+      height: 100%;
+    }
+    .tarjeta {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0px 4px 4px rgba(189, 189, 189, 0.8);
+      padding: 25px;
+      .note-content {
+        min-height: 170px;
+        max-height: 170px;
+        overflow: auto;
+      }
+    }
+    .frente {
+      background: #FFFFFF;
+      border: 1px solid #000500;
+    }
+    .detras {
+      background: #F2F2F2;
+      /* Secondary/gray */
+      border: 1px solid #BDBDBD;
+    }
+    .quill-editor {
+      min-height: 215px;
+      max-height: 215px;
+      overflow: hidden;
+    }
+    .ql-container {
+      min-height: 165px;
+      max-height: 165px;
+      overflow: auto;
+    }
+  }
   #review {
     #options {
       height: 500px;
@@ -194,5 +404,30 @@ export default {
   }
   #review-content {
     padding: 2rem;
+  }
+  #modal-flashcards {
+    .modal-content {
+      heigth: 450px;
+    }
+    .modal-header {
+      border: none;
+    }
+    .modal-title {
+      font-weight: 700;
+      padding-left: 20px;
+    }
+    .modal-body {
+      display: flex;
+    }
+    .chevron {
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      cursor: pointer;
+    }
+    .disabled-chevron {
+      cursor: default;
+      opacity: 0.3;
+    }
   }
 </style>
