@@ -131,7 +131,7 @@
               <div class="h4 mb-2 text-right" @click.stop.prevent="openQuillB">
                 <b-icon icon="pencil-square"></b-icon>
               </div>
-              <div class="note-content d-flex justify-content-center align-items-center"  v-if="flashcard">
+              <div class="note-content d-flex justify-content-center"  v-if="flashcard">
                 <div v-html="flashcard.body_user"></div>
               </div>
               <div class="mt-3">
@@ -389,7 +389,7 @@ export default {
     #options {
       height: 500px;
       position: sticky;
-      top: 122px;
+      top: 135px;
     }
     .option {
       width: 100%;

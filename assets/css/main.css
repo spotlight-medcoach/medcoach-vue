@@ -1,20 +1,25 @@
 @font-face {
-    font-family: Avenir;
-    src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
-  }
+  font-family: Avenir;
+  src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
+}
 @font-face {
   font-family: 'Helvetica Neue Light';
   src: url('./../fonts/helvetica-neue-light.ttf');
 }
+/* Original
 @font-face {
   font-family: 'Helvetica Neue';
   src: url('./../fonts/HelveticaNeue.ttf');
+}
+*/
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url('./../fonts/Helvetica.ttf');
 }
 @font-face {
   font-family: Helvetica;
   src: url('./../fonts/Helvetica.ttf');
 }
-
 @media (min-width: 1200px) {
   .container {
     max-width: 97vw !important;

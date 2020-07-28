@@ -7,7 +7,9 @@
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-          <b-button @click="onChangeFontSize" size="sm" class="btnLetterChange mr-2" type="submit">A</b-button>
+          <b-button @click="onChangeFontSize" size="sm" class="btnLetterChange mr-2 d-flex justify-content-center align-items-center" type="submit" :style="`font-size:${fontSize}em;`">
+            <div >A</div>
+          </b-button>
           <b-button :style="{'background-color':actualColorBtn}" @click="onchangeColorBg" size="sm" class="btnColorChange mr-2" type="submit"/>
           <b-button size="sm" class="my-2 my-sm-0 finishManualBtn" type="submit" @click="finishManual" v-show="!showLoading && !finished">Finalizar Manual</b-button>
       </b-navbar-nav>
@@ -331,8 +333,8 @@ export default {
       }
     },
     onChangeFontSize () {
-      this.fontSize = this.fontSize + 0.1
-      if (this.fontSize >= 1.3) {
+      this.fontSize = this.fontSize + 0.2
+      if (this.fontSize >= 1.5) {
         this.fontSize = 1
       }
     },

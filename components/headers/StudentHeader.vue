@@ -5,7 +5,7 @@
           variant="white"
           :sticky="true"
           class="bottomBorder">
-  <b-navbar-brand class="mr-5">
+  <b-navbar-brand class="mr-4">
     <img src="@/assets/images/logo.svg" id="logo" align="left">
   </b-navbar-brand>
   <!-- HOME  -->
@@ -48,9 +48,18 @@
         <template v-slot:button-content>
           <img src="@/assets/icons/sandwich.svg" width="30" height="30">
         </template>
-        <b-dropdown-item href="#">Notificaciones</b-dropdown-item>
-        <b-dropdown-item href="/settings">Configuración</b-dropdown-item>
-        <b-dropdown-item @click="logout">Cerrar Sesión</b-dropdown-item>
+        <b-dropdown-item href="#">
+          <img src="@/assets/icons/sandwich/notification.svg" width="20" style="margin-right: 12px;">
+          Notificaciones
+        </b-dropdown-item>
+        <b-dropdown-item href="/settings">
+          <img src="@/assets/icons/sandwich/settings.svg" width="20" style="margin-right: 12px;">
+          Configuración
+        </b-dropdown-item>
+        <b-dropdown-item @click="logout">
+          <img src="@/assets/icons/sandwich/log_in.svg" width="20" style="margin-right: 12px;">
+          Cerrar Sesión
+        </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-navbar-nav>
   </b-collapse>
@@ -123,7 +132,7 @@ export default {
   color: white !important;
 }
 .dropdown-menu {
-  left: -120px !important;
+  left: -145px !important;
 }
 .menu {
   height: 60px;
@@ -135,7 +144,7 @@ export default {
   display: none;
 }
 .item-option{
-  width: 100px;
+  width: 85px;
 }
 .active-option .text-option{
   display: block;
