@@ -48,8 +48,9 @@
         <template v-slot:button-content>
           <img src="@/assets/icons/sandwich.svg" width="30" height="30">
         </template>
-        <b-dropdown-item href="#">
-          <img src="@/assets/icons/sandwich/notification.svg" width="20" style="margin-right: 12px;">
+        <b-dropdown-item @click="$router.push({ path: '/notifications' })">
+          <img src="@/assets/icons/sandwich/notification_new.svg" width="20" style="margin-right: 12px;" v-if="alertNotifications">
+          <img src="@/assets/icons/sandwich/notification.svg" width="20" style="margin-right: 12px;" v-else>
           Notificaciones
         </b-dropdown-item>
         <b-dropdown-item href="/settings">
@@ -67,6 +68,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'student-header',
   computed: {
@@ -81,12 +84,18 @@ export default {
     },
     isNotes () {
       return this.$route.name === 'notes' || this.$route.name === 'review'
-    }
+    },
+    ...mapGetters({
+      alertNotifications: 'notifications/alertNotifications'
+    })
   },
   methods: {
     logout () {
-      localStorage.clear()
       this.$router.push({ path: '/' })
+      setTimeout(() => {
+        this.$store.dispatch('killSession')
+        localStorage.clear()
+      }, 500)
     }
   }
 }

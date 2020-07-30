@@ -1,89 +1,112 @@
+import moment from 'moment'
+moment.locale('es')
+
 export const state = () => ({
   token: localStorage.getItem('usertoken'),
-  light: '#ffff',
-  dark: '#000000',
-  sepia: '#fff2b4',
-  actualColorBg: '#ffffff',
-  actualColorFont: '#000000',
-  actualColorBtn: '#fff2b4',
-  fontSize: 1,
-  themeColors: ['light', 'sepia', 'dark'],
-  themeColorIndex: 0,
-  themeColor: 'light',
-  rest_days: null,
+  studentInfo: null,
+  syllabus: null,
+  daysDisabled: [0, 0, 0, 0, 0, 0, 0],
   phase_3_days: 40,
-  phase: 1,
-  onHttpRequest: false,
-  message: 'Espere un momento, por favor',
-  errorHttp: false
+  phase: {
+    id: null,
+    progress: null,
+    total: null,
+    init_date_phase_2: null
+  },
+  rest_days: null,
+  alert_second_stage: false
 })
 
 export const mutations = {
-  changeFontSize (state) {
-    state.fontSize = state.fontSize + 0.1
-    if (state.fontSize >= 1.3) {
-      state.fontSize = 1
-    }
-  },
-  changeColorBg (state) {
-    if (state.actualColorBg === '#ffffff') {
-      state.actualColorBg = '#fff2b4'
-      state.actualColorBtn = '#000000'
-      state.actualColorFont = '#000000'
-    } else if (state.actualColorBg === '#fff2b4') {
-      state.actualColorBg = '#000000'
-      state.actualColorBtn = '#ffffff'
-      state.actualColorFont = '#ffffff'
-    } else if (state.actualColorBg === '#000000') {
-      state.actualColorBg = '#ffffff'
-      state.actualColorBtn = '#fff2b4'
-      state.actualColorFont = '#000000'
-    }
-  },
-  setThemeColor (state) {
-    let index = state.themeColorIndex
-    index = (index + 1) % state.themeColors.length
-    state.themeColorIndex = index
-    state.themeColor = state.themeColors[index]
-  },
   setToken (state, token) {
     state.token = token
   },
-  setRestDays (state, days) {
-    state.rest_days = days
+  setStudentInfo (state, payload) {
+    state.studentInfo = payload
+    if (payload) {
+      state.daysDisabled[payload.free_day] = 1
+    }
   },
-  changePhase (state, phase) {
-    state.phase = phase
+  setBearer (state) {
+    this.$axios.setToken(state.token, 'Bearer')
   },
-  setMessage (state, message) {
-    state.message = message
+  setSyllabus (state, payload) {
+    state.syllabus = payload
   },
-  setErrorHttp (state, flag) {
-    state.errorHttp = flag
+  setRestDays (state, payload) {
+    state.rest_days = payload
   },
-  setOnHttpRequest (state, flag) {
-    state.onHttpRequest = flag
+  setPhase (state, payload) {
+    state.phase = payload
+  },
+  setPaseID (state, payload) {
+    state.phase.id = payload
+  },
+  setAlertScondStage (state, payload) {
+    state.alert_second_stage = payload
   }
 }
 
 export const actions = {
-  changeThemeColor ({ commit }) {
-    commit('setThemeColor')
-    commit('changeColorBg')
+  async initialize ({ commit, dispatch }) {
+    commit('setBearer')
+    commit('http_request/setOnHttpRequest', true)
+    dispatch('notifications/loopFetchData')
+    await dispatch('fetchStudentInfo').then(() => dispatch('fetchSyllabus'))
+    commit('http_request/setOnHttpRequest', false)
   },
-  init ({ commit }) {
-    commit('setOnHttpRequest', true)
-    commit('setErrorHttp', false)
-    commit('setMessage', 'Espere un momento, por favor')
+  killSession ({ commit }) {
+    localStorage.removeItem('usertoken')
+    commit('setToken', null)
+    commit('setStudentInfo', null)
+    commit('setBearer')
+    const phase = {
+      id: null,
+      progress: null,
+      total: null,
+      init_date_phase_2: null
+    }
+    commit('setPhase', phase)
   },
-  initHttpRequest ({ commit }, message) {
-    commit('setOnHttpRequest', true)
-    commit('setErrorHttp', false)
-    commit('setMessage', message)
+  fetchStudentInfo ({ commit }) {
+    return this.$axios.$get('/students/info')
+      .then((result) => {
+        commit('setStudentInfo', result.student)
+      })
   },
-  errorHttp ({ commit }, message) {
-    commit('setOnHttpRequest', false)
-    commit('setErrorHttp', true)
-    commit('setMessage', message)
+  fetchSyllabus ({ commit, dispatch, state }, message) {
+    dispatch('http_request/initHttpRequest', message)
+    const now = moment()
+    let day = now.day() - 1
+    if (day < 0) {
+      day = 6
+    }
+    const minDay = 0 - day
+    const maxDay = minDay + 6
+    const params = {
+      min_index: minDay,
+      max_index: maxDay,
+      days_disabled: state.daysDisabled
+    }
+    return this.$axios.$post('/students/syllabus', params)
+      .then((result) => {
+        commit('setSyllabus', result)
+        const phase = {
+          id: result.phase,
+          progress: result.progress,
+          total: result.total,
+          init_date_phase_2: result.start_phase_two
+        }
+        commit('setPhase', phase)
+        // Valido si ya está disponible la segunda fase
+        const today = result.days.find(day => day.index === 0)
+        if (!today.manuals.length && day !== state.studentInfo.free_day) {
+          commit('setAlertScondStage', true)
+        }
+      })
+      .catch((error) => {
+        console.log('Error en el syllabus', error.response)
+        dispatch('http_request/errorHttp')
+      })
   }
 }

@@ -1,0 +1,811 @@
+{
+	"quotes": [
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Lo que resulta dif\u00edcil no es tanto formular los rectos principios firmes para la vida, lo cual se consigue con relativa facilidad, sino el persistir en ellos a trav\u00e9s de todos los obst\u00e1culos"
+		},
+		{
+			"author": "Dale Carnegi",
+			"quote": "Mi puesto est\u00e1 en la cumbre. Pero s\u00f3lo se alcanza con trabajo duro y el cumplimiento del deber"
+		},
+		{
+			"author": "Sigmud Freud",
+			"quote": "He sido un hombre afortunado, en la vida nada me ha sido f\u00e1cil"
+		},
+		{
+			"author": "Mario Benedetti",
+			"quote": "Cuando cre\u00edamos que ten\u00edamos todas las respuestas, cambiaron todas las preguntas"
+		},
+		{
+			"author": "Arist\u00f3teles",
+			"quote": "Somos lo que hacemos repetidamente. La excelencia entonces, no es un acto, sino un h\u00e1bito"
+		},
+		{
+			"author": "Muhammad Ali",
+			"quote": "Odi\u00e9 cada minuto de entrenamiento, pero me dije: No renuncies. Sufre ahora y vive el resto de tu vida como un campe\u00f3n\""
+		},
+		{
+			"author": "Babe Ruth",
+			"quote": "Es dif\u00edcil derrotar a una persona que nunca se rinde"
+		},
+		{
+			"author": "Friedrich Engels",
+			"quote": "Una onza de acci\u00f3n es el valor de una tonelada de teor\u00eda"
+		},
+		{
+			"author": "Tim Notke",
+			"quote": "Trabajo duro mata talento cuando el talento no trabaja duro"
+		},
+		{
+			"author": "Santiago Ram\u00f3n y Cajal",
+			"quote": "Las ideas no duran mucho, hay que hacer algo con ellas"
+		},
+		{
+			"author": "Mark Twain",
+			"quote": "El hombre que no lee, no tiene ninguna ventaja sobre el que no sabe leer"
+		},
+		{
+			"author": "Anna Pavlova",
+			"quote": "Nadie puede llegar a la cima armado s\u00f3lo de talento. Dios da el talento; el trabajo transforma el talento en genio"
+		},
+		{
+			"author": "Apj Abdul Kalam",
+			"quote": "Si quieres brillar como el sol, primero arde como el sol"
+		},
+		{
+			"author": "Samuel Goldwyn",
+			"quote": "Es curioso, mientras m\u00e1s duro trabajo, m\u00e1s suerte tengo"
+		},
+		{
+			"author": "Albert Pike",
+			"quote": "Lo que hacemos s\u00f3lo para nosotros, muere con nosotros; lo que hacemos para los dem\u00e1s y para el mundo, permanece y es inmortal"
+		},
+		{
+			"author": "Frank Ocean",
+			"quote": "Trabaja en silencio, deja que todo el \u00e9xito haga el ruido"
+		},
+		{
+			"author": "Pablo Picasso",
+			"quote": "La inspiraci\u00f3n existe, pero tiene que encontrarte trabajando"
+		},
+		{
+			"author": "Karl Popper",
+			"quote": "La verdadera ignorancia no es la ausencia de conocimientos, sino el hecho de negarse a adquirirlos"
+		},
+		{
+			"author": "Est\u00e9e Lauder",
+			"quote": "I never dreamed about success. I worked for it"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La vida est\u00e1 basada en decisiones, por eso dec\u00eddete por ser el mejor"
+		},
+		{
+			"author": "Jacques Lacan",
+			"quote": "La primera virtud del conocimiento es la capacidad de enfrentarse a lo que no es evidente"
+		},
+		{
+			"author": "Fernando Pessoa",
+			"quote": "Las personas son del tama\u00f1o de sus sue\u00f1os"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Se paciente, a veces hay que pasar por lo peor para conseguir lo mejor"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El t\u00edtulo de m\u00e9dico no se sostiene con un clavo en la pared, se sostiene con trabajo constante, \u00e9tica irreductible y pasi\u00f3n por salvar vidas"
+		},
+		{
+			"author": "Sofia Naidenoff",
+			"quote": "Vivir sin leer es peligroso, te obliga a creer en lo que te digan"
+		},
+		{
+			"author": "Joe Nomath",
+			"quote": "Si no vas por todo \u00bfA qu\u00e9 vas?"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Lo que hoy parece un sacrificio, va a terminar siendo el mayor logro de tu vida"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Sue\u00f1e en grande, planee bien, trabaje duro, sonr\u00eda siempre y los milagros empiezan a suceder"
+		},
+		{
+			"author": "Einstein",
+			"quote": "Siento una enorme gratitud por todos los que me dijeron \"No\" , gracias a ellos, lo hice yo"
+		},
+		{
+			"author": "Mario Benedetti",
+			"quote": "S\u00f3lo imagina lo precioso que puede ser arriesgarse y que todo salga bien"
+		},
+		{
+			"author": "Jennifer J. Freeman",
+			"quote": "You are far too smart to be the only thing standing in your way"
+		},
+		{
+			"author": "Miguel de Unamuno",
+			"quote": "Cuanto menos se lee, m\u00e1s da\u00f1o hace lo que se lee"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Cuando las prioridades est\u00e1n claras, las decisiones se hacen f\u00e1ciles"
+		},
+		{
+			"author": "Andr\u00e9 Gide",
+			"quote": "El secreto de mi felicidad no est\u00e1 en no esforzarse por el placer, sino en encontrar el placer en el esfuerzo"
+		},
+		{
+			"author": "Janet Malcom",
+			"quote": "Todas las personas que se sientan a escribir no se enfrentan con una p\u00e1gina en blanco, sino con su propia mente aborratada de detalles"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Ser retado en la vida es inevitable, ser derrotado es opcional"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La persona en la que te est\u00e1s convirtiendo te costar\u00e1 personas, relaciones, espacios y cosas meteriales; el\u00edgela por encima de todo"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El n\u00famero de vidas que salves, ser\u00e1 directamente proporcional al n\u00famero de p\u00e1ginas que leas"
+		},
+		{
+			"author": "Michael Jordan",
+			"quote": "El talento gana partidos, pero el trabajo en equipo y la inteligencia gana campeonatos"
+		},
+		{
+			"author": "Benjamin Mays",
+			"quote": "La tragedia de la vida no reside en no alcanzar tu objetivo. La tragedia consiste en no tener ning\u00fan objetivo que alcanzar"
+		},
+		{
+			"author": "Charles R. Swindoll",
+			"quote": "Si quieres ser excelente en algo importante, necesitas tomar el h\u00e1bito en las cosas peque\u00f1as. La excelencia no es una opci\u00f3n, es un actitud imperante"
+		},
+		{
+			"author": "Colin Powell",
+			"quote": "Un sue\u00f1o no se hace realidad por arte de magia, necesita sudor, determinaci\u00f3n y trabajo duro"
+		},
+		{
+			"author": "Joseph Barbara",
+			"quote": "La felicidad es el verdadero sentimiento de plenitud que se consigue con el trabajo duro"
+		},
+		{
+			"author": "Jonathan Sacks",
+			"quote": "Ninguna persona, incluso aquellas que pareciera que lo lograron con facilidad, ha llegado a tener \u00e9xito sin trabajar duro"
+		},
+		{
+			"author": "Martin Luther King",
+			"quote": "Si no puedes volar, corre, si no puedes correr, camina, si no puedes caminar, gatea, pero hagas lo que hagas, sigue adelante"
+		},
+		{
+			"author": "Woody Allen",
+			"quote": "El 90 por ciento del \u00e9xito se basa simplemente en insistir"
+		},
+		{
+			"author": "Karim Seddiki",
+			"quote": "Las dudas matan m\u00e1s sue\u00f1os que el fracaso"
+		},
+		{
+			"author": "Michael Jordan",
+			"quote": "Algunas personas quieren que algo ocurra, otras sue\u00f1an con que pasar\u00e1, otras hacen que suceda"
+		},
+		{
+			"author": "Theodore Roosevelt",
+			"quote": "Si crees que puedes, ya est\u00e1s a medio camino"
+		},
+		{
+			"author": "\u00a0Grant Cardone",
+			"quote": "Nunca bajes tus metas, aumenta tus esfuerzos"
+		},
+		{
+			"author": "Robert F. Kennedy",
+			"quote": "Solo aquellos que se atreven a tener grandes fracasos terminan consiguiendo grandes \u00e9xitos"
+		},
+		{
+			"author": "Mark Twain",
+			"quote": "Una persona con una nueva idea es una broma hasta que la idea tiene \u00e9xito"
+		},
+		{
+			"author": "Malcolm Forbes",
+			"quote": "El fracaso es el \u00e9xito si aprendemos de \u00e9l"
+		},
+		{
+			"author": "Henry Ford",
+			"quote": "El fracaso es solo la oportunidad de comenzar de nuevo de forma m\u00e1s inteligente"
+		},
+		{
+			"author": "Steve Jobs",
+			"quote": "La innovaci\u00f3n distingue a un l\u00edder de un seguidor"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "No te desanimes. A menudo la \u00faltima llave que te queda por probar abre el candado"
+		},
+		{
+			"author": "David Allen",
+			"quote": "Puedes hacer cualquier cosa pero no puedes hacerlo todo"
+		},
+		{
+			"author": "Mary Anne Radmacher",
+			"quote": "La valent\u00eda no siempre ruge. A veces, es la vocecita al final del d\u00eda que dice: ma\u00f1ana lo volver\u00e9 a intentar."
+		},
+		{
+			"author": "Patricia Neal",
+			"quote": "Una actitud mental positiva fuerte crear\u00e1 m\u00e1s milagros que cualquier droga maravillosa"
+		},
+		{
+			"author": "Gandhi",
+			"quote": "La diferencia entre lo que hacemos y lo que somos capaces de hacer bastar\u00eda para solucionar la mayor\u00eda de los problemas del mundo"
+		},
+		{
+			"author": "Thomas Edison",
+			"quote": "El genio es un diez por ciento de inspiraci\u00f3n y un noventa por ciento de transpiraci\u00f3n"
+		},
+		{
+			"author": "Eduardo Galeano",
+			"quote": "Al fin y al cabo, somos lo que hacemos para cambiar lo que somos"
+		},
+		{
+			"author": "Nelson Mandela",
+			"quote": "Siempre parece imposible \u2026 hasta que se hace."
+		},
+		{
+			"author": "Proverbio Hind\u00fa",
+			"quote": "La m\u00e1s larga caminata comienza con un paso"
+		},
+		{
+			"author": "Petrus Jacobus Joubert",
+			"quote": "El genio comienza las grandes obras, pero s\u00f3lo el trabajo las acaba."
+		},
+		{
+			"author": "Thomas Alva Edison",
+			"quote": "No he fracasado. He encontrado diez mil formas que no funcionan."
+		},
+		{
+			"author": "Arist\u00f3teles",
+			"quote": "Somos lo que hacemos repetidamente. La excelencia, entonces, no es un acto sino un h\u00e1bito."
+		},
+		{
+			"author": "Malcolm Forbes",
+			"quote": "La victoria es m\u00e1s dulce cuando ya conociste la derrota"
+		},
+		{
+			"author": "Charles Jones",
+			"quote": "Las cosas no salen mal para amargarte y rendirte. Son para romperte y reconstruirte, y que puedas ser todo lo que deb\u00edas ser"
+		},
+		{
+			"author": "Lucrecio",
+			"quote": "Las gotas de lluvia horadan la piedra no por la violencia, sino por la ca\u00edda constante.\u00a0"
+		},
+		{
+			"author": "Nolan Bushnell",
+			"quote": "El verdadero emprendedor es un hacedor, no un so\u00f1ador."
+		},
+		{
+			"author": "\u00a0Ralph Waldo Emerson",
+			"quote": "Un h\u00e9roe no es m\u00e1s valiente que un hombre corriente, pero es valiente cinco minutos m\u00e1s.\u00a0"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Conocimiento es saber que el tomate es una fruta, no una verdura. Sabidur\u00eda es no usarlo en una ensalada de frutas"
+		},
+		{
+			"author": "Coleman Hawkins",
+			"quote": "Si no cometes errores, es que no lo est\u00e1s intentando en serio."
+		},
+		{
+			"author": "Peter Drucker",
+			"quote": "Los errores m\u00e1s graves no vienen de las malas respuestas. La cosa realmente peligrosa es hacer una mala pregunta."
+		},
+		{
+			"author": "Jonathan Winters",
+			"quote": "Si el barco que quieres coger no se acerca a la orilla, nada hacia \u00e9l."
+		},
+		{
+			"author": "S\u00e9neca",
+			"quote": "La suerte es lo que ocurre cuando la preparaci\u00f3n coincide con la oportunidad."
+		},
+		{
+			"author": "Darwin",
+			"quote": "No sobreviven las especies m\u00e1s fuertes, ni las m\u00e1s inteligentes, sino las que mejor se adaptan al cambio."
+		},
+		{
+			"quote": "Nada es especialmente dif\u00edcil si lo dividimos en tareas peque\u00f1as.,Henry Ford"
+		},
+		{
+			"author": "Ray Kroc",
+			"quote": "La suerte es un dividendo del sudor. Cuanto m\u00e1s sudes, m\u00e1s suerte tendr\u00e1s."
+		},
+		{
+			"author": "Ralph Waldo Emerson",
+			"quote": "El miedo derrota a m\u00e1s personas que cualquier otra cosa en el mundo."
+		},
+		{
+			"author": "Walter Bagehot",
+			"quote": "El gran placer de la vida es hacer lo que la gente dice que no puedes."
+		},
+		{
+			"author": "Alan Kay",
+			"quote": "La mejor forma de predecir el futuro es inventarlo."
+		},
+		{
+			"author": "Walt Disney",
+			"quote": "Puede que no te des cuenta cuando te pase, pero un pu\u00f1etazo en la cara puede ser la mejor cosa que el mundo te tenga preparado."
+		},
+		{
+			"author": "Proverbio japon\u00e9s",
+			"quote": "El \u00e9xito es caer siete veces y levantarte ocho."
+		},
+		{
+			"author": "Nicol\u00e1s de Maquiavelo",
+			"quote": "La clave del \u00e9xito: querer ganar, saber perder."
+		},
+		{
+			"author": "Albert Schweitzer",
+			"quote": "El \u00e9xito no es la clave de la felicidad. La felicidad es la clave del \u00e9xito. Si te gusta lo que haces lo lograr\u00e1s."
+		},
+		{
+			"author": "Napole\u00f3n Hill",
+			"quote": "Todo lo que tu mente pueda concebir y creer, lo puedo lograr"
+		},
+		{
+			"author": "Steve Jobs",
+			"quote": "Su tiempo es limitado, no lo desperdicie viviendo la vida de otro"
+		},
+		{
+			"author": "Albert Einstein",
+			"quote": "Esfu\u00e9rzate, no para ser un \u00e9xito, sino para ser de valor"
+		},
+		{
+			"author": "Robert Frost",
+			"quote": "Dos caminos se bifurcaban en un bosque, yo tom\u00e9 el menos transitado, y eso marc\u00f3 toda la diferencia"
+		},
+		{
+			"author": "Walt Disney",
+			"quote": "Si lo puedes so\u00f1ar, lo puedes hacer"
+		},
+		{
+			"author": "Wayne Gretzky",
+			"quote": "Todo tiro no hecho es tiro errado."
+		},
+		{
+			"author": "Michael Jordan",
+			"quote": "He fallado m\u00e1s de 9000 tiros en mi carrera. He perdido casi 300 juegos. He fallado una y otra y otra vez en mi vida. Y es por eso por lo que tengo \u00e9xito"
+		},
+		{
+			"author": "Babe Ruth",
+			"quote": "Cada golpe me acerca m\u00e1s al pr\u00f3ximo home round"
+		},
+		{
+			"author": "W. clement Stone",
+			"quote": "El prop\u00f3sito es el punto de partida de todo logro"
+		},
+		{
+			"author": "Earl Nightingale",
+			"quote": "Nos convertimos en lo que pensamos"
+		},
+		{
+			"author": "Mark Twain",
+			"quote": "Dentro de veinte a\u00f1os, estar\u00e1s m\u00e1s decepcionado por lo que no hiciste que por lo que hiciste. Explora, Sue\u00f1a y descubre"
+		},
+		{
+			"author": "John Maxwel",
+			"quote": "La vida es un 10% lo que me pasa y un 90% c\u00f3mo reacciono ante ello."
+		},
+		{
+			"author": "Tony Robbins",
+			"quote": "Si haces lo que siempre has hecho, obtendr\u00e1s lo que siempre has conseguido"
+		},
+		{
+			"author": "Buddha",
+			"quote": "La mente lo es todo. \u00bfEn qu\u00e9 crees que te convertir\u00e1s"
+		},
+		{
+			"author": "Proverbio Chino",
+			"quote": "El mejor momento para plantar un \u00e1rbol fue hace 20 a\u00f1os. El segundo mejor momento es ahora"
+		},
+		{
+			"author": "S\u00f3crates",
+			"quote": "No vale la pena vivir una vida poco examinada"
+		},
+		{
+			"author": "Vince Lombardi",
+			"quote": "Ganar no lo es todo, pero el deseo de ganar s\u00ed lo es"
+		},
+		{
+			"author": "Napole\u00f3n Hill",
+			"quote": "No espere. El tiempo nunca ser\u00e1 justo"
+		},
+		{
+			"author": "John Atkinson",
+			"quote": "El \u00e9xito es una decisi\u00f3n. Decide lo que har\u00e1s con tu vida u otra persona lo har\u00e1 por ti"
+		},
+		{
+			"author": "Jacques Rouxel",
+			"quote": "Probando continuamente acabamos consigui\u00e9ndolo. Por lo tanto, cuanto m\u00e1s fallamos, m\u00e1s oportunidades tenemos que funcione."
+		},
+		{
+			"author": "Seneca",
+			"quote": "La vida es una obra de teatro. Lo que cuenta, no es que dure mucho, sino una buena actuaci\u00f3n."
+		},
+		{
+			"author": "Buxton Thomas Fowell",
+			"quote": "Con un talento ordinario y una perseverancia extraordinaria, lo puedes conseguir todo."
+		},
+		{
+			"author": "George A. Sheehan",
+			"quote": "Todos somos atletas excepcionales. La diferencia es que algunos se entrenan y otros no."
+		},
+		{
+			"author": "James Arthur Ray",
+			"quote": "Toma tus decisiones en funci\u00f3n de donde quieres llegar, no en base a donde te encuentras."
+		},
+		{
+			"author": "John Fitzgerald Kennedy",
+			"quote": "Algunas personas ven las cosas como son y preguntan: \u00bfpor qu\u00e9? Yo veo las cosas como podr\u00edan ser y me digo: \u00bfpor qu\u00e9 no?"
+		},
+		{
+			"author": "\u00c9lis\u00e9e Loustalot",
+			"quote": "Los grandes solo nos parecen grandes porque estamos de rodillas. \u00a1Levant\u00e9monos!"
+		},
+		{
+			"author": "Marc L\u00e9vy",
+			"quote": "Ten serenidad para aceptar lo que no puedes cambiar, valor para cambiar lo que puedes, y sobre todo, criterio para diferenciarlos.\u00a0"
+		},
+		{
+			"author": "Akio Morita",
+			"quote": "No tengas miedo a equivocarte, pero aseg\u00farate de no cometer dos veces el mismo error"
+		},
+		{
+			"author": "Thomas Alva Edison",
+			"quote": "Muchos de los fracasos de la vida son de personas que no se dieron cuenta cu\u00e1n cerca estaban del \u00e9xito cuando se dieron por vencidos"
+		},
+		{
+			"author": "Henry Ford",
+			"quote": "Los que renuncian son m\u00e1s numerosos que los que fracasan."
+		},
+		{
+			"author": "G.B. Shaw",
+			"quote": "Los que no pueden cambiar de opini\u00f3n no pueden cambiar nada."
+		},
+		{
+			"author": "General Patton",
+			"quote": "Un buen plan imperfecto ejecutado hoy es mejor que un plan perfecto ejecutado ma\u00f1ana."
+		},
+		{
+			"author": "Bob Parsons",
+			"quote": "Mide todo lo que es importante."
+		},
+		{
+			"author": "Walt Disney",
+			"quote": "Todos tus sue\u00f1os pueden hacerse realidad si tienes el valor de perseguirlos."
+		},
+		{
+			"author": "Winston Churchill",
+			"quote": "El \u00e9xito no es definitivo, el fracaso no es fat\u00eddico. Lo que cuenta es el valor para continuar.\u00a0"
+		},
+		{
+			"author": "Vidal Sassoon",
+			"quote": "El \u00fanico sitio en el que encontrar\u00e1s el \u00e9xito antes que el trabajo ser\u00e1 en un diccionario."
+		},
+		{
+			"author": "Akio Morita",
+			"quote": "Mi soluci\u00f3n para desatar la creatividad es siempre establecer un objetivo."
+		},
+		{
+			"author": "Charles Dubois",
+			"quote": "La cosa m\u00e1s importante es esta: ser capaz en cualquier momento de sacrificar lo que somos por lo que podr\u00edamos llegar a ser"
+		},
+		{
+			"author": "Paolo Coelho",
+			"quote": "Solo una cosa convierte en imposible un sue\u00f1o, el miedo a fracasar."
+		},
+		{
+			"author": "Wayne Gretzky",
+			"quote": "Fallas el 100% de los tiros que no haces."
+		},
+		{
+			"author": "William H Shedd",
+			"quote": "Un barco est\u00e1 a salvo en el puerto. Pero no es para eso que ha sido construido."
+		},
+		{
+			"author": "Ralph Waldo Emerson",
+			"quote": "No vayas donde te lleve el camino. Ve donde no hay ninguno y deja un rastro."
+		},
+		{
+			"author": "T.S. Elliot",
+			"quote": "Solo aquel que se arriesga a ir demasiado lejos es capaz de descubrir hasta donde puede uno llegar."
+		},
+		{
+			"author": "John Wooden",
+			"quote": "No dejes que lo que no puedes hacer interfiera con lo que puedes hacer."
+		},
+		{
+			"author": "Kasparov",
+			"quote": "Si jugamos sin objetivo, nuestras decisiones se har\u00e1n reactivas y llegaremos a jugar el juego de nuestro oponente, no el nuestro."
+		},
+		{
+			"author": "George Eliot",
+			"quote": "Nunca es demasiado tarde para ser quien podr\u00edas haber sido"
+		},
+		{
+			"author": "Muhammad Ali",
+			"quote": "Odi\u00e9 cada minuto de entrenamiento. Pero me dije: No abandones. Sufre ahora y vive el resto de tu vida como el campe\u00f3n."
+		},
+		{
+			"author": "Jean Rostand",
+			"quote": "No hay que confundir el \u00e9xito con el m\u00e9rito."
+		},
+		{
+			"author": "J.Welch",
+			"quote": "La visi\u00f3n sin acci\u00f3n es sue\u00f1o. Acci\u00f3n sin visi\u00f3n es simplemente pasar el tiempo. Acci\u00f3n con visi\u00f3n es hacer una diferencia positiva."
+		},
+		{
+			"author": "Sainte-Beuve",
+			"quote": "El \u00e9xito consiste en vencer el temor al fracaso."
+		},
+		{
+			"author": "Eugene Ware",
+			"quote": "Todos los triunfos nacen cuando nos atrevemos a comenzar."
+		},
+		{
+			"author": "Jack Welch",
+			"quote": "Cambia antes que tengas que hacerlo."
+		},
+		{
+			"author": "Vivian Greene",
+			"quote": "La vida no consiste en esperar a que pase la tormenta, sino en aprender a bailar en la lluvia\u2026"
+		},
+		{
+			"author": "Winston Churchill",
+			"quote": "El \u00e9xito es aprender a ir de fracaso en fracaso sin desesperarse."
+		},
+		{
+			"author": "Winston Churchill",
+			"quote": "No tengo nada que ofreceros salvo sangre, esfuerzo, l\u00e1grimas y sudor."
+		},
+		{
+			"author": "Steve Jobs",
+			"quote": "La \u00fanica forma de hacer un gran trabajo es amar lo que lo que haces. Si todav\u00eda no lo has encontrado, sigue buscando. No te rindas."
+		},
+		{
+			"author": "Henry Ford",
+			"quote": "Fracasar es tener la oportunidad de volver a intentarlo de forma m\u00e1s inteligente."
+		},
+		{
+			"author": "Proverbio",
+			"quote": "Las tormentas hacen que el roble eche ra\u00edces m\u00e1s profundas"
+		},
+		{
+			"author": "Henry Ford",
+			"quote": "Si hubiese preguntado a la gente qu\u00e9 es lo que quer\u00eda me habr\u00edan respondido que caballos m\u00e1s r\u00e1pidos"
+		},
+		{
+			"author": "Henry Ward Beecher",
+			"quote": "Los mejores \u00e9xitos de los hombres vienen tras sus decepciones."
+		},
+		{
+			"author": "Pablo Picasso",
+			"quote": "Siempre estoy haciendo cosas que no s\u00e9 hacer, de manera que tengo que aprender como hacerlo."
+		},
+		{
+			"author": "Henry Ford",
+			"quote": "Calidad significa hacer las cosas bien incluso cuando nadie te est\u00e1 mirando."
+		},
+		{
+			"author": "\u00a0Robert Kiyosaki",
+			"quote": "El fracaso derrota a los perdedores e inspira a los ganadores."
+		},
+		{
+			"author": "Dwight Eisenhower",
+			"quote": "En las batallas te das cuenta que los planes son inservibles, pero hacer planes es indispensable."
+		},
+		{
+			"author": "Henry Ford",
+			"quote": "No hay hombre vivo que no pueda hacer m\u00e1s de lo que piensa que puede hacer."
+		},
+		{
+			"author": "Albert Einstein",
+			"quote": "El que sigue a la multitud no llegar\u00e1 m\u00e1s all\u00e1 de la multitud. Aquel que camina solo, es muy probable encontrarlo en lugares que nunca nadie ha estado antes."
+		},
+		{
+			"author": "Ralph Waldo Emerson",
+			"quote": "Todos somos inventores, cada uno navegando en un viaje de descubrimiento, guiado por un mapa privado que no tiene duplicado. El Mundo es todo puertas, todo oportunidades."
+		},
+		{
+			"author": "Voltaire",
+			"quote": "El trabajo nos aparta de tres males: aburrimiento, vicio y necesidad."
+		},
+		{
+			"author": "Provebio lat\u00edn",
+			"quote": "Si el viento no sirve, coge los remos."
+		},
+		{
+			"author": "\u00a0Henry Ford",
+			"quote": "Un pu\u00f1ado de hombres consigue hacerse ricos simplemente prestando atenci\u00f3n a los detalles que la mayor\u00eda pasa por alto."
+		},
+		{
+			"author": "Orison Swett Marden",
+			"quote": "No esperes a grandes oportunidades. Aprovecha oportunidades comunes y hazles grandes."
+		},
+		{
+			"author": "Proverbio persa",
+			"quote": "Cuando est\u00e1 muy oscuro puedes ver las estrellas."
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Nunca es tarde si quieres intentar lo que siempre quisiste hacer"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La pasi\u00f3n es el inicio del \u00e9xito"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Las oportunidades no son producto de la casualidad, m\u00e1s bien son resultado del trabajo"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El camino al \u00e9xito es la actitud"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El \u00e9xito es la suma de peque\u00f1os esfuerzos repetidos d\u00eda tras d\u00eda"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Empieza haciendo lo necesario, despu\u00e9s lo posible y de repente te encontrar\u00e1s haciendo lo imposible"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "No hay f\u00f3rmulas secretas para el \u00e9xito. Este es el resultado de tu preparaci\u00f3n, trabajo duro y aprendizaje de los errores"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El \u00e9xito llega cuando tus sue\u00f1os son m\u00e1s grandes que tus excusas"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "No te estoy diciendo que ser\u00e1 f\u00e1cil, te estoy diciendo que valdr\u00e1 la pena"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Siempre es temprano para rendirse"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Nunca so\u00f1\u00e9 con el \u00e9xito, trabaj\u00e9 para ello"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El 90% del \u00e9xito se basa simplemente en insistir"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La perseverancia es la base de todas las acciones"
+		},
+		{
+			"author": "M. Izaguirre",
+			"quote": "Cada d\u00eda que estudias es un d\u00eda menos que te falta"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Vale la pena luchar por lo que vale la pena tener"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Para llegar a donde nunca has llegado, tendr\u00e1s que hacer lo que nunca has hecho"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Las grandes mentes tienen objetivos, las dem\u00e1s deseos"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Si piensas que puedes lograrlo, est\u00e1s un paso m\u00e1s cerca del \u00e9xito"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El momento ideal para iniciar el camino hacia tus sue\u00f1os, es aqu\u00ed y ahora"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Todos los hombres que han logrado grandes cosa, han sido grandes so\u00f1adores"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El \u00e9xito est\u00e1 conectado con la acci\u00f3n. La gente exitosa se mantiene en movimiento. Comete errores, pero nunca se da por vencido"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Los ganadores nunca abandonan y los que abandonan nunca ganan"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Todo es posible en la medida que t\u00fa lo creas posible"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Cuando dices NO a tus miedos, dices S\u00cd a tus sue\u00f1os"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La vida te pondr\u00e1 obst\u00e1culos, pero los l\u00edmites los pones t\u00fa"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "No hay raz\u00f3n para tener un plan B, porque te distrae del plan A"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El camino m\u00e1s largo, inicia con un solo paso"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Si mi mente puede concebirlo, y mi coraz\u00f3n puede creerlo, entonces puedo lograrlo"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Si no puedes volar entonces corre, si no puedes correr entonces camina, si no puedes caminar, entonces arr\u00e1strate, pero sea lo que sea que hagas, sigue movi\u00e9ndote hacia adelante"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Algunas personas quieren que algo ocurra, otras sue\u00f1an con que pasar\u00e1, y otras hacen que suceda"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La disciplina es el puente entre las metas y los logros"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La gota de agua perfora la roca, no por su fuerza, sino por su constancia"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La \u00fanica vez que se debe mirar hacia atr\u00e1s en la vida, es para ver lo lejos que hemos llegado"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "El sacrificio del hoy determina el \u00e9xito del ma\u00f1ana"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Ser grande no es cuesti\u00f3n de tama\u00f1o, sino de actitud"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Nunca sabes lo fuerte que eres hasta que ser fuerte es tu \u00fanica opci\u00f3n"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "No hay logros sin metas"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Alg\u00fan d\u00eda dir\u00e1s \"No fue f\u00e1cil pero lo logr\u00e9\""
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Intenta y falla, pero nunca falles en intentarlo"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "A la cima no se llega superando a los dem\u00e1s, sino super\u00e1ndote a ti mismo"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "La zona de confort es un hermoso lugar, pero nada crece ah\u00ed"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Nunca dejes que tus miedos ocupen el lugar de tus sue\u00f1os"
+		},
+		{
+			"author": "An\u00f3nimo",
+			"quote": "Piensa en grande, ya que tarde o temprano tendr\u00e1s que pensar"
+		}
+	]
+}

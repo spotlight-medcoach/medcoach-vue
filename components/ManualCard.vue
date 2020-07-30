@@ -43,7 +43,7 @@ export default {
   methods: {
     goToManual (id) {
       if (!this.manual.finished) {
-        if (this.$store.state.phase === 2) {
+        if (this.$store.state.phase.id === 2) {
           this.$router.push({ path: '/review', query: { manual_id: id, review: false } })
         } else {
           this.$router.push({ path: '/manual', query: { manual_id: id } })

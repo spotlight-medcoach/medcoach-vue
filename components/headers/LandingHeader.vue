@@ -83,22 +83,15 @@ export default {
   methods: {
     login () {
       this.busy = true
-
       this.$axios
         .post('/students/login', {
-          email: this.user, // "carlospdcg@hotmail.com"
+          email: this.user,
           password: this.password // "12345678"
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
         })
         .then((res) => {
           const userData = res.data.payload
           console.log(userData)
           if (process.client) {
-            localStorage.setItem('studentData', JSON.stringify(userData))
             localStorage.setItem('usertoken', res.data.token)
             this.$store.commit('setToken', res.data.token)
           }

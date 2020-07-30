@@ -21,8 +21,11 @@ export default {
       }
     }
   },
-  methods: {
-
+  created () {
+    if (this.$route.query.invalid_token) {
+      this.$toastr.error(this.$route.query.invalid_token, 'Error')
+      this.$router.replace({ query: null })
+    }
   }
 }
 </script>

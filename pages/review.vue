@@ -32,25 +32,22 @@ export default {
     }
   },
   async created () {
-    this.$store.dispatch('init')
+    this.$store.dispatch('http_request/initHttpRequest')
     await this.getManualNote(this.manual_id)
     await this.getFlashcards(this.manual_id)
-    this.$store.commit('setOnHttpRequest', false)
+    this.$store.commit('http_request/setOnHttpRequest', false)
   },
   computed: {
-    ...mapState(['onHttpRequest', 'message', 'errorHttp'])
+    ...mapState({
+      onHttpRequest: state => state.http_request.onHttpRequest,
+      message: state => state.http_request.message,
+      errorHttp: state => state.http_request.errorHttp
+    })
   },
   methods: {
     getManualNote (manualId) {
       return this.$axios
-        .get(`/manuals/note?manual_id=${manualId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-              'Content-type': 'application/json'
-            }
-          }
-        )
+        .get(`/manuals/note?manual_id=${manualId}`)
         .then((res) => {
           this.notes = res.data.note
         }).catch((err) => {
@@ -61,14 +58,7 @@ export default {
     },
     getFlashcards (manualId) {
       return this.$axios
-        .get(`/manuals/flashcard?manual_id=${manualId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-              'Content-type': 'application/json'
-            }
-          }
-        )
+        .get(`/manuals/flashcard?manual_id=${manualId}`)
         .then((res) => {
           this.flashcards = res.data.flashcards
         }).catch((err) => {

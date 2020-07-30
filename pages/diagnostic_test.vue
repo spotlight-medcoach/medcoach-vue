@@ -121,7 +121,7 @@ export default {
         return null
       }
     },
-    ...mapState(['themeColor'])
+    ...mapState(['themes/themeColor'])
   },
   watch: {
     'selected_answer' (value) {
@@ -220,6 +220,7 @@ export default {
         )
         .then((response) => {
           localStorage.removeItem('diagnostic_test_answers')
+          this.$store.dispatch('initialized')
           this.$router.push({ path: '/dashboard' })
         })
         .catch((error) => {

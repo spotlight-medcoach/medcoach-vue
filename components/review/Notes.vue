@@ -21,7 +21,10 @@
         :options="editorOption"
       />
     </div>
-    <div id="review-content" v-html="content" v-else>
+    <div id="review-content" v-html="content" v-else-if="content !== ''">
+    </div>
+    <div v-else>
+      <h4>No hay notas para este manual.</h4>
     </div>
   </div>
   <!-- OPTIONS -->
@@ -240,7 +243,7 @@ export default {
       }, 500)
     },
     finishReview () {
-      this.$store.dispatch('initHttpRequest', 'Finalizando repaso, espere un momento')
+      this.$store.dispatch('http_request/initHttpRequest', 'Finalizando repaso, espere un momento')
       let token = ''
       if (process.client) {
         token = localStorage.getItem('usertoken')
@@ -260,7 +263,7 @@ export default {
           console.log(res.data)
           this.$router.push({ path: '/dashboard' })
         }).catch((err) => {
-          this.$store.dispatch('errorHttp', err.response.data.message)
+          this.$store.dispatch('http_request/errorHttp', err.response.data.message)
         })
     },
     saveNote () {

@@ -66,10 +66,6 @@ export default {
 }
 </script>
 <style>
-  .orange{
-    color: #FD9326;
-    font-weight: bold;
-  }
   #manuals-progress .progress {
     border-radius: 0.5rem !important;
     height: 0.6rem !important;

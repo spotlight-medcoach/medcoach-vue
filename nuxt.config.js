@@ -13,7 +13,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: 'https://s3.amazonaws.com/appforest_uf/f1579284400919x190003394063938080/Stripe.png' },
       { rel: 'stylesheet', href:"https://fonts.googleapis.com/css2?family=Montserrat&display=swap"}
     ],
     script: [
@@ -52,7 +52,8 @@ export default {
     { src: '~plugins/vue-simple-context-menu-plugin', ssr:false },
     { src: '~plugins/vue-toastr-plugin', ssr:false },
     { src: '~plugins/vue-html-to-paper-plugin', ssr:false },
-    { src: '~plugins/vue-flip-plugin', ssr:false }
+    { src: '~plugins/vue-flip-plugin', ssr:false },
+    { src: '~/plugins/axios'}
   ],
   /*
   ** Nuxt.js dev-modules
@@ -79,14 +80,6 @@ export default {
       icons: true // Install the IconsPlugin (in addition to BootStrapVue plugin
   },
   /*
-  ** Axios module configuration
-  ** See https://axios.nuxtjs.org/options
-  */
-  axios: {
-    baseURL: 'https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api',
-    https: true
-  },
-  /*
   ** Build configuration
   */
   build: {
@@ -102,5 +95,11 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  /*
+  ** Middlewares
+  */
+  router: {
+    middleware: ['auth']
   }
 }

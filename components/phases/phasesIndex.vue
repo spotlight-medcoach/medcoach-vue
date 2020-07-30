@@ -33,20 +33,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import moment from 'moment'
 
 export default {
   name: 'phases-index',
-  props: {
-    student: {
-      type: Object,
-      required: true
-    },
-    phase: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     moment.locale('es')
     return {
@@ -110,7 +101,11 @@ export default {
         }
       }
       return average
-    }
+    },
+    ...mapState({
+      student: 'studentInfo',
+      phase: 'phase'
+    })
   }
 }
 </script>
