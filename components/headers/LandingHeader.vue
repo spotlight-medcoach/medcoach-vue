@@ -98,7 +98,8 @@ export default {
           this.$router.push({ path: '/dashboard' })
         })
         .catch((err) => {
-          console.log(err)
+          const response = err.response
+          this.$toastr.error(response.data.message, 'Error')
           this.busy = false
         })
     }
