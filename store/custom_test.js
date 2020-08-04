@@ -21,7 +21,11 @@ data.topics.forEach((topic) => {
 export const state = () => ({
   topics: data.topics,
   history: null,
-  fetchedData: false
+  fetchedData: false,
+  caseId: null,
+  caseIndex: -1,
+  customTest: null,
+  fetchedTest: false
 })
 
 // GETTERS
@@ -46,6 +50,23 @@ export const getters = {
   },
   history (state) {
     return state.history
+  },
+  caseSelected (state) {
+    if (state.caseIndex !== -1 && state.customTest) {
+      return state.customTest.cases[state.caseIndex]
+    } else {
+      return null
+    }
+  },
+  questionsByCase (state) {
+    if (state.caseId && state.customTest) {
+      return state.customTest.questions.filter(question => question.case_id === state.caseId)
+    } else {
+      return []
+    }
+  },
+  caseIndex (state) {
+    return state.caseIndex
   }
 }
 
@@ -92,6 +113,28 @@ export const mutations = {
         topic.subtopics[subtopicIndex].check = value
       }
     }
+  },
+  setCustomTest (state, payload) {
+    state.customTest = payload
+    state.customTest.questions.forEach((question, index) => {
+      question.response = 0
+      question.index = index
+    })
+  },
+  setFetchedTest (state, payload) {
+    state.fetchedTest = payload
+  },
+  setCaseId (state, payload) {
+    state.caseId = payload
+    state.caseIndex = state.customTest.cases.findIndex(caso => caso.id === state.caseId)
+  },
+  setQuestionResponse (state, payload) {
+    const { index, value } = payload
+    state.customTest.questions[index].response = value
+  },
+  setCaseIndex (state, payload) {
+    state.caseIndex = payload
+    state.caseId = state.customTest.cases[payload].id
   }
 }
 
@@ -110,7 +153,7 @@ export const actions = {
         commit('setQuestionsSubtopics', result.questions)
       })
       .catch((error) => {
-        console.log('Error en el fetchQuestionsBySubtopic', error.result)
+        console.log('Error en el fetchQuestionsBySubtopic', error.response)
       })
   },
   fetchHistory ({ commit }) {
@@ -119,7 +162,41 @@ export const actions = {
         commit('setHistory', result.custom_tests)
       })
       .catch((error) => {
-        console.log('Error en el fetchHistory', error.result)
+        console.log('Error en el fetchHistory', error.response)
+      })
+  },
+  fetchCustomTest ({ commit }, customTestId) {
+    return this.$axios.$get(`/student/customtest?custom_test_id=${customTestId}`)
+      .then((result) => {
+        commit('setCustomTest', result.custom_test)
+        commit('setFetchedTest', true)
+      })
+      .catch((error) => {
+        alert('Error en el fetchCustomTest')
+        console.log('Error en el fetchCustomTest', error.response)
+      })
+  },
+  prevCase ({ state, commit }) {
+    if (state.caseIndex > 0) {
+      commit('setCaseIndex', state.caseIndex - 1)
+    }
+  },
+  nextCase ({ state, commit }) {
+    if (state.caseIndex < state.customTest.cases.length - 1) {
+      commit('setCaseIndex', state.caseIndex + 1)
+    }
+  },
+  sendAnswers ({ state, commit }) {
+    const _ans = state.customTest.questions.map((question) => {
+      return question.response
+    })
+    const params = { answers: _ans }
+    return this.$axios.$post(`/student/customtest/answers?custom_test_id=${state.customTest.id}`, params)
+      .then((response) => {
+        return response
+      })
+      .catch((error) => {
+        return error
       })
   }
 }

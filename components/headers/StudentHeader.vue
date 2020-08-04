@@ -93,7 +93,7 @@ export default {
       return this.$route.name === 'notes' || this.$route.name === 'review'
     },
     isTest () {
-      return this.$route.name === 'custom_test_config'
+      return this.$route.name === 'custom_test_config' || this.$route.name === 'custom_test'
     },
     ...mapGetters({
       alertNotifications: 'notifications/alertNotifications'

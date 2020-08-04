@@ -12,13 +12,13 @@
           {{ parseFloat(item.score).toFixed(0) }}%
         </div>
         <div class="link">
-          <div class="boton"> Ver Resultado </div>
+          <div class="boton" @click="goToCustomTestRetro(item.id)"> Ver Resultado </div>
         </div>
       </div>
       <div class="d-flex" v-else>
         <div class="d-flex align-items-center pendiente">Pendiente</div>
         <div class="link">
-          <div class="boton">Volver al examen</div>
+          <div class="boton" @click="goToCustomTest(item.id)">Volver al examen</div>
         </div>
       </div>
     </div>
@@ -46,6 +46,15 @@ export default {
     ...mapGetters({
       history: 'custom_test/history'
     })
+  },
+  methods: {
+    goToCustomTest (customTestId) {
+      alert(customTestId)
+      this.$router.push({ path: '/custom_test', query: { custom_test_id: customTestId } })
+    },
+    goToCustomTestRetro (customTestId) {
+      this.$router.push({ path: '/custom_test_retro', query: { custom_test_id: customTestId } })
+    }
   }
 }
 </script>
