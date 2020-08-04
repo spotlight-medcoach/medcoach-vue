@@ -40,6 +40,13 @@
       <div class="text-option">Notas</div>
     </div>
   </nuxt-link>
+  <!-- EXAMEN PERSONALIZADO -->
+  <nuxt-link to="/custom_test_config" tag="span">
+    <div class="text-center pointer item-option" :class="{'active-option': isTest}">
+      <img src="@/assets/icons/header/custom_test.svg" class="menu-item circulo">
+      <div class="text-option">Examen</div>
+    </div>
+  </nuxt-link>
   <!-- NAVBAR TOGGLE -->
   <b-collapse id="nav-collapse" is-nav>
     <!-- Right aligned nav items -->
@@ -84,6 +91,9 @@ export default {
     },
     isNotes () {
       return this.$route.name === 'notes' || this.$route.name === 'review'
+    },
+    isTest () {
+      return this.$route.name === 'custom_test_config'
     },
     ...mapGetters({
       alertNotifications: 'notifications/alertNotifications'
@@ -160,5 +170,12 @@ export default {
 }
 .item-option:hover .text-option{
   display: block;
+}
+.circulo {
+  border-radius: 50px;
+  background: #5F5F5F;
+}
+.active-option .circulo {
+  background: #FD9326;
 }
 </style>

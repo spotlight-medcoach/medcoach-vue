@@ -8,17 +8,25 @@
     <div id="question-mode">
       <div class="title">Modo de preguntas</div>
       <div class="d-flex justify-content-between">
-        <toggle-switch v-model="no_answered" label="Sin contestar"/>
-        <toggle-switch v-model="answered" label="Contestados"/>
-        <toggle-switch v-model="failed" label="Equivocados"/>
-        <toggle-switch v-model="all" label="Todos"/>
+        <toggle-switch-radio v-model="mode" label="Sin contestar" name="mode" valor="1"/>
+        <toggle-switch-radio v-model="mode" label="Contestados" name="mode" valor="2"/>
+        <toggle-switch-radio v-model="mode" label="Equivocados" name="mode" valor="3"/>
+        <toggle-switch-radio v-model="mode" label="Todos" name="mode" valor="4"/>
       </div>
     </div>
   </div>
   <div id="row-topics" class="mt-3">
-    <div class="title">Materias</div>
+    <div class="title d-flex aling-items-end">
+      Materias
+      <toggle-switch v-model="allTopics" label=""/>
+    </div>
     <div class="d-flex justify-content-between">
-      <toggle-switch v-model="topic.check" :label="topic.name" v-for="(topic, index) in topics" :key="`materia-${index}`"/>
+      <toggle-switch
+        :value="topic.check"
+        @input="updateTopic(topic._id, $event)"
+        :label="topic.name"
+        v-for="(topic, index) in topics"
+        :key="`materia-${index}`"/>
     </div>
   </div>
   <div class="mt-3 d-flex">
@@ -27,7 +35,11 @@
       <div>
         <ul class="p-0 listado">
           <li v-for="(subtopic, index) in subtopics" :key="`subcategory-${index}`">
-            <orange-checkbox v-model="subtopic.check" :label="subtopic.name + ` (${subtopic.questions || '...'})`" />
+            <orange-checkbox
+              :value="subtopic.check"
+              @input="updateSubtopic(subtopic.topic_id, subtopic._id, $event)"
+              :label="subtopic.name + ` (${subtopic.questions !== null ? subtopic.questions : '...'})`"
+              :disabled="subtopic.disabled"/>
           </li>
         </ul>
       </div>
@@ -37,15 +49,26 @@
         <div class="title-bigger">No. de Preguntas</div>
         <div class="d-flex justify-content-center">
           <div>
-            <input type="text"> <span style="font-size: 1.2rem"> / 2074</span>
-            <div class="ml-2" style="font-size: 0.85rem"> Max. 50</div>
+            <input
+              type="number"
+              :min="minQuestions"
+              :max="maxQuestions"
+              step="1"
+              class="text-center"
+              :disabled="!this.fetchedData"
+              v-model.number="questQuantity">
+              <span style="font-size: 1.2rem"> / {{ countQuestions || 'Calculando...'}}</span>
+            <div class="ml-2" style="font-size: 0.85rem"> Max. {{maxQuestions}}</div>
           </div>
         </div>
-        <div class="mt-5 d-flex justify-content-center"><button>Generar Examen</button></div>
+        <div class="mt-5 d-flex justify-content-center" v-if="this.fetchedData"><button @click="createCustomTest">Generar Examen</button></div>
+        <div class="mt-5 text-center" v-else>
+          <h4>Cargando...</h4>
+        </div>
       </div>
     </div>
   </div>
-  <test-history class="mt-3" />
+  <test-history class="mt-5" />
 </div>
 </template>
 
@@ -53,6 +76,7 @@
 import { mapState, mapGetters } from 'vuex'
 import TestHistory from '@/components/custom-test/TestHistory.vue'
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
+import ToggleSwitchRadio from '@/components/ToggleSwitchRadio.vue'
 import OrangeCheckbox from '@/components/OrangeCheckbox'
 
 export default {
@@ -60,29 +84,87 @@ export default {
   components: {
     TestHistory,
     ToggleSwitch,
+    ToggleSwitchRadio,
     OrangeCheckbox
   },
   data () {
     return {
       time: false,
-      no_answered: false,
+      mode: '1',
+      no_answered: true,
       answered: false,
       failed: false,
-      all: false
+      allModes: false,
+      questQuantity: 1,
+      maxQuestions: 40,
+      minQuestions: 1
     }
   },
   computed: {
+    allTopics: {
+      get () {
+        return this.topics.every(topic => topic.check)
+      },
+      set (newVal) {
+        this.topics.forEach((topic) => {
+          this.updateTopic(topic._id, newVal)
+        })
+      }
+    },
     ...mapState({
       fetchedData: state => state.custom_test.fetchedData,
       topics: state => state.custom_test.topics
     }),
     ...mapGetters({
-      subtopics: 'custom_test/subtopics'
+      subtopics: 'custom_test/subtopics',
+      countQuestions: 'custom_test/countQuestions',
+      selectSubtopics: 'custom_test/selectSubtopics'
     })
   },
   async created () {
     if (!this.fetchedData) {
       await this.$store.dispatch('custom_test/init')
+    }
+  },
+  methods: {
+    updateTopic (topicID, val) {
+      const payload = {
+        topicId: topicID,
+        value: val
+      }
+      this.$store.commit('custom_test/setCheckTopic', payload)
+    },
+    updateSubtopic (topicID, subtopicID, val) {
+      const payload = {
+        topicId: topicID,
+        subtopicId: subtopicID,
+        value: val
+      }
+      this.$store.commit('custom_test/setCheckSubtopic', payload)
+    },
+    createCustomTest () {
+      if (this.questQuantity > this.maxQuestions) {
+        this.$toastr.error(`Debe introducir máximo ${this.maxQuestions} preguntas`, 'Error')
+        return false
+      } else if (this.questQuantity < this.minQuestions) {
+        this.$toastr.error(`Debe introducir más de ${this.minQuestions} pregunta(s)`, 'Error')
+        return false
+      } else {
+        const params = {
+          subtopics: this.selectSubtopics,
+          questions_count: this.questQuantity,
+          by_time: this.time
+        }
+        this.$axios.post('/student/customtest', params)
+          .then((result) => {
+            alert('Se ha creado correctamente el examen')
+            console.log(result)
+          })
+          .catch((error) => {
+            console.log(error.response)
+            alert('No se pudo crear el examen')
+          })
+      }
     }
   }
 }
@@ -94,7 +176,7 @@ export default {
       width: 80%;
       margin: 1rem auto;
       .title {
-        font-weight: 800;
+        font-weight: 700;
         font-size: 1rem;
         padding-bottom: 1rem;
       }

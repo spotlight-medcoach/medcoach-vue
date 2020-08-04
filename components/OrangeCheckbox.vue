@@ -1,6 +1,7 @@
 <template>
-<label class="orange-check">{{ label }}
-  <input type="checkbox" v-model="myVal">
+<label class="orange-check" :class="{'disabled': disabled }">
+  {{ label }}
+  <input type="checkbox" v-model="myVal" :disabled="disabled">
   <span class="checkmark"></span>
 </label>
 </template>
@@ -14,6 +15,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -51,7 +56,6 @@ export default {
     height: 0;
     width: 0;
   }
-
   /* Create a custom checkbox */
   .checkmark {
     position: absolute;
@@ -60,6 +64,7 @@ export default {
     height: 20px;
     width: 20px;
     background-color: white;
+    border: thin solid #FE9501;
   }
 
   /* On mouse-over, add a grey background color */
@@ -86,7 +91,7 @@ export default {
 
   /* Style the checkmark/indicator */
   .orange-check .checkmark:after {
-    left: 7px;
+    left: 6px;
     width: 7px;
     bottom: 3px;
     height: 17px;
@@ -95,5 +100,15 @@ export default {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+  .disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .disabled input {
+    cursor: default;
+  }
+  .disabled:hover input ~ .checkmark  {
+    background-color: white;
   }
 </style>
