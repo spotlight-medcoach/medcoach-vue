@@ -2,7 +2,7 @@
   <div>
     <landing-header v-if="$route.name==='index'"></landing-header>
     <welcome-header v-else-if="$route.name === 'welcome'" />
-    <student-header v-else-if="$route.name!=='manual' && $route.name!=='diagnostic_test'"></student-header>
+    <student-header v-else-if="$route.name!=='manual' && $route.name!=='diagnostic_test' && $route.name!=='simulators' && $route.name!=='introduction_simulator' && $route.name!=='simulator_block1' && $route.name!=='test_simulator' && $route.name!=='simulator_break'"></student-header>
     <nuxt />
   </div>
 </template>
