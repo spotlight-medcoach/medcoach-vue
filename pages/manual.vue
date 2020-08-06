@@ -40,10 +40,20 @@
                     spinner-small
                     spinner-variant="primary"
                     class="d-inline-block"
+                    style="align-self: center;"
                   >
                     <img src="@/assets/icons/save.svg" width="35" @click="saveFlashcard">
                   </b-overlay>
-                  <img src="@/assets/icons/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
+                  <b-overlay
+                    :show="false"
+                    rounded
+                    opacity="0.6"
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block"
+                  >
+                    <img src="@/assets/icons/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
+                  </b-overlay>
                 </div>
                 <div class="editors">
                   <div class="labels-editors d-flex justify-content-between">
