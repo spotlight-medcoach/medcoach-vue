@@ -52,7 +52,7 @@
         <p>Imprimir</p>
       </div>
       <div class="option mb-auto pointer" @click="finishReview">
-        <img src="@/assets/icons/review/print.svg" width="35">
+        <img src="@/assets/icons/review/finish_review.svg" width="35">
         <p>Finalizar revisión</p>
       </div>
     </div>
@@ -244,23 +244,15 @@ export default {
     },
     finishReview () {
       this.$store.dispatch('http_request/initHttpRequest', 'Finalizando repaso, espere un momento')
-      let token = ''
-      if (process.client) {
-        token = localStorage.getItem('usertoken')
-      }
       this.saveNote()
       this.$axios
         .put('/students/syllabus', {
           manual_id: this.manual_id,
           review: this.review
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
         })
         .then((res) => {
           console.log(res.data)
+          this.$store.dispatch('fetchSyllabus')
           this.$router.push({ path: '/dashboard' })
         }).catch((err) => {
           this.$store.dispatch('http_request/errorHttp', err.response.data.message)

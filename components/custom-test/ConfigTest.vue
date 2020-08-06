@@ -134,6 +134,8 @@ export default {
     })
   },
   async created () {
+    this.$store.commit('custom_test/setHistory', null)
+    this.$store.dispatch('custom_test/fetchHistory')
     if (!this.fetchedData) {
       await this.$store.dispatch('custom_test/init')
     }

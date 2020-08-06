@@ -419,6 +419,9 @@ export default {
           font-weight: bold;
         }
       }
+      .done-review {
+        background-color: #1CA4FC !important;
+      }
     }
   }
   .arrow-left.icon {

@@ -1,6 +1,12 @@
 <template>
   <div id="settings" style="margin-top:50px">
-    <b-container style="margin-bottom: 400px;">
+    <div class="w-100" v-if="onHttpRequest">
+      <loading-state :message="message" height="60vh" />
+    </div>
+    <div v-else-if="errorHttp">
+      <p>{{ message }}</p>
+    </div>
+    <b-container style="margin-bottom: 400px;" v-else>
       <b-row >
         <!-- //Perfil y usuario -->
         <b-col style="margin-bottom: 50px">
@@ -103,12 +109,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
+import LoadingState from '@/components/LoadingState.vue'
 export default {
   name: 'Configuracion',
   components: {
-    vSelect
+    vSelect,
+    LoadingState
   },
   data () {
     return {
@@ -165,10 +174,27 @@ export default {
       ]
     }
   },
+  watch: {
+    studentInfo (newVal) {
+      if (newVal) {
+        this.userInfo = JSON.parse(JSON.stringify(newVal))
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      studentInfo: state => state.studentInfo,
+      onHttpRequest: state => state.http_request.onHttpRequest,
+      message: state => state.http_request.message,
+      errorHttp: state => state.http_request.errorHttp
+    })
+  },
   created () {
     this.getUniversitiesData()
     this.getSpecialitiesData()
-    this.setLocalStorageValues()
+    if (this.studentInfo) {
+      this.userInfo = JSON.parse(JSON.stringify(this.studentInfo))
+    }
   },
   mounted () {
     window.toastr.options = {
@@ -235,6 +261,7 @@ export default {
         .then((res) => {
           console.log(res.data)
           this.$toastr.success('Información guardada correctamente', '¡Éxito!')
+          this.$store.commit('setStudentInfo', this.userInfo)
         })
         .catch((err) => {
           console.log(err)
@@ -247,29 +274,6 @@ export default {
 
     isEmailValid () {
       return (this.userInfo.email === '') ? console.log('') : (this.reg.test(this.userInfo.email)) ? (this.saveDataLS(), this.saveDataBD()) : console.log('El email es invalido')
-    },
-
-    setLocalStorageValues () {
-      console.log('si paso por aca')
-      let data = {}
-      if (process.client) {
-        data = localStorage.getItem('studentData')
-        console.log('Data:', data)
-        const dataLS = JSON.parse(data)
-        console.log('este es', dataLS.free_day)
-
-        this.userInfo.first_name = dataLS.first_name
-        this.userInfo.last_name = dataLS.last_name
-        this.userInfo.address = dataLS.address
-        this.userInfo.email = dataLS.email
-        this.userInfo.country = dataLS.country
-        this.userInfo.state = dataLS.state
-        this.userInfo.phone = dataLS.phone
-        this.userInfo.university = dataLS.university
-        this.userInfo.test_date = dataLS.test_date
-        this.userInfo.free_day = dataLS.free_day
-        this.userInfo.speciality = dataLS.speciality
-      }
     }
   }
 }

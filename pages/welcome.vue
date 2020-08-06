@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import jwtDecode from 'jwt-decode'
 import HorizontalStepper from '@/components/welcome/HorizontalStepper/HorizontalStepper'
 import Welcome from '@/components/welcome/Welcome'
 import StudyPlans from '@/components/welcome/StudyPlans'
@@ -60,9 +59,9 @@ export default {
   created () {
     const token = this.$route.query.token
     if (token !== undefined) {
-      const decoded = jwtDecode(token)
       if (process.client) {
-        localStorage.setItem('studentData', JSON.stringify(decoded))
+        this.$store.commit('setToken', token)
+        this.$store.commit('setBearer')
         localStorage.setItem('usertoken', token)
       }
     } else {

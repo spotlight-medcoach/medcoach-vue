@@ -1,5 +1,6 @@
 export default function auth ({ redirect, route, store }) {
-  if (route.path !== '/' && route.path !== 'welcome') {
+  console.log('PATH', route.path)
+  if (route.path !== '/' && route.path !== '/welcome') {
     if (!store.state.token) {
       redirect({ path: '/', query: { invalid_token: 'Debe iniciar sesión' } })
     } else if (!store.state.studentInfo) {

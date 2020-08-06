@@ -18,13 +18,27 @@
               </div>
             </div>
             <div class="item-card" v-else>
-              <nuxt-link
-              class="pointer text-decoration-none"
-              target="_blank"
-              :to="`/manual?manual_id=${manual.manual_id}`">
+              <div class="pointer text-decoration-none" @click="goToManual(manual.manual_id)">
                 <div class="item-manual">{{ manual.manual_name }}</div>
                 <div>{{ manual.manual_subtopic_name }}</div>
-              </nuxt-link>
+              </div>
+            </div>
+          </div>
+          <div v-for="(manual, indexManuals) in event.reviewed" :key="'review' + index + indexManuals">
+            <div class="item-card-done d-flex justify-content-between align-items-center done-review" v-if="manual.reviewed">
+              <div>
+                <div class="item-manual mb-1">{{ manual.manual_name }}</div>
+                <div>{{ manual.manual_subtopic_name }}</div>
+              </div>
+              <div class="pr-2">
+                <img src="@/assets/icons/blue_check.svg" width="33">
+              </div>
+            </div>
+            <div class="item-card" v-else>
+              <div class="pointer text-decoration-none" @click="goToReview(manual.manual_id)">
+                <div class="item-manual">{{ manual.manual_name }}</div>
+                <div>{{ manual.manual_subtopic_name }}</div>
+              </div>
             </div>
           </div>
         </div>
@@ -159,6 +173,16 @@ export default {
       this.reloadData = true
       await this.fetchSyllabus(this.min_day, this.max_day)
       this.reloadData = false
+    },
+    goToManual (id) {
+      if (this.$store.state.phase.id === 2) {
+        this.$router.push({ path: '/review', query: { manual_id: id, review: false } })
+      } else {
+        this.$router.push({ path: '/manual', query: { manual_id: id } })
+      }
+    },
+    goToReview (id) {
+      this.$router.push({ path: '/review', query: { manual_id: id, review: true } })
     }
   }
 }

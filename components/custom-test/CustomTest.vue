@@ -21,8 +21,12 @@ export default {
     }
   },
   created () {
+    this.$store.commit('custom_test/initCustomTest')
     this.custom_test_id = this.$route.query.custom_test_id
-    if (!this.fetchedTest) {
+    const customTest = JSON.parse(localStorage.getItem(`test_${this.custom_test_id}`))
+    if (customTest) {
+      this.$store.dispatch('custom_test/loadCustomTest', customTest)
+    } else {
       this.$store.dispatch('custom_test/fetchCustomTest', this.custom_test_id)
     }
   },

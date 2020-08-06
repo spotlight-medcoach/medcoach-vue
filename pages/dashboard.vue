@@ -3,8 +3,8 @@
   <b-overlay class="main-container-dashboard mt-5">
     <!-- QUOTE -->
     <div class="about" align="center">
-      <h6>"I put my heart and my soul into my work, and have lost my mind in the process"</h6>
-      <h6><b>- Vincent van Gogh</b></h6>
+      <h6>{{ quoteSelected.quote }}</h6>
+      <h6><b>- {{ quoteSelected.author }}</b></h6>
     </div>
     <!-- PHASE PROGRESS BAR -->
     <div v-if="phase.id" class="mt-5">
@@ -36,6 +36,7 @@ import LoadingState from '@/components/LoadingState.vue'
 import SecondPhase from '@/components/dashboard/SecondPhase.vue'
 import ThirdPhase from '@/components/dashboard/ThirdPhase.vue'
 import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
+import { quotes } from '@/assets/json/quotes.json'
 
 export default {
   components: {
@@ -44,6 +45,27 @@ export default {
     DashboardCalendar,
     SecondPhase,
     ThirdPhase
+  },
+  data () {
+    return {
+      quos: quotes,
+      quoteSelected: {
+        author: '',
+        quote: ''
+      }
+    }
+  },
+  created () {
+    const size = this.quos.length
+    if (size > 0) {
+      const index = this.getRandomInt(0, size)
+      this.quoteSelected = this.quos[index]
+    }
+  },
+  methods: {
+    getRandomInt (min, max) {
+      return Math.floor(Math.random() * (max - min)) + min
+    }
   },
   computed: {
     alert_third_stage () {

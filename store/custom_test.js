@@ -30,7 +30,8 @@ export const state = () => ({
   fetchedTest: false,
   finishedTest: false,
   minutes: 0,
-  seconds: 0
+  seconds: 0,
+  sendingAnswers: false
 })
 
 // GETTERS
@@ -119,7 +120,9 @@ export const mutations = {
   setCustomTest (state, payload) {
     state.customTest = payload
     state.customTest.questions.forEach((question, index) => {
-      question.response = question.answer || 0
+      if (question.response === undefined) {
+        question.response = question.answer || 0
+      }
       question.index = index
     })
   },
@@ -133,6 +136,7 @@ export const mutations = {
   setQuestionResponse (state, payload) {
     const { index, value } = payload
     state.customTest.questions[index].response = value
+    localStorage.setItem(`test_${state.customTest.id}`, JSON.stringify(state.customTest))
   },
   setCaseIndex (state, payload) {
     state.caseIndex = payload
@@ -146,6 +150,18 @@ export const mutations = {
   },
   setSeconds (state, payload) {
     state.seconds = payload
+  },
+  initCustomTest (state) {
+    state.caseId = null
+    state.caseIndex = -1
+    state.customTest = null
+    state.fetchedTest = false
+    state.finishedTest = false
+    state.minutes = 0
+    state.seconds = 0
+  },
+  setSendingAnswers (state, payload) {
+    state.sendingAnswers = payload
   }
 }
 
@@ -155,7 +171,7 @@ export const actions = {
     return dispatch('fetchQuestionsBySubtopic')
       .then((result) => {
         console.log('resultado del fetchQuestionsBySubtopic', result)
-        dispatch('fetchHistory').then(() => commit('setFetchedData', true))
+        commit('setFetchedData', true)
       })
   },
   fetchQuestionsBySubtopic ({ commit }) {
@@ -176,17 +192,21 @@ export const actions = {
         console.log('Error en el fetchHistory', error.response)
       })
   },
+  loadCustomTest ({ state, commit, dispatch }, customTest) {
+    commit('setCustomTest', customTest)
+    if (state.customTest.by_time) {
+      if (dispatch('prepareTimeTest')) {
+        commit('setFetchedTest', true)
+      }
+    } else {
+      commit('setFetchedTest', true)
+    }
+  },
   fetchCustomTest ({ state, commit, dispatch }, customTestId) {
     return this.$axios.$get(`/student/customtest?custom_test_id=${customTestId}`)
       .then((result) => {
-        commit('setCustomTest', result.custom_test)
-        if (state.customTest.by_time) {
-          if (dispatch('prepareTimeTest')) {
-            commit('setFetchedTest', true)
-          }
-        } else {
-          commit('setFetchedTest', true)
-        }
+        localStorage.setItem(`test_${customTestId}`, JSON.stringify(result.custom_test))
+        dispatch('loadCustomTest', result.custom_test)
       })
       .catch((error) => {
         alert('Error en el fetchCustomTest')
@@ -217,16 +237,15 @@ export const actions = {
       dispatch('initCountdown', duration)
       setTimeout(() => {
         if (!state.finishedTest) {
-          alert('Se terminó el tiempo')
           dispatch('finishTest')
         }
       }, 1000 * restTime)
       return true
     }
   },
-  finishTest ({ state, dispatch }) {
-    alert('Finalizando el examen')
+  finishTest ({ state, dispatch, commit }) {
     return dispatch('sendAnswers').then(() => {
+      commit('setFinishedTest', true)
       this.$router.push('/custom_test_config')
     })
   },
@@ -245,13 +264,17 @@ export const actions = {
       return question.response
     })
     const params = { answers: _ans }
+    commit('setSendingAnswers', true)
     return this.$axios.$post(`/student/customtest/answers?custom_test_id=${state.customTest.id}`, params)
       .then((response) => {
-        commit('setFinishedTest', true)
+        localStorage.removeItem(`test_${state.customTest.id}`)
         return response
       })
       .catch((error) => {
         return error
+      })
+      .finally(() => {
+        commit('setSendingAnswers', false)
       })
   },
   initCountdown ({ commit }, duration) {
@@ -261,21 +284,21 @@ export const actions = {
       let min = duration.minutes()
       let sec = duration.seconds()
       sec -= 1
-      if (min < 0) {
+      if (parseInt(min) < 0) {
         return clearInterval(timer)
       }
-      if (min < 10 && min.length !== 2) {
+      if (parseInt(min) < 10 && min.length !== 2) {
         min = '0' + min
       }
-      if (sec < 0 && min !== 0) {
+      if (parseInt(sec) < 0 && parseInt(min) !== 0) {
         min -= 1
         sec = 59
-      } else if (sec < 10 && sec.length !== 2) {
+      } else if (parseInt(sec) < 10 && sec.length !== 2) {
         sec = '0' + sec
       }
       commit('setMinutes', min)
       commit('setSeconds', sec)
-      if (min === 0 && sec === 0) {
+      if (parseInt(min) === 0 && parseInt(sec) === 0) {
         clearInterval(timer)
       }
     }, 1000)

@@ -21,10 +21,9 @@ export default {
     }
   },
   created () {
+    this.$store.commit('custom_test/initCustomTest')
     this.custom_test_id = this.$route.query.custom_test_id
-    if (!this.fetchedTest) {
-      this.$store.dispatch('custom_test/fetchCustomTestRetro', this.custom_test_id)
-    }
+    this.$store.dispatch('custom_test/fetchCustomTestRetro', this.custom_test_id)
   },
   computed: {
     ...mapState({

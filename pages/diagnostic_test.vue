@@ -1,8 +1,9 @@
 <template>
-<div :style="{'background-color': $store.state.actualColorBg}" id="diagnostic_test">
-  <b-navbar :style="{'background-color':`${$store.state.actualColorBg} !important`, 'color':`${$store.state.actualColorFont} !important`}" class="navbarBg pl-0" toggleable="lg" type="dark" variant="info">
+<div :style="{'background-color': $store.state.themes.actualColorBg}" id="diagnostic_test">
+  <!------   HEADER    ----->
+  <b-navbar :style="{'background-color':`${$store.state.themes.actualColorBg} !important`, 'color':`${$store.state.themes.actualColorFont} !important`}" class="navbarBg pl-0" toggleable="lg" type="dark" variant="info">
     <b-navbar-nav style="width: 8.333333%;" class="mr-5">
-      <div :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`" class="center">
+      <div :style="`font-size:${$store.state.themes.fontSize}em; color: ${$store.state.themes.actualColorFont}`" class="center">
         <span class="darkorange">{{ question_index + 1 }} / {{ questions.length }} </span>
       </div>
     </b-navbar-nav>
@@ -22,12 +23,18 @@
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-          <b-button @click="$store.commit('changeFontSize')" size="sm" class="btnLetterChange mr-2" type="submit">A</b-button>
-          <b-button :style="{'background-color':$store.state.actualColorBtn}" @click="$store.dispatch('changeThemeColor')" size="sm" class="btnColorChange mr-2" type="submit"/>
+          <b-button
+            :style="`font-size:${$store.state.themes.fontSize}em;`"
+            @click="$store.commit('themes/changeFontSize')"
+            size="sm"
+            class="btnLetterChange mr-2"
+            type="submit">A</b-button>
+          <b-button :style="{'background-color':$store.state.themes.actualColorBtn}" @click="$store.dispatch('themes/changeThemeColor')" size="sm" class="btnColorChange mr-2" type="submit"/>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-  <b-container id="container" :style="`font-size:${$store.state.fontSize}em; color: ${$store.state.actualColorFont}`" :class="[themeColor]">
+  <!------    CONTAINER    ----->
+  <b-container id="container" :style="`font-size:${$store.state.themes.fontSize}em; color: ${$store.state.themes.actualColorFont}`" :class="[themeColor]">
     <b-row class="m-0" style="height: 100%;">
       <!-- SCROLL CON LAS PREGUNTAS -->
       <b-col cols="1" class="p-0 scroll" id="questions" ref="questions">
@@ -66,6 +73,7 @@
             <span class="font-weight-bold">Pregunta {{ question_index + 1 }}</span>
           </div>
           <div class="mt-5 text-justify" v-html="question.id.question.html"></div>
+          <!-- RESPUESTAS -->
           <div>
             <b-form-group label="">
               <b-form-radio
@@ -78,6 +86,7 @@
               </b-form-radio>
             </b-form-group>
           </div>
+          <!-- FIN RESPUESTAS -->
           <div class="my-5">
              <b-button class="rounded-pill" variant="success" v-if="question_index != 99" @click="nextQuestion">Guardar y Continuar</b-button>
              <b-button variant="success" v-else @click="finishTest">Finalizar</b-button>
@@ -90,6 +99,7 @@
           <loading-state message="Cargando preguntas, por favor espere" />
         </div>
       </b-col>
+      <!-- FIN CONTENIDO DE LA PREGUNTA -->
     </b-row>
   </b-container>
 </div>
@@ -121,7 +131,9 @@ export default {
         return null
       }
     },
-    ...mapState(['themes/themeColor'])
+    ...mapState({
+      themeColor: state => state.themes.themeColor
+    })
   },
   watch: {
     'selected_answer' (value) {
@@ -195,13 +207,7 @@ export default {
     getQuestions () {
       return new Promise((resolve, reject) => {
         this.$axios
-          .get('https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api/students/diagnostic',
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`
-              }
-            }
-          )
+          .get('/students/diagnostic')
           .then(response => resolve(response))
           .catch(err => reject(err))
       })
@@ -210,22 +216,13 @@ export default {
       const body = { answers: this.answers }
       this.sending_questions = true
       this.$axios
-        .put('https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api/students/diagnostic',
-          body,
-          {
-            headers: {
-              Authorization: `Bearer ${this.token}`
-            }
-          }
-        )
+        .put('/students/diagnostic', body)
         .then((response) => {
           localStorage.removeItem('diagnostic_test_answers')
-          this.$store.dispatch('initialized')
           this.$router.push({ path: '/dashboard' })
         })
         .catch((error) => {
           console.error(error)
-          alert('ocurrio un error al enviar las respuestas')
           this.error_request = true
           this.sending_questions = false
           this.message_error = 'Lo sentimos. No se pudieron enviar las respuestas'

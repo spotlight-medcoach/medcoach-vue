@@ -195,22 +195,14 @@ export default {
     finishManual () {
       this.message = 'Finalizando manual, espere un momento'
       this.showLoading = true
-      let token = ''
-      if (process.client) {
-        token = localStorage.getItem('usertoken')
-      }
       this.saveNote()
       this.$axios
         .put('/students/syllabus', {
           manual_id: this.manual_id
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
         })
         .then((res) => {
           console.log(res.data)
+          this.$store.dispatch('fetchSyllabus')
           this.$router.push({ path: '/dashboard' })
         }).catch((err) => {
           this.error_http = true
@@ -219,14 +211,7 @@ export default {
     },
     getManualNote () {
       return this.$axios
-        .get(`/manuals/note?manual_id=${this.manual_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-              'Content-type': 'application/json'
-            }
-          }
-        )
+        .get(`/manuals/note?manual_id=${this.manual_id}`)
         .then((res) => {
           this.editor.clipboard.dangerouslyPasteHTML(res.data.note)
           this.finished = res.data.finished
@@ -241,14 +226,7 @@ export default {
       }
       this.savingNotes = true
       this.$axios
-        .post('/manuals/note', params,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-              'Content-type': 'application/json'
-            }
-          }
-        )
+        .post('/manuals/note', params)
         .then((response) => {
           this.$toastr.success('Su nota se ha acualizado correctamente', '¡Éxito!')
           console.log(response)
@@ -277,14 +255,7 @@ export default {
         body_user: this.flashB
       }
       this.$axios
-        .post('/manuals/flashcard', params,
-          {
-            headers: {
-              Authorization: `Bearer ${this.$store.state.token}`,
-              'Content-type': 'application/json'
-            }
-          }
-        )
+        .post('/manuals/flashcard', params)
         .then((response) => {
           this.$toastr.success('Flashcard guardada correctamente', '¡Éxito!')
           this.closeFlashcard()
@@ -298,19 +269,8 @@ export default {
         })
     },
     getManualHTML () {
-      let token = ''
-      if (process.client) {
-        token = localStorage.getItem('usertoken')
-      }
       return this.$axios
-        .get(`/manuals?manual_id=${this.manual_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-type': 'application/json'
-            }
-          }
-        )
+        .get(`/manuals?manual_id=${this.manual_id}`)
         .then((res) => {
           this.manualHTML = res.data
         }).catch((err) => {

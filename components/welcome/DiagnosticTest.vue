@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="w-100 mb-5" v-else-if="loading">
-      <loading-state message="Preparando examen" />
+      <loading-state message="Preparando examen" height="40vh"/>
     </div>
     <div class="row justify-content-around" v-else>
       <div class="col-sm-5">

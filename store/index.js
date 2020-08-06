@@ -53,7 +53,6 @@ export const actions = {
     commit('http_request/setOnHttpRequest', true)
     dispatch('notifications/loopFetchData')
     await dispatch('fetchStudentInfo').then(() => dispatch('fetchSyllabus'))
-    commit('http_request/setOnHttpRequest', false)
   },
   killSession ({ commit }) {
     localStorage.removeItem('usertoken')
@@ -103,6 +102,7 @@ export const actions = {
         if (!today.manuals.length && day !== state.studentInfo.free_day) {
           commit('setAlertScondStage', true)
         }
+        commit('http_request/setOnHttpRequest', false)
       })
       .catch((error) => {
         console.log('Error en el syllabus', error.response)

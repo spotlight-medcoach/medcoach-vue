@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-    <div class="w-100 mb-5" v-if="loading">
-      <loading-state message="Cargando planes de estudio" />
+    <div class="w-100 mb-5" v-if="this.study_plans.length === 0">
+      <loading-state message="Cargando planes de estudio" height="40vh" />
     </div>
     <div class="row" v-else>
       <div class="col-sm-4" v-for="(plan, index) in study_plans" :key="plan._id">
@@ -24,60 +24,29 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
 export default {
   name: 'study_plans',
   components: {
     LoadingState
   },
-  data () {
-    return {
-      study_plans: [],
-      loading: false,
-      plan_selected: null
+  created () {
+    if (this.study_plans.length === 0) {
+      this.$store.dispatch('welcome/getStudyPlans')
     }
   },
-  created () {
-    this.loading = true
-    this.loadStudyPlans()
+  computed: {
+    ...mapState({
+      study_plans: state => state.welcome.study_plans,
+      plan_selected: state => state.welcome.plan_selected
+    })
   },
   methods: {
-    loadStudyPlans () {
-      this.$axios
-        .get('/studyplans')
-        .then((response) => {
-          console.log('Response:', response)
-          this.study_plans = response.data
-          this.loading = false
-        })
-        .catch((err) => {
-          console.log('Error:', err)
-        })
-    },
     selectPlan (plan) {
-      let token
-      if (process.client) {
-        token = localStorage.getItem('usertoken')
-      }
-      this.$emit('can-continue', { value: true })
-      console.log('Plan selected:', plan)
-      this.plan_selected = plan
-      this.$axios
-        .put('/students/studyplan',
-          {
-            study_plan: plan._id
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          }
-        )
-        .then((response) => {
-          console.log('Response:', response)
-        })
-        .catch((err) => {
-          console.log('Error:', err)
+      this.$store.dispatch('welcome/putStudyPlan', plan)
+        .then(() => {
+          this.$emit('can-continue', { value: true })
         })
     }
   }

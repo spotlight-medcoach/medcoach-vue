@@ -60,7 +60,7 @@
           <img src="@/assets/icons/sandwich/notification.svg" width="20" style="margin-right: 12px;" v-else>
           Notificaciones
         </b-dropdown-item>
-        <b-dropdown-item href="/settings">
+        <b-dropdown-item @click="$router.push({ path: '/settings' })">
           <img src="@/assets/icons/sandwich/settings.svg" width="20" style="margin-right: 12px;">
           Configuración
         </b-dropdown-item>
