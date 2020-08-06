@@ -61,7 +61,18 @@
             <div class="ml-2" style="font-size: 0.85rem"> Max. {{maxQuestions}}</div>
           </div>
         </div>
-        <div class="mt-5 d-flex justify-content-center" v-if="this.fetchedData"><button @click="createCustomTest">Generar Examen</button></div>
+        <div class="mt-5 d-flex justify-content-center" v-if="this.fetchedData">
+          <b-overlay
+                  :show="busy"
+                  rounded
+                  opacity="0.6"
+                  spinner-small
+                  spinner-variant="primary"
+                  class="d-inline-block"
+                >
+            <button @click="createCustomTest">Generar Examen</button>
+          </b-overlay>
+        </div>
         <div class="mt-5 text-center" v-else>
           <h4>Cargando...</h4>
         </div>
@@ -97,7 +108,8 @@ export default {
       allModes: false,
       questQuantity: 1,
       maxQuestions: 40,
-      minQuestions: 1
+      minQuestions: 1,
+      busy: false
     }
   },
   computed: {
@@ -155,14 +167,18 @@ export default {
           questions_count: this.questQuantity,
           by_time: this.time
         }
+        this.busy = true
         this.$axios.post('/student/customtest', params)
           .then((result) => {
-            alert('Se ha creado correctamente el examen')
+            this.$router.push({ path: '/custom_test', query: { custom_test_id: result.data.id } })
             console.log(result)
           })
           .catch((error) => {
             console.log(error.response)
             alert('No se pudo crear el examen')
+          })
+          .finally(() => {
+            this.busy = false
           })
       }
     }

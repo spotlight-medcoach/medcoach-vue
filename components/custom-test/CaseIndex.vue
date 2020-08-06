@@ -1,30 +1,35 @@
 <template>
 <div id="case-index">
+  <!-- CABECERA -->
   <div id="cabecera">
-    <div class="d-flex justify-content-between mt-5">
+    <div class="d-flex justify-content-between mt-5" v-if="!retro">
       <div class="boton px-2" @click="goToQuestions">SALIR SIN TERMINAR SECCIÓN</div>
       <div class="boton px-2" @click="finishTest">SALIR Y TERMINAR SECCIÓN</div>
     </div>
     <div class="d-flex justify-content-center my-3">
       <div class="boton px-6" v-html="`<< Consulta de preguntas >>`" @click="goToQuestions"></div>
     </div>
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mb-3">
       <div
         :class="{ 'disabled': caseIndex <= 0 }"
         class="boton px-4"
         v-html="`<<<< Anterior`"
         @click="$store.dispatch('custom_test/prevCase')"></div>
-      <div class="boton px-5" @click="$toastr.success('Respuestas guardadas', 'Éxito')">Contestar y permanecer en la pregunta</div>
+      <div class="boton px-5" v-if="!retro" @click="$toastr.success('Respuestas guardadas', 'Éxito')">Contestar y permanecer en la pregunta</div>
       <div
         :class="{ 'disabled': caseIndex >= customTest.cases.length - 1 }"
         class="boton px-4"
         v-html="'Siguiente >>>>'"
         @click="$store.dispatch('custom_test/nextCase')"></div>
     </div>
+    <div v-if="customTest.by_time && !retro" class="text-center mb-1">
+      {{minutes}} : {{seconds}}
+    </div>
     <div id="linea">
       CASO CLÍNICO
     </div>
   </div>
+  <!-- CUERPO -->
   <div id="cuerpo">
     <div id="case" v-html="caseSelected.content"></div>
     <div class="questions" v-for="(question, index) in questionsByCase" :key="`quest-${index}`">
@@ -32,6 +37,7 @@
       <div v-html="question.content"></div>
       <b-form-group label="">
         <b-form-radio
+          :disabled="retro"
           v-for="(ans, index2) in question.answers"
           :checked="question.response"
           @input="setAnswer(question.index, $event)"
@@ -39,17 +45,29 @@
           :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
           :value="ans.id">
             <span v-html="ans.html"></span>
+            <span class="h4 icono" v-if="retro && ans.id === question.response">
+              <b-icon class="correct" icon="check" v-if="question.response === question.correct_answer"></b-icon>
+              <b-icon class="incorrect" icon="x" v-else></b-icon>
+            </span>
         </b-form-radio>
       </b-form-group>
+      <!-- RETRO -->
+      <div v-if="retro" class="mb-5">
+        <div class="title-question">Retroalimentación</div>
+        <div v-html="question.retro"></div>
+        <hr class="mt-5">
+      </div>
+      <!-- FIN RETRO -->
     </div>
   </div>
+  <!-- PIE -->
   <div id="pie" class="d-flex justify-content-between mb-5">
     <div
         :class="{ 'disabled': caseIndex <= 0 }"
         class="boton px-4"
         v-html="`<<<< Anterior`"
         @click="$store.dispatch('custom_test/prevCase')"></div>
-    <div class="boton px-5" @click="$toastr.success('Respuestas guardadas', 'Éxito')">Contestar y permanecer en la pregunta</div>
+    <div class="boton px-5" @click="$toastr.success('Respuestas guardadas', 'Éxito')" v-if="!retro">Contestar y permanecer en la pregunta</div>
     <div
         :class="{ 'disabled': caseIndex >= customTest.cases.length - 1 }"
         class="boton px-4"
@@ -62,9 +80,17 @@
 import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'case-index',
+  props: {
+    retro: {
+      type: Boolean,
+      default: false
+    }
+  },
   computed: {
     ...mapState({
-      customTest: state => state.custom_test.customTest
+      customTest: state => state.custom_test.customTest,
+      minutes: state => state.custom_test.minutes,
+      seconds: state => state.custom_test.seconds
     }),
     ...mapGetters({
       caseSelected: 'custom_test/caseSelected',
@@ -120,7 +146,7 @@ export default {
       background: gray;
       font-weight: 600;
       text-align: center;
-      margin: 2rem 0px;
+      margin-bottom: 1rem;
     }
     #pie {
       padding-top: 2rem;
@@ -131,6 +157,17 @@ export default {
     .title-question {
       font-weight: 600;
       font-size: 1.2rem;
+    }
+    .icono {
+      top: -2px;
+      right: -25px;
+      position: absolute;
+    }
+    .incorrect {
+      color: red;
+    }
+    .correct {
+      color: green;
     }
   }
 </style>

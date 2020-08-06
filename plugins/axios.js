@@ -1,6 +1,6 @@
 export default function ({ $axios, redirect, store }) {
   // Base URL
-  $axios.setBaseURL('https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api')
+  $axios.setBaseURL(process.env.BASE_PATH)
   // Content Type
   $axios.setHeader('Content-Type', 'application/json')
   // Interceptors
