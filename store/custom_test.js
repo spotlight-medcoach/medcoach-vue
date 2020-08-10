@@ -55,7 +55,14 @@ export const getters = {
     return quant
   },
   history (state) {
-    return state.history
+    if (state.history) {
+      return state.history.map((el, index, array) => {
+        el.index = array.length - index
+        return el
+      })
+    } else {
+      return state.history
+    }
   },
   caseSelected (state) {
     if (state.caseIndex !== -1 && state.customTest) {

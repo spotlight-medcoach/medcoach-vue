@@ -8,17 +8,17 @@
     <div id="question-mode">
       <div class="title">Modo de preguntas</div>
       <div class="d-flex justify-content-between">
-        <toggle-switch-radio v-model="mode" label="Sin contestar" name="mode" valor="1"/>
-        <toggle-switch-radio v-model="mode" label="Contestados" name="mode" valor="2"/>
-        <toggle-switch-radio v-model="mode" label="Equivocados" name="mode" valor="3"/>
-        <toggle-switch-radio v-model="mode" label="Todos" name="mode" valor="4"/>
+        <toggle-switch-radio v-model="type" label="Sin contestar" name="type" valor="not_answered"/>
+        <toggle-switch-radio v-model="type" label="Contestados" name="type" valor="answered"/>
+        <toggle-switch-radio v-model="type" label="Equivocados" name="type" valor="wrong"/>
+        <toggle-switch-radio v-model="type" label="Todos" name="type" valor="all"/>
       </div>
     </div>
   </div>
-  <div id="row-topics" class="mt-3">
+  <div id="row-topics" class="mt-3" :class="{'disabled': type !== 'all' }">
     <div class="title d-flex aling-items-end">
       Materias
-      <toggle-switch v-model="allTopics" label=""/>
+      <toggle-switch v-model="allTopics" label="" :disabled="type !== 'all'"/>
     </div>
     <div class="d-flex justify-content-between">
       <toggle-switch
@@ -26,11 +26,12 @@
         @input="updateTopic(topic._id, $event)"
         :label="topic.name"
         v-for="(topic, index) in topics"
-        :key="`materia-${index}`"/>
+        :key="`materia-${index}`"
+        :disabled="type !== 'all'"/>
     </div>
   </div>
   <div class="mt-3 d-flex">
-    <div id="row-subtopics">
+    <div id="row-subtopics" :class="{'disabled': type !== 'all' }">
       <div class="title">Subcategoría</div>
       <div>
         <ul class="p-0 listado">
@@ -101,7 +102,7 @@ export default {
   data () {
     return {
       time: false,
-      mode: '1',
+      type: 'not_answered',
       no_answered: true,
       answered: false,
       failed: false,
@@ -140,6 +141,15 @@ export default {
       await this.$store.dispatch('custom_test/init')
     }
   },
+  watch: {
+    type (newVal) {
+      if (newVal) {
+        this.topics.forEach((topic) => {
+          this.updateTopic(topic._id, false)
+        })
+      }
+    }
+  },
   methods: {
     updateTopic (topicID, val) {
       const payload = {
@@ -165,9 +175,12 @@ export default {
         return false
       } else {
         const params = {
-          subtopics: this.selectSubtopics,
           questions_count: this.questQuantity,
-          by_time: this.time
+          by_time: this.time,
+          type: this.type
+        }
+        if (this.selectSubtopics.length > 0) {
+          params.subtopics = this.selectSubtopics
         }
         this.busy = true
         this.$axios.post('/student/customtest', params)

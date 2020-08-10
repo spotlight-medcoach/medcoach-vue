@@ -4,7 +4,7 @@
   <div v-if="history">
     <div v-for="(item, index) in history" :key="`history-${index}`" class="carta mb-3">
       <div class="div-text">
-        <div class="topic mb-2">Examen {{ index + 1 }}</div>
+        <div class="topic mb-2">Examen {{ item.index }}</div>
         <div class="subtopic">{{ item.date }} - Cantidad de preguntas: {{ item.total_questions }}</div>
       </div>
       <div class="d-flex finished" v-if="item.finished">

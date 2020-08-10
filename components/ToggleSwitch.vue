@@ -2,7 +2,7 @@
 <div class="d-flex">
   <span class="mr-2">{{ label }}</span>
   <label class="switch">
-    <input type="checkbox" v-model="myVal">
+    <input type="checkbox" v-model="myVal" :disabled="disabled">
     <span class="slider round"></span>
   </label>
 </div>
@@ -17,6 +17,10 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -99,5 +103,9 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+.disabled .slider {
+  cursor: default;
+  opacity: 0.8;
 }
 </style>
