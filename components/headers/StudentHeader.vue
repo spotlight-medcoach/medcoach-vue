@@ -5,7 +5,7 @@
           variant="white"
           :sticky="true"
           class="bottomBorder">
-  <b-navbar-brand class="mr-4">
+  <b-navbar-brand class="mr-4 my-3">
     <img src="@/assets/images/logo.svg" id="logo" align="left">
   </b-navbar-brand>
   <!-- HOME  -->
@@ -164,9 +164,6 @@ export default {
 }
 .item-option{
   width: 85px;
-}
-.active-option .text-option{
-  display: block;
 }
 .item-option:hover .text-option{
   display: block;

@@ -15,10 +15,10 @@
       </div>
     </div>
   </div>
-  <div id="row-topics" class="mt-3" :class="{'disabled': type !== 'all' }">
+  <div id="row-topics" class="mt-3" :class="{'disabled': type !== 'all' && type !== 'not_answered' }">
     <div class="title d-flex aling-items-end">
       Materias
-      <toggle-switch v-model="allTopics" label="" :disabled="type !== 'all'"/>
+      <toggle-switch v-model="allTopics" label="" :disabled="type !== 'all' && type !== 'not_answered'"/>
     </div>
     <div class="d-flex justify-content-between">
       <toggle-switch
@@ -27,11 +27,11 @@
         :label="topic.name"
         v-for="(topic, index) in topics"
         :key="`materia-${index}`"
-        :disabled="type !== 'all'"/>
+        :disabled="type !== 'all' && type !== 'not_answered'"/>
     </div>
   </div>
   <div class="mt-3 d-flex">
-    <div id="row-subtopics" :class="{'disabled': type !== 'all' }">
+    <div id="row-subtopics" :class="{'disabled': type !== 'all' && type !== 'not_answered' }">
       <div class="title">Subcategoría</div>
       <div>
         <ul class="p-0 listado">

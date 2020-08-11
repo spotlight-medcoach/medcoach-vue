@@ -43,7 +43,9 @@
           @input="setAnswer(question.index, $event)"
           :name="`answer-radios-${caseSelected.id}-${index}`"
           :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-          :value="ans.id">
+          :value="ans.id"
+          :class="{'correct': (retro && question.correct_answer === ans.id),
+                   'incorrect': (retro && ans.id === question.response && question.response !== question.correct_answer)}">
             <span v-html="ans.html"></span>
             <span class="h4 icono" v-if="retro && ans.id === question.response">
               <b-icon class="correct" icon="check" v-if="question.response === question.correct_answer"></b-icon>
@@ -61,7 +63,7 @@
     </div>
   </div>
   <!-- PIE -->
-  <div id="pie" class="d-flex justify-content-between mb-5">
+  <div id="pie" class="d-flex justify-content-between" style="padding-bottom: 5rem;">
     <div
         :class="{ 'disabled': caseIndex <= 0 }"
         class="boton px-4"
@@ -168,6 +170,13 @@ export default {
     }
     .correct {
       color: green;
+    }
+    .correct .custom-control-label {
+      color: inherit;
+      font-weight: bold;
+    }
+    .incorrect .custom-control-label {
+      color: inherit;
     }
   }
 </style>
