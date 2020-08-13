@@ -11,7 +11,14 @@
             <div >A</div>
           </b-button>
           <b-button :style="{'background-color':actualColorBtn}" @click="onchangeColorBg" size="sm" class="btnColorChange mr-2" type="submit"/>
-          <b-button size="sm" class="my-2 my-sm-0 finishManualBtn" type="submit" @click="finishManual" v-show="!showLoading && !finished">Finalizar Manual</b-button>
+          <b-button
+            size="sm"
+            class="my-2 my-sm-0 finishManualBtn"
+            type="submit"
+            @click="finishManual"
+            v-show="!showLoading && !finished && phase.id !== 2">
+            Finalizar Manual
+          </b-button>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -120,6 +127,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
 export default {
   components: {
@@ -199,7 +207,10 @@ export default {
   computed: {
     editor () {
       return this.$refs.noteQuillEditor.quill
-    }
+    },
+    ...mapState({
+      phase: state => state.phase
+    })
   },
   methods: {
     finishManual () {

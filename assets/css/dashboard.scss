@@ -23,8 +23,8 @@
   }
   .normal {
     cursor: pointer;
-    background-color: #C4C4C4;
-    color: black;
+    background-color: #F2F2F2;
+    color: #252525;
   }
   .finished {
     background-color: #FD9326;
@@ -34,12 +34,12 @@
   .review {
     cursor: pointer;
     background-color: #C5F5FF;
-    color: black;
+    color: #252525;
   }
   .finished-review {
-    cursor: default;
     background-color: #1CA4FC;
     color: white;
+    cursor: default;
   }
   .finished-icon {
     position: absolute;
@@ -50,6 +50,6 @@
     text-overflow: clip;
     white-space: pre-wrap;
     overflow-wrap: break-word;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 }
