@@ -1,6 +1,9 @@
 import webpack from 'webpack'
 
 export default {
+  env: {
+    BASE_PATH: process.env.BASE_PATH
+  },
   mode: 'spa',
   /*
   ** Headers of the page
