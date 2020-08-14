@@ -50,12 +50,17 @@ export default {
         })
         .then((res) => {
           const userData = res.data.payload
-          console.log(userData)
-          if (process.client) {
-            localStorage.setItem('usertoken', res.data.token)
-            this.$store.commit('setToken', res.data.token)
+          if (userData.validated) {
+            console.log(userData)
+            if (process.client) {
+              localStorage.setItem('usertoken', res.data.token)
+              this.$store.commit('setToken', res.data.token)
+            }
+            this.$router.push({ path: '/dashboard' })
+          } else {
+            this.$toastr.error('Debes seleccionar un plan de estudio antes de ingresar', 'Error')
+            this.busy = false
           }
-          this.$router.push({ path: '/dashboard' })
         })
         .catch((err) => {
           const response = err.response
