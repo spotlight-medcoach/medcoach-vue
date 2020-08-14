@@ -14,7 +14,8 @@ export const state = () => ({
     init_date_phase_2: null
   },
   rest_days: null,
-  alert_second_stage: false
+  alert_second_stage: false,
+  landing: 'login'
 })
 
 export const mutations = {
@@ -44,6 +45,9 @@ export const mutations = {
   },
   setAlertScondStage (state, payload) {
     state.alert_second_stage = payload
+  },
+  setLanding (state, payload) {
+    state.landing = payload
   }
 }
 

@@ -2,7 +2,8 @@ import webpack from 'webpack'
 
 export default {
   env: {
-    BASE_PATH: process.env.BASE_PATH
+    BASE_PATH: process.env.BASE_PATH,
+    BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE
   },
   mode: 'spa',
   /*
@@ -44,7 +45,9 @@ export default {
     // diagnostic_test css
     '@assets/css/diagnostic_test.scss',
     // manual css
-    '@assets/css/manual.scss'
+    '@assets/css/manual.scss',
+    // index/reset_password css
+    '@assets/css/index.css'
   ],
   /*
   ** Plugins to load before mounting the App
