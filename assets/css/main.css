@@ -103,3 +103,18 @@ html {
 .ql-editor p {
   margin-top: 2px;
 }
+
+#case-index {
+  margin-left: 150px;
+  margin-right: 150px;
+}
+
+#case {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+#cuerpo .questions {
+  margin-left: 100px;
+  margin-right: 100px;
+}
