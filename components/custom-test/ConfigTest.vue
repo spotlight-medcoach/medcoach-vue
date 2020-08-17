@@ -40,7 +40,7 @@
               :value="subtopic.check"
               @input="updateSubtopic(subtopic.topic_id, subtopic._id, $event)"
               :label="subtopic.name"
-              :number="subtopic.questions"
+              :number="(type === 'all') ? subtopic.questions : subtopic.questions_not_answered"
               :show_number="showNumber"
               :disabled="subtopic.disabled"/>
           </li>
@@ -60,7 +60,7 @@
               class="text-center"
               :disabled="!this.fetchedData"
               v-model.number="questQuantity">
-              <span style="font-size: 1.2rem"> / {{ countQuestions || 'Calculando...'}}</span>
+              <span style="font-size: 1.2rem" v-if="type === 'all' || type === 'not_answered'"> / {{ countQuestions || 'Calculando...'}}</span>
             <div class="ml-2" style="font-size: 0.85rem"> Max. {{maxQuestions}}</div>
           </div>
         </div>
@@ -153,6 +153,11 @@ export default {
   watch: {
     type (newVal) {
       if (newVal) {
+        if (newVal === 'all' || newVal === 'not_answered') {
+          this.$store.commit('custom_test/setType', newVal)
+        } else {
+          this.$store.commit('custom_test/setType', '')
+        }
         this.topics.forEach((topic) => {
           this.updateTopic(topic._id, false)
         })

@@ -71,7 +71,7 @@ export default {
       search: '',
       prev_height: '',
       default_container: {
-        'mt-5': true
+        'mt-4-5': true
       },
       result_container: {
         'pt-5': true,
@@ -192,5 +192,8 @@ export default {
     max-width: 95vw !important;
     margin-right: auto !important;
     margin-left: auto !important;
+  }
+  .mt-4-5 {
+    margin-top: 2rem;
   }
 </style>

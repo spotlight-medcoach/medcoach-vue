@@ -15,6 +15,7 @@ data.topics.forEach((topic) => {
     subtopic.check = false
     subtopic.disabled = true
     subtopic.questions = null
+    subtopic.questions_not_answered = null
     subtopic.topic_id = topic._id
   })
 })
@@ -31,7 +32,8 @@ export const state = () => ({
   finishedTest: false,
   minutes: 0,
   seconds: 0,
-  sendingAnswers: false
+  sendingAnswers: false,
+  type: ''
 })
 
 // GETTERS
@@ -49,9 +51,17 @@ export const getters = {
   },
   countQuestions (state, getters) {
     let quant = 0
-    getters.subtopics.forEach((el) => {
-      quant += parseInt(el.questions || 0)
-    })
+    if (state.type !== '') {
+      if (state.type === 'all') {
+        getters.subtopics.forEach((el) => {
+          quant += parseInt(el.questions || 0)
+        })
+      } else if (state.type === 'not_answered') {
+        getters.subtopics.forEach((el) => {
+          quant += parseInt(el.questions_not_answered || 0)
+        })
+      }
+    }
     return quant
   },
   history (state) {
@@ -91,6 +101,7 @@ export const mutations = {
       topic.subtopics.forEach((subtopic) => {
         // subtopic.questions = questions.find(q => q.subtopic_id === subtopic._id).count
         subtopic.questions = keyedQuestions[subtopic._id].count
+        subtopic.questions_not_answered = keyedQuestions[subtopic._id].count_not_answered
       })
     })
   },
@@ -169,6 +180,9 @@ export const mutations = {
   },
   setSendingAnswers (state, payload) {
     state.sendingAnswers = payload
+  },
+  setType (state, payload) {
+    state.type = payload
   }
 }
 

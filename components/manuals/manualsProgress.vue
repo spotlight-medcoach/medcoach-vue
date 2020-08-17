@@ -16,7 +16,7 @@
       </div>
     </div>
     <hr>
-    <div class="text-center mt-5 mb-5">
+    <div class="text-center mt-4 mb-3">
       <h3 class="font-weight-bolder" v-if="load">
         {{ total_progress }} / {{ total_manuals }}
       </h3>
