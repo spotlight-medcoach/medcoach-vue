@@ -5,7 +5,7 @@
           variant="white"
           :sticky="true"
           class="bottomBorder">
-  <b-navbar-brand class="mr-4 my-3">
+  <b-navbar-brand style="margin-bottom: 0.1rem">
     <img src="@/assets/images/logo.svg" id="logo" align="left">
   </b-navbar-brand>
   <!-- HOME  -->
@@ -114,11 +114,11 @@ export default {
 <style>
 #logo {
   float: left;
-  width: 200px;
   padding: 10px;
+  width: 200px;
 }
 .menu-item {
-  width: 45px;
+  width: 35px;
 }
 .bottomBorder{
   border-bottom:1px solid;
@@ -132,8 +132,8 @@ export default {
   top:1px;
 }
 .textH{
-  font-size :12px;
   color: black;
+  font-size :12px;
 }
 .nav-link {
   color: black;
@@ -158,9 +158,10 @@ export default {
 }
 .text-option {
   color: black;
+  display: none;
+  font-size: 13px;
   font-weight: bold;
   text-decoration: none !important;
-  display: none;
 }
 .item-option{
   width: 85px;
@@ -169,8 +170,8 @@ export default {
   display: block;
 }
 .circulo {
-  border-radius: 50px;
   background: #5F5F5F;
+  border-radius: 50px;
 }
 .active-option .circulo {
   background: #FD9326;

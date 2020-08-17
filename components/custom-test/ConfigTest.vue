@@ -202,9 +202,22 @@ export default {
 </script>
 
 <style lang="scss">
+  @media screen and (min-width: 1000px) {
+    #config_custom_test {
+      #main {
+        width: 90%;
+      }
+    }
+  }
+  @media screen and (min-width: 1600px) {
+    #config_custom_test {
+      #main {
+        width: 80%;
+      }
+    }
+  }
   #config_custom_test {
     #main {
-      width: 80%;
       margin: 1rem auto;
       .title {
         font-weight: 700;
@@ -240,7 +253,7 @@ export default {
         box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
         padding: 1rem;
-        width: 70%;
+        width: 74%;
         .listado {
           columns: 3;
           -webkit-columns: 3;
@@ -251,7 +264,7 @@ export default {
         }
       }
       #col-number {
-        width: 29%;
+        width: 25%;
         box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
         margin-left: 1rem;

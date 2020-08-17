@@ -69,7 +69,7 @@ export default {
           reviewed: []
         },
         {
-          day: 'Miercoles',
+          day: 'Miércoles',
           number: null,
           index: null,
           data: [],
@@ -90,7 +90,7 @@ export default {
           reviewed: []
         },
         {
-          day: 'Sabado',
+          day: 'Sábado',
           number: null,
           index: null,
           data: [],

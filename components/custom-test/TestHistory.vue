@@ -2,6 +2,9 @@
 <div id="historial">
   <div class="mb-3 titulo">Historial de Exámenes</div>
   <div v-if="history">
+    <div v-if="history.length === 0">
+      <p>No ha ralizado exámenes</p>
+    </div>
     <div v-for="(item, index) in history" :key="`history-${index}`" class="carta mb-3">
       <div class="div-text">
         <div class="topic mb-2">Examen {{ item.index }}</div>
