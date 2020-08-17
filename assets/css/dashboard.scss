@@ -11,8 +11,8 @@
   }
   // estilos de los cards
   .manual {
-    padding: 10px 20px;
-    margin: 12px 12px;
+    padding: 10px 15px;
+    margin: 12px;
     border-radius: 10px;
     text-align: initial;
     position: relative;
@@ -51,5 +51,11 @@
     white-space: pre-wrap;
     overflow-wrap: break-word;
     margin-bottom: 5px;
+    font-size: 12px;
+    font-family: Montserrat;
+  }
+  .text-subtopic {
+    font-size: 11px;
+    font-family: Montserrat;
   }
 }

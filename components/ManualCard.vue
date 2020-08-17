@@ -6,7 +6,7 @@
     v-if="review"
   >
     <div class="text-overflow"><b>{{manual.manual_name}}</b></div>
-    <div>{{manual.manual_subtopic_name}}</div>
+    <div class="text-subtopic">{{manual.manual_subtopic_name}}</div>
     <div class="finished-icon" v-if="manual.reviewed">
       <img src="@/assets/icons/blue_check.svg" width="25" height="25">
     </div>
@@ -18,7 +18,7 @@
     v-else
   >
     <div class="text-overflow"><b>{{manual.manual_name}}</b></div>
-    <div>{{manual.manual_subtopic_name}}</div>
+    <div class="text-subtopic">{{manual.manual_subtopic_name}}</div>
     <div class="finished-icon" v-if="manual.finished">
       <img src="@/assets/icons/orange_check.svg" width="25" height="25">
     </div>
