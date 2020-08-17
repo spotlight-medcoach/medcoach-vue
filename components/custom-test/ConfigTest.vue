@@ -39,7 +39,9 @@
             <orange-checkbox
               :value="subtopic.check"
               @input="updateSubtopic(subtopic.topic_id, subtopic._id, $event)"
-              :label="subtopic.name + ` (${subtopic.questions !== null ? subtopic.questions : '...'})`"
+              :label="subtopic.name"
+              :number="subtopic.questions"
+              :show_number="showNumber"
               :disabled="subtopic.disabled"/>
           </li>
         </ul>
@@ -102,7 +104,7 @@ export default {
   data () {
     return {
       time: false,
-      type: 'not_answered',
+      type: '',
       no_answered: true,
       answered: false,
       failed: false,
@@ -114,6 +116,13 @@ export default {
     }
   },
   computed: {
+    showNumber () {
+      if (this.type === 'not_answered' || this.type === 'all') {
+        return true
+      } else {
+        return false
+      }
+    },
     allTopics: {
       get () {
         return this.topics.every(topic => topic.check)

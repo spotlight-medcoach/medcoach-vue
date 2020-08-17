@@ -51,14 +51,13 @@ export default {
         .then((res) => {
           const userData = res.data.payload
           if (userData.validated) {
-            console.log(userData)
             if (process.client) {
               localStorage.setItem('usertoken', res.data.token)
               this.$store.commit('setToken', res.data.token)
             }
             this.$router.push({ path: '/dashboard' })
           } else {
-            this.$toastr.error('Debes seleccionar un plan de estudio antes de ingresar', 'Error')
+            this.$router.push({ name: 'welcome', query: { token: res.data.token } })
             this.busy = false
           }
         })

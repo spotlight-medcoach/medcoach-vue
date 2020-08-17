@@ -1,4 +1,12 @@
 #manual {
+  #quill-notes {
+    .quill-editor {
+      height: 85vh;
+      .ql-container {
+        height: 90%;
+      }
+    }
+  }
   .navbarBg{
     border-bottom: 1px solid black;
   }

@@ -30,7 +30,7 @@
     </div>
   </div>
   <!-- CONTAINER -->
-  <b-container style="height: 90.4vh; max-width: 98vw;" v-else>
+  <b-container style="max-width: 98vw;" v-else>
     <b-row class="mt-3">
       <b-col cols="8">
         <div :style="`font-size:${fontSize}em; color: ${actualColorFont}`" id="content" oncopy="return false" oncut="return false" onpaste="return false">
@@ -91,7 +91,7 @@
           </div>
         </div>
       </b-col>
-      <b-col>
+      <b-col id="quill-notes">
         <client-only>
           <div class="save-note">
             <b-overlay

@@ -1,6 +1,9 @@
 <template>
 <label class="orange-check" :class="{'disabled': disabled }">
   {{ label }}
+  <span v-if="show_number">
+    ({{ (number !== null) ? number : '...' }})
+  </span>
   <input type="checkbox" v-model="myVal" :disabled="disabled">
   <span class="checkmark"></span>
 </label>
@@ -17,6 +20,13 @@ export default {
       required: true
     },
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    number: {
+      default: null
+    },
+    show_number: {
       type: Boolean,
       default: false
     }

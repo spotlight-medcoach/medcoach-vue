@@ -165,6 +165,7 @@ export default {
       background-color: @white;
       color: @gray-dark;
       padding: 40px 45px;
+      padding-right: 0px;
       position: absolute;
       left: 50%;
       top: 0;
@@ -187,7 +188,7 @@ export default {
       width: 50%;
       background-color: @white;
       color: @gray-dark;
-      padding: 0px 45px 40px 45px;
+      padding: 0px 0px 40px 45px;
       position: absolute;
       left: 50%;
       top: 0;
