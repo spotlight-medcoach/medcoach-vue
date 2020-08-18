@@ -2,9 +2,9 @@
 <div id="dashboard">
   <b-overlay class="main-container-dashboard mt-5">
     <!-- QUOTE -->
-    <div class="about" align="center">
-      <h6>"{{ quoteSelected.quote }}"</h6>
-      <h6><b>- {{ quoteSelected.author }}</b></h6>
+    <div class="about quote" align="center">
+      <div>"{{ quoteSelected.quote }}"</div>
+      <div class="author">- {{ quoteSelected.author }}</div>
     </div>
     <!-- PHASE PROGRESS BAR -->
     <div v-if="phase.id" class="mt-5">

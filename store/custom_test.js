@@ -30,10 +30,10 @@ export const state = () => ({
   customTest: null,
   fetchedTest: false,
   finishedTest: false,
-  minutes: 0,
-  seconds: 0,
   sendingAnswers: false,
-  type: ''
+  type: '',
+  timer: null,
+  timerString: ''
 })
 
 // GETTERS
@@ -183,6 +183,12 @@ export const mutations = {
   },
   setType (state, payload) {
     state.type = payload
+  },
+  setTimer (state, payload) {
+    state.timer = payload
+  },
+  setTimerString (state, payload) {
+    state.timerString = payload
   }
 }
 
@@ -245,7 +251,7 @@ export const actions = {
         console.log('Error en el fetchCustomTest', error.response)
       })
   },
-  prepareTimeTest ({ state, dispatch }) {
+  prepareTimeTest ({ state, dispatch, commit }) {
     const time = state.customTest.total_time
     const finish = moment(state.customTest.start_at)
     finish.add(time, 's')
@@ -255,7 +261,7 @@ export const actions = {
     } else {
       const duration = moment.duration(finish.diff(moment()))
       const restTime = duration.asSeconds()
-      dispatch('initCountdown', duration)
+      dispatch('initTimer', duration)
       setTimeout(() => {
         if (!state.finishedTest) {
           dispatch('finishTest')
@@ -298,30 +304,28 @@ export const actions = {
         commit('setSendingAnswers', false)
       })
   },
-  initCountdown ({ commit }, duration) {
-    const interval = 1
+  initTimer ({ state, commit }, duration) {
     const timer = setInterval(() => {
-      duration = moment.duration(duration.asSeconds() - interval, 'seconds')
-      let min = duration.minutes()
-      let sec = duration.seconds()
-      sec -= 1
-      if (parseInt(min) < 0) {
-        return clearInterval(timer)
-      }
-      if (parseInt(min) < 10 && min.length !== 2) {
-        min = '0' + min
-      }
-      if (parseInt(sec) < 0 && parseInt(min) !== 0) {
-        min -= 1
-        sec = 59
-      } else if (parseInt(sec) < 10 && sec.length !== 2) {
-        sec = '0' + sec
-      }
-      commit('setMinutes', min)
-      commit('setSeconds', sec)
-      if (parseInt(min) === 0 && parseInt(sec) === 0) {
-        clearInterval(timer)
+      if (duration.asSeconds <= 0) {
+        clearInterval(state.timer)
+      } else {
+        duration = moment.duration(duration.asSeconds() - 1, 'seconds')
+        let hours = duration.hours().toString()
+        let minutes = duration.minutes().toString()
+        let seconds = duration.seconds().toString()
+        if (hours.length < 2) {
+          hours = '0' + hours
+        }
+        if (minutes.length < 2) {
+          minutes = '0' + minutes
+        }
+        if (seconds.length < 2) {
+          seconds = '0' + seconds
+        }
+        const timerString = `${hours}:${minutes}:${seconds}`
+        commit('setTimerString', timerString)
       }
     }, 1000)
+    commit('setTimer', timer)
   }
 }

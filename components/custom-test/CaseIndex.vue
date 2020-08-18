@@ -23,7 +23,7 @@
         @click="$store.dispatch('custom_test/nextCase')"></div>
     </div>
     <div v-if="customTest.by_time && !retro" class="text-center mb-1">
-      {{minutes}} : {{seconds}}
+      {{timerString}}
     </div>
     <div id="linea">
       CASO CLÍNICO
@@ -91,8 +91,7 @@ export default {
   computed: {
     ...mapState({
       customTest: state => state.custom_test.customTest,
-      minutes: state => state.custom_test.minutes,
-      seconds: state => state.custom_test.seconds
+      timerString: state => state.custom_test.timerString
     }),
     ...mapGetters({
       caseSelected: 'custom_test/caseSelected',

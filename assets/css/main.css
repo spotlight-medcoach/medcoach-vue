@@ -22,7 +22,7 @@
 }
 @media (min-width: 1200px) {
   .container {
-    max-width: 97vw !important;
+    max-width: 1200px !important;
   }
 }
 @media print {
@@ -32,7 +32,7 @@
 }
 @media screen and (min-width: 1600px) {
   .container {
-    max-width: 1400px !important;
+    max-width: 1200px !important;
   }
 }
 html {

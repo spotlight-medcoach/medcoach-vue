@@ -12,7 +12,7 @@
   // estilos de los cards
   .manual {
     padding: 10px 15px;
-    margin: 12px;
+    margin: 12px 5px;
     border-radius: 10px;
     text-align: initial;
     position: relative;
@@ -57,5 +57,13 @@
   .text-subtopic {
     font-size: 11px;
     font-family: Montserrat;
+  }
+  .quote {
+    font-family: Montserrat;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .author {
+    font-weight: bold;
   }
 }
