@@ -203,8 +203,8 @@ export default {
             console.log(result)
           })
           .catch((error) => {
-            console.log(error.response)
-            alert('No se pudo crear el examen')
+            const response = error.response
+            this.$toastr.error(response.data.message, 'Error')
           })
           .finally(() => {
             this.busy = false
