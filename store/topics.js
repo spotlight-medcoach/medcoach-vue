@@ -37,11 +37,18 @@ export const mutations = {
   setTopics (state, topics) {
     const manualsArray = []
     state.data.forEach((topic, index) => {
-      const auxTopic = topics[index]
+      const auxTopic = topics.find(e => e.id === topic._id)
       topic.progress = auxTopic.progress
       topic.total = auxTopic.total
       topic.subtopics.forEach((subtopic, indexSub) => {
+        if (auxTopic.subtopics[indexSub] === undefined) {
+          console.clear()
+          console.log('subtopics', auxTopic.subtopics)
+          console.log('index', indexSub)
+          console.log('obj', subtopic)
+        }
         subtopic.manuals = auxTopic.subtopics[indexSub].manuals
+        console.log()
         subtopic.manuals.forEach((manual) => {
           const obj = {
             manual_id: manual.id,

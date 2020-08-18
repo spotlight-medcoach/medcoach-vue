@@ -8,7 +8,7 @@
     <div class="text-overflow"><b>{{manual.manual_name}}</b></div>
     <div class="text-subtopic">{{manual.manual_subtopic_name}}</div>
     <div class="finished-icon" v-if="manual.reviewed">
-      <img src="@/assets/icons/blue_check.svg" width="25" height="25">
+      <img src="@/assets/icons/blue_check.svg" width="15" height="15">
     </div>
   </div>
   <div
@@ -20,7 +20,7 @@
     <div class="text-overflow"><b>{{manual.manual_name}}</b></div>
     <div class="text-subtopic">{{manual.manual_subtopic_name}}</div>
     <div class="finished-icon" v-if="manual.finished">
-      <img src="@/assets/icons/orange_check.svg" width="25" height="25">
+      <img src="@/assets/icons/orange_check.svg" width="15" height="15">
     </div>
   </div>
 </template>

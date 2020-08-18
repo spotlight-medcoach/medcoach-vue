@@ -108,7 +108,7 @@ export default {
   height: 100%;
   overflow-y:hidden;
   width: auto;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .manuals-list::-webkit-scrollbar{
   height: 10px;

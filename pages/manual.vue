@@ -3,6 +3,7 @@
   <!-- NAVBAR -->
   <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
     <b-navbar-brand href="/dashboard"><img src="@/assets/icons/home_logo_off.svg" width="50" height="50"/></b-navbar-brand>
+    <h3 class="ml-5 text-uppercase">{{ manual_name }}</h3>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->
@@ -208,12 +209,31 @@ export default {
     editor () {
       return this.$refs.noteQuillEditor.quill
     },
+    manual_name () {
+      let name = ''
+      const manualID = this.manual_id
+      this.topics.forEach((topic) => {
+        topic.subtopics.forEach((subtopic) => {
+          subtopic.manuals.forEach((manual) => {
+            if (manual.id === manualID) {
+              name = manual.name
+            }
+          })
+        })
+      })
+      return name
+    },
     ...mapState({
-      phase: state => state.phase
+      phase: state => state.phase,
+      topics: state => state.topics.data
     })
   },
   methods: {
     finishManual () {
+      if (this.content.trim() === '') {
+        this.$toastr.error('Su nota está vacía', 'Error')
+        return false
+      }
       this.message = 'Finalizando manual, espere un momento'
       this.showLoading = true
       this.saveNote()
@@ -241,6 +261,10 @@ export default {
         })
     },
     saveNote () {
+      if (this.content.trim() === '') {
+        this.$toastr.error('Su nota está vacía', 'Error')
+        return false
+      }
       const params = {
         manual_id: this.manual_id,
         body: this.content
