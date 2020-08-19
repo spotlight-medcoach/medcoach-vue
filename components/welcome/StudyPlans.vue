@@ -7,7 +7,7 @@
       <div class="col-sm-4" v-for="(plan, index) in study_plans" :key="plan._id">
         <b-card
             :id="plan._id"
-            class="mb-2 mr-2 text-center"
+            class="mb-2 mr-2 text-center cartita"
             :class="[
                 index == 0 ? 'blue-theme' : (index == 1 ? 'rose-theme' : 'orange-theme'),
                 plan_selected != null && plan_selected._id == plan._id ? 'selected-item' : ''
@@ -16,7 +16,7 @@
             @click="selectPlan(plan)"
         >
           <h3 class="card-title">{{ plan.name }}</h3>
-          <span class="body" v-html="plan.description"></span>
+          <div class="body d-flex align-items-center" style="height: 80%;" v-html="plan.description"></div>
         </b-card>
       </div>
     </div>
@@ -52,7 +52,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
 .card-title {
     font-weight: bold;
 }
@@ -120,5 +120,12 @@ export default {
     padding-top: 18px;
     cursor: pointer;
     border-radius: 0px 0px 22px 22px !important;
+}
+
+.cartita {
+  height: 96%;
+  p {
+    text-align: center;
+  }
 }
 </style>
