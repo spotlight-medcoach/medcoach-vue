@@ -78,6 +78,14 @@ export const mutations = {
 }
 
 export const actions = {
+  fetchTopics ({ commit }) {
+    return this.$axios
+      .get('/topics')
+      .then((res) => {
+        const allManuals = res.data.topics
+        commit('setTopics', allManuals)
+      })
+  },
   changeTopic ({ commit }, index) {
     commit('setTopic', index)
   },

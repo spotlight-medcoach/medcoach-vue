@@ -3,7 +3,7 @@
   <!-- NAVBAR -->
   <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
     <b-navbar-brand href="/dashboard"><img src="@/assets/icons/home_logo_off.svg" width="50" height="50"/></b-navbar-brand>
-    <h3 class="ml-5 text-uppercase">{{ manual_name }}</h3>
+    <span class="ml-3 manual-title">{{ manual_name }}</span>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <!-- Right aligned nav items -->

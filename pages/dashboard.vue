@@ -61,21 +61,10 @@ export default {
       const index = this.getRandomInt(0, size)
       this.quoteSelected = this.quos[index]
     }
-    if (!this.$store.state.topics.fetchedManuals) {
-      this.getAllManuals()
-    }
   },
   methods: {
     getRandomInt (min, max) {
       return Math.floor(Math.random() * (max - min)) + min
-    },
-    getAllManuals () {
-      return this.$axios
-        .get('/topics')
-        .then((res) => {
-          const allManuals = res.data.topics
-          this.$store.commit('topics/setTopics', allManuals)
-        })
     }
   },
   computed: {

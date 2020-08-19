@@ -57,6 +57,7 @@ export const actions = {
     commit('http_request/setOnHttpRequest', true)
     dispatch('notifications/loopFetchData')
     await dispatch('fetchStudentInfo').then(() => dispatch('fetchSyllabus'))
+    dispatch('topics/fetchTopics')
   },
   killSession ({ commit }) {
     localStorage.removeItem('usertoken')
