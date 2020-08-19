@@ -5,13 +5,13 @@
     </div>
     <div class="d-flex justify-content-between">
       <div class="p-4 redes">
-        <a href="#">FACEBOOK</a>
+        <a href="https://www.facebook.com/spotlightmed/" target="_blank">FACEBOOK</a>
       </div>
       <div class="p-4 redes">
-        <a href="#">TWITTER</a>
+        <a href="https://twitter.com/spotlightmed" target="_blank">TWITTER</a>
       </div>
       <div class="p-4 redes">
-        <a href="#">INSTAGRAM</a>
+        <a href="https://www.instagram.com/spotlightmed_/" target="_blank">INSTAGRAM</a>
       </div>
     </div>
   </div>
