@@ -5,7 +5,6 @@
       <b-col cols="12">
         <nuxt-link
           class="pointer text-decoration-none"
-          target="_blank"
           :to="`/manual?manual_id=${manual.manual_id}`"
           v-if="!manual.finished || !isNotes">
           <div class="manual-txt">{{ manual.manual_name }}</div>
