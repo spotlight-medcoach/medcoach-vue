@@ -33,7 +33,7 @@
   <div id="cuerpo">
     <div id="case" v-html="caseSelected.content"></div>
     <div class="questions" v-for="(question, index) in questionsByCase" :key="`quest-${index}`">
-      <div class="title-question"> Pregunta {{index + 1}} </div>
+      <div class="title-question"> Pregunta {{question.index + 1}} </div>
       <div v-html="question.content"></div>
       <b-form-group label="">
         <b-form-radio
