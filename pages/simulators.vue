@@ -12,6 +12,12 @@
             <SimulatorCard v-bind:simulator="item"></SimulatorCard>
           </div>
         </div>
+    <b-modal id="modal-1" hide-footer hide-header no-close-on-backdrop size="sm">
+      <div class="popup">
+        <p>Cargando exámenes</p>
+        <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+      </div>
+    </b-modal>
     </div>
 </template>
 <script>
@@ -41,8 +47,11 @@ export default {
       }
     }).then((res) => {
       this.simulators = res.data.simulators
-      console.log(this.simulators)
+      this.$bvModal.hide('modal-1')
     })
+  },
+  mounted () {
+    this.$bvModal.show('modal-1')
   },
   methods: {
     back () {
@@ -57,5 +66,16 @@ export default {
   }
   .simulators {
     margin: 30px;
+  }
+  .popup{
+   text-align:center;
+   font-size:20px;
+  }
+  .image{
+     display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  margin-bottom:20px;
   }
 </style>

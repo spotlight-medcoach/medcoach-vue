@@ -68,26 +68,32 @@ export default {
       if (this.enarm === 'ENARM') {
         this.$bvModal.hide('modal-1')
         this.$bvModal.show('modal-2')
-        this.$axios.get(`/student/simulators/get?simulator_id=${this.$route.query.id}`, {
+        this.$axios.post(`/student/simulators?simulator_id=${this.$route.query.id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('usertoken')}`
           }
-        }).then((res) => {
-          const day = moment.now()
-          const simulator = {
-            id: this.$route.query.id,
-            cases: res.data.cases,
-            questions: res.data.questions,
-            start_first_block: day,
-            start_break: null,
-            start_second_block: null
-          }
-          const answers = new Array(250).fill(0)
-          localStorage.setItem('answers', answers)
-          localStorage.setItem('simulator', JSON.stringify(simulator))
-          this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
-        }).catch((err) => {
-          console.log(err)
+        }).then(() => {
+          this.$axios.get(`/student/simulators/get?simulator_id=${this.$route.query.id}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+            }
+          }).then((res) => {
+            const day = moment.now()
+            const simulator = {
+              id: this.$route.query.id,
+              cases: res.data.cases,
+              questions: res.data.questions,
+              start_first_block: day,
+              start_break: null,
+              start_second_block: null
+            }
+            const answers = new Array(250).fill(0)
+            localStorage.setItem('answers', answers)
+            localStorage.setItem('simulator', JSON.stringify(simulator))
+            this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
+          }).catch((err) => {
+            console.log(err)
+          })
         })
       } else {
         this.error = true

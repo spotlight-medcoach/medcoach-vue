@@ -10,6 +10,7 @@
         <h4 style="color:#fff" v-else>Pendiente</h4>
         </div>
         <b-button class="buttontest" v-if="simulator.finished === false" v-on:click="gotoSimulator">Tomar examen</b-button>
+        <b-button class="buttonfeedback" v-if="simulator.finished === true" v-on:click="gotoResults">Ver retroalimentación</b-button>
     </div>
 </div>
 </template>
@@ -28,6 +29,10 @@ export default {
     gotoSimulator () {
       localStorage.setItem('setSimulator', this.simulator.id)
       this.$router.push({ path: `/introduction_simulator/?id=${this.simulator.id}` })
+    },
+    gotoResults () {
+      localStorage.setItem('setSimulator', this.simulator.id)
+      this.$router.push({ path: `/simulator_results/?id=${this.simulator.id}` })
     }
   }
 }
@@ -57,7 +62,7 @@ export default {
     .buttontest{
         margin: 10px;
         background-color:#FE9400;
-        width:150px;
+        width:175px;
         height:50px;
     }
     .text-finalizado{
@@ -65,5 +70,13 @@ export default {
     }
     .text-pendiente{
       color:#fff;
+    }
+    .buttonfeedback{
+      height:65px;
+      background-color: #fff;
+      color:#000;
+      line-height: 1;
+      border-width:thin;
+      border-color:#000;
     }
 </style>
