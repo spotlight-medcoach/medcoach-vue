@@ -1,36 +1,42 @@
 <template>
-<div class="test">
-<div class="d-flex content justify-content-between">
-<button class="button" v-on:click="goback"> Salir sin terminar la sección</button>
-<button class="button" v-on:click="save_test">Salir y terminar la sección</button>
-</div>
-<div class="d-flex content justify-content-center">
-<button class="button" v-on:click="goback"> consulta de preguntas </button>
-</div>
-<div class="d-flex content justify-content-between">
-<button class="button" v-on:click="previous"> Anterior </button>
-<button class="button" v-on:click="answer"> Contestar y permanecer en la pregunta </button>
-<button class="button" v-on:click="next"> Siguiente </button>
-</div>
-<div class="d-flex content justify-content-end">
-<h3>{{this.count}}</h3>
-</div>
-<div style="text-align:center; background-color:#858585;">
-<span><b>CASO CLÍNICO</b></span>
-</div>
-<div v-html="caseHTML">
-</div>
-<div style="background-color:#858585; margin:30px; width:200px">
-<span><b> PREGUNTA {{current_question}} </b></span>
-</div>
-<div class="d-flex" v-html="question.html"></div>
-<b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
-<div class="d-flex">
-<b-form-radio type="radio" name="respuesta" v-model="selected" :value="index"></b-form-radio>
-<div v-html="item.html"></div>
-</div>
-</b-form-group>
-</div>
+  <div class="test">
+    <div class="d-flex content justify-content-between">
+      <button class="button" v-on:click="goback"> Salir sin terminar la sección</button>
+      <button class="button" v-on:click="save_test">Salir y terminar la sección</button>
+    </div>
+    <div class="d-flex content justify-content-center">
+      <button class="button" v-on:click="goback"> consulta de preguntas </button>
+    </div>
+    <div class="d-flex content justify-content-between">
+      <button class="button" v-on:click="previous"> Anterior </button>
+      <button class="button" v-on:click="answer"> Contestar y permanecer en la pregunta </button>
+      <button class="button" v-on:click="next"> Siguiente </button>
+    </div>
+    <div class="d-flex content justify-content-end">
+      <h3>{{this.count}}</h3>
+    </div>
+    <div style="text-align:center; background-color:#858585;">
+      <span><b>CASO CLÍNICO</b></span>
+    </div>
+    <div v-html="caseHTML">
+    </div>
+    <div style="background-color:#858585; margin:30px; width:200px">
+      <span><b> PREGUNTA {{current_question}} </b></span>
+    </div>
+    <div class="d-flex" v-html="question.html"></div>
+      <b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
+        <div class="d-flex">
+          <b-form-radio type="radio" name="respuesta" v-model="selected" :value="index"></b-form-radio>
+          <div v-html="item.html"></div>
+        </div>
+      </b-form-group>
+      <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
+        <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
+        <div>
+         <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+        </div>
+      </b-modal>
+    </div>
 </div>
 </template>
 <script>
@@ -60,7 +66,7 @@ export default {
     load () {
       this.current_question = parseInt(localStorage.getItem('current_question')) + 1
       this.simulator_data = JSON.parse(localStorage.getItem('simulator'))
-      if (localStorage.getItem('start_break') != null && localStorage.getItem('start_block2') === null) {
+      if (localStorage.getItem('start_break') != null && localStorage.getItem('start_second_block') === null) {
         this.$router.push({ path: `/simulator_break/?id=${this.simulator_date.id}` })
       }
       this.question = this.simulator_data.questions.find(question => question.id === this.$route.query.id)
@@ -68,10 +74,10 @@ export default {
       this.answers = localStorage.getItem('answers').split(',')
       this.selected = this.answers[this.current_question - 1] - 1
       let StartBlock = 0
-      if (localStorage.getItem('start_block2') === null) {
-        StartBlock = this.simulator_data.start_first_block
+      if (localStorage.getItem('start_second_block') === 'null') {
+        StartBlock = parseInt(localStorage.getItem('start_first_block'))
       } else {
-        StartBlock = parseInt(localStorage.getItem('start_block2'))
+        StartBlock = parseInt(localStorage.getItem('start_second_block'))
       }
       const date = moment(StartBlock)
       const today = moment()
@@ -82,6 +88,7 @@ export default {
         duration = moment.duration(duration - 1000, 'milliseconds')
         this.count = moment.utc(duration.asMilliseconds()).format('HH:mm:ss')
         if (duration.asMilliseconds() <= 0) {
+          clearInterval(this.countdown)
           this.save_test()
         }
       }, 1000)
@@ -107,22 +114,23 @@ export default {
     goback () {
       this.answer()
       localStorage.setItem('current_question', parseInt(this.current_question) - 2)
-      if (localStorage.getItem('start_block2') === null) {
+      if (localStorage.getItem('start_second_block') === 'null') {
         this.$router.push({ path: `/simulator_block1/?id=${this.simulator_data.questions[this.current_question - 2].id}` })
       } else {
         this.$router.push({ path: `/simulator_block2/?id=${this.simulator_data.questions[this.current_question - 2].id}` })
       }
     },
     save_test () {
-      this.$axios.put(`/student/simulators?simulator_id=${this.simulator_data.id}`, {
+      this.$bvModal.show('modal-1')
+      const answer = this.answers.map(function (x) {
+        return parseInt(x, 10)
+      })
+      this.$axios.put(`/student/simulators?simulator_id=${this.simulator_data.id}`, { answers: answer }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('usertoken')}`
-        },
-        data: {
-          answers: JSON.stringify(this.answers)
         }
       }).then((res) => {
-        if (localStorage.getItem('start_block2') === null) {
+        if (localStorage.getItem('start_second_block') === 'null') {
           localStorage.setItem('start_break', moment.now())
           this.$router.push({ path: `/simulator_break/?id=${this.simulator_data.id}` })
         } else {

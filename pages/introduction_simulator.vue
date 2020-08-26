@@ -82,11 +82,11 @@ export default {
             const simulator = {
               id: this.$route.query.id,
               cases: res.data.cases,
-              questions: res.data.questions,
-              start_first_block: day,
-              start_break: null,
-              start_second_block: null
+              questions: res.data.questions
             }
+            localStorage.setItem('start_first_block', day)
+            localStorage.setItem('start_second_block', null)
+            localStorage.setItem('start_break', null)
             const answers = new Array(250).fill(0)
             localStorage.setItem('answers', answers)
             localStorage.setItem('simulator', JSON.stringify(simulator))
