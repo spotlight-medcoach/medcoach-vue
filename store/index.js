@@ -15,7 +15,8 @@ export const state = () => ({
   },
   rest_days: null,
   alert_second_stage: false,
-  landing: 'login'
+  landing: 'login',
+  showModalImage: false
 })
 
 export const mutations = {
@@ -48,6 +49,9 @@ export const mutations = {
   },
   setLanding (state, payload) {
     state.landing = payload
+  },
+  setShowModalImage (state, payload) {
+    state.showModalImage = payload
   }
 }
 
