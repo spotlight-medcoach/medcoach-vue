@@ -55,7 +55,11 @@ export default {
               localStorage.setItem('usertoken', res.data.token)
               this.$store.commit('setToken', res.data.token)
             }
-            this.$router.push({ path: '/dashboard' })
+            if (res.data.payload.finished_diagnostic_test) {
+              this.$router.push({ path: '/dashboard' })
+            } else {
+              this.$router.push({ path: '/diagnostic_test' })
+            }
           } else {
             this.$router.push({ name: 'welcome', query: { token: res.data.token } })
             this.busy = false

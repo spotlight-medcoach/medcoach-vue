@@ -34,8 +34,18 @@
   <b-container style="max-width: 98vw;" v-else>
     <b-row class="mt-3">
       <b-col cols="8">
-        <div :style="`font-size:${fontSize}em; color: ${actualColorFont}`" id="content" oncopy="return false" oncut="return false" onpaste="return false">
-          <div @contextmenu.prevent.stop="return true" @mouseup.prevent.stop="handleMouseUp($event, {selection: my_window.getSelection()})" v-html="manualHTML">
+        <div
+          :style="`font-size:${fontSize}em; color: ${actualColorFont}`"
+          id="content"
+          ref="content"
+          oncopy="return false"
+          oncut="return false"
+          onpaste="return false">
+          <div
+            ref="manual-html"
+            @contextmenu.prevent.stop="return true"
+            @mouseup.prevent.stop="handleMouseUp($event, {selection: my_window.getSelection()})"
+            v-html="manualHTML">
           </div>
           <div class="flashcards-edit">
             <transition name="slide-fade">
@@ -124,15 +134,18 @@
       @option-clicked="optionClicked"
     >
   </vue-simple-context-menu>
+  <modal-image />
 </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
+import ModalImage from '@/components/ModalImage'
 export default {
   components: {
-    LoadingState
+    LoadingState,
+    ModalImage
   },
   data () {
     return {
@@ -199,6 +212,10 @@ export default {
     await this.getManualHTML()
     this.showLoading = false
     await this.getManualNote()
+    console.clear()
+    const manual = this.$refs['manual-html']
+    const imgs = manual.querySelectorAll('img')
+    console.log('imgs', imgs)
   },
   mounted () {
     window.toastr.options = {
@@ -316,6 +333,7 @@ export default {
     getManualHTML () {
       return this.$axios
         .get(`/manuals?manual_id=${this.manual_id}`)
+
         .then((res) => {
           this.manualHTML = res.data
         }).catch((err) => {
@@ -354,6 +372,14 @@ export default {
     handleMouseUp (event, item) {
       console.log('event', event)
       console.log('item', item)
+      if (event.target.localName === 'img') {
+        const modal = document.getElementById('myModal')
+        const modalImg = document.getElementById('img01')
+        const captionText = document.getElementById('caption')
+        modalImg.src = event.target.src
+        captionText.innerHTML = event.target.alt
+        modal.style.display = 'block'
+      }
       this.selection = item.selection.toString().trim()
       this.html_selection = this.selection2Html(item.selection)
       if (this.html_selection !== '') {

@@ -1,21 +1,19 @@
 <template>
   <div>
-    <landing-header v-if="$route.name==='index' || $route.name==='reset_password'"></landing-header>
-    <welcome-header v-else-if="$route.name === 'welcome'" />
-    <student-header v-else-if="$route.name!=='manual' && $route.name!=='diagnostic_test' && $route.name!=='simulators' && $route.name!=='introduction_simulator' && $route.name!=='simulator_block1' && $route.name!=='test_simulator' && $route.name!=='simulator_break'"></student-header>
-    <nuxt />
+    <student-header v-if="$route.name!=='manual' && $route.name!=='diagnostic_test' && $route.name!=='simulators' && $route.name!=='introduction_simulator' && $route.name!=='simulator_block1' && $route.name!=='test_simulator' && $route.name!=='simulator_break'"></student-header>
+    <nuxt class="only-pc" />
+    <div class="only-small-device mb-5">
+      <p class="m-5 text-center">
+        Para utilizar a la plataforma MedCoach es necesario ingresar desde un dispositivo de escritorio o laptop con resolución mínima de 1100px
+      </p>
+    </div>
   </div>
 </template>
 <script>
-import LandingHeader from '@/components/headers/LandingHeader'
 import StudentHeader from '@/components/headers/StudentHeader'
-import WelcomeHeader from '@/components/headers/WelcomeHeader'
-
 export default {
   components: {
-    LandingHeader,
-    StudentHeader,
-    WelcomeHeader
+    StudentHeader
   },
   mounted () {
     document.onkeyup = this.onKeyUp
@@ -45,3 +43,19 @@ export default {
   }
 }
 </script>
+<style>
+.only-pc {
+  display: none;
+}
+.only-small-device {
+  display: block;
+}
+@media (min-width: 1100px) {
+  .only-pc {
+    display: block;
+  }
+  .only-small-device {
+    display: none;
+  }
+}
+</style>

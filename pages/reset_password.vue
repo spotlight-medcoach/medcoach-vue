@@ -38,6 +38,7 @@ export default {
   components: {
     LandingFooter
   },
+  layout: 'index',
   data () {
     return {
       password: '',
