@@ -3,11 +3,11 @@
  :class="['simulator',
   simulator.finished ? 'finalizado' : 'pendiente'
  ]">
-    <div class="d-flex">
+    <div class="d-flex align-items-center justify-content-between">
         <div class="content">
-        <h3 :class="simulator.finished ? 'text-finalizado' : 'text-pendiente'">Exámenes simuladores</h3>
-        <h4 v-if="simulator.finished">Finalizado</h4>
-        <h4 style="color:#fff" v-else>Pendiente</h4>
+          <h3 :class="simulator.finished ? 'text-finalizado' : 'text-pendiente'">Exámenes simuladores</h3>
+          <h4 v-if="simulator.finished">Finalizado</h4>
+          <h4 style="color:#fff" v-else>Pendiente</h4>
         </div>
         <b-button class="buttontest" v-if="simulator.finished === false" v-on:click="gotoSimulator">Tomar examen</b-button>
         <b-button class="buttonfeedback" v-if="simulator.finished === true" v-on:click="gotoResults">Ver retroalimentación</b-button>
@@ -40,9 +40,7 @@ export default {
 <style>
     .simulator {
         margin: 10px;
-        padding: 5px;
         width:100%;
-        height:100px;
         border-radius:20px;
     }
 
@@ -56,11 +54,10 @@ export default {
     }
 
     .content{
-        margin: 10px 50px 5px 20px;
-        width: 80%;
+        margin: 10px 0px 5px 25px;
     }
     .buttontest{
-        margin: 10px;
+        margin-right: 25px;
         background-color:#FE9400;
         width:175px;
         height:50px;
@@ -72,7 +69,9 @@ export default {
       color:#fff;
     }
     .buttonfeedback{
+      margin-right: 25px;
       height:65px;
+      width:175px;
       background-color: #fff;
       color:#000;
       line-height: 1;
