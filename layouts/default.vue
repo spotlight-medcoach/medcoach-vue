@@ -43,19 +43,3 @@ export default {
   }
 }
 </script>
-<style>
-.only-pc {
-  display: none;
-}
-.only-small-device {
-  display: block;
-}
-@media (min-width: 1100px) {
-  .only-pc {
-    display: block;
-  }
-  .only-small-device {
-    display: none;
-  }
-}
-</style>

@@ -1,16 +1,24 @@
 <template>
   <div id="index">
-    <div class="bg imagen d-flex">
+    <div class="bg imagen bg-main">
       <div class="bloque d-flex justify-content-center align-items-center">
         <img src="/logos.svg" class="logos">
       </div>
       <div class="bloque d-flex align-items-center">
         <div class="imagen isologo align-items-center">
-          <login class="login-form only-pc" v-if="$store.state.landing === 'login'" />
+          <login class="login-form" v-if="$store.state.landing === 'login'" />
           <recover-password class="login-form .d-sm-none .d-md-block" v-else-if="$store.state.landing === 'recover_password'" />
-          <div class="login-form only-small-device">
-            <p>Para utilizar a la plataforma MedCoach es necesario ingresar desde un dispositivo de escritorio o laptop con resolución mínima de 1100px</p>
-          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg imagen only-small-device bg-small">
+      <div class="d-flex justify-content-center align-items-end" style="height: 50%">
+        <img src="/logos.svg" class="logos" style="width: 85%">
+      </div>
+      <div class="d-flex justify-content-center align-items-center" style="height: 50%">
+        <img src="/isologo.png" class="logos sm-isologo">
+        <div class="login-form">
+          Este ingreso sólo es disponible por computadora.
         </div>
       </div>
     </div>
@@ -40,18 +48,27 @@ export default {
 }
 </script>
 <style>
-.only-pc {
-  display: none;
+.bg-main {
+  display: none !important;
 }
-.only-small-device {
-  display: block;
+.bg-small {
+  height: 70vh;
+  overflow: hidden;
+  position: relative;
+}
+.bg-small .login-form {
+  z-index: 10;
+  padding: 30px;
+  text-align: center;
+}
+.sm-isologo {
+  width: 60%;
+  position: absolute;
+  left: 60vw;
 }
 @media (min-width: 1100px) {
-  .only-pc {
-    display: block;
-  }
-  .only-small-device {
-    display: none;
+  .bg-main{
+    display: flex !important;
   }
 }
 </style>
