@@ -1,6 +1,6 @@
 <template>
-<div class="content">
-  <div class="d-flex justify-content-between">
+<div id="simulator_results" class="container">
+  <div class="d-flex justify-content-between my-4">
     <b-button v-on:click="back()" style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;">
       <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;"></b-icon-chevron-left>
       <b>Regresar</b>
@@ -119,13 +119,13 @@ export default {
 }
 </script>
 <style>
-.title{
+#simulator_results .title{
     background-color:#778FF2;
     text-align:center;
     color:white;
 }
-.content{
-    margin:30px;
+#simulator_results{
+    margin: auto;
 }
 .table{
     border-style:solid;

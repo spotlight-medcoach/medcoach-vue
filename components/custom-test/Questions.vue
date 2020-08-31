@@ -7,7 +7,7 @@
   <div v-else class="mt-5 px-3 text-center w-100">
     <div
       :class="{'answered': question.response}"
-      class="circle text-center m-1 pointer"
+      class="square text-center m-1 pointer"
       v-for="(question, index) in custom_test.questions"
       @click="goToCase(question.case_id)"
       :key="`question-${index}`">
@@ -33,7 +33,7 @@ export default {
 </script>
 <style lang="scss">
   #questions {
-    .circle {
+    .square {
       width: 25px;
       heigth: 25px;
       border-radius: 5px;

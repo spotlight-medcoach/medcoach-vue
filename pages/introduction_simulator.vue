@@ -46,11 +46,9 @@ import moment from 'moment'
 export default {
   data () {
     return {
-      error: false
+      error: false,
+      enarm: ''
     }
-  },
-  props: {
-    // ...
   },
   methods: {
     back () {

@@ -8,8 +8,8 @@
       <h1>{{this.count}}</h1>
     </div>
     <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
-    <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
-    <div>
+    <p class="title text-center" style="font-size:24px"><b>Finalizando bloque</b></p>
+    <div class="text-center mb-4">
       <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
     </div>
   </b-modal>

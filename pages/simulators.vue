@@ -25,6 +25,7 @@
 import SimulatorCard from '../components/simulators/SimulatorCard.vue'
 
 export default {
+  layout: 'default',
   components: {
     SimulatorCard
   },

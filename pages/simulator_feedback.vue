@@ -53,12 +53,16 @@ export default {
     text-align:center;
 }
 .question{
-    border-style:solid;
-    margin-left:10px;
-    margin-bottom:2px;
-    width:50px;
-    text-align:center;
-    line-height: 1em;
+  background-color: #FF4444;
+  border-radius: 5px;
+  border-style: none;
+  height: 35px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  padding: 0px;
+  text-align:center;
+  width: 35px;
+  color: black;
 }
 .container{
   margin-top:50px;

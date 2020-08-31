@@ -1,4 +1,5 @@
 <template>
+<div class="container">
   <div class="test">
     <div class="d-flex content justify-content-between">
       <button class="button" v-on:click="goback"> Salir sin terminar la sección</button>
@@ -15,31 +16,38 @@
     <div class="d-flex content justify-content-end">
       <h3>{{this.count}}</h3>
     </div>
-    <div style="text-align:center; background-color:#858585;">
+    <div style="text-align:center; background-color:#858585;" class="mb-4">
       <span><b>CASO CLÍNICO</b></span>
     </div>
     <div v-html="caseHTML">
     </div>
-    <div style="background-color:#858585; margin:30px; width:200px">
-      <span><b> PREGUNTA {{current_question}} </b></span>
+    <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
+      <span><b> PREGUNTA {{current_question + initCount}} </b></span>
     </div>
     <div class="d-flex" v-html="question.html"></div>
-      <b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
-        <div class="d-flex">
-          <b-form-radio type="radio" name="respuesta" v-model="selected" :value="index"></b-form-radio>
-          <div v-html="item.html"></div>
-        </div>
-      </b-form-group>
-      <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
-        <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
-        <div>
-         <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
-        </div>
-      </b-modal>
+    <b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
+      <div class="d-flex">
+        <b-form-radio type="radio" name="respuesta" v-model="selected" :value="index"></b-form-radio>
+        <div v-html="item.html"></div>
+      </div>
+    </b-form-group>
+    <div class="d-flex content justify-content-between my-5">
+      <button class="button" v-on:click="previous"> Anterior </button>
+      <button class="button" v-on:click="answer"> Contestar y permanecer en la pregunta </button>
+      <button class="button" v-on:click="next"> Siguiente </button>
     </div>
+    <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
+      <p class="title text-center" style="font-size:24px"><b>Finalizando bloque</b></p>
+      <div class="text-center my-4">
+       <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+      </div>
+    </b-modal>
+  </div>
 </div>
 </template>
+</template>
 <script>
+import { mapState } from 'vuex'
 import moment from 'moment/moment'
 
 export default {
@@ -62,6 +70,20 @@ export default {
   created () {
     this.load()
   },
+  computed: {
+    initCount () {
+      let init = 0
+      if (this.block === 2) {
+        init = 250
+      }
+      return init
+    },
+    ...mapState({
+      block: state => state.simulators.block,
+      timeBlock1: state => state.simulators.timeBlock1,
+      timeBlock2: state => state.simulators.timeBlock2
+    })
+  },
   methods: {
     load () {
       this.current_question = parseInt(localStorage.getItem('current_question')) + 1
@@ -82,7 +104,11 @@ export default {
       const date = moment(StartBlock)
       const today = moment()
       const milliseconds = today.diff(date, 'milliseconds')
-      const time = 18000000 - milliseconds
+      let limit = this.timeBlock1
+      if (this.block === 2) {
+        limit = this.timeBlock2
+      }
+      const time = limit - milliseconds
       let duration = moment.duration(time, 'milliseconds')
       this.countdown = setInterval(() => {
         duration = moment.duration(duration - 1000, 'milliseconds')
@@ -113,11 +139,11 @@ export default {
     },
     goback () {
       this.answer()
-      localStorage.setItem('current_question', parseInt(this.current_question) - 2)
+      localStorage.setItem('current_question', parseInt(this.current_question) - 1)
       if (localStorage.getItem('start_second_block') === 'null') {
-        this.$router.push({ path: `/simulator_block1/?id=${this.simulator_data.questions[this.current_question - 2].id}` })
+        this.$router.push({ path: `/simulator_block1/?id=${this.simulator_data.questions[this.current_question - 1].id}` })
       } else {
-        this.$router.push({ path: `/simulator_block2/?id=${this.simulator_data.questions[this.current_question - 2].id}` })
+        this.$router.push({ path: `/simulator_block2/?id=${this.simulator_data.questions[this.current_question - 1].id}` })
       }
     },
     save_test () {
@@ -145,14 +171,21 @@ export default {
 </script>
 <style>
 .test{
-  margin: 30px;
+  margin: 30px 150px;
+}
+.test .button {
+  border: none;
+}
+.test .button:hover {
+  text-decoration: underline;
 }
 .button{
-    background-color:#DBD4D4;
+  background-color:#DBD4D4;
 }
 .content{
     margin-top:15px;
 }
-.centered{
+.test .button {
+  margin-right: 0px;
 }
 </style>

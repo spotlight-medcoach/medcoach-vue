@@ -1,34 +1,40 @@
 <template>
-<div class="test">
-    <div class="container">
-        <button class="button" v-on:click="backward"> Volver</button>
-    </div>
-    <div class="container d-flex justify-content-between">
-        <button class="button" v-on:click="back"> Anterior </button>
-        <button class="button" v-on:click="next"> Siguiente </button>
-    </div>
-    <div style="text-align:center; background-color:#858585; margin-top:30px">
-        <span><b>CASO CLÍNICO</b></span>
-    </div>
-    <div v-html="caseHTML">
-    </div>
-    <div style="background-color:#858585; margin:30px; width:200px">
-        <span><b> PREGUNTA {{current_question}} </b></span>
-    </div>
-    <div v-html="question.html"></div>
-        <b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
-            <div class="d-flex">
-            <div class="answer_icons">
-            <b-icon-check class="h3" variant="success" v-if="correct === index + 1"></b-icon-check>
-            <b-icon-x class="h3" variant="danger" v-if="selected === index && correct != index + 1"></b-icon-x>
-            </div>
-               <b-form-radio type="radio" name="respuesta" :disabled=true v-model="selected" :value="index"></b-form-radio>
-                <div v-html="item.html"></div>
-            </div>
-        </b-form-group>
-        <div v-html="retroHTML">
-    </div>
-    </div>
+<div id="simulator_feedback_question" class="container">
+  <div class="mb-4">
+      <button class="button" v-on:click="backward"> Volver</button>
+  </div>
+  <div class="d-flex justify-content-between">
+      <button class="button" v-on:click="back"> Anterior </button>
+      <button class="button" v-on:click="next"> Siguiente </button>
+  </div>
+  <div style="text-align:center; background-color:#858585; margin-top:30px" class="mb-4">
+      <span><b>CASO CLÍNICO</b></span>
+  </div>
+  <div v-html="caseHTML">
+  </div>
+  <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
+      <span><b> PREGUNTA {{current_question}} </b></span>
+  </div>
+  <div v-html="question.html"></div>
+      <b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
+        <div class="d-flex">
+          <b-form-radio type="radio" name="respuesta" :disabled=true v-model="selected" :value="index">
+          </b-form-radio>
+          <div
+            :class="{'correct': (correct === index + 1),
+                     'incorrect': (selected === index && correct != index + 1) }"
+            v-html="item.html"></div>
+          <div class="answer_icons">
+            <b-icon-check class="h3" variant="success" v-if="correct === index + 1">
+            </b-icon-check>
+            <b-icon-x class="h3" variant="danger" v-if="selected === index && correct != index + 1">
+            </b-icon-x>
+          </div>
+        </div>
+      </b-form-group>
+      <div v-html="retroHTML">
+  </div>
+  </div>
 </div>
 </template>
 <script>
@@ -79,16 +85,21 @@ export default {
 }
 </script>
 <style>
-.test{
-    margin:30px;
+#simulator_feedback_question {
+  padding: 0px 150px;
 }
-.button{
-    background-color:#DBD4D4;
-}
-.container{
-    margin-top:15px;
+#simulator_feedback_question .button{
+  background-color:#DBD4D4;
 }
 .answer_icons{
     margin-right:10px;
+}
+.incorrect {
+  color: red;
+  font-weight: bold;
+}
+.correct {
+  color: green;
+  font-weight: bold;
 }
 </style>

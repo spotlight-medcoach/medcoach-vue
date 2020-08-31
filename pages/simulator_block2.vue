@@ -4,11 +4,11 @@
       <h1>Examen Simulador</h1>
     </div>
     <div class="container">
-      <div class="d-flex justify-content-between countdown">
-        <h3>Primera parte</h3>
+      <div class="d-flex justify-content-between countdown mb-4">
+        <h3>Segunda parte</h3>
         <h3>{{this.count}}</h3>
       </div>
-      <b-button v-on:click="gotoTest(index)" class="question" v-for="(item, index) in questions" v-bind:item="item" v-bind:key="item.id">{{index + 1}}</b-button>
+      <b-button v-on:click="gotoTest(index)" class="question" v-for="(item, index) in questions" v-bind:item="item" v-bind:key="item.id">{{index + 251}}</b-button>
       <div class="start">
         <b-button style="margin-right:28px;" width="100" class="bg-danger" v-on:click="startTest">Comenzar</b-button>
       <div>
@@ -24,6 +24,7 @@
 </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import moment from 'moment/moment'
 
 export default {
@@ -34,9 +35,6 @@ export default {
       countdown: ''
     }
   },
-  props: {
-    // ...
-  },
   created () {
     const simulator = JSON.parse(localStorage.getItem('simulator'))
     this.questions = simulator.questions
@@ -44,7 +42,7 @@ export default {
     const date = moment(StartBlock)
     const today = moment()
     const milliseconds = today.diff(date, 'milliseconds')
-    const time = 18000000 - milliseconds
+    const time = this.timeBlock2 - milliseconds
     let duration = moment.duration(time, 'milliseconds')
     this.countdown = setInterval(() => {
       duration = moment.duration(duration - 1000, 'milliseconds')
@@ -53,6 +51,11 @@ export default {
         this.save_test()
       }
     }, 1000)
+  },
+  computed: {
+    ...mapState({
+      timeBlock2: state => state.simulators.timeBlock2
+    })
   },
   methods: {
     gotoTest (index) {
@@ -88,12 +91,16 @@ export default {
     text-align:center;
 }
 .question{
-    border-style:solid;
-    margin-left:10px;
-    margin-bottom:2px;
-    width:50px;
+    background-color: #FF4444;
+    border-radius: 5px;
+    border-style: none;
+    height: 35px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding: 0px;
     text-align:center;
-    line-height: 1em;
+    width: 35px;
+    color: black;
 }
 .container{
   margin-top:50px;

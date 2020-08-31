@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="mb-5">
     <div class="title">
       <h1>Examen Simulador</h1>
     </div>
     <div class="container">
-      <div class="d-flex justify-content-between countdown">
+      <div class="d-flex justify-content-between countdown mb-4">
         <h3>Primera parte</h3>
         <h3>{{this.count}}</h3>
       </div>
@@ -87,12 +87,16 @@ export default {
     text-align:center;
 }
 .question{
-    border-style:solid;
-    margin-left:10px;
-    margin-bottom:2px;
-    width:50px;
+    background-color: #FF4444;
+    border-radius: 5px;
+    border-style: none;
+    height: 35px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding: 0px;
     text-align:center;
-    line-height: 1em;
+    width: 35px;
+    color: black;
 }
 .container{
   margin-top:50px;
