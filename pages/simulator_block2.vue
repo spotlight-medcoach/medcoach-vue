@@ -61,10 +61,11 @@ export default {
     gotoTest (index) {
       clearInterval(this.countdown)
       localStorage.setItem('current_question', index)
-      this.$router.push({ path: `/test_simulator/?id=${this.questions[index].id}` })
+      this.$router.push({ path: `/test_simulator/?id=${this.questions[index].case_id}` })
+      localStorage.setItem('current_question', index)
     },
     startTest () {
-      this.$router.push({ path: `/test_simulator/?id=${this.questions[0].id}` })
+      this.$router.push({ path: `/test_simulator/?id=${this.questions[0].case_id}` })
     },
     save_test () {
       this.$bvModal.show('modal-1')

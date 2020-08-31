@@ -65,10 +65,16 @@ export default {
           start_break: null,
           start_second_block: day
         }
+        simulator.questions.forEach((question, index) => {
+          question.index = index
+          question.answer = 0
+        })
         const answers = new Array(200).fill(0)
         localStorage.setItem('answers', answers)
         localStorage.setItem('simulator', JSON.stringify(simulator))
         localStorage.setItem('start_second_block', moment.now())
+        this.$store.commit('simulators/setSimulator', simulator)
+        this.$store.commit('simulators/setBlock', 2)
         this.$router.push({ path: `/simulator_block2/?id=${this.$route.query.id}` })
       }).catch((err) => {
         console.log(err)

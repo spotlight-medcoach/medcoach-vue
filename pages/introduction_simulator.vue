@@ -22,7 +22,7 @@
   </div>
   <div class="button">
     <b-button class="buttontest" v-b-modal.modal-1>Tomar examen</b-button>
-     <b-modal id="modal-1" hide-footer hide-header>
+    <b-modal id="modal-1" hide-footer hide-header>
      <p class="title" style="font-size:24px"><b>Confirmación</b></p>
      <p class="title">Escribe la palabra <b>ENARM</b> para comenzar tu examen</p>
      <b-input v-model="enarm"></b-input>
@@ -30,13 +30,13 @@
      <div style="text-align:center">
      <b-button center-align class="comenzar" v-on:click="gotoSimulator">Comenzar</b-button>
      </div>
-     </b-modal>
-     <b-modal id="modal-2" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
+    </b-modal>
+    <b-modal id="modal-2" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
      <p class="title" style="font-size:24px"><b>Creando simulador, espere</b></p>
      <div>
      <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
      </div>
-     </b-modal>
+    </b-modal>
   </div>
 </div>
 </template>
@@ -74,13 +74,29 @@ export default {
               cases: res.data.cases,
               questions: res.data.questions
             }
-            localStorage.setItem('start_first_block', day)
-            localStorage.setItem('start_second_block', null)
-            localStorage.setItem('start_break', null)
-            const answers = new Array(250).fill(0)
-            localStorage.setItem('answers', answers)
+            const currentBlock = res.data.current_block
+            simulator.questions.forEach((question, index) => {
+              question.index = index
+              question.answer = 0
+            })
+            this.$store.commit('simulators/setSimulator', simulator)
+            this.$store.commit('simulators/setBlock', currentBlock)
             localStorage.setItem('simulator', JSON.stringify(simulator))
-            this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
+            if (currentBlock === 1) {
+              localStorage.setItem('start_first_block', day)
+              localStorage.setItem('start_second_block', null)
+              localStorage.setItem('start_break', null)
+              const answers = new Array(250).fill(0)
+              localStorage.setItem('answers', answers)
+              this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
+            } else {
+              localStorage.setItem('start_first_block', null)
+              localStorage.setItem('start_second_block', moment.now())
+              localStorage.setItem('start_break', null)
+              const answers = new Array(200).fill(0)
+              localStorage.setItem('answers', answers)
+              this.$router.push({ path: `/simulator_block2/?id=${this.$route.query.id}` })
+            }
           }).catch((err) => {
             console.log(err)
           })

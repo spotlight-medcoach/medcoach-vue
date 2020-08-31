@@ -10,7 +10,7 @@
     </div>
     <div class="d-flex content justify-content-between">
       <button class="button" v-on:click="previous"> Anterior </button>
-      <button class="button" v-on:click="answer"> Contestar y permanecer en la pregunta </button>
+      <button class="button"> Contestar y permanecer en la pregunta </button>
       <button class="button" v-on:click="next"> Siguiente </button>
     </div>
     <div class="d-flex content justify-content-end">
@@ -19,21 +19,30 @@
     <div style="text-align:center; background-color:#858585;" class="mb-4">
       <span><b>CASO CLÍNICO</b></span>
     </div>
-    <div v-html="caseHTML">
+    <div v-html="caseSelected.html">
     </div>
-    <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
-      <span><b> PREGUNTA {{current_question + initCount}} </b></span>
-    </div>
-    <div class="d-flex" v-html="question.html"></div>
-    <b-form-group v-for="(item, index) in question.answers" v-bind:key ="index">
-      <div class="d-flex">
-        <b-form-radio type="radio" name="respuesta" v-model="selected" :value="index"></b-form-radio>
-        <div v-html="item.html"></div>
+    <div class="grp-questions" v-for="(question, index) in questionsByCase" :key="`grupo-${index}`">
+      <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
+        <span><b> PREGUNTA {{question.index + 1 + initCount}} </b></span>
       </div>
-    </b-form-group>
+      <div class="d-flex" v-html="question.html"></div>
+      <b-form-group v-for="(item, index2) in question.answers" v-bind:key="`grupo-${index}-question-${index2}`">
+        <div class="d-flex">
+          <b-form-radio
+            type="radio"
+            :name="`answer-radios-${caseSelected.id}-${index}`"
+            :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            :checked="question.answer"
+            @input="setAnswer(question.index, $event)"
+            :value="item.id"
+            ></b-form-radio>
+          <div v-html="item.html"></div>
+        </div>
+      </b-form-group>
+    </div>
     <div class="d-flex content justify-content-between my-5">
       <button class="button" v-on:click="previous"> Anterior </button>
-      <button class="button" v-on:click="answer"> Contestar y permanecer en la pregunta </button>
+      <button class="button"> Contestar y permanecer en la pregunta </button>
       <button class="button" v-on:click="next"> Siguiente </button>
     </div>
     <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
@@ -47,13 +56,13 @@
 </template>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import moment from 'moment/moment'
 
 export default {
   data () {
     return {
-      caseHTML: null,
+      // caseHTML: null,
       current_question: 0,
       question: null,
       selected: '',
@@ -81,18 +90,28 @@ export default {
     ...mapState({
       block: state => state.simulators.block,
       timeBlock1: state => state.simulators.timeBlock1,
-      timeBlock2: state => state.simulators.timeBlock2
+      timeBlock2: state => state.simulators.timeBlock2,
+      caseIndex: state => state.simulators.caseIndex
+    }),
+    ...mapGetters({
+      caseSelected: 'simulators/caseSelected',
+      questionsByCase: 'simulators/questionsByCase'
     })
   },
   methods: {
+    setAnswer (questionIndex, response) {
+      this.$store.commit('simulators/setQuestionResponse', { index: questionIndex, value: response })
+      this.answers[questionIndex] = response
+      localStorage.setItem('answers', this.answers)
+    },
     load () {
       this.current_question = parseInt(localStorage.getItem('current_question')) + 1
       this.simulator_data = JSON.parse(localStorage.getItem('simulator'))
       if (localStorage.getItem('start_break') != null && localStorage.getItem('start_second_block') === null) {
         this.$router.push({ path: `/simulator_break/?id=${this.simulator_date.id}` })
       }
-      this.question = this.simulator_data.questions.find(question => question.id === this.$route.query.id)
-      this.caseHTML = this.simulator_data.cases.find(cases => cases.id === this.question.case_id).html
+      this.$store.commit('simulators/setCaseId', this.$route.query.id)
+      // this.caseHTML = this.simulator_data.cases.find(cases => cases.id === this.question.case_id).html
       this.answers = localStorage.getItem('answers').split(',')
       this.selected = this.answers[this.current_question - 1] - 1
       let StartBlock = 0
@@ -100,6 +119,7 @@ export default {
         StartBlock = parseInt(localStorage.getItem('start_first_block'))
       } else {
         StartBlock = parseInt(localStorage.getItem('start_second_block'))
+        this.$store.commit('simulators/setBlock', 2)
       }
       const date = moment(StartBlock)
       const today = moment()
@@ -120,25 +140,18 @@ export default {
       }, 1000)
     },
     next () {
-      this.answer()
-      if (this.current_question < this.answers.length) {
-        localStorage.setItem('current_question', parseInt(this.current_question))
-        this.$router.push({ path: `/test_simulator/?id=${this.simulator_data.questions[this.current_question].id}` })
+      if (this.caseIndex < this.simulator_data.cases.length - 1) {
+        const caseId = this.simulator_data.cases[this.caseIndex + 1].id
+        this.$router.push({ path: `/test_simulator/?id=${caseId}` })
       }
     },
-    answer () {
-      this.answers[this.current_question - 1] = this.selected + 1
-      localStorage.setItem('answers', this.answers)
-    },
     previous () {
-      this.answer()
-      if (this.current_question > 1) {
-        localStorage.setItem('current_question', parseInt(this.current_question) - 2)
-        this.$router.push({ path: `/test_simulator/?id=${this.simulator_data.questions[this.current_question - 2].id}` })
+      if (this.caseIndex > 1) {
+        const caseId = this.simulator_data.cases[this.caseIndex - 1].id
+        this.$router.push({ path: `/test_simulator/?id=${caseId}` })
       }
     },
     goback () {
-      this.answer()
       localStorage.setItem('current_question', parseInt(this.current_question) - 1)
       if (localStorage.getItem('start_second_block') === 'null') {
         this.$router.push({ path: `/simulator_block1/?id=${this.simulator_data.questions[this.current_question - 1].id}` })
@@ -183,9 +196,11 @@ export default {
   background-color:#DBD4D4;
 }
 .content{
-    margin-top:15px;
+  margin-top:15px;
+  margin-left: 0px;
 }
 .test .button {
   margin-right: 0px;
+  margin-left: 0px;
 }
 </style>
