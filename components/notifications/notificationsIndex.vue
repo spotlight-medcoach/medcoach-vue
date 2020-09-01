@@ -33,6 +33,9 @@
     </div>
     <div>{{ noti.content }} - {{ noti.date }}</div>
   </div>
+  <p class="text-center mt-5" v-if="!notifications.length">
+    No tiene nuevas notificaciones
+  </p>
 </div>
 </template>
 
@@ -55,7 +58,10 @@ export default {
     },
     goToSimulator (notiId, readed) {
       if (!readed) {
-        alert('Falta agregar el link')
+        this.$store.dispatch('notifications/readNotification', notiId)
+          .then(() => {
+            this.$router.push({ path: '/simulators' })
+          })
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container" id="test-simulator">
   <div class="test">
     <div class="d-flex content justify-content-between">
       <button class="button" v-on:click="goback"> Salir sin terminar la sección</button>
@@ -11,7 +11,11 @@
     <div class="d-flex content justify-content-between">
       <button class="button" v-on:click="previous"> Anterior </button>
       <button class="button"> Contestar y permanecer en la pregunta </button>
-      <button class="button" v-on:click="next"> Siguiente </button>
+      <button
+        class="button"
+        v-on:click="next"
+        :class="{'disabled': questionsByCase[questionsByCase.length - 1].index >= simulator_data.questions.length - 1}">
+      Siguiente </button>
     </div>
     <div class="d-flex content justify-content-end">
       <h3>{{this.count}}</h3>
@@ -43,7 +47,12 @@
     <div class="d-flex content justify-content-between my-5">
       <button class="button" v-on:click="previous"> Anterior </button>
       <button class="button"> Contestar y permanecer en la pregunta </button>
-      <button class="button" v-on:click="next"> Siguiente </button>
+      <button
+        class="button"
+        v-on:click="next"
+        :class="{'disabled': questionsByCase[questionsByCase.length - 1].index >= simulator_data.questions.length - 1}">
+      Siguiente
+    </button>
     </div>
     <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
       <p class="title text-center" style="font-size:24px"><b>Finalizando bloque</b></p>
@@ -105,6 +114,7 @@ export default {
       localStorage.setItem('answers', this.answers)
     },
     load () {
+      window.scrollTo(0, 0)
       this.current_question = parseInt(localStorage.getItem('current_question')) + 1
       this.simulator_data = JSON.parse(localStorage.getItem('simulator'))
       if (localStorage.getItem('start_break') != null && localStorage.getItem('start_second_block') === null) {
@@ -140,13 +150,14 @@ export default {
       }, 1000)
     },
     next () {
-      if (this.caseIndex < this.simulator_data.cases.length - 1) {
+      const questLenght = this.questionsByCase.length
+      if (this.questionsByCase[questLenght - 1].index < this.simulator_data.questions.length - 1) {
         const caseId = this.simulator_data.cases[this.caseIndex + 1].id
         this.$router.push({ path: `/test_simulator/?id=${caseId}` })
       }
     },
     previous () {
-      if (this.caseIndex > 1) {
+      if (this.questionsByCase[0].index >= 1) {
         const caseId = this.simulator_data.cases[this.caseIndex - 1].id
         this.$router.push({ path: `/test_simulator/?id=${caseId}` })
       }
@@ -182,7 +193,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
 .test{
   margin: 30px 150px;
 }
@@ -202,5 +213,14 @@ export default {
 .test .button {
   margin-right: 0px;
   margin-left: 0px;
+}
+#test-simulator {
+  .disabled {
+    cursor: default;
+    opacity: 0.3;
+  }
+  .disabled:hover {
+    text-decoration: none;
+  }
 }
 </style>

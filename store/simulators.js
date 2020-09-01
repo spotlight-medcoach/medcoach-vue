@@ -1,4 +1,5 @@
 const _simulator = JSON.parse(localStorage.getItem('simulator'))
+const _simulatorFeedback = JSON.parse(localStorage.getItem('simulator_feedback'))
 const _answersStorage = localStorage.getItem('answers')
 let _answers = []
 if (_answersStorage !== null) {
@@ -9,11 +10,12 @@ if (_simulator !== null) {
     question.answer = _answers[index]
   })
 }
+
 export const state = () => ({
   block: 1,
   caseId: null,
   caseIndex: -1,
-  simulator: _simulator,
+  simulator: _simulator || _simulatorFeedback,
   timeBlock1: 18060000, // 5 hrs
   timeBlock2: 16260000 //  4.4 hrs
 })
@@ -54,5 +56,11 @@ export const mutations = {
     const { index, value } = payload
     state.simulator.questions[index].answer = value
     localStorage.setItem(`test_${state.simulator.id}`, JSON.stringify(state.simulator))
+  },
+  initState (state) {
+    state.caseId = null
+    state.caseIndex = -1
+    state.simulator = null
+    state.block = 1
   }
 }

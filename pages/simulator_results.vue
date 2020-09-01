@@ -77,6 +77,10 @@ export default {
     // ...
   },
   created () {
+    if (localStorage.getItem('simulator')) {
+      localStorage.removeItem('simulator')
+    }
+    this.$store.commit('simulators/initState')
     this.$axios.get(`/student/simulators/result?simulator_id=${this.$route.query.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('usertoken')}`
@@ -99,7 +103,11 @@ export default {
         cases: res.data.cases,
         questions: res.data.questions
       }
+      simulator.questions.forEach((question, index) => {
+        question.index = index
+      })
       localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+      this.$store.commit('simulators/setSimulator', simulator)
       this.$bvModal.hide('modal-1')
     }).catch((err) => {
       console.log(err)

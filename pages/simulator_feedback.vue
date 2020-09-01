@@ -39,7 +39,7 @@ export default {
     gotoTest (index) {
       clearInterval(this.countdown)
       localStorage.setItem('current_feedback_question', index)
-      this.$router.push({ path: `/simulator_feedback_question/?id=${this.questions[index].id}` })
+      this.$router.push({ path: `/simulator_feedback_question/?id=${this.questions[index].case_id}` })
     },
     back () {
       this.$router.push({ path: `/simulator_results/?id=${this.$route.query.id}` })

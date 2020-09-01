@@ -8,7 +8,15 @@
         <h3>Segunda parte</h3>
         <h3>{{this.count}}</h3>
       </div>
-      <b-button v-on:click="gotoTest(index)" class="question" v-for="(item, index) in questions" v-bind:item="item" v-bind:key="item.id">{{index + 251}}</b-button>
+      <b-button
+        v-on:click="gotoTest(index)"
+        class="question"
+        v-for="(item, index) in questions"
+        :class="{'answered': item.answer !== '0'}"
+        v-bind:item="item"
+        v-bind:key="item.id">
+        {{index + 251}}
+      </b-button>
       <div class="start">
         <b-button style="margin-right:28px;" width="100" class="bg-danger" v-on:click="startTest">Comenzar</b-button>
       <div>
@@ -38,6 +46,10 @@ export default {
   created () {
     const simulator = JSON.parse(localStorage.getItem('simulator'))
     this.questions = simulator.questions
+    const answers = localStorage.getItem('answers').split(',')
+    this.questions.forEach((question, index) => {
+      question.answer = answers[index]
+    })
     const StartBlock = parseInt(localStorage.getItem('start_second_block'))
     const date = moment(StartBlock)
     const today = moment()
@@ -115,5 +127,8 @@ export default {
 }
 .button-group{
 text-align:center;
+}
+.answered {
+  background-color: #00C851;
 }
 </style>

@@ -4,7 +4,7 @@
         <p><b>{{this.topic.topic_name}}</b></p>
       </div>
       <div>
-        <p>{{this.topic.percentage.toFixed(2)}}</p>
+        <p>{{percentage}}</p>
       </div>
 </div>
 </template>
@@ -16,7 +16,14 @@ export default {
       required: true
     }
   },
-  created () {
+  computed: {
+    percentage () {
+      if (this.topic.percentage !== null) {
+        return this.topic.percentage.toFixed(2)
+      } else {
+        return 0
+      }
+    }
   }
 }
 </script>
