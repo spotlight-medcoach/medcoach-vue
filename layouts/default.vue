@@ -4,7 +4,7 @@
     <nuxt class="only-pc" />
     <div class="only-small-device mb-5">
       <p class="m-5 text-center">
-        Para utilizar a la plataforma MedCoach es necesario ingresar desde un dispositivo de escritorio o laptop con resolución mínima de 1100px
+        Para utilizar a la plataforma MedCoach es necesario ingresar desde un dispositivo de escritorio o laptop con resolución mínima de 900px
       </p>
     </div>
   </div>

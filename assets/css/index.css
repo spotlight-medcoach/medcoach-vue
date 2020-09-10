@@ -165,3 +165,7 @@
     margin-left: 300px;
   }
 }
+
+.modal-backdrop {
+  z-index: 0!important;
+}
