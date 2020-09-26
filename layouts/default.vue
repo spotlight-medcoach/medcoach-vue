@@ -17,6 +17,7 @@ export default {
   },
   mounted () {
     document.onkeyup = this.onKeyUp
+    document.addEventListener('contextmenu', event => event.preventDefault())
     console.log('Route name:', this.$route.name)
   },
   methods: {
