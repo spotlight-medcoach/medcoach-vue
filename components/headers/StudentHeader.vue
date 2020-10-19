@@ -48,12 +48,12 @@
     </div>
   </nuxt-link>
   <!-- Simuladores -->
-  <nuxt-link to="/simulators" tag="span">
+  <!-- <nuxt-link to="/simulators" tag="span">
     <div class="text-center pointer item-option" :class="{'active-option': isTest}">
       <img src="@/assets/icons/header/custom_test.svg" class="menu-item circulo">
       <div class="text-option">Simuladores</div>
     </div>
-  </nuxt-link>
+  </nuxt-link> -->
   <!-- NAVBAR TOGGLE -->
   <b-collapse id="nav-collapse" is-nav>
     <!-- Right aligned nav items -->
