@@ -221,7 +221,7 @@ export default {
           return new Promise((resolve, reject) => {
             setTimeout(function() {
               resolve(response)
-            }, 600000)
+            }, 60000)
           })
         })
         .then((response) => {
