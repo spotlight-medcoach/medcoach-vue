@@ -218,10 +218,15 @@ export default {
       this.$axios
         .put('/students/diagnostic', body)
         .then((response) => {
-          setTimeout(function() {
-            localStorage.removeItem('diagnostic_test_answers')
-            this.$router.push({ path: '/dashboard' })
-          }, 10000)
+          return new Promise((resolve, reject) => {
+            setTimeout(function() {
+              resolve(response)
+            }, 10000)
+          })
+        })
+        .then((response) => {
+          localStorage.removeItem('diagnostic_test_answers')
+          this.$router.push({ path: '/dashboard' })
         })
         .catch((error) => {
           console.error(error)
