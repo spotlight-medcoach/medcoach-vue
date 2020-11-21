@@ -29,14 +29,12 @@
           </b-form-radio>
           <div
             :class="{'correct': (question.correct_answer === item.id),
-                     'incorrect': (question.answer === item.id && question.correct_answer != item.id) }"
+                     'incorrect': (question.correct_answer !== item.id) }"
             v-html="item.html">
           </div>
           <div class="answer_icons">
-            <b-icon-check class="h3" variant="success" v-if="question.correct_answer === item.id">
-            </b-icon-check>
-            <b-icon-x class="h3" variant="danger" v-if="question.answer === item.id && question.correct_answer != item.id">
-            </b-icon-x>
+            <b-icon-check class="h3 correct" v-if="question.correct_answer === item.id" />
+            <b-icon-x class="h3 incorrect" v-else />
           </div>
         </div>
       </b-form-group>
@@ -116,7 +114,6 @@ export default {
 }
 .incorrect {
   color: red;
-  font-weight: bold;
 }
 .correct {
   color: green;

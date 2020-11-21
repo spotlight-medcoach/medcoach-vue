@@ -219,7 +219,7 @@ export default {
         .put('/students/diagnostic', body)
         .then((response) => {
           return new Promise((resolve, reject) => {
-            setTimeout(function() {
+            setTimeout(function () {
               resolve(response)
             }, 60000)
           })

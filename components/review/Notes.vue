@@ -21,7 +21,9 @@
         :options="editorOption"
       />
     </div>
-    <div id="review-content" v-html="content" v-else-if="content !== ''">
+    <div id="review-content" v-else-if="content !== ''">
+      <h3>{{ manual.manual_name }}</h3>
+      <div v-html="content"></div>
     </div>
     <div v-else>
       <h4>No hay notas para este manual.</h4>
@@ -333,6 +335,10 @@ export default {
       set (newVal) {
         this.flashcard = newVal
       }
+    },
+    manual () {
+      const manual = this.$store.state.topics.manuals.find(element => element.manual_id === this.manual_id)
+      return manual
     }
   }
 }

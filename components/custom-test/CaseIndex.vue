@@ -45,10 +45,10 @@
           :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
           :value="ans.id"
           :class="{'correct': (retro && question.correct_answer === ans.id),
-                   'incorrect': (retro && ans.id === question.response && question.response !== question.correct_answer)}">
+                   'incorrect': (retro && ans.id !== question.correct_answer)}">
             <span v-html="ans.html"></span>
-            <span class="h4 icono" v-if="retro && ans.id === question.response">
-              <b-icon class="correct" icon="check" v-if="question.response === question.correct_answer"></b-icon>
+            <span class="h4 icono" v-if="retro">
+              <b-icon class="correct" icon="check" v-if="ans.id === question.correct_answer"></b-icon>
               <b-icon class="incorrect" icon="x" v-else></b-icon>
             </span>
         </b-form-radio>

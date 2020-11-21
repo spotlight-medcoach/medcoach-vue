@@ -128,7 +128,7 @@ export default {
         return this.topics.every(topic => topic.check)
       },
       set (newVal) {
-        this.topics.forEach((topic) => {
+        this.topics.forEach((topic, index) => {
           this.updateTopic(topic._id, newVal)
         })
       }
@@ -171,6 +171,12 @@ export default {
         value: val
       }
       this.$store.commit('custom_test/setCheckTopic', payload)
+
+      // Activando / desactivando a los subtemas
+      const topic = this.topics.find(element => element._id === topicID)
+      topic.subtopics.forEach((subtopic) => {
+        this.updateSubtopic(topicID, subtopic._id, val)
+      })
     },
     updateSubtopic (topicID, subtopicID, val) {
       const payload = {
