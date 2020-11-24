@@ -32,27 +32,36 @@
   <!-- CUERPO -->
   <div id="cuerpo" @click="handleClick" :class="{'retro': retro}">
     <div id="case" v-html="caseSelected.content"></div>
-    <div class="questions" v-for="(question, index) in questionsByCase" :key="`quest-${index}`">
+    <div class="questions" v-for="(question, index) in preguntas" :key="`quest-${index}`">
       <div class="title-question"> Pregunta {{question.index + 1}} </div>
       <div v-html="question.content"></div>
-      <b-form-group label="">
-        <b-form-radio
-          :disabled="retro"
+      <div>
+        <div
+          class="radios position-relative"
           v-for="(ans, index2) in question.answers"
-          :checked="question.response"
-          @input="setAnswer(question.index, $event)"
-          :name="`answer-radios-${caseSelected.id}-${index}`"
           :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-          :value="ans.id"
-          :class="{'correct': (retro && question.correct_answer === ans.id),
-                   'incorrect': (retro && ans.id !== question.correct_answer)}">
-            <span v-html="ans.html"></span>
-            <span class="h4 icono" v-if="retro">
-              <b-icon class="correct" icon="check" v-if="ans.id === question.correct_answer"></b-icon>
-              <b-icon class="incorrect" icon="x" v-else></b-icon>
-            </span>
-        </b-form-radio>
-      </b-form-group>
+        >
+          <input
+            :disabled="retro && ans.id !== question.response"
+            type="radio"
+            :id="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            :name="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            v-bind:value="ans.id"
+            v-model="question.response"
+            @change="setAnswer(question.index, question.response)"
+          />
+          <label
+            :class="{'correct': (retro && question.correct_answer === ans.id),
+              'incorrect': (retro && ans.id !== question.correct_answer)}"
+            :for="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            v-html="ans.html"
+          ></label>
+          <span class="h4 icono" v-if="retro">
+            <b-icon class="correct" icon="check" v-if="ans.id === question.correct_answer"></b-icon>
+            <b-icon class="incorrect" icon="x" v-else></b-icon>
+          </span>
+        </div>
+      </div>
       <!-- RETRO -->
       <div v-if="retro" class="mb-5">
         <div class="title-question">Retroalimentación</div>
@@ -97,6 +106,11 @@ export default {
     ModalImage,
     CaseReport
   },
+  data () {
+    return {
+      preguntas: []
+    }
+  },
   computed: {
     ...mapState({
       customTest: state => state.custom_test.customTest,
@@ -107,6 +121,13 @@ export default {
       questionsByCase: 'custom_test/questionsByCase',
       caseIndex: 'custom_test/caseIndex'
     })
+  },
+  watch: {
+    questionsByCase (newVal) {
+      if (newVal) {
+        this.preguntas = JSON.parse(JSON.stringify(this.questionsByCase))
+      }
+    }
   },
   methods: {
     goToQuestions () {
@@ -143,6 +164,9 @@ export default {
         this.$store.commit('setShowStudentHeader', false)
       }
     }
+  },
+  mounted () {
+    this.preguntas = JSON.parse(JSON.stringify(this.questionsByCase))
   }
 }
 </script>
@@ -185,7 +209,6 @@ export default {
     }
     .icono {
       top: -2px;
-      right: -25px;
       position: absolute;
     }
     .incorrect {
@@ -193,13 +216,7 @@ export default {
     }
     .correct {
       color: green;
-    }
-    .correct .custom-control-label {
-      color: inherit;
       font-weight: bold;
-    }
-    .incorrect .custom-control-label {
-      color: inherit;
     }
   }
 </style>

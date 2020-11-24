@@ -25,12 +25,12 @@
     </div>
     <div v-html="caseSelected.html">
     </div>
-    <div class="grp-questions" v-for="(question, index) in questionsByCase" :key="`grupo-${index}`">
+    <div class="grp-questions" v-for="(question, index) in preguntas" :key="`grupo-${index}`">
       <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
         <span><b> PREGUNTA {{question.index + 1 + initCount}} </b></span>
       </div>
       <div class="d-flex" v-html="question.html"></div>
-      <b-form-group v-for="(item, index2) in question.answers" v-bind:key="`grupo-${index}-question-${index2}`">
+      <!-- <b-form-group v-for="(item, index2) in question.answers" v-bind:key="`grupo-${index}-question-${index2}`">
         <div class="d-flex">
           <b-form-radio
             type="radio"
@@ -42,7 +42,27 @@
             ></b-form-radio>
           <div v-html="item.html"></div>
         </div>
-      </b-form-group>
+      </b-form-group> -->
+      <div>
+        <div
+          class="radios position-relative"
+          v-for="(ans, index2) in question.answers"
+          :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+        >
+          <input
+            type="radio"
+            :id="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            :name="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            v-bind:value="ans.id"
+            v-model="question.answer"
+            @change="setAnswer(question.index, question.answer)"
+          />
+          <label
+            :for="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            v-html="ans.html"
+          ></label>
+        </div>
+      </div>
     </div>
     <div class="d-flex content justify-content-between my-5">
       <button class="button" v-on:click="previous"> Anterior </button>
@@ -77,12 +97,18 @@ export default {
       selected: '',
       answers: [],
       simulator_data: '',
-      count: ''
+      count: '',
+      preguntas: []
     }
   },
   watch: {
     '$route.query.id' () {
       this.load()
+    },
+    questionsByCase (newVal) {
+      if (newVal) {
+        this.preguntas = JSON.parse(JSON.stringify(this.questionsByCase))
+      }
     }
   },
   created () {
@@ -109,18 +135,20 @@ export default {
   },
   methods: {
     setAnswer (questionIndex, response) {
+      console.log(2)
       this.$store.commit('simulators/setQuestionResponse', { index: questionIndex, value: response })
       this.answers[questionIndex] = response
       localStorage.setItem('answers', this.answers)
     },
-    load () {
+    async load () {
       window.scrollTo(0, 0)
       this.current_question = parseInt(localStorage.getItem('current_question')) + 1
       this.simulator_data = JSON.parse(localStorage.getItem('simulator'))
       if (localStorage.getItem('start_break') != null && localStorage.getItem('start_second_block') === null) {
         this.$router.push({ path: `/simulator_break/?id=${this.simulator_date.id}` })
       }
-      this.$store.commit('simulators/setCaseId', this.$route.query.id)
+      await this.$store.commit('simulators/setCaseId', this.$route.query.id)
+      this.preguntas = JSON.parse(JSON.stringify(this.questionsByCase))
       // this.caseHTML = this.simulator_data.cases.find(cases => cases.id === this.question.case_id).html
       this.answers = localStorage.getItem('answers').split(',')
       this.selected = this.answers[this.current_question - 1] - 1
@@ -129,7 +157,7 @@ export default {
         StartBlock = parseInt(localStorage.getItem('start_first_block'))
       } else {
         StartBlock = parseInt(localStorage.getItem('start_second_block'))
-        this.$store.commit('simulators/setBlock', 2)
+        await this.$store.commit('simulators/setBlock', 2)
       }
       const date = moment(StartBlock)
       const today = moment()

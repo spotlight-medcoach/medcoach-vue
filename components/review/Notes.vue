@@ -53,7 +53,7 @@
         <img src="@/assets/icons/review/print.svg" width="35">
         <p>Imprimir</p>
       </div>
-      <div class="option mb-auto pointer" @click="finishReview">
+      <div class="option mb-auto pointer" @click="finishReview" v-if="!is_extra">
         <img src="@/assets/icons/review/finish_review.svg" width="35">
         <p>Finalizar revisión</p>
       </div>
@@ -205,7 +205,8 @@ export default {
       showQuillB: false,
       flipped: false,
       savingFlashcard: false,
-      prevText: 'cancelado'
+      prevText: 'cancelado',
+      is_extra: this.$route.query.extra === 'true'
     }
   },
   methods: {

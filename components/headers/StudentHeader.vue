@@ -48,6 +48,13 @@
       <div class="text-option">Examen</div>
     </div>
   </nuxt-link>
+  <!-- MANUALES EXTRA -->
+  <nuxt-link to="/extra_manuals" tag="span">
+    <div class="text-center pointer item-option" :class="{'active-option': isExtra}">
+      <img src="@/assets/icons/extras.svg" class="menu-item circulo">
+      <div class="text-option">Nuevo</div>
+    </div>
+  </nuxt-link>
   <!-- Simuladores -->
   <!-- <nuxt-link to="/simulators" tag="span">
     <div class="text-center pointer item-option" :class="{'active-option': isTest}">
@@ -102,6 +109,9 @@ export default {
     },
     isTest () {
       return this.$route.name === 'custom_test_config' || this.$route.name === 'custom_test' || this.$route.name === 'custom_test_retro'
+    },
+    isExtra () {
+      return this.$route.name === 'extra_manuals'
     },
     ...mapGetters({
       alertNotifications: 'notifications/alertNotifications'

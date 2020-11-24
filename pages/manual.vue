@@ -17,7 +17,7 @@
             class="my-2 my-sm-0 finishManualBtn"
             type="submit"
             @click="finishManual"
-            v-show="!showLoading && !finished && phase.id !== 2">
+            v-if="!showLoading && !finished && phase.id !== 2 && !finish_manual_extra">
             Finalizar Manual
           </b-button>
       </b-navbar-nav>
@@ -151,6 +151,8 @@ export default {
     return {
       my_window: window,
       manual_id: this.$route.query.manual_id,
+      is_extra: (this.$route.query.extra === 'true'),
+      finish_manual_extra: (this.$route.query.finishManualExtra === 'true'),
       manualHTML: null,
       light: '#ffff',
       dark: '#000000',
@@ -256,7 +258,8 @@ export default {
       this.saveNote()
       this.$axios
         .put('/students/syllabus', {
-          manual_id: this.manual_id
+          manual_id: this.manual_id,
+          extra: this.is_extra
         })
         .then((res) => {
           console.log(res.data)
