@@ -15,11 +15,14 @@ export default {
   mounted () {
     // Get the modal
     const modal = this.$refs.myModal
+    const store = this.$store
     // Get the <span> element that closes the modal
     const span = document.getElementsByClassName('cerrar')[0]
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
       modal.style.display = 'none'
+      document.body.style.overflow = 'auto'
+      store.commit('setShowStudentHeader', true)
     }
   },
   watch: {

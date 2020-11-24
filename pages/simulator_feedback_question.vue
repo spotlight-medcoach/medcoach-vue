@@ -1,5 +1,5 @@
 <template>
-<div id="simulator_feedback_question" class="container">
+<div id="simulator_feedback_question" class="container" @click="handleClick">
   <div class="mb-4">
     <button class="button" v-on:click="backward"> Volver</button>
   </div>
@@ -17,37 +17,41 @@
       <span><b> PREGUNTA {{question.index + 1}} </b></span>
     </div>
     <div v-html="question.html"></div>
-      <b-form-group v-for="(item, index2) in question.answers" v-bind:key="index2">
-        <div class="d-flex">
-          <b-form-radio
-            type="radio"
-            :name="`answer-radios-${caseSelected.id}-${index}`"
-            :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-            :disabled="true"
-            v-model="question.answer"
-            :value="item.id">
-          </b-form-radio>
-          <div
-            :class="{'correct': (question.correct_answer === item.id),
-                     'incorrect': (question.correct_answer !== item.id) }"
-            v-html="item.html">
-          </div>
-          <div class="answer_icons">
-            <b-icon-check class="h3 correct" v-if="question.correct_answer === item.id" />
-            <b-icon-x class="h3 incorrect" v-else />
-          </div>
+    <b-form-group v-for="(item, index2) in question.answers" v-bind:key="index2">
+      <div class="d-flex">
+        <b-form-radio
+          type="radio"
+          :name="`answer-radios-${caseSelected.id}-${index}`"
+          :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+          :disabled="true"
+          v-model="question.answer"
+          :value="item.id">
+        </b-form-radio>
+        <div
+          :class="{'correct': (question.correct_answer === item.id),
+                   'incorrect': (question.correct_answer !== item.id) }"
+          v-html="item.html">
         </div>
-      </b-form-group>
-      <div v-html="question.retro">
+        <div class="answer_icons">
+          <b-icon-check class="h3 correct" v-if="question.correct_answer === item.id" />
+          <b-icon-x class="h3 incorrect" v-else />
+        </div>
       </div>
+    </b-form-group>
+    <div v-html="question.retro">
     </div>
   </div>
+  <modal-image />
 </div>
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex'
+import ModalImage from '@/components/ModalImage'
 
 export default {
+  components: {
+    ModalImage
+  },
   data () {
     return {
       selected: '',
@@ -98,6 +102,18 @@ export default {
     },
     backward () {
       this.$router.push({ path: `/simulator_feedback/?id=${this.simulator_data.id}` })
+    },
+    handleClick (event) {
+      if (event.target.localName === 'img') {
+        const modal = document.getElementById('myModal')
+        const modalImg = document.getElementById('img01')
+        const captionText = document.getElementById('caption')
+        modalImg.src = event.target.src
+        captionText.innerHTML = event.target.alt
+        modal.style.display = 'block'
+        document.body.style.overflow = 'hidden'
+        this.$store.commit('setShowStudentHeader', false)
+      }
     }
   }
 }
@@ -108,6 +124,9 @@ export default {
 }
 #simulator_feedback_question .button{
   background-color:#DBD4D4;
+}
+#simulator_feedback_question img {
+  cursor: pointer;
 }
 .answer_icons{
     margin-right:10px;

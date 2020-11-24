@@ -30,7 +30,7 @@
     </div>
   </div>
   <!-- CUERPO -->
-  <div id="cuerpo">
+  <div id="cuerpo" @click="handleClick" :class="{'retro': retro}">
     <div id="case" v-html="caseSelected.content"></div>
     <div class="questions" v-for="(question, index) in questionsByCase" :key="`quest-${index}`">
       <div class="title-question"> Pregunta {{question.index + 1}} </div>
@@ -76,10 +76,15 @@
         v-html="'Siguiente >>>>'"
         @click="$store.dispatch('custom_test/nextCase')"></div>
   </div>
+  <modal-image />
+  <case-report :caseId="caseSelected.id" />
 </div>
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex'
+import ModalImage from '@/components/ModalImage'
+import CaseReport from '@/components/simulators/CaseReport'
+
 export default {
   name: 'case-index',
   props: {
@@ -87,6 +92,10 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  components: {
+    ModalImage,
+    CaseReport
   },
   computed: {
     ...mapState({
@@ -121,11 +130,26 @@ export default {
         .finally(() => {
           this.$router.push({ path: '/custom_test_config' })
         })
+    },
+    handleClick (event) {
+      if (event.target.localName === 'img' && this.retro) {
+        const modal = document.getElementById('myModal')
+        const modalImg = document.getElementById('img01')
+        const captionText = document.getElementById('caption')
+        modalImg.src = event.target.src
+        captionText.innerHTML = event.target.alt
+        modal.style.display = 'block'
+        document.body.style.overflow = 'hidden'
+        this.$store.commit('setShowStudentHeader', false)
+      }
     }
   }
 }
 </script>
 <style lang="scss">
+  .retro img {
+    cursor: pointer;
+  }
   #case-index {
     .px-6{
       padding: 0px 5.23rem;

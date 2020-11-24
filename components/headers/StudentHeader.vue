@@ -1,5 +1,6 @@
 <template>
 <b-navbar
+          v-if="showStudentHeader"
           toggleable="lg"
           type="white"
           variant="white"
@@ -82,7 +83,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'student-header',
@@ -104,6 +105,9 @@ export default {
     },
     ...mapGetters({
       alertNotifications: 'notifications/alertNotifications'
+    }),
+    ...mapState({
+      showStudentHeader: state => state.showStudentHeader
     })
   },
   methods: {
