@@ -1,7 +1,7 @@
 <template>
   <div id="extra-manuals">
     <div class="header">
-      <div class="titulo">Manuales para sacar 90</div>
+      <div class="titulo">Datos inútiles ENARM</div>
       <div class="input-group md-form form-sm form-2 pl-0 search-input" style="width: auto !important;">
         <input
           style="width: 400px;"
@@ -47,7 +47,7 @@ export default {
   computed: {
     filteredManuals () {
       let manuals = this.manuals
-      const search = this.search
+      const search = this.toCanonical(this.search)
 
       if (search !== '') {
         manuals = this.manuals.filter((manual) => {
