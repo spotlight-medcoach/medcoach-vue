@@ -1,6 +1,6 @@
 <template>
   <div>
-    <landing-header v-if="$route.name==='index' || $route.name==='reset_password'"></landing-header>
+    <landing-header v-if="$route.name==='reset_password'"></landing-header>
     <welcome-header v-else-if="$route.name === 'welcome'" />
     <nuxt />
   </div>
