@@ -1,7 +1,7 @@
 <template>
 <div>
   <case-index :retro="true" v-if="caseId"/>
-  <questions :custom_test="custom_test" v-else/>
+  <questions :retro="true" :custom_test="custom_test" v-else/>
 </div>
 </template>
 <script>

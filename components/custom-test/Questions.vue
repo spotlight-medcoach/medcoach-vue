@@ -6,7 +6,7 @@
   </div>
   <div v-else class="mt-5 px-3 text-center w-100">
     <div
-      :class="{'answered': question.response}"
+      :class="{'answered': retro && question.response === question.correct_answer}"
       class="square text-center m-1 pointer"
       v-for="(question, index) in custom_test.questions"
       @click="goToCase(question.case_id)"
@@ -19,7 +19,7 @@
 <script>
 import LoadingState from '@/components/LoadingState.vue'
 export default {
-  props: ['custom_test'],
+  props: ['custom_test', 'retro'],
   name: 'questions',
   components: {
     LoadingState
