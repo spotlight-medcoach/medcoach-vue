@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="mt-3 d-flex">
-    <div id="row-subtopics" :class="{'disabled': type !== 'all' && type !== 'not_answered' }">
+    <div id="row-subtopics">
       <div class="title">Subcategoría</div>
       <div>
         <ul class="p-0 listado">
@@ -40,7 +40,7 @@
               :value="subtopic.check"
               @input="updateSubtopic(subtopic.topic_id, subtopic._id, $event)"
               :label="subtopic.name"
-              :number="(type === 'all') ? subtopic.questions : subtopic.questions_not_answered"
+              :number="getCountSubtopic(subtopic)"
               :show_number="showNumber"
               :disabled="subtopic.disabled"/>
           </li>
@@ -117,11 +117,7 @@ export default {
   },
   computed: {
     showNumber () {
-      if (this.type === 'not_answered' || this.type === 'all') {
-        return true
-      } else {
-        return false
-      }
+      return this.type !== ''
     },
     allTopics: {
       get () {
@@ -153,7 +149,7 @@ export default {
   watch: {
     type (newVal) {
       if (newVal) {
-        if (newVal === 'all' || newVal === 'not_answered') {
+        if (newVal !== '') {
           this.$store.commit('custom_test/setType', newVal)
         } else {
           this.$store.commit('custom_test/setType', '')
@@ -215,6 +211,19 @@ export default {
           .finally(() => {
             this.busy = false
           })
+      }
+    },
+    getCountSubtopic (subtopic) {
+      if (this.type === 'all') {
+        return subtopic.questions
+      } else if (this.type === 'not_answered') {
+        return subtopic.questions_not_answered
+      } else if (this.type === 'answered') {
+        return subtopic.questions_correct
+      } else if (this.type === 'wrong') {
+        return subtopic.questions_incorrect
+      } else {
+        return 0
       }
     }
   }

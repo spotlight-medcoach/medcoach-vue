@@ -102,6 +102,8 @@ export const mutations = {
         // subtopic.questions = questions.find(q => q.subtopic_id === subtopic._id).count
         subtopic.questions = keyedQuestions[subtopic._id].count
         subtopic.questions_not_answered = keyedQuestions[subtopic._id].count_not_answered
+        subtopic.questions_incorrect = keyedQuestions[subtopic._id].count_incorrect
+        subtopic.questions_correct = keyedQuestions[subtopic._id].count_correct
       })
     })
   },
