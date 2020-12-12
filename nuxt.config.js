@@ -15,7 +15,10 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', 
+        name: 'description', 
+        content: 'Curso en línea para el Examen Nacional para Aspirantes a Residencias Médicas (ENARM). Usa nuestro calendario personalizado, manuales, guías, exámenes, simuladores, notas y asesorías para aumentar tus posibilidades de pasar. Entra a la especialidad a la primera.'
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'https://s3.amazonaws.com/appforest_uf/f1579284400919x190003394063938080/Stripe.png' },
