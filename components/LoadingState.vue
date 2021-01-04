@@ -1,7 +1,7 @@
 <template>
 <div class="d-flex align-items-center justify-content-center" :style="{'height': height}">
   <div>
-    <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
+    <div class="mt-5 d-flex justify-content-around text-center" style="font-size: 28px;">
       {{ message }}
     </div>
     <div class="mt-5 d-flex justify-content-around">

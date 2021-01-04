@@ -66,7 +66,9 @@
       <!-- CONTENIDO DE LA PREGUNTA -->
       <b-col cols="11" class="scroll" id="question" ref="question">
         <div v-if="sending_questions">
-          <loading-state message="Enviando preguntas, por favor espere" />
+          <loading-state
+            message="Enviando tus respuestas. Generando tu plan de estudios... Esto puede demorar algunos minutos, no recargues la página"
+          />
         </div>
         <div v-else-if="question">
           <div class="title-question mt-5">
@@ -221,7 +223,7 @@ export default {
           return new Promise((resolve, reject) => {
             setTimeout(function () {
               resolve(response)
-            }, 60000)
+            }, 120000)
           })
         })
         .then((response) => {
