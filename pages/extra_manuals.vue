@@ -1,7 +1,7 @@
 <template>
   <div id="extra-manuals">
     <div class="header">
-      <div class="titulo">Datos inútiles ENARM</div>
+      <div class="titulo">Datos extras ENARM</div>
       <div class="input-group md-form form-sm form-2 pl-0 search-input" style="width: auto !important;">
         <input
           style="width: 400px;"
