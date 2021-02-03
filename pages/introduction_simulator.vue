@@ -47,7 +47,8 @@ export default {
   data () {
     return {
       error: false,
-      enarm: ''
+      enarm: '',
+      simulator_id: this.$route.query.id
     }
   },
   methods: {
@@ -58,12 +59,13 @@ export default {
       if (this.enarm === 'ENARM') {
         this.$bvModal.hide('modal-1')
         this.$bvModal.show('modal-2')
-        this.$axios.post(`/student/simulators?simulator_id=${this.$route.query.id}`, {
+
+        this.$axios.post(`/student/simulators?simulator_id=${this.simulator_id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('usertoken')}`
           }
         }).then(() => {
-          this.$axios.get(`/student/simulators/get?simulator_id=${this.$route.query.id}`, {
+          this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('usertoken')}`
             }
@@ -88,15 +90,16 @@ export default {
               localStorage.setItem('start_break', null)
               const answers = new Array(250).fill(0)
               localStorage.setItem('answers', answers)
-              this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
+              // this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
             } else {
               localStorage.setItem('start_first_block', null)
               localStorage.setItem('start_second_block', moment.now())
               localStorage.setItem('start_break', null)
               const answers = new Array(200).fill(0)
               localStorage.setItem('answers', answers)
-              this.$router.push({ path: `/simulator_block2/?id=${this.$route.query.id}` })
+              // this.$router.push({ path: `/simulator_block2/?id=${this.$route.query.id}` })
             }
+            this.$router.push(`/simulator?simulator_id=${this.simulator_id}`)
           }).catch((err) => {
             console.log(err)
           })

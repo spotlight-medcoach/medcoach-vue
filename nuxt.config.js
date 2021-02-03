@@ -51,7 +51,9 @@ export default {
     // manual css
     '@assets/css/manual.scss',
     // index/reset_password css
-    '@assets/css/index.css'
+    '@assets/css/index.css',
+    // simulator scss
+    '@assets/css/simulator.scss'
   ],
   /*
   ** Plugins to load before mounting the App

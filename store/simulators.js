@@ -15,6 +15,7 @@ export const state = () => ({
   block: 1,
   caseId: null,
   caseIndex: -1,
+  questionsPerPage: 20,
   simulator: _simulator || _simulatorFeedback,
   timeBlock1: 18060000, // 5 hrs
   timeBlock2: 16260000 //  4.4 hrs
@@ -34,6 +35,58 @@ export const getters = {
     } else {
       return []
     }
+  },
+  test (state) {
+    const maxQuestions = state.questionsPerPage
+    const totalCases = state.simulator.cases.length
+    const pages = []
+    let cont = 0
+    let actualPage = []
+
+    for (let i = 0; i < totalCases; i++) {
+      const _case = state.simulator.cases[i]
+      const questions = state.simulator.questions.filter(question => question.case_id === _case.id)
+      const aux = cont + questions.length
+
+      if (aux > maxQuestions) {
+        console.log('\n')
+        console.log(i, '-', aux)
+        console.log('contador: ', cont)
+        console.log(actualPage)
+        console.log(questions)
+
+        const excess = aux - maxQuestions
+        const save = questions.length - excess
+
+        // guardando lo más qu se pueda
+        let newQuestions = questions.slice(0, save)
+        console.log('Se agregan:', newQuestions.length)
+        actualPage.push({
+          id: _case.id,
+          html: _case.html,
+          questions: newQuestions
+        })
+        pages.push(actualPage)
+        console.log(actualPage)
+
+        // se agrega una nueva página
+        actualPage = []
+        newQuestions = questions.slice(save, questions.length)
+        actualPage.push({
+          id: _case.id,
+          html: _case.html,
+          questions: newQuestions
+        })
+        cont = excess
+      } else {
+        _case.questions = questions
+        actualPage.push(_case)
+        cont = aux
+      }
+    }
+    pages.push(actualPage)
+
+    return pages
   }
 }
 
