@@ -87,6 +87,9 @@ export const getters = {
     pages.push(actualPage)
 
     return pages
+  },
+  questions (state) {
+    return state.simulator.questions
   }
 }
 

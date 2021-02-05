@@ -4,7 +4,8 @@ export default {
   env: {
     BASE_PATH: process.env.BASE_PATH,
     BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE,
-    IN_MAINTENANCE: process.env.IN_MAINTENANCE || false
+    IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
+    DEVELOP: process.env.DEVELOP || false
   },
   mode: 'spa',
   /*

@@ -16,8 +16,10 @@ export default {
     StudentHeader
   },
   mounted () {
-    document.onkeyup = this.onKeyUp
-    // document.addEventListener('contextmenu', event => event.preventDefault())
+    if (!process.env.DEVELOP) {
+      document.onkeyup = this.onKeyUp
+      document.addEventListener('contextmenu', event => event.preventDefault())
+    }
   },
   methods: {
     onKeyUp (e) {
