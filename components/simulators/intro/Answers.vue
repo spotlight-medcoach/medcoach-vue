@@ -22,15 +22,26 @@
         </div>
       </div>
     </div>
+
     <div class="pagination">
-      <span
-        v-for="page in countPages"
-        :key="`page-${page}`"
-        :class="{'selected-page': (page === currentPage + 1)}"
-        @click="$emit('onChangePage', page - 1)"
+      <button
+        v-if="countPages === (currentPage + 1)"
+        @click="$emit('onFinishTest', 'Has terminado el examen')"
+        type="submit"
+        class="red-theme btn-finish"
       >
-        {{ page }}
-      </span>
+        FINALIZAR
+      </button>
+      <div class="pages">
+        <span
+          v-for="page in countPages"
+          :key="`page-${page}`"
+          :class="{'selected-page': (page === currentPage + 1)}"
+          @click="$emit('onChangePage', page - 1)"
+        >
+          {{ page }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -62,7 +73,6 @@ export default {
         value: answer.id
       }
       this.$store.commit('simulators/setQuestionResponse', payload)
-      this.goToQuestion(question.index)
     },
     goToQuestion (index) {
       location.href = `#question-${index}`

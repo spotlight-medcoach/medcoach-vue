@@ -1,7 +1,14 @@
 <template>
   <div id="test-simulator">
     <div class="questions-container">
-      <button class="btn-sec">REGRESAR</button>
+      <div class="d-flex justify-content-between align-items-center w-100 pb-3 mb-3 border-bottom">
+        <countdown-timer
+          :startTime="startTime"
+          :durationTime="duration"
+          @onTimeOver="finishTest"
+        />
+        <button class="btn-sec">REGRESAR</button>
+      </div>
       <test-questions :cases="cases" />
     </div>
     <div class="answers-container">
@@ -10,6 +17,7 @@
         :countPages="countPages"
         :currentPage="idx_page"
         @onChangePage="setPage"
+        @onFinishTest="finishTest"
       />
     </div>
   </div>
@@ -18,11 +26,23 @@
 import { mapGetters } from 'vuex'
 import TestQuestions from '@/components/simulators/intro/TestQuestions'
 import Answers from '@/components/simulators/intro/Answers'
+import CountdownTimer from '@/components/simulators/intro/CountdownTimer'
 
 export default {
+  props: {
+    startTime: {
+      type: String,
+      required: true
+    },
+    duration: {
+      type: Number,
+      required: true
+    }
+  },
   components: {
     TestQuestions,
-    Answers
+    Answers,
+    CountdownTimer
   },
   data () {
     return {
@@ -51,6 +71,10 @@ export default {
   methods: {
     setPage (val) {
       this.idx_page = val
+    },
+    finishTest (val) {
+      alert(val)
+      this.$emit('onFinishTest', val)
     }
   }
 }

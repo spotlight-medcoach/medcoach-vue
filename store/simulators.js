@@ -46,28 +46,25 @@ export const getters = {
     for (let i = 0; i < totalCases; i++) {
       const _case = state.simulator.cases[i]
       const questions = state.simulator.questions.filter(question => question.case_id === _case.id)
+
+      if (questions.length === 0) {
+        continue
+      }
+
       const aux = cont + questions.length
 
       if (aux > maxQuestions) {
-        console.log('\n')
-        console.log(i, '-', aux)
-        console.log('contador: ', cont)
-        console.log(actualPage)
-        console.log(questions)
-
         const excess = aux - maxQuestions
         const save = questions.length - excess
 
         // guardando lo más qu se pueda
         let newQuestions = questions.slice(0, save)
-        console.log('Se agregan:', newQuestions.length)
         actualPage.push({
           id: _case.id,
           html: _case.html,
           questions: newQuestions
         })
         pages.push(actualPage)
-        console.log(actualPage)
 
         // se agrega una nueva página
         actualPage = []
