@@ -7,7 +7,7 @@
           :durationTime="duration"
           @onTimeOver="finishTest"
         />
-        <button class="btn-sec">REGRESAR</button>
+        <button class="btn-sec" @click="$emit('onClickBack', true)">REGRESAR</button>
       </div>
       <test-questions :cases="cases" />
     </div>
@@ -18,12 +18,12 @@
         :currentPage="idx_page"
         @onChangePage="setPage"
         @onFinishTest="finishTest"
+        @onSetAnswer="setAnswer"
       />
     </div>
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
 import TestQuestions from '@/components/simulators/intro/TestQuestions'
 import Answers from '@/components/simulators/intro/Answers'
 import CountdownTimer from '@/components/simulators/intro/CountdownTimer'
@@ -36,6 +36,10 @@ export default {
     },
     duration: {
       type: Number,
+      required: true
+    },
+    test: {
+      type: Array,
       required: true
     }
   },
@@ -63,18 +67,17 @@ export default {
         questions.push(..._qs)
       })
       return questions
-    },
-    ...mapGetters({
-      test: 'simulators/test'
-    })
+    }
   },
   methods: {
     setPage (val) {
       this.idx_page = val
     },
     finishTest (val) {
-      alert(val)
       this.$emit('onFinishTest', val)
+    },
+    setAnswer ({ question, answer }) {
+      this.$emit('onSetAnswer', { question, answer })
     }
   }
 }

@@ -76,13 +76,15 @@ export const getters = {
         })
         cont = excess
       } else {
-        _case.questions = questions
-        actualPage.push(_case)
+        actualPage.push({
+          id: _case.id,
+          html: _case.html,
+          questions: _case.questions
+        })
         cont = aux
       }
     }
     pages.push(actualPage)
-
     return pages
   },
   questions (state) {

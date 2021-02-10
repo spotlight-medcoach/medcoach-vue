@@ -22,7 +22,14 @@
       <div>
     </div>
   </div>
-  <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
+  <b-modal
+    id="modal-finishblock"
+    hide-footer
+    hide-header
+    no-close-on-backdrop
+    no-close-on-esc
+    class="text-center"
+  >
     <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
     <div>
       <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
@@ -76,7 +83,7 @@ export default {
       this.$router.push({ path: `/test_simulator/?id=${this.questions[0].case_id}` })
     },
     save_test () {
-      this.$bvModal.show('modal-1')
+      this.$bvModal.show('modal-finishblock')
       clearInterval(this.countdown)
       const answer = this.answers.map(function (x) {
         return parseInt(x, 10)

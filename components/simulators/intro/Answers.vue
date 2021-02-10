@@ -12,8 +12,8 @@
           <span class="question-number" @click="goToQuestion(question.index)">{{ question.index + 1 }}</span>
           <span
             class="ovoid"
-            :class="{'selected-answer': answer.id === question.answer}"
             v-for="(answer, indexA) in question.answers"
+            :class="{'selected-answer': answer.id === question.answer}"
             :key="`question-${indexA}-answ-${indexA}`"
             @click="setAnswer(question, answer)"
           >
@@ -68,11 +68,7 @@ export default {
   },
   methods: {
     setAnswer (question, answer) {
-      const payload = {
-        index: question.index,
-        value: answer.id
-      }
-      this.$store.commit('simulators/setQuestionResponse', payload)
+      this.$emit('onSetAnswer', { question, answer })
     },
     goToQuestion (index) {
       location.href = `#question-${index}`

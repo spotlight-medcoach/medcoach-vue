@@ -16,8 +16,8 @@
     <h6>Debes elegir un día donde te encuentres completamente libre, ya que la duración total del examen es alrededor de <b>11 horas.</b></h6>
     <h6>El examen se compone de <b>450 reactivos</b>; 405 preguntas en español y 45 en inglés.</h6>
     <h6>A su vez, se divide en dos bloques; el <b>bloque 1 tiene 250 reactivos</b> y tendrás un tiempo de </b>5 horas para contestarlo.</b></h6>
-    <h6>Posteriormente, recibirás un periodo de </b>descanso de 2 horas.</b></h6>
-    <h6>Después de las cuales iniciara automáticamente el <b>bloque 2 que consta de 200 reactivos</b> donde tendrás <b>4 horas y media</b> para contestarlo.</h6>
+    <h6>Posteriormente, recibirás un periodo de </b>descanso de 1 hora.</b></h6>
+    <h6>Después de las cuales iniciara automáticamente el <b>bloque 2 que consta de 200 reactivos</b> donde tendrás <b>4 horas </b> para contestarlo.</h6>
     <h6>Mucha suerte.</h6>
   </div>
   <div class="button">
@@ -41,7 +41,8 @@
 </div>
 </template>
 <script>
-import moment from 'moment'
+
+import { prepareSimulator, prepareTest } from '@/assets/js/helper'
 
 export default {
   data () {
@@ -70,35 +71,8 @@ export default {
               Authorization: `Bearer ${localStorage.getItem('usertoken')}`
             }
           }).then((res) => {
-            const day = moment.now()
-            const simulator = {
-              id: this.$route.query.id,
-              cases: res.data.cases,
-              questions: res.data.questions
-            }
-            const currentBlock = res.data.current_block
-            simulator.questions.forEach((question, index) => {
-              question.index = index
-              question.answer = 0
-            })
-            this.$store.commit('simulators/setSimulator', simulator)
-            this.$store.commit('simulators/setBlock', currentBlock)
-            localStorage.setItem('simulator', JSON.stringify(simulator))
-            if (currentBlock === 1) {
-              localStorage.setItem('start_first_block', day)
-              localStorage.setItem('start_second_block', null)
-              localStorage.setItem('start_break', null)
-              const answers = new Array(250).fill(0)
-              localStorage.setItem('answers', answers)
-              // this.$router.push({ path: `/simulator_block1/?id=${this.$route.query.id}` })
-            } else {
-              localStorage.setItem('start_first_block', null)
-              localStorage.setItem('start_second_block', moment.now())
-              localStorage.setItem('start_break', null)
-              const answers = new Array(200).fill(0)
-              localStorage.setItem('answers', answers)
-              // this.$router.push({ path: `/simulator_block2/?id=${this.$route.query.id}` })
-            }
+            const simulator = prepareSimulator(res, this.simulator_id)
+            prepareTest(simulator)
             this.$router.push(`/simulator?simulator_id=${this.simulator_id}`)
           }).catch((err) => {
             console.log(err)
