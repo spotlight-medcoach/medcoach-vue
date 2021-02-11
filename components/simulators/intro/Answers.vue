@@ -25,7 +25,7 @@
 
     <div class="pagination">
       <button
-        v-if="countPages === (currentPage + 1)"
+        v-if="countPages === (currentPage + 1) && !retro"
         @click="$emit('onFinishTest', 'Has terminado el examen')"
         type="submit"
         class="red-theme btn-finish"
@@ -59,6 +59,10 @@ export default {
     currentPage: {
       type: Number,
       required: true
+    },
+    retro: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -68,7 +72,9 @@ export default {
   },
   methods: {
     setAnswer (question, answer) {
-      this.$emit('onSetAnswer', { question, answer })
+      if (!this.retro) {
+        this.$emit('onSetAnswer', { question, answer })
+      }
     },
     goToQuestion (index) {
       location.href = `#question-${index}`

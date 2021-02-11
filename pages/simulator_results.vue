@@ -58,6 +58,7 @@
 import simulatorResultCard from '../components/simulators/simulatorResultCard.vue'
 import simulatorResultTopic from '../components/simulators/simulatorResultTopic.vue'
 import simulatorResultType from '../components/simulators/simulatorResultType.vue'
+import { prepareTest } from '@/assets/js/helper'
 
 export default {
   components: {
@@ -106,7 +107,16 @@ export default {
       simulator.questions.forEach((question, index) => {
         question.index = index
       })
+
+      const questionsBlock1 = simulator.questions.slice(0, 250)
+      const questionsBlock2 = simulator.questions.slice(250)
+      const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 })
+      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 })
+
       localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+      localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
+      localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
+
       this.$store.commit('simulators/setSimulator', simulator)
       this.$bvModal.hide('modal-1')
     }).catch((err) => {
@@ -121,7 +131,7 @@ export default {
       this.$router.push({ path: '/simulators' })
     },
     feedback () {
-      this.$router.push({ path: `/simulator_feedback/?id=${this.$route.query.id}` })
+      this.$router.push({ path: `/simulator_retro/?id=${this.$route.query.id}` })
     }
   }
 }

@@ -119,3 +119,7 @@ html {
   margin-left: 150px;
   margin-right: 150px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
