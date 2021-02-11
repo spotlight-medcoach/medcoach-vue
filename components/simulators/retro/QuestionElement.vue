@@ -10,7 +10,12 @@
     <span
       class="ovoid"
       v-for="(answer, indexA) in question.answers"
-      :class="{'selected-answer': answer.id === question.answer}"
+      :class="{
+        'retro-correct':  (answer.id === question.answer &&
+                           answer.id === question.correct_answer),
+        'retro-wrong': (answer.id === question.answer &&
+                        answer.id !== question.correct_answer)
+      }"
       :key="`question-${indexQ}-answ-${indexA}`"
     >
       {{ String.fromCharCode(64 + answer.id) }}
@@ -36,3 +41,11 @@ export default {
   }
 }
 </script>
+<style>
+  .retro-correct {
+    background-color: green !important;
+  }
+  .retro-wrong {
+    background-color: red !important;
+  }
+</style>

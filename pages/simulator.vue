@@ -153,10 +153,11 @@ export default {
         this.test.forEach((page) => {
           page.forEach((_case) => {
             _case.questions.forEach((question) => {
-              answers[question.index] = parseInt(question.answer)
+              answers.push(parseInt(question.answer))
             })
           })
         })
+        console.log(answers)
         const res = await this.$axios.put(`/student/simulators?simulator_id=${this.simulator_id}`, { answers })
         if (this.session === '1') {
           this.goToBreak(res.start_break)
@@ -218,6 +219,9 @@ export default {
         this.step = this.steps.ShowBreak
       }
     }
+
+    // const simu = JSON.parse(localStorage.getItem('simulator'))
+    // this.test = prepareTest(simu)
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div id="questions-index" class="container">
-    <p class="title red-theme" v-if="session === 0">PRIMERA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
-    <p class="title red-theme" v-else>SEGUNDA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
+    <p class="bg-title red-theme" v-if="session === 0">PRIMERA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
+    <p class="bg-title red-theme" v-else>SEGUNDA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
     <div class="container-questions">
       <div
         v-for="col in cols"

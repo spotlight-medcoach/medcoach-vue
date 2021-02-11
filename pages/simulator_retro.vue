@@ -1,21 +1,31 @@
 <template>
   <div id="simulator">
     <div class="content retro">
+      <nuxt-link
+        v-if="step === steps.Init"
+        :to="`/simulator_results?id=${simulator_id}`"
+        class="mt-4 ml-4"
+        style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;">
+        <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;"></b-icon-chevron-left>
+        <b>Regresar a los resultados</b>
+      </nuxt-link>
       <div v-if="step === steps.Init" id="init-retro" class="m-auto">
-        <p class="title red-theme">RETROALIMENTACIÓN EXAMEN SIMULADOR</p>
-        <div class="d-flex justify-content-around">
-          <button
-            class="btn-sec"
-            @click="setSession(0)"
-          >
-            PRIMERA PARTE
-          </button>
-          <button
-            class="btn-sec"
-            @click="setSession(1)"
-          >
-            SEGUNDA PARTE
-          </button>
+        <div>
+          <p class="bg-title red-theme">RETROALIMENTACIÓN EXAMEN SIMULADOR</p>
+          <div class="d-flex justify-content-around">
+            <button
+              class="btn-sec"
+              @click="setSession(0)"
+            >
+              PRIMERA PARTE
+            </button>
+            <button
+              class="btn-sec"
+              @click="setSession(1)"
+            >
+              SEGUNDA PARTE
+            </button>
+          </div>
         </div>
       </div>
       <questions-index
@@ -55,7 +65,8 @@ export default {
       session: -1,
       tests: [],
       selectedTest: null,
-      questionIndex: -1
+      questionIndex: -1,
+      simulator_id: this.$route.query.id
     }
   },
   methods: {

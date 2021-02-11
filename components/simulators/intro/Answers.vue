@@ -1,5 +1,5 @@
 <template>
-  <div class="sheet">
+  <div id="sheet" class="sheet">
     <div class="sheet-answers">
       <p class="title-session red-theme">{{ title }}</p>
       <div class="card-answers">

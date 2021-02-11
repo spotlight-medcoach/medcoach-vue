@@ -87,6 +87,8 @@ export default {
   methods: {
     setPage (val) {
       this.idx_page = val
+      this.$el.querySelector('#test-cases').scrollTop = 0
+      this.$el.querySelector('#sheet').scrollTop = 0
     },
     finishTest (val) {
       this.$emit('onFinishTest', val)

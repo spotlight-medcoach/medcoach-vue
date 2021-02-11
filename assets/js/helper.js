@@ -7,13 +7,11 @@ export const prepareSimulator = (responseAPI, simulatorId) => {
     cases: data.cases,
     questions: data.questions
   }
+  const currentBlock = data.current_block
   simulator.questions.forEach((question, index) => {
-    question.index = index
+    question.index = parseInt(index) + (currentBlock === 2 ? 250 : 0)
     question.answer = 0
   })
-  const currentBlock = data.current_block
-  // this.$store.commit('simulators/setSimulator', simulator)
-  // this.$store.commit('simulators/setBlock', currentBlock)
   localStorage.setItem('session', currentBlock)
   localStorage.setItem('simulator', JSON.stringify(simulator))
   if (currentBlock === 1) {
@@ -57,17 +55,20 @@ export const prepareTest = (simulator) => {
     if (aux > maxQuestions) {
       const excess = aux - maxQuestions
       const save = questions.length - excess
+      let newQuestions = []
 
-      // guardando lo más qu se pueda
-      let newQuestions = questions.slice(0, save)
-      actualPage.push({
-        id,
-        html,
-        questions: newQuestions
-      })
-      pages.push(actualPage)
+      if (save !== 0) {
+        // guardando lo más qu se pueda
+        newQuestions = questions.slice(0, save)
+        actualPage.push({
+          id,
+          html,
+          questions: newQuestions
+        })
+      }
 
       // se agrega una nueva página
+      pages.push(actualPage)
       actualPage = []
       newQuestions = questions.slice(save, questions.length)
       actualPage.push({

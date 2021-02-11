@@ -85,43 +85,45 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+
  .return {
     margin: 30px;
+    .title{
+      margin:30px;
+      margin-bottom: 45px;
+      text-align:center;
+    }
+    .text {
+      width: 80%;
+      margin: auto;
+    }
+    .buttontest{
+      margin: 10px;
+      background-color:#FE9400;
+      font-size:18px;
+    }
+    .button{
+      text-align:right;
+      margin-right:200px;
+    }
+    .comenzar{
+      margin:20px;
+      background-color:#FE9400;
+      width:150px;
+    }
+    .error{
+      color:#FF4444;
+    }
+    .image{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      margin-bottom:20px;
+    }
   }
-  .title{
-    margin:30px;
-    margin-bottom: 45px;
-    text-align:center;
-  }
-  .text {
-    width: 80%;
-    margin: auto;
-  }
-  .buttontest{
-    margin: 10px;
-    background-color:#FE9400;
-    font-size:18px;
-  }
-  .button{
-    text-align:right;
-    margin-right:200px;
-  }
-  .comenzar{
-    margin:20px;
-    background-color:#FE9400;
-    width:150px;
-  }
-  .error{
-    color:#FF4444;
-  }
-  .image{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    margin-bottom:20px;
-  }
+
   @media (min-width: 1600px) {
     .text {
       width: 60%;

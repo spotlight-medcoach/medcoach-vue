@@ -90,6 +90,13 @@
 				height: 85%;
 				overflow-y: auto;
 				padding-right: 40px;
+				.retro-content {
+					width: 100%;
+					overflow-x: auto;
+					margin-top: 26px;
+					padding-top: 26px;
+					border-top: 1px solid lightgray;
+				}
 				.test-question {
 					border-bottom: 1px solid black;
 					margin-bottom: 32px;
@@ -212,7 +219,7 @@
 				width: 28px;
 			}
 			.selected-answer {
-				background-color: yellow;
+				background-color: #941100;
 			}
 			&-non {
 				background-color: #D39D97;
@@ -244,7 +251,7 @@
 	}
 
 	.retro {
-		.title {
+		.bg-title {
 			border-radius: 6px;
 			font-size: 24px;
 			font-weight: 700;
@@ -262,7 +269,7 @@
 	}
 
 	#questions-index {
-		.title {
+		.bg-title {
 			width: 70%;
 			margin: 40px auto;
 			padding: 7px 0px;
