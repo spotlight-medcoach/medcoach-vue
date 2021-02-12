@@ -104,7 +104,7 @@ export default {
       breakDuration: 3660000, // duración del break 1hr + 1 min
       block_2: {
         title: 'SEGUNDA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS',
-        message: 'SEGUNDA PARTE QUE CONSTA DE 200 PREGUNTAS DE OPCIÓN MÚLTIPLE, PARA LAS CUALES TENDRÁS 5 HORAS. RECUERDA RELLENAR DE FORMA COMPLETA EN UNA SOLA RESPUESTA POR PREGUNTA. NO MALTRATES ESTA HOJA.',
+        message: 'SEGUNDA PARTE QUE CONSTA DE 200 PREGUNTAS DE OPCIÓN MÚLTIPLE, PARA LAS CUALES TENDRÁS 4 HORAS. RECUERDA RELLENAR DE FORMA COMPLETA EN UNA SOLA RESPUESTA POR PREGUNTA. NO MALTRATES ESTA HOJA.',
         duration_ms: 14460000 // duración del break 4hr + 1 min
       },
       session: '0',
@@ -190,7 +190,7 @@ export default {
         const simulator = prepareSimulator(resSim, this.simulator_id)
         this.test = prepareTest(simulator)
         this.$bvModal.hide('modal-start-second-block')
-        this.step = this.steps.ShowBlock2
+        this.step = this.steps.SelectSession
       } catch (error) {
         console.error(error)
       }
