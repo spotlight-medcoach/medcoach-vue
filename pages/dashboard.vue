@@ -15,8 +15,8 @@
       <div class="w-100" v-if="onHttpRequest">
         <loading-state :message="message" height="60vh" />
       </div>
-      <div v-else-if="errorHttp">
-        <p>{{ message }}</p>
+      <div v-else-if="errorHttp" class="about quote" align="center">
+        <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
       </div>
       <div v-else>
         <second-phase v-if="alert_second_stage" />

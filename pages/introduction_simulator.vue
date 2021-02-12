@@ -22,18 +22,18 @@
   </div>
   <div class="button">
     <b-button class="buttontest" v-b-modal.modal-1>Tomar examen</b-button>
-    <b-modal id="modal-1" hide-footer hide-header>
-     <p class="title" style="font-size:24px"><b>Confirmación</b></p>
-     <p class="title">Escribe la palabra <b>ENARM</b> para comenzar tu examen</p>
-     <b-input v-model="enarm"></b-input>
+    <b-modal id="modal-1" hide-footer hide-header class="return">
+     <p class="title-modal" style="font-size:24px"><b>Confirmación</b></p>
+     <p class="title-modal">Escribe la palabra <b>ENARM</b> para comenzar tu examen</p>
+     <b-input v-model="enarm" class="mb-4"></b-input>
      <p class="error" v-if="this.error">Error, ingresa la palabra <b>ENARM</b></p>
      <div style="text-align:center">
      <b-button center-align class="comenzar" v-on:click="gotoSimulator">Comenzar</b-button>
      </div>
     </b-modal>
     <b-modal id="modal-2" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
-     <p class="title" style="font-size:24px"><b>Creando simulador, espere</b></p>
-     <div>
+     <p class="title-modal" style="font-size:24px"><b>Creando simulador, espere</b></p>
+     <div style="text-align: center;">
      <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
      </div>
     </b-modal>
@@ -86,7 +86,10 @@ export default {
 }
 </script>
 <style lang="scss">
-
+  .title-modal{
+    margin-bottom: 45px;
+    text-align:center;
+  }
  .return {
     margin: 30px;
     .title{
