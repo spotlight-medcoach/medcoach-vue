@@ -3,8 +3,7 @@
     <div class="title red-theme">
       {{ title }}
     </div>
-    <div class="message inv-red-theme">
-      {{ message }}
+    <div class="message inv-red-theme" v-html="message">
     </div>
     <button class="btn red-theme" @click="$emit('onEnter', true)">
       ENTRAR

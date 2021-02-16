@@ -22,8 +22,10 @@
       />
     </div>
     <div id="review-content" v-else-if="content !== ''">
-      <h3>{{ manual.manual_name }}</h3>
-      <div v-html="content"></div>
+      <div class="ql-editor">
+        <h3>{{ manual.manual_name }}</h3>
+        <div v-html="content"></div>
+      </div>
     </div>
     <div v-else>
       <h4>No hay notas para este manual.</h4>

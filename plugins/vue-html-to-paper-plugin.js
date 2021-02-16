@@ -6,7 +6,10 @@ const options = {
     'fullscreen=yes'
   ],
   styles: [
-    '/print.css'
+    '/print.css',
+    '/css/quill.bubble.css',
+    '/css/quill.core.css',
+    '/css/quill.snow.css'
   ]
 }
 Vue.use(VueHtmlToPaper, options)
