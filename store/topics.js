@@ -84,6 +84,7 @@ export const actions = {
       .then((res) => {
         const allManuals = res.data.topics
         commit('setTopics', allManuals)
+        return true
       })
   },
   changeTopic ({ commit }, index) {

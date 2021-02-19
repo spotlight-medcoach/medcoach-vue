@@ -35,7 +35,7 @@ export default {
     this.$store.dispatch('http_request/initHttpRequest')
     await this.getManualNote(this.manual_id)
     await this.getFlashcards(this.manual_id)
-    this.$store.commit('http_request/setOnHttpRequest', false)
+    // this.$store.commit('http_request/setOnHttpRequest', false)
   },
   computed: {
     ...mapState({

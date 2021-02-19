@@ -2,7 +2,12 @@
     font-family: Avenir;
     src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
 }
-html {
-	margin: 1.5rem;
+
+html, body {
+	margin: 1rem;
 	font-family: Avenir;
+}
+
+#print-div {
+	height: auto !important;
 }

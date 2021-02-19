@@ -64,7 +64,6 @@ export default {
     { src: '~plugins/vue-event-calendar-plugin', ssr:false },
     { src: '~plugins/vue-simple-context-menu-plugin', ssr:false },
     { src: '~plugins/vue-toastr-plugin', ssr:false },
-    { src: '~plugins/vue-html-to-paper-plugin', ssr:false },
     { src: '~plugins/vue-flip-plugin', ssr:false },
     { src: '~/plugins/axios'}
   ],

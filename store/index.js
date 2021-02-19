@@ -64,8 +64,11 @@ export const actions = {
     commit('setBearer')
     commit('http_request/setOnHttpRequest', true)
     dispatch('notifications/loopFetchData')
-    await dispatch('fetchStudentInfo').then(() => dispatch('fetchSyllabus'))
-    dispatch('topics/fetchTopics')
+    await dispatch('fetchStudentInfo').then(async () => {
+      await dispatch('topics/fetchTopics')
+      await dispatch('fetchSyllabus')
+      return true
+    })
   },
   killSession ({ commit }) {
     localStorage.removeItem('usertoken')

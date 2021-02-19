@@ -3,7 +3,8 @@ import VueHtmlToPaper from 'vue-html-to-paper'
 const options = {
   name: '_blank',
   specs: [
-    'fullscreen=yes'
+    'fullscreen=yes',
+    'scrollbars=no'
   ],
   styles: [
     '/print.css',

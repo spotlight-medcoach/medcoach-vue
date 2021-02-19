@@ -22,7 +22,7 @@
       />
     </div>
     <div id="review-content" v-else-if="content !== ''">
-      <div class="ql-editor">
+      <div class="ql-editor" id="print-div">
         <h3>{{ manual.manual_name }}</h3>
         <div v-html="content"></div>
       </div>
@@ -160,6 +160,7 @@
 </template>
 
 <script>
+import { printHtml } from '@/assets/js/print_html'
 export default {
   name: 'notes-review',
   props: {
@@ -244,7 +245,8 @@ export default {
     printNote () {
       this.showQuill = false
       setTimeout(() => {
-        this.$htmlToPaper('review-content')
+        // this.$htmlToPaper('review-content')
+        printHtml('review-content')
       }, 500)
     },
     finishReview () {
