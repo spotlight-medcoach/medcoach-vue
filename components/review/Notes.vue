@@ -403,9 +403,10 @@ export default {
     }
     .save-note {
       position: absolute;
-      left: 4%;
-      top: 0.5%;
+      left: 42px;
+      top: 7px;
       cursor: pointer;
+      z-index: 100;
     }
   }
   #review-content {
