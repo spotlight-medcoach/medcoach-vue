@@ -32,10 +32,16 @@ export default {
     }
   },
   async created () {
-    this.$store.dispatch('http_request/initHttpRequest')
+    let flag = false
+    if (!this.onHttpRequest) {
+      flag = true
+      this.$store.dispatch('http_request/initHttpRequest')
+    }
     await this.getManualNote(this.manual_id)
     await this.getFlashcards(this.manual_id)
-    // this.$store.commit('http_request/setOnHttpRequest', false)
+    if (flag) {
+      this.$store.commit('http_request/setOnHttpRequest', false)
+    }
   },
   computed: {
     ...mapState({
