@@ -189,7 +189,7 @@ export default {
             container: [
               ['bold', 'italic', 'underline'],
               [
-                { align: ['center', 'left'] },
+                { align: [] },
                 { list: 'ordered' },
                 { list: 'bullet' },
                 { indent: '-1' },
@@ -383,7 +383,7 @@ export default {
     .quill-editor {
       min-height: 215px;
       max-height: 215px;
-      overflow: hidden;
+      /* overflow: auto; */
     }
     .ql-container {
       min-height: 165px;
@@ -391,6 +391,7 @@ export default {
       overflow: auto;
     }
   }
+
   #review {
     #options {
       height: 500px;
@@ -409,9 +410,11 @@ export default {
       z-index: 100;
     }
   }
+
   #review-content {
     padding: 2rem;
   }
+
   #modal-flashcards {
     .modal-content {
       heigth: 450px;
@@ -435,6 +438,16 @@ export default {
     .disabled-chevron {
       cursor: default;
       opacity: 0.3;
+    }
+  }
+
+  .notes, #modal-flashcards {
+    .ql-snow .ql-picker.ql-expanded .ql-picker-options {
+      display: flex !important;
+      margin-top: -6px;
+    }
+    .ql-snow .ql-icon-picker .ql-picker-item {
+      padding: 2px 0px !important;
     }
   }
 </style>
