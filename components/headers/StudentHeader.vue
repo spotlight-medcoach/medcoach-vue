@@ -57,7 +57,7 @@
   </nuxt-link>
   <!-- Simuladores -->
   <nuxt-link to="/simulators" tag="span">
-    <div class="text-center pointer item-option" :class="{'active-option': isTest}">
+    <div class="text-center pointer item-option" :class="{'active-option': isSimulator}">
       <img src="@/assets/icons/header/custom_test.svg" class="menu-item circulo">
       <div class="text-option">Simuladores</div>
     </div>
@@ -109,6 +109,9 @@ export default {
     },
     isTest () {
       return this.$route.name === 'custom_test_config' || this.$route.name === 'custom_test' || this.$route.name === 'custom_test_retro'
+    },
+    isSimulator () {
+      return this.$route.name === 'simulators'
     },
     isExtra () {
       return this.$route.name === 'extra_manuals'
