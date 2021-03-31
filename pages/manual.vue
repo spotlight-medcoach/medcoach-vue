@@ -216,7 +216,7 @@ export default {
     await this.getManualNote()
     console.clear()
     const manual = this.$refs['manual-html']
-    const imgs = manual.querySelectorAll('img')
+    const imgs = manual ? manual.querySelectorAll('img') : []
     console.log('imgs', imgs)
   },
   mounted () {

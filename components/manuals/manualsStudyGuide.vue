@@ -31,7 +31,12 @@
     <div class="h-100" v-else>
       <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
         <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
-          <nuxt-link class="pointer" :to="`/manual?manual_id=${manual.id}`">{{manual.name}}</nuxt-link>
+          <div v-if="manual.isExtra">
+            <nuxt-link class="pointer" :to="`/manual?manual_id=${manual.id}&extra=true&finishManualExtra=${manual.finished}`">{{manual.name}}</nuxt-link>
+          </div>
+          <div v-else>
+            <nuxt-link class="pointer" :to="`/manual?manual_id=${manual.id}`">{{manual.name}}</nuxt-link>
+          </div>
         </div>
       </div>
       <div class="row h-100" v-else-if="!fetchedManuals">
