@@ -15,10 +15,10 @@
       </div>
     </div>
   </div>
-  <div id="row-topics" class="mt-3" :class="{'disabled': type !== 'all' && type !== 'not_answered' }">
+  <div id="row-topics" class="mt-3" :class="{'disabled': !type}">
     <div class="title d-flex aling-items-end">
       Materias
-      <toggle-switch v-model="allTopics" label="" :disabled="type !== 'all' && type !== 'not_answered'"/>
+      <toggle-switch v-model="allTopics" label="" :disabled="!type"/>
     </div>
     <div class="d-flex justify-content-between">
       <toggle-switch
@@ -27,7 +27,7 @@
         :label="topic.name"
         v-for="(topic, index) in topics"
         :key="`materia-${index}`"
-        :disabled="type !== 'all' && type !== 'not_answered'"/>
+        :disabled="!type"/>
     </div>
   </div>
   <div class="mt-3 d-flex">
@@ -189,6 +189,9 @@ export default {
       } else if (this.questQuantity < this.minQuestions) {
         this.$toastr.error(`Debe introducir más de ${this.minQuestions} pregunta(s)`, 'Error')
         return false
+      } else if (!this.type) {
+        this.$toastr.error('Debe seleccionar un Modo de preguntas', 'Error')
+        return false
       } else {
         const params = {
           questions_count: this.questQuantity,
@@ -197,6 +200,8 @@ export default {
         }
         if (this.selectSubtopics.length > 0) {
           params.subtopics = this.selectSubtopics
+        } else {
+          params.subtopics = []
         }
         this.busy = true
         this.$axios.post('/student/customtest', params)

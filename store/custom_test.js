@@ -191,6 +191,19 @@ export const mutations = {
   },
   setTimerString (state, payload) {
     state.timerString = payload
+  },
+  RESET_TOPICS (state) {
+    data.topics.forEach((topic) => {
+      topic.check = false
+      topic.subtopics.forEach((subtopic) => {
+        subtopic.check = false
+        subtopic.disabled = true
+        subtopic.questions = null
+        subtopic.questions_not_answered = null
+        subtopic.topic_id = topic._id
+      })
+    })
+    state.topics = data.topics
   }
 }
 
