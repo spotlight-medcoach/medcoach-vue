@@ -69,6 +69,7 @@ export default {
     .pendiente {
       font-style: italic;
       font-size: 1.1rem;
+      background-color: white !important;
     }
     .titulo {
       font-size: 1.5rem;
