@@ -8,7 +8,13 @@
       <p>{{ message }}</p>
     </div>
     <div v-else>
-      <notes-review :notes="notes" :manual_id="manual_id" :flashcards="flashcards" :review="review"/>
+      <notes-review
+        :notes="notes"
+        :manual_id="manual_id"
+        :flashcards="flashcards"
+        :review="review"
+        @onRefreshFlashCards="getFlashcards(manual_id)"
+      />
     </div>
   </b-container>
 </div>

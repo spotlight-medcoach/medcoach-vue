@@ -65,94 +65,148 @@
   <b-modal id="modal-flashcards" :hide-footer="true" size="lg" :centered="true" :no-close-on-backdrop="true">
     <template v-slot:modal-title>
       <div>Flashcards</div>
-      <div style="font-size: 16px;"> {{flashcards_index + 1}} / {{ flashcards.length }}</div>
+      <div style="font-size: 16px;" v-if="flashcards.length"> {{flashcards_index + 1}} / {{ flashcards.length }}</div>
+      <div class="loading-delete" v-if="deletingFlashCard">
+        <img src="@/assets/icons/loading.svg" height="48" />
+      </div>
+      <div v-else-if="showDeleteAlert" class="delete-flashcard-alert">
+        <p class="font-italic">¿Deseas eliminar esta flashcard? Esta acción no puede deshacerse.</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <p
+            class="font-weight-500 cursor-pointer mr-4"
+            style="font-size: 16px; font-weight: 500;"
+            @click="showDeleteAlert = false"
+          >Cancelar</p>
+          <p
+            class="d-flex align-items-center cursor-pointer"
+            @click="deleteFlashCard"
+          >
+            <b-icon
+              icon="check-circle-fill"
+              variant="danger"
+              class="mr-1 h5 mb-0"
+            ></b-icon>
+            <span
+              style="font-size: 16px;"
+              class="text-danger"
+            >Eliminar</span>
+          </p>
+        </div>
+      </div>
     </template>
-    <div class="h2 mb-0 chevron" :class="{'disabled-chevron': flashcards_index <= 0}" @click="prevFlashcard">
-      <b-icon icon="chevron-left"></b-icon>
+    <div v-if="showSuccessAlert" class="w-100 text-center mb-3">
+      <b-icon
+        icon="check-circle-fill"
+        variant="success"
+        class="my-3 h1"
+      ></b-icon>
+      <div class="deleted-flashcard-alert">
+        Flashcard eliminada existosamente.
+      </div>
     </div>
-    <div id="flip-container">
-      <vue-flip v-model="flipped" width="100%" height="100%">
-        <!-- FRONT -->
-        <template v-slot:front class="front">
-          <div class="tarjeta frente" v-if="flashcard">
-            <div v-if="showQuillA">
-              <quill-editor
-                ref="noteQuillA"
-                v-model="flashcard.body_note"
-                :options="editorOption"
-              />
-              <div class="mt-2 d-flex justify-content-end">
-                <div class="mr-3">
-                  <b-overlay
-                    :show="savingFlashcard"
-                    rounded
-                    opacity="0.6"
-                    spinner-small
-                    spinner-variant="primary"
-                    class="d-inline-block">
-                    <b-button size="sm" variant="outline-success" @click.stop.prevent="updateFlashcard('A')">Guardar</b-button>
-                  </b-overlay>
+    <div v-else class="w-100 d-flex position-relative">
+      <div
+        v-if="flashcards.length"
+        class="h2 mb-0 chevron"
+        :class="{'disabled-chevron': flashcards_index <= 0}"
+        @click="prevFlashcard"
+      >
+        <b-icon icon="chevron-left"></b-icon>
+      </div>
+      <div id="flip-container">
+        <vue-flip v-model="flipped" width="100%" height="100%">
+          <!-- FRONT -->
+          <template v-slot:front class="front">
+            <div class="tarjeta frente" v-if="flashcard">
+              <div v-if="showQuillA">
+                <quill-editor
+                  ref="noteQuillA"
+                  v-model="flashcard.body_note"
+                  :options="editorOption"
+                />
+                <div class="mt-2 d-flex justify-content-end">
+                  <div class="mr-3">
+                    <b-overlay
+                      :show="savingFlashcard"
+                      rounded
+                      opacity="0.6"
+                      spinner-small
+                      spinner-variant="primary"
+                      class="d-inline-block">
+                      <b-button size="sm" variant="outline-success" @click.stop.prevent="updateFlashcard('A')">Guardar</b-button>
+                    </b-overlay>
+                  </div>
+                  <b-button size="sm" variant="danger" @click.stop.prevent="cancelQuillA">Cancelar</b-button>
                 </div>
-                <b-button size="sm" variant="danger" @click.stop.prevent="cancelQuillA">Cancelar</b-button>
               </div>
-            </div>
-            <div v-else @click="flipped =! flipped">
-              <div class="h4 mb-1 text-right" @click.stop.prevent="openQuillA">
-                <b-icon icon="pencil-square"></b-icon>
-              </div>
-              <div class="note-content d-flex justify-content-center align-items-center">
-                <div v-html="flashcard.body_note"></div>
-              </div>
-              <div class="mt-3">
-                Frente
-              </div>
-            </div>
-          </div>
-          <div v-else> No hay flashcards </div>
-        </template>
-        <!-- BACK -->
-        <template v-slot:back class="back">
-          <div class="tarjeta detras" v-if="flashcard">
-            <div v-if="showQuillB">
-              <quill-editor
-                ref="noteQuillB"
-                v-model="flashcard.body_user"
-                :options="editorOption"
-              />
-              <div class="mt-2 d-flex justify-content-end">
-                <div class="mr-3">
-                  <b-overlay
-                    :show="savingFlashcard"
-                    rounded
-                    opacity="0.6"
-                    spinner-small
-                    spinner-variant="primary"
-                    class="d-inline-block">
-                    <b-button size="sm" variant="outline-success" @click.stop.prevent="updateFlashcard('B')">Guardar</b-button>
-                  </b-overlay>
+              <div v-else @click="flipped =! flipped">
+                <div class="d-flex mb-1 justify-content-end">
+                  <div class="h4 mr-3" @click.stop.prevent="openQuillA">
+                    <b-icon icon="pencil-square"></b-icon>
+                  </div>
+                  <div class="h4" @click.stop.prevent="showDeleteAlert = !showDeleteAlert">
+                    <b-icon icon="trash" variant="danger"></b-icon>
+                  </div>
                 </div>
-                <b-button size="sm" variant="danger" @click.stop.prevent="cancelQuillB">Cancelar</b-button>
+                <div class="note-content d-flex justify-content-center align-items-center">
+                  <div v-html="flashcard.body_note"></div>
+                </div>
+                <div class="mt-3">
+                  Frente
+                </div>
               </div>
             </div>
-            <div v-else @click="flipped =! flipped">
-              <div class="h4 mb-2 text-right" @click.stop.prevent="openQuillB">
-                <b-icon icon="pencil-square"></b-icon>
+            <div v-else> No hay flashcards </div>
+          </template>
+          <!-- BACK -->
+          <template v-slot:back class="back">
+            <div class="tarjeta detras" v-if="flashcard">
+              <div v-if="showQuillB">
+                <quill-editor
+                  ref="noteQuillB"
+                  v-model="flashcard.body_user"
+                  :options="editorOption"
+                />
+                <div class="mt-2 d-flex justify-content-end">
+                  <div class="mr-3">
+                    <b-overlay
+                      :show="savingFlashcard"
+                      rounded
+                      opacity="0.6"
+                      spinner-small
+                      spinner-variant="primary"
+                      class="d-inline-block">
+                      <b-button size="sm" variant="outline-success" @click.stop.prevent="updateFlashcard('B')">Guardar</b-button>
+                    </b-overlay>
+                  </div>
+                  <b-button size="sm" variant="danger" @click.stop.prevent="cancelQuillB">Cancelar</b-button>
+                </div>
               </div>
-              <div class="note-content d-flex justify-content-center"  v-if="flashcard">
-                <div v-html="flashcard.body_user"></div>
-              </div>
-              <div class="mt-3">
-                Detrás
+              <div v-else @click="flipped =! flipped">
+                <div class="h4 mb-2 text-right" @click.stop.prevent="openQuillB">
+                  <b-icon icon="pencil-square"></b-icon>
+                </div>
+                <div class="note-content d-flex justify-content-center"  v-if="flashcard">
+                  <div v-html="flashcard.body_user"></div>
+                </div>
+                <div class="mt-3">
+                  Detrás
+                </div>
               </div>
             </div>
-          </div>
-          <div v-else> No hay flashcards </div>
-        </template>
-        <!-- END BACK -->
-      </vue-flip>
-    </div>
-    <div class="h2 mb-0 chevron" :class="{'disabled-chevron': flashcards_index >= flashcards.length - 1}" @click="nextFlashcard">
-      <b-icon icon="chevron-right"></b-icon>
+            <div v-else> No hay flashcards </div>
+          </template>
+          <!-- END BACK -->
+        </vue-flip>
+      </div>
+      <div
+        v-if="flashcards.length"
+        class="h2 mb-0 chevron"
+        :class="{'disabled-chevron': flashcards_index >= flashcards.length - 1}"
+        @click="nextFlashcard"
+      >
+        <b-icon icon="chevron-right"></b-icon>
+      </div>
     </div>
   </b-modal>
   <!-- End Modal Flashcards -->
@@ -209,7 +263,10 @@ export default {
       flipped: false,
       savingFlashcard: false,
       prevText: 'cancelado',
-      is_extra: this.$route.query.extra === 'true'
+      is_extra: this.$route.query.extra === 'true',
+      showDeleteAlert: false,
+      deletingFlashCard: false,
+      showSuccessAlert: false
     }
   },
   methods: {
@@ -324,6 +381,30 @@ export default {
         .finally(() => {
           this.savingFlashcard = false
         })
+    },
+    async deleteFlashCard () {
+      try {
+        this.deletingFlashCard = true
+        await this.$axios.delete('manuals/flashcard', {
+          data: {
+            flashcard_id: this.flashcards[this.flashcards_index]
+          }
+        })
+        this.deletingFlashCard = false
+        this.showDeleteAlert = false
+        this.showSuccessAlert = true
+        this.$emit('onRefreshFlashCards')
+        this.flashcards_index = 0
+        await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(true)
+          }, 5000)
+        })
+        this.showSuccessAlert = false
+      } catch (error) {
+        console.error(error)
+        this.$toastr.error('Hubo un problema al eliminar su flashcard', 'Error')
+      }
     }
   },
   created () {
@@ -350,6 +431,33 @@ export default {
 </script>
 
 <style lang="scss">
+  .loading-delete {
+    margin-top: 1rem;
+    padding: 10px;
+    width: 610px;
+    text-align: center;
+  }
+  .delete-flashcard-alert {
+    align-items: center;
+    background: #FFEDED;
+    border-radius: 4px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding: 10px;
+    width: 610px;
+    p{
+      margin: 0px;
+    }
+  }
+  .deleted-flashcard-alert {
+    padding: 10px;
+    text-align: center;
+    background: #BCEEB1;
+    border-radius: 4px;
+  }
   #flip-container {
     width: 100%;
     height: 350px;
@@ -418,9 +526,11 @@ export default {
   #modal-flashcards {
     .modal-content {
       heigth: 450px;
+      width: 87% !important;
     }
     .modal-header {
       border: none;
+      padding-bottom: 0px !important;
     }
     .modal-title {
       font-weight: 700;
@@ -428,6 +538,7 @@ export default {
     }
     .modal-body {
       display: flex;
+      padding-top: 0px !important;
     }
     .chevron {
       display: flex;
