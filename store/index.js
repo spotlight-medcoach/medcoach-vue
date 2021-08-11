@@ -42,7 +42,7 @@ export const mutations = {
   setPhase (state, payload) {
     state.phase = payload
   },
-  setPaseID (state, payload) {
+  setPhaseID (state, payload) {
     state.phase.id = payload
   },
   setAlertScondStage (state, payload) {
