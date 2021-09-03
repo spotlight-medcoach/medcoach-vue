@@ -77,54 +77,8 @@ export default {
   props: {
     // ...
   },
-  created () {
-    if (localStorage.getItem('simulator')) {
-      localStorage.removeItem('simulator')
-    }
-    this.$store.commit('simulators/initState')
-    this.$axios.get(`/student/simulators/result?simulator_id=${this.$route.query.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('usertoken')}`
-      }
-    }).then((res) => {
-      this.correct_answers = res.data.topics.total_correct
-      this.result = res.data.topics.result.toFixed(2)
-      this.topics = res.data.topics.questions_by_topic
-      this.questions_by_type = res.data.topics.questions_by_type
-    }).catch((err) => {
-      console.log(err)
-    })
-    this.$axios.get(`/student/simulators/retro?simulator_id=${this.$route.query.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('usertoken')}`
-      }
-    }).then((res) => {
-      const simulator = {
-        id: this.$route.query.id,
-        cases: res.data.cases,
-        questions: res.data.questions
-      }
-      simulator.questions.forEach((question, index) => {
-        question.index = index
-      })
-
-      const questionsBlock1 = simulator.questions.slice(0, 250)
-      const questionsBlock2 = simulator.questions.slice(250)
-      const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 })
-      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 })
-
-      localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
-      localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
-      localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
-
-      this.$store.commit('simulators/setSimulator', simulator)
-      this.$bvModal.hide('modal-1')
-    }).catch((err) => {
-      console.log(err)
-    })
-  },
   mounted () {
-    this.$bvModal.show('modal-1')
+    this.fetchData()
   },
   methods: {
     back () {
@@ -132,6 +86,53 @@ export default {
     },
     feedback () {
       this.$router.push({ path: `/simulator_retro/?id=${this.$route.query.id}` })
+    },
+    async fetchData () {
+      this.$bvModal.show('modal-1')
+      if (localStorage.getItem('simulator')) {
+        localStorage.removeItem('simulator')
+      }
+      this.$store.commit('simulators/initState')
+      await this.$axios.get(`/student/simulators/result?simulator_id=${this.$route.query.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      }).then((res) => {
+        this.correct_answers = res.data.topics.total_correct
+        this.result = res.data.topics.result.toFixed(2)
+        this.topics = res.data.topics.questions_by_topic
+        this.questions_by_type = res.data.topics.questions_by_type
+      }).catch((err) => {
+        console.log(err)
+      })
+      await this.$axios.get(`/student/simulators/retro?simulator_id=${this.$route.query.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      }).then((res) => {
+        const simulator = {
+          id: this.$route.query.id,
+          cases: res.data.cases,
+          questions: res.data.questions
+        }
+        simulator.questions.forEach((question, index) => {
+          question.index = index
+        })
+
+        const questionsBlock1 = simulator.questions.slice(0, 250)
+        const questionsBlock2 = simulator.questions.slice(250)
+        const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 })
+        const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 })
+
+        localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+        localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
+        localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
+
+        this.$store.commit('simulators/setSimulator', simulator)
+      }).catch((err) => {
+        console.log(err)
+      })
+      this.$bvModal.hide('modal-1')
     }
   }
 }
