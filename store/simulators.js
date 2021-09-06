@@ -150,8 +150,8 @@ export const actions = {
 
       const questionsBlock1 = simulator.questions.slice(0, 250)
       const questionsBlock2 = simulator.questions.slice(250)
-      const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 })
-      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 })
+      const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 }, true)
+      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 }, true)
 
       console.log(testBlock1)
 

@@ -27,7 +27,7 @@ export const prepareSimulator = (responseAPI, simulatorId) => {
   return simulator
 }
 
-export const prepareTest = (simulator) => {
+export const prepareTest = (simulator, retro = false) => {
   const maxQuestions = 20
   const pages = []
   const cases = {}
@@ -79,8 +79,9 @@ export const prepareTest = (simulator) => {
       cont = aux
     }
   }
-
   pages.push(actualPage)
-  // localStorage.setItem('test', JSON.stringify(pages))
+  if (!retro) {
+    localStorage.setItem('test', JSON.stringify(pages))
+  }
   return pages
 }
