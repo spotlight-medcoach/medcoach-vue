@@ -81,6 +81,6 @@ export const prepareTest = (simulator) => {
   }
 
   pages.push(actualPage)
-  localStorage.setItem('test', JSON.stringify(pages))
+  // localStorage.setItem('test', JSON.stringify(pages))
   return pages
 }

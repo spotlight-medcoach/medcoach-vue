@@ -1,7 +1,7 @@
 import { prepareTest } from '@/assets/js/helper'
 
 const _simulator = JSON.parse(localStorage.getItem('simulator'))
-const _simulatorFeedback = JSON.parse(localStorage.getItem('simulator_feedback'))
+// const _simulatorFeedback = JSON.parse(localStorage.getItem('simulator_feedback'))
 const _answersStorage = localStorage.getItem('answers')
 let _answers = []
 if (_answersStorage !== null) {
@@ -18,7 +18,7 @@ export const state = () => ({
   caseId: null,
   caseIndex: -1,
   questionsPerPage: 20,
-  simulator: _simulator || _simulatorFeedback,
+  simulator: _simulator,
   timeBlock1: 18060000, // 5 hrs
   timeBlock2: 16260000, //  4.4 hrs,
   test_block_1: [],
@@ -155,7 +155,7 @@ export const actions = {
 
       console.log(testBlock1)
 
-      localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+      // localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
       // localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
       // localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
 
