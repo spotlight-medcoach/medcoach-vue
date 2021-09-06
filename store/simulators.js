@@ -1,3 +1,5 @@
+import { prepareTest } from '@/assets/js/helper'
+
 const _simulator = JSON.parse(localStorage.getItem('simulator'))
 const _simulatorFeedback = JSON.parse(localStorage.getItem('simulator_feedback'))
 const _answersStorage = localStorage.getItem('answers')
@@ -18,7 +20,9 @@ export const state = () => ({
   questionsPerPage: 20,
   simulator: _simulator || _simulatorFeedback,
   timeBlock1: 18060000, // 5 hrs
-  timeBlock2: 16260000 //  4.4 hrs
+  timeBlock2: 16260000, //  4.4 hrs,
+  test_block_1: [],
+  test_block_2: []
 })
 
 export const getters = {
@@ -89,7 +93,9 @@ export const getters = {
   },
   questions (state) {
     return state.simulator.questions
-  }
+  },
+  testBlock1: state => state.test_block_1,
+  testBlock2: state => state.test_block_2
 }
 
 export const mutations = {
@@ -117,5 +123,47 @@ export const mutations = {
     state.caseIndex = -1
     state.simulator = null
     state.block = 1
+  },
+  setTestBlock1 (state, payload) {
+    state.test_block_1 = payload
+  },
+  setTestBlock2 (state, payload) {
+    state.test_block_2 = payload
+  }
+}
+
+export const actions = {
+  getRetro ({ commit }, simulatorId) {
+    return this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+      }
+    }).then((res) => {
+      const simulator = {
+        id: simulatorId,
+        cases: res.data.cases,
+        questions: res.data.questions
+      }
+      simulator.questions.forEach((question, index) => {
+        question.index = index
+      })
+
+      const questionsBlock1 = simulator.questions.slice(0, 250)
+      const questionsBlock2 = simulator.questions.slice(250)
+      const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 })
+      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 })
+
+      console.log(testBlock1)
+
+      localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+      // localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
+      // localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
+
+      commit('setTestBlock1', testBlock1)
+      commit('setTestBlock2', testBlock2)
+      commit('setSimulator', simulator)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 }

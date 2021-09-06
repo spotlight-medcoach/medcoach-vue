@@ -36,7 +36,7 @@ export default {
   },
   created () {
     this.subtopics = this.topic.subtopics
-    console.log(this.subtopics)
+    // console.log(this.subtopics)
   }
 }
 </script>

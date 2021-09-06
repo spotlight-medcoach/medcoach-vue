@@ -43,9 +43,6 @@ export const prepareTest = (simulator) => {
     cases[question.case_id].questions.push(question)
   })
 
-  console.clear()
-  console.log('cases', cases)
-
   // Paginación de los casos
   for (const prop in cases) {
     const _case = cases[prop]
