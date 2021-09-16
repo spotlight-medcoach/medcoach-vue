@@ -58,10 +58,17 @@
   <!-- Simuladores -->
   <nuxt-link to="/simulators" tag="span">
     <div class="text-center pointer item-option" :class="{'active-option': isSimulator}">
-      <img src="@/assets/icons/header/custom_test.svg" class="menu-item circulo">
+      <img src="@/assets/icons/header/simuladores.svg" class="menu-item circulo">
       <div class="text-option">Simuladores</div>
     </div>
   </nuxt-link>
+  <!-- Imágenes -->
+  <a href="https://drive.google.com/drive/u/1/folders/1nbOw-uvcGGLKKa8_f8isQfDb9P9JQcMl" tag="span">
+    <div class="text-center pointer item-option">
+      <img src="@/assets/icons/header/images.svg" class="menu-item circulo" width="20">
+      <div class="text-option">Imágenes</div>
+    </div>
+  </a>
   <!-- NAVBAR TOGGLE -->
   <b-collapse id="nav-collapse" is-nav>
     <!-- Right aligned nav items -->
