@@ -2,7 +2,9 @@
 <div :style="{'background-color':actualColorBg}" id="manual">
   <!-- NAVBAR -->
   <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="/dashboard"><img src="@/assets/icons/home_logo_off.svg" width="50" height="50"/></b-navbar-brand>
+    <b-navbar-brand @click="beforeLeave" class="cursor-pointer">
+      <img src="@/assets/icons/home_logo_off.svg" width="50" height="50"/>
+    </b-navbar-brand>
     <span class="ml-3 manual-title">{{ manual_name }}</span>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
@@ -120,6 +122,7 @@
             ref="noteQuillEditor"
             v-model="content"
             :options="editorOption"
+            @change="savedNotes = false"
             @blur="onEditorBlur($event)"
           />
         </client-only>
@@ -135,6 +138,18 @@
     >
   </vue-simple-context-menu>
   <modal-image />
+  <b-modal
+    id="modal-before-leave"
+    title="Confirmación"
+    cancel-title="Cancelar"
+    cancel-variant="danger"
+    centered
+    @ok="next"
+    @cancel="redirect"
+  >
+    <p class="my-2">¿Quieres salir de está página?</p>
+    <p class="my-2">Recuerda que el progreso no guardado de tus notas se perderá, para guardar tus notas, da clic en el icono de guardado.</p>
+  </b-modal>
 </div>
 </template>
 
@@ -149,6 +164,8 @@ export default {
   },
   data () {
     return {
+      next: () => true,
+      from: null,
       my_window: window,
       manual_id: this.$route.query.manual_id,
       is_extra: (this.$route.query.extra === 'true'),
@@ -207,17 +224,18 @@ export default {
       message_error: 'Ocurrió un error su petición',
       error_http: false,
       finished: true,
-      savingNotes: false
+      savingNotes: false,
+      savedNotes: true
     }
   },
   async created () {
     await this.getManualHTML()
     this.showLoading = false
     await this.getManualNote()
-    console.clear()
-    const manual = this.$refs['manual-html']
-    const imgs = manual ? manual.querySelectorAll('img') : []
-    console.log('imgs', imgs)
+    // console.clear()
+    // const manual = this.$refs['manual-html']
+    // const imgs = manual ? manual.querySelectorAll('img') : []
+    // console.log('imgs', imgs)
   },
   mounted () {
     window.toastr.options = {
@@ -280,7 +298,7 @@ export default {
           console.log(err)
         })
     },
-    saveNote () {
+    async saveNote () {
       if (this.content.trim() === '') {
         this.$toastr.error('Su nota está vacía', 'Error')
         return false
@@ -290,19 +308,14 @@ export default {
         body: this.content
       }
       this.savingNotes = true
-      this.$axios
-        .post('/manuals/note', params)
-        .then((response) => {
-          this.$toastr.success('Su nota se ha acualizado correctamente', '¡Éxito!')
-          console.log(response)
-        })
-        .catch((error) => {
-          console.error(error)
-          this.$toastr.error('Hubo un problema al guardar su nota', 'Error')
-        })
-        .finally(() => {
-          this.savingNotes = false
-        })
+      const data = await this.$store.dispatch('manuals/saveNote', params)
+      if (data) {
+        this.$toastr.success('Su nota se ha acualizado correctamente', '¡Éxito!')
+        this.savedNotes = true
+      } else {
+        this.$toastr.error('Hubo un problema al guardar su nota', 'Error')
+      }
+      this.savingNotes = false
     },
     saveFlashcard () {
       if (this.flashA.trim() === '') {
@@ -448,6 +461,36 @@ export default {
       this.flashA = ''
       this.flashB = '<p></p>'
       this.showFlashCards = false
+    },
+    async beforeLeave () {
+      if (!this.savedNotes) {
+        this.$toastr.success('Guardando las Notas antes de salir', 'Espere un momento')
+        const params = {
+          manual_id: this.manual_id,
+          body: this.content
+        }
+        this.savingNotes = true
+        const data = await this.$store.dispatch('manuals/saveNote', params)
+        if (data) {
+          this.savedNotes = true
+        }
+        this.savingNotes = false
+      }
+      this.$router.push({
+        name: 'dashboard'
+      })
+    },
+    redirect () {
+      this.next(this.from)
+    }
+  },
+  beforeRouteLeave (to, from, next) {
+    if (!this.savedNotes) {
+      this.$bvModal.show('modal-before-leave')
+      this.next = next
+      this.from = from
+    } else {
+      next()
     }
   }
 }
