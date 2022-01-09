@@ -144,8 +144,6 @@ export default {
 
 <style>
 #logo {
-  float: left;
-  padding: 10px;
   width: 200px;
 }
 .menu-item {

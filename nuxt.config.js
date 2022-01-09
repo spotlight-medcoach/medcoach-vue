@@ -54,7 +54,9 @@ export default {
     // index/reset_password css
     '@assets/css/index.css',
     // simulator scss
-    '@assets/css/simulator.scss'
+    '@assets/css/simulator.scss',
+    // margins utilities
+    '@assets/css/margins.scss'
   ],
   /*
   ** Plugins to load before mounting the App

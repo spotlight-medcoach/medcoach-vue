@@ -39,6 +39,7 @@ import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 import { quotes } from '@/assets/json/quotes.json'
 
 export default {
+  layout: 'new_default',
   components: {
     PhasesIndex,
     LoadingState,
