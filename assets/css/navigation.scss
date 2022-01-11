@@ -1,0 +1,41 @@
+/* Estilos para la navegación del sidebar */
+
+#student-sidebar {
+  .nav-item-tooltip {
+    position: relative;
+    margin-top: 25px;
+
+    .nav-icon {
+      fill: black;
+    }
+
+    &-text {
+      visibility: hidden;
+      color: white;
+      background-color: #BBBBB3;
+      padding: 6px 12px;
+      white-space: nowrap;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      left: 100%;
+    }
+
+    &:hover {
+      .nav-item-tooltip-text{
+        visibility: visible;
+      }
+
+      .nav-icon {
+        fill: #FF9300;
+      }
+    }
+
+    .nuxt-link-exact-active {
+      .nav-icon {
+        fill: #FF9300;
+      }      
+    }
+  }
+}

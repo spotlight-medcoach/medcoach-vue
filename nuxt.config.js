@@ -56,7 +56,9 @@ export default {
     // simulator scss
     '@assets/css/simulator.scss',
     // margins utilities
-    '@assets/css/margins.scss'
+    '@assets/css/margins.scss',
+    // navigation sidenar
+    '@assets/css/navigation.scss'
   ],
   /*
   ** Plugins to load before mounting the App
