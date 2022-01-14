@@ -58,7 +58,11 @@ export default {
     // margins utilities
     '@assets/css/margins.scss',
     // navigation sidenar
-    '@assets/css/navigation.scss'
+    '@assets/css/navigation.scss',
+    // buttons styles
+    '@assets/css/buttons.scss',
+    // text styles
+    '@assets/css/text.scss'
   ],
   /*
   ** Plugins to load before mounting the App

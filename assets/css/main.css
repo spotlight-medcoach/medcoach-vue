@@ -71,6 +71,27 @@ html {
   background: #9D9D9D;
   border-radius: 10px;
 }
+p {
+  margin: 0px;
+}
+a {
+  color: #FF9300;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #FF0300;
+}
+
+p.link {
+  color: #FF9300;
+  text-decoration: underline;
+  cursor: pointer; 
+}
+p.link:hover {
+  color: #FF0300; 
+}
+
 #nav {
   padding: 30px;
 }
@@ -123,4 +144,10 @@ html {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 40px;
 }

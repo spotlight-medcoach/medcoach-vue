@@ -1,79 +1,112 @@
 <template>
-<div>
-  <div class="control-input d-flex">
-    <p><b-icon-person></b-icon-person></p>
-    <input type="text" v-model="user" placeholder="Usuario" />
-  </div>
-  <br>
-   <div class="control-input d-flex">
-    <p><b-icon-lock-fill></b-icon-lock-fill></p>
-    <input v-model="password" type="password" placeholder="Contraseña" />
-  </div>
-  <br>
-  <div align="center">
-    <div class="divlogin" align="center">
-      <b-overlay
-        :show="busy"
-        rounded
-        opacity="0.6"
-        spinner-small
-        spinner-variant="primary"
-        class="d-inline-block"
+  <div id="login">
+    <div class="mx-auto mt-auto">
+      <img
+        src="@/assets/images/logo.svg"
+        class="logo d-block mx-auto mb-40px"
       >
-        <button class="blogin" v-on:click="login()" type="button">Ingresar</button>
-      </b-overlay>
+      <div class="card login-card mb-20px">
+        <b-form>
+          <div class="text-center mb-40px">
+            <p class="login-title">Bienvenido A</p>
+            <p class="login-title mb-10px">MedCOACH</p>
+            <p class="login-subtitle">Ingresa con tu email</p>
+          </div>
+          <div class="mb-48px">
+            <b-form-group
+              id="email-grp"
+              label="Email"
+              label-for="email"
+              class="mb-24px"
+            >
+              <b-form-input
+                id="email"
+                v-model="form.email"
+                trim
+                type="email"
+              />
+            </b-form-group>
+            <b-form-group
+              id="password-grp"
+              label="Contraseña"
+              label-for="password"
+            >
+              <b-form-input
+                id="password"
+                v-model="form.password"
+                type="password"
+                trim
+              />
+            </b-form-group>
+          </div>
+          <div>
+            <b-button
+              type="submit"
+              variant="primary"
+              class="d-block w-100 mb-16px"
+            >
+              Iniciar sesión
+            </b-button>
+            <p
+              class="link text-center"
+              @click="$store.commit('landing/setScreen', 'recovery-password')"
+            >
+              Olvidé mi contraseña
+            </p>
+          </div>
+        </b-form>
+      </div>
+      <div class="d-flex justify-content-around px-4">
+        <span>¿Nuevo en MedCOACH?</span>
+        <a  href="#">Crea una cuenta</a>
+      </div>
+    </div>
+    <div class="mx-auto mt-auto mb-40px">
+      <a href="#">AVISO DE PRIVACIDAD</a>
     </div>
   </div>
-  <br>
-  <div align="center" @click="goToRecoverPassword">
-    <p class="link">He olvidado la contraseña</p>
-  </div>
-</div>
 </template>
 <script>
 export default {
-  name: 'login',
+  layout: 'index',
   data () {
     return {
-      user: '',
-      password: '',
-      busy: false
-    }
-  },
-  methods: {
-    login () {
-      this.busy = true
-      this.$axios
-        .post('/students/login', {
-          email: this.user,
-          password: this.password // "12345678"
-        })
-        .then((res) => {
-          const userData = res.data.payload
-          if (userData.validated) {
-            if (process.client) {
-              localStorage.setItem('usertoken', res.data.token)
-              this.$store.commit('setToken', res.data.token)
-            }
-            if (res.data.payload.finished_diagnostic_test) {
-              this.$router.push({ path: '/dashboard' })
-            } else {
-              this.$router.push({ path: '/diagnostic_test' })
-            }
-          } else {
-            this.$router.push({ name: 'welcome', query: { token: res.data.token } })
-            this.busy = false
-          }
-        })
-        .catch((err) => {
-          const response = err.response
-          this.$toastr.error(response.data.message, 'Error')
-          this.busy = false
-        })
-    },
-    goToRecoverPassword () {
-      this.$store.commit('setLanding', 'recover_password')
+      form: {
+        email: '',
+        password: ''
+      }
     }
   }
 }
 </script>
+<style lang="scss">
+  #login {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+
+    .logo {
+      width: 238px;
+    }
+
+    .login-card {
+      width: 508px;
+    }
+
+    .login-title {
+      font-style: normal;
+      font-weight: 750;
+      font-size: 32px;
+      line-height: 36px;
+    }
+
+    .login-subtitle {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 36px;
+    }
+  }
+</style>

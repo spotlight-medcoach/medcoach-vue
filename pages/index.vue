@@ -1,48 +1,9 @@
 <template>
   <div>
-    <div id="login" class="only-pc">
-      <div class="mx-auto mt-auto">
-        <img
-          src="@/assets/images/logo.svg"
-          class="logo"
-        >
-        <div class="card">
-          <b-form>
-            <div>
-              <p>Bienvenido a</p>
-              <p>MedCOACH</p>
-              <p>Ingresa con tu email</p>
-            </div>
-            <div>
-              <b-form-group
-                id="email-grp"
-                label="Email"
-                label-for="email"
-              >
-                <b-form-input id="email" v-model="form.email" trim type="email"></b-form-input>
-              </b-form-group>
-              <b-form-group
-                id="password-grp"
-                label="Contraseña"
-                label-for="password"
-              >
-                <b-form-input id="password" v-model="form.password" type="password" trim></b-form-input>
-              </b-form-group>
-            </div>
-            <div>
-              <b-button type="submit" variant="primary">Button</b-button>
-              <p>Olvidé mi contraseña</p>
-            </div>
-          </b-form>
-        </div>
-        <div>
-          <a href="#">¿Nuevo en MedCOACH?</a>
-          <a href="#">Crea una cuenta</a>
-        </div>
-      </div>
-      <div class="mx-auto mt-auto mb-40px">
-        <a href="#">Aviso de Privacidad</a>
-      </div>
+    <div class="only-pc">
+      <Login v-if="screen == 'login'" />
+      <RecoveryPassword v-else-if="screen == 'recovery-password'" />
+      <ResetPassword v-else-if="screen == 'reset-password'" />
     </div>
     <div class="only-small-device">
       <p v-if="inMaintenance">
@@ -55,27 +16,29 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+import Login from '@/components/landing/Login.vue'
+import RecoveryPassword from '@/components/landing/RecoveryPassword'
+import ResetPassword from '@/components/landing/ResetPassword'
 export default {
   layout: 'index',
+  components: {
+    Login,
+    RecoveryPassword,
+    ResetPassword
+  },
   data () {
     return {
-      form: {
-        email: '',
-        password: ''
-      }
+      inMaintenance: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      screen: 'landing/screen'
+    })
+  },
+  created () {
+    this.inMaintenance = (process.env.IN_MAINTENANCE === 'true')
   }
 }
 </script>
-<style lang="scss">
-  #login {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-
-    .logo {
-      width: 238px;
-    }
-  }
-</style>

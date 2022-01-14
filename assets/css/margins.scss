@@ -9,10 +9,25 @@
 }
 
 .mb {
+	&-10px {
+		margin-bottom: 10px !important;
+	}
+	&-16px {
+		margin-bottom: 16px !important;
+	}
 	&-20px {
 		margin-bottom: 20px !important;
 	}
+	&-24px {
+		margin-bottom: 24px !important;
+	}
 	&-40px {
 		margin-bottom: 40px !important;
+	}
+	&-48px {
+		margin-bottom: 48px !important;
+	}
+	&-70px {
+		margin-bottom: 70px !important;
 	}
 }
