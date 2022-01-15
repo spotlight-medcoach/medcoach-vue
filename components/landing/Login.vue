@@ -6,67 +6,86 @@
         class="logo d-block mx-auto mb-40px"
       >
       <div class="card login-card mb-20px">
-        <b-form>
-          <div class="text-center mb-40px">
-            <p class="login-title">Bienvenido A</p>
-            <p class="login-title mb-10px">MedCOACH</p>
-            <p class="login-subtitle">Ingresa con tu email</p>
-          </div>
-          <div class="mb-48px">
-            <b-form-group
-              id="email-grp"
-              label="Email"
-              label-for="email"
-              class="mb-24px"
-            >
-              <b-form-input
-                id="email"
-                v-model="form.email"
-                trim
-                type="email"
-              />
-            </b-form-group>
-            <b-form-group
-              id="password-grp"
-              label="Contraseña"
-              label-for="password"
-            >
-              <b-form-input
-                id="password"
-                v-model="form.password"
-                type="password"
-                trim
-              />
-            </b-form-group>
-          </div>
-          <div>
-            <b-button
-              type="submit"
-              variant="primary"
-              class="d-block w-100 mb-16px"
-            >
-              Iniciar sesión
-            </b-button>
-            <p
-              class="link text-center"
-              @click="$store.commit('landing/setScreen', 'recovery-password')"
-            >
-              Olvidé mi contraseña
-            </p>
-          </div>
-        </b-form>
+        <validation-observer ref="loginValidation">
+          <b-form @submit.prevent="login">
+            <div class="text-center mb-40px">
+              <p class="login-title">Bienvenido A</p>
+              <p class="login-title mb-10px">MedCOACH</p>
+              <p class="login-subtitle">Ingresa con tu email</p>
+            </div>
+            <div class="mb-48px">
+              <b-form-group
+                id="email-grp"
+                label="Email"
+                label-for="email"
+                class="mb-24px"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Email"
+                  rules="required|email"
+                >
+                  <b-form-input
+                    id="email"
+                    v-model="form.email"
+                    trim
+                    type="email"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+              <b-form-group
+                id="password-grp"
+                label="Contraseña"
+                label-for="password"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Contraseña"
+                  rules="required"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="form.password"
+                    type="password"
+                    trim
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </div>
+            <div>
+              <b-overlay :show="loginLoading" spinner-small>
+                <b-button
+                  type="submit"
+                  variant="primary"
+                  class="d-block w-100 mb-16px"
+                >
+                  Iniciar sesión
+                </b-button>
+              </b-overlay>
+              <p
+                class="link link-primary text-center"
+                @click="$store.commit('landing/setScreen', 'recovery-password')"
+              >
+                Olvidé mi contraseña
+              </p>
+            </div>
+          </b-form>
+        </validation-observer>
       </div>
       <div class="d-flex justify-content-around px-4">
         <span>¿Nuevo en MedCOACH?</span>
-        <a  href="#">Crea una cuenta</a>
+        <a class="link link-primary" href="https://spotlightmed.com">Crea una cuenta</a>
       </div>
     </div>
     <div class="mx-auto mt-auto mb-40px">
-      <a href="#">AVISO DE PRIVACIDAD</a>
+      <a style="color: #7D7A7A" href="#">AVISO DE PRIVACIDAD</a>
     </div>
   </div>
 </template>
 <script>
+import { required, email } from '@/assets/utils/validations.js'
 export default {
   layout: 'index',
   data () {
@@ -74,6 +93,36 @@ export default {
       form: {
         email: '',
         password: ''
+      },
+      required,
+      email,
+      loginLoading: false
+    }
+  },
+  methods: {
+    async login () {
+      if (!this.loginLoading) {
+        this.loginLoading = true
+        const success = await this.$refs.loginValidation.validate()
+        if (success) {
+          const { data } = await this.$axios.post('/students/login', this.form)
+          if (data.payload.validated) {
+            if (process.client) {
+              localStorage.setItem('usertoken', data.token)
+              this.$store.commit('setToken', data.token)
+            }
+            if (data.payload.finished_diagnostic_test) {
+              this.$router.push({ path: '/dashboard' })
+            } else {
+              this.$router.push({ path: '/diagnostic_test' })
+            }
+          } else {
+            this.$router.push({ name: 'welcome', query: { token: data.token } })
+          }
+        } else {
+          this.$toastr.error('Hay campos incorrectos', 'Error')
+        }
+        this.loginLoading = false
       }
     }
   }

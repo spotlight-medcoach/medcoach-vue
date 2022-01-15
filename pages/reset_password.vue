@@ -1,50 +1,94 @@
 <template>
-<div id="reset-password">
-  <div class="bg imagen d-flex justify-content-center align-items-center">
-    <div class="login-form">
-      <div class="control-input d-flex mt-3">
-        <input v-model="password" type="password" placeholder="Ingresa una nueva contraseña" />
-      </div>
-      <br>
-       <div class="control-input d-flex">
-        <input v-model="confirm_password" type="password" placeholder="Confirma la contraseña" />
-      </div>
-      <br>
-      <div align="center" class="my-3">
-        <div class="divlogin" align="center">
-          <b-overlay
-            :show="busy"
-            rounded
-            opacity="0.6"
-            spinner-small
-            spinner-variant="primary"
-            class="d-inline-block"
-          >
-            <button class="blogin" v-on:click="resetPassword()" type="button">Cambiar contraseña</button>
-          </b-overlay>
-        </div>
-      </div>
-      <div align="center">
-        <p class="link" @click="$router.push('/')">Regresar al Login</p>
+  <div id="reset-password">
+    <div class="mx-auto mt-auto mb-20px">
+      <img
+        src="@/assets/images/logo.svg"
+        class="logo d-block mx-auto mb-20px"
+      >
+      <div class="card reset-password-card mb-20px">
+        <validation-observer ref="formValidation">
+          <b-form @submit.prevent="resetPassword">
+            <div class="text-center mb-40px">
+              <p class="title-lg">Cambiar Contraseña</p>
+              <p class="title-sm">Cambia y confirma tu contraseña</p>
+            </div>
+            <div class="mb-48px">
+              <b-form-group
+                id="password-grp"
+                label="Contraseña"
+                label-for="password"
+                class="mb-24px"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Contraseña"
+                  vid="Password"
+                  rules="required|min:8"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="password"
+                    trim
+                    type="password"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+              <b-form-group
+                id="confirm_password-grp"
+                label="Confirma contraseña"
+                label-for="confirm_password"
+                class="mb-24px"
+              >
+                <validation-provider
+                  #default="{ errors }"
+                  name="Confirma contraseña"
+                  rules="required|confirmed:Password"
+                >
+                  <b-form-input
+                    id="confirm_password"
+                    v-model="confirm_password"
+                    trim
+                    type="password"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </div>
+            <div>
+              <b-overlay :show="resetLoading" spinner-small>
+                <b-button
+                  type="submit"
+                  variant="primary"
+                  class="d-block w-100 mb-16px"
+                >
+                  Cambiar contraseña
+                </b-button>
+              </b-overlay>
+            </div>
+          </b-form>
+        </validation-observer>
       </div>
     </div>
+    <div class="text-center">
+      <a class="link link-primary" href="/">Cancelar</a>
+    </div>
+    <div class="mx-auto mt-auto mb-40px">
+      <a style="color: #7D7A7A" href="#">AVISO DE PRIVACIDAD</a>
+    </div>
   </div>
-  <landing-footer></landing-footer>
-</div>
 </template>
 <script>
-import LandingFooter from '@/components/LandingFooter'
+import { required } from '@/assets/utils/validations.js'
 export default {
-  components: {
-    LandingFooter
-  },
   layout: 'index',
   data () {
     return {
       password: '',
       confirm_password: '',
-      busy: false,
-      token: ''
+      resetLoading: false,
+      token: '',
+      required
     }
   },
   created () {
@@ -55,70 +99,47 @@ export default {
     }
   },
   methods: {
-    resetPassword () {
-      if (this.validatePasswords()) {
-        const params = {
-          token: this.token,
-          password: this.password,
-          password_confirm: this.confirm_password
-        }
-        this.busy = true
-        this.$axios.put('/student/resetpassword', params)
-          .then((response) => {
-            this.$toastr.success(response.data.message, 'Éxito')
+    async resetPassword () {
+      try {
+        if (!this.resetLoading) {
+          this.resetLoading = true
+          const success = await this.$refs.formValidation.validate()
+          if (success) {
+            const params = {
+              token: this.token,
+              password: this.password,
+              password_confirm: this.confirm_password
+            }
+            const { data } = await this.$axios.put('/student/resetpassword', params)
+            this.$toastr.success(data.message, 'Éxito')
             this.$router.push('/')
-          })
-          .catch((error) => {
-            const response = error.response
-            this.$toastr.error(response.data.message, 'Error')
-          })
-          .finally(() => {
-            this.busy = false
-          })
+          } else {
+            this.$toastr.error('Hay campos incorrectos', 'Error')
+          }
+          this.resetLoading = false
+        }
+      } catch (error) {
+        console.error(error)
+        this.$toastr.error('Lo sentimos. Hubo un error', 'Error')
       }
-    },
-    validatePasswords () {
-      const password = this.password.trim()
-      const confirmPassword = this.confirm_password.trim()
-      if (password === '') {
-        this.$toastr.error('Debe ingresar su nueva contraseña', 'Error')
-        return false
-      }
-      if (confirmPassword === '') {
-        this.$toastr.error('Debe confirmar su nueva contraseña', 'Error')
-        return false
-      }
-      if (password !== confirmPassword) {
-        this.$toastr.error('Las contraseñas no coinciden', 'Error')
-        return false
-      }
-      return true
     }
   }
 }
 </script>
-<style lang="less">
-  .bg {
-    background-image: url("/background.png");
-    width: 100%;
-  }
-  .imagen {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
+<style lang="scss">
   #reset-password {
-    .login-form {
-      margin: 0px !important;
-      width: 400px;
-      height: 250px;
-      .control-input input {
-        width: 95% !important;
-        margin-left: 5% !important;
-      }
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+
+    .logo {
+      width: 238px;
     }
-    .divlogin {
-      width: 50% !important;
+
+    .reset-password-card {
+      width: 511px;
     }
   }
 </style>

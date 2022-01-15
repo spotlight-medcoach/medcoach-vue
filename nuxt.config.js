@@ -62,7 +62,9 @@ export default {
     // buttons styles
     '@assets/css/buttons.scss',
     // text styles
-    '@assets/css/text.scss'
+    '@assets/css/text.scss',
+    // link styles
+    '@assets/css/links.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -73,7 +75,8 @@ export default {
     { src: '~plugins/vue-simple-context-menu-plugin', ssr:false },
     { src: '~plugins/vue-toastr-plugin', ssr:false },
     { src: '~plugins/vue-flip-plugin', ssr:false },
-    { src: '~/plugins/axios'}
+    { src: '~/plugins/axios'},
+    { src: '~/plugins/vee-validate-plugin.js' }
   ],
   /*
   ** Nuxt.js dev-modules

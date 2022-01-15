@@ -20,6 +20,10 @@ export const state = () => ({
   showStudentHeader: true
 })
 
+export const getters = {
+  user: state => state.studentInfo
+}
+
 export const mutations = {
   setToken (state, token) {
     state.token = token

@@ -74,23 +74,6 @@ html {
 p {
   margin: 0px;
 }
-a {
-  color: #FF9300;
-  text-decoration: underline;
-}
-
-a:hover {
-  color: #FF0300;
-}
-
-p.link {
-  color: #FF9300;
-  text-decoration: underline;
-  cursor: pointer; 
-}
-p.link:hover {
-  color: #FF0300; 
-}
 
 #nav {
   padding: 30px;

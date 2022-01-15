@@ -1,7 +1,6 @@
 const screenTypes = {
   login: 'login',
-  recoveryPassword: 'recovery-password',
-  resetPassword: 'reset-password'
+  recoveryPassword: 'recovery-password'
 }
 
 export const state = () => ({

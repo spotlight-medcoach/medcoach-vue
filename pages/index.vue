@@ -3,7 +3,6 @@
     <div class="only-pc">
       <Login v-if="screen == 'login'" />
       <RecoveryPassword v-else-if="screen == 'recovery-password'" />
-      <ResetPassword v-else-if="screen == 'reset-password'" />
     </div>
     <div class="only-small-device">
       <p v-if="inMaintenance">
@@ -19,13 +18,11 @@
 import { mapGetters } from 'vuex'
 import Login from '@/components/landing/Login.vue'
 import RecoveryPassword from '@/components/landing/RecoveryPassword'
-import ResetPassword from '@/components/landing/ResetPassword'
 export default {
   layout: 'index',
   components: {
     Login,
-    RecoveryPassword,
-    ResetPassword
+    RecoveryPassword
   },
   data () {
     return {
