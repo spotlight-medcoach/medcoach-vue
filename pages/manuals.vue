@@ -1,7 +1,7 @@
 <template>
-<div>
-  <manuals-index :isNotes="false" />
-</div>
+  <div>
+    <manuals-index :is-notes="false" />
+  </div>
 </template>
 
 <script>

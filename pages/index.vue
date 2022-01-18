@@ -19,11 +19,11 @@ import { mapGetters } from 'vuex'
 import Login from '@/components/landing/Login.vue'
 import RecoveryPassword from '@/components/landing/RecoveryPassword'
 export default {
-  layout: 'index',
   components: {
     Login,
     RecoveryPassword
   },
+  layout: 'index',
   data () {
     return {
       inMaintenance: false

@@ -9,8 +9,12 @@
         <validation-observer ref="formValidation">
           <b-form @submit.prevent="resetPassword">
             <div class="text-center mb-40px">
-              <p class="title-lg">Cambiar Contraseña</p>
-              <p class="title-sm">Cambia y confirma tu contraseña</p>
+              <p class="title-lg">
+                Cambiar Contraseña
+              </p>
+              <p class="title-sm">
+                Cambia y confirma tu contraseña
+              </p>
             </div>
             <div class="mb-48px">
               <b-form-group
@@ -20,7 +24,7 @@
                 class="mb-24px"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Contraseña"
                   vid="Password"
                   rules="required|min:8"
@@ -41,7 +45,7 @@
                 class="mb-24px"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Confirma contraseña"
                   rules="required|confirmed:Password"
                 >

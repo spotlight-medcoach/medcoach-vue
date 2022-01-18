@@ -72,11 +72,11 @@
 import NewLogin from '@/components/landing/NewLogin'
 import NewRecoveryPassword from '@/components/landing/NewRecoveryPassword'
 export default {
-  layout: 'index',
   components: {
     NewLogin,
     NewRecoveryPassword
   },
+  layout: 'index',
   data () {
     return {
       inMaintenance: false,

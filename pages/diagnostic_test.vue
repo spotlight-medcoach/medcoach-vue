@@ -1,110 +1,119 @@
 <template>
-<div :style="{'background-color': $store.state.themes.actualColorBg}" id="diagnostic_test">
-  <!------   HEADER    ----->
-  <b-navbar :style="{'background-color':`${$store.state.themes.actualColorBg} !important`, 'color':`${$store.state.themes.actualColorFont} !important`}" class="navbarBg pl-0" toggleable="lg" type="dark" variant="info">
-    <b-navbar-nav style="width: 8.333333%;" class="mr-5">
-      <div :style="`font-size:${$store.state.themes.fontSize}em; color: ${$store.state.themes.actualColorFont}`" class="center">
-        <span class="darkorange">{{ question_index + 1 }} / {{ questions.length }} </span>
-      </div>
-    </b-navbar-nav>
-    <b-navbar-nav>
-      <!-- BACK -->
-      <div class="mr-5 pointer text-center" @click="backQuestion" :class="{'disabled': question_index === 0}">
-        <i class="fas fa-arrow-left fa-2x"></i>
-        <div> Anterior </div>
-      </div>
+  <div id="diagnostic_test" :style="{'background-color': $store.state.themes.actualColorBg}">
+    <!------   HEADER    ----->
+    <b-navbar :style="{'background-color':`${$store.state.themes.actualColorBg} !important`, 'color':`${$store.state.themes.actualColorFont} !important`}" class="navbarBg pl-0" toggleable="lg" type="dark" variant="info">
+      <b-navbar-nav style="width: 8.333333%;" class="mr-5">
+        <div :style="`font-size:${$store.state.themes.fontSize}em; color: ${$store.state.themes.actualColorFont}`" class="center">
+          <span class="darkorange">{{ question_index + 1 }} / {{ questions.length }} </span>
+        </div>
+      </b-navbar-nav>
+      <b-navbar-nav>
+        <!-- BACK -->
+        <div class="mr-5 pointer text-center" :class="{'disabled': question_index === 0}" @click="backQuestion">
+          <i class="fas fa-arrow-left fa-2x" />
+          <div> Anterior </div>
+        </div>
 
-      <!-- NEXT -->
-      <div class="ml-5 pointer text-center" @click="nextQuestion" :class="{'disabled': question_index === (questions.length - 1)}">
-        <i class="fas fa-arrow-right fa-2x"></i>
-        <div> Siguiente </div>
-      </div>
-    </b-navbar-nav>
-    <b-collapse id="nav-collapse" is-nav>
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
+        <!-- NEXT -->
+        <div class="ml-5 pointer text-center" :class="{'disabled': question_index === (questions.length - 1)}" @click="nextQuestion">
+          <i class="fas fa-arrow-right fa-2x" />
+          <div> Siguiente </div>
+        </div>
+      </b-navbar-nav>
+      <b-collapse id="nav-collapse" is-nav>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
           <b-button
             :style="`font-size:${$store.state.themes.fontSize}em;`"
-            @click="$store.commit('themes/changeFontSize')"
             size="sm"
             class="btnLetterChange mr-2"
-            type="submit">A</b-button>
-          <b-button :style="{'background-color':$store.state.themes.actualColorBtn}" @click="$store.dispatch('themes/changeThemeColor')" size="sm" class="btnColorChange mr-2" type="submit"/>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
-  <!------    CONTAINER    ----->
-  <b-container id="container" :style="`font-size:${$store.state.themes.fontSize}em; color: ${$store.state.themes.actualColorFont}`" :class="[themeColor]">
-    <b-row class="m-0" style="height: 100%;">
-      <!-- SCROLL CON LAS PREGUNTAS -->
-      <b-col cols="1" class="p-0 scroll" id="questions" ref="questions">
-        <div class="quest-rd"></div>
-        <!-- v-for -->
-        <div
-             class="d-flex justify-content-around pointer align-items-center quest-rd"
-             v-for="(quest, index) in questions"
-             :key="`side-radio-${index}`"
-             :class="{ 'selected-quest': question_index === index }">
+            type="submit"
+            @click="$store.commit('themes/changeFontSize')"
+          >
+            A
+          </b-button>
+          <b-button :style="{'background-color':$store.state.themes.actualColorBtn}" size="sm" class="btnColorChange mr-2" type="submit" @click="$store.dispatch('themes/changeThemeColor')" />
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    <!------    CONTAINER    ----->
+    <b-container id="container" :style="`font-size:${$store.state.themes.fontSize}em; color: ${$store.state.themes.actualColorFont}`" :class="[themeColor]">
+      <b-row class="m-0" style="height: 100%;">
+        <!-- SCROLL CON LAS PREGUNTAS -->
+        <b-col id="questions" ref="questions" cols="1" class="p-0 scroll">
+          <div class="quest-rd" />
+          <!-- v-for -->
           <div
-            class="radio"
-            @click="question_index = index"
-            :class="{ 'fill-circle': answers[index].response !== null }">
-          </div>
-          <div class="number" @click="question_index = index">
-            {{ index + 1 }}
-          </div>
-          <div class="flag d-flex align-items-center" @click="toggleFlag(index)">
-            <div v-show="quest.flag">
-              <img src="@/assets/icons/orange_flag.svg" alt="" v-if="themeColor === 'light'">
-              <img src="@/assets/icons/flag.svg" alt="" v-else-if="themeColor === 'sepia' || question_index === index">
-              <img src="@/assets/icons/black_flag.svg" alt="" v-else>
+            v-for="(quest, index) in questions"
+            :key="`side-radio-${index}`"
+            class="d-flex justify-content-around pointer align-items-center quest-rd"
+            :class="{ 'selected-quest': question_index === index }"
+          >
+            <div
+              class="radio"
+              :class="{ 'fill-circle': answers[index].response !== null }"
+              @click="question_index = index"
+            />
+            <div class="number" @click="question_index = index">
+              {{ index + 1 }}
+            </div>
+            <div class="flag d-flex align-items-center" @click="toggleFlag(index)">
+              <div v-show="quest.flag">
+                <img v-if="themeColor === 'light'" src="@/assets/icons/orange_flag.svg" alt="">
+                <img v-else-if="themeColor === 'sepia' || question_index === index" src="@/assets/icons/flag.svg" alt="">
+                <img v-else src="@/assets/icons/black_flag.svg" alt="">
+              </div>
             </div>
           </div>
-        </div>
         <!-- /v-for --->
-      </b-col>
-      <!-- CONTENIDO DE LA PREGUNTA -->
-      <b-col cols="11" class="scroll" id="question" ref="question">
-        <div v-if="sending_questions">
-          <loading-state
-            message="Enviando tus respuestas. Generando tu plan de estudios... Esto puede demorar algunos minutos, no recargues la página"
-          />
-        </div>
-        <div v-else-if="question">
-          <div class="title-question mt-5">
-            <span class="font-weight-bold">Pregunta {{ question_index + 1 }}</span>
+        </b-col>
+        <!-- CONTENIDO DE LA PREGUNTA -->
+        <b-col id="question" ref="question" cols="11" class="scroll">
+          <div v-if="sending_questions">
+            <loading-state
+              message="Enviando tus respuestas. Generando tu plan de estudios... Esto puede demorar algunos minutos, no recargues la página"
+            />
           </div>
-          <div class="mt-5 text-justify" v-html="question.id.question.html"></div>
-          <!-- RESPUESTAS -->
-          <div>
-            <b-form-group label="">
-              <b-form-radio
-                v-for="(ans, index) in question.id.answers"
-                v-model="selected_answer"
-                name="answer-radios"
-                :key="`answer-radio-${index}`"
-                :value="ans.id">
-                  <span v-html="ans.html"></span>
-              </b-form-radio>
-            </b-form-group>
+          <div v-else-if="question">
+            <div class="title-question mt-5">
+              <span class="font-weight-bold">Pregunta {{ question_index + 1 }}</span>
+            </div>
+            <div class="mt-5 text-justify" v-html="question.id.question.html" />
+            <!-- RESPUESTAS -->
+            <div>
+              <b-form-group label="">
+                <b-form-radio
+                  v-for="(ans, index) in question.id.answers"
+                  :key="`answer-radio-${index}`"
+                  v-model="selected_answer"
+                  name="answer-radios"
+                  :value="ans.id"
+                >
+                  <span v-html="ans.html" />
+                </b-form-radio>
+              </b-form-group>
+            </div>
+            <!-- FIN RESPUESTAS -->
+            <div class="my-5">
+              <b-button v-if="question_index != 99" class="rounded-pill" variant="success" @click="nextQuestion">
+                Guardar y Continuar
+              </b-button>
+              <b-button v-else variant="success" @click="finishTest">
+                Finalizar
+              </b-button>
+            </div>
           </div>
-          <!-- FIN RESPUESTAS -->
-          <div class="my-5">
-             <b-button class="rounded-pill" variant="success" v-if="question_index != 99" @click="nextQuestion">Guardar y Continuar</b-button>
-             <b-button variant="success" v-else @click="finishTest">Finalizar</b-button>
+          <div v-else-if="error_request" class="mt-5" style="font-size: 32px;">
+            {{ message_error }}
           </div>
-        </div>
-        <div class="mt-5" style="font-size: 32px;" v-else-if="error_request">
-          {{ message_error }}
-        </div>
-        <div v-else>
-          <loading-state message="Cargando preguntas, por favor espere" />
-        </div>
-      </b-col>
+          <div v-else>
+            <loading-state message="Cargando preguntas, por favor espere" />
+          </div>
+        </b-col>
       <!-- FIN CONTENIDO DE LA PREGUNTA -->
-    </b-row>
-  </b-container>
-</div>
+      </b-row>
+    </b-container>
+  </div>
 </template>
 
 <script>

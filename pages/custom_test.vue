@@ -1,18 +1,18 @@
 <template>
-<div id="config_custom_test" class="container">
-  <div v-if="onHttpRequest">
-    <loading-state :message="message" />
+  <div id="config_custom_test" class="container">
+    <div v-if="onHttpRequest">
+      <loading-state :message="message" />
+    </div>
+    <div v-else-if="errorHttp">
+      <p>{{ message }}</p>
+    </div>
+    <div v-else-if="sendingAnswers">
+      <loading-state message="Enviando respuestas, por favor espere" />
+    </div>
+    <div v-else>
+      <custom-test />
+    </div>
   </div>
-  <div v-else-if="errorHttp">
-    <p>{{ message }}</p>
-  </div>
-  <div v-else-if="sendingAnswers">
-    <loading-state message="Enviando respuestas, por favor espere" />
-  </div>
-  <div v-else>
-    <custom-test />
-  </div>
-</div>
 </template>
 
 <script>

@@ -1,23 +1,23 @@
 <template>
-<div id="review">
-  <b-container>
-    <div v-if="onHttpRequest">
-      <loading-state :message="message" />
-    </div>
-    <div v-else-if="errorHttp">
-      <p>{{ message }}</p>
-    </div>
-    <div v-else>
-      <notes-review
-        :notes="notes"
-        :manual_id="manual_id"
-        :flashcards="flashcards"
-        :review="review"
-        @onRefreshFlashCards="getFlashcards(manual_id)"
-      />
-    </div>
-  </b-container>
-</div>
+  <div id="review">
+    <b-container>
+      <div v-if="onHttpRequest">
+        <loading-state :message="message" />
+      </div>
+      <div v-else-if="errorHttp">
+        <p>{{ message }}</p>
+      </div>
+      <div v-else>
+        <notes-review
+          :notes="notes"
+          :manual_id="manual_id"
+          :flashcards="flashcards"
+          :review="review"
+          @onRefreshFlashCards="getFlashcards(manual_id)"
+        />
+      </div>
+    </b-container>
+  </div>
 </template>
 
 <script>

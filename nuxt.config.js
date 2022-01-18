@@ -7,7 +7,8 @@ export default {
     IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
     DEVELOP: process.env.DEVELOP || false
   },
-  mode: 'spa',
+  ssr: false,
+  // mode: 'spa',
   /*
   ** Headers of the page
   */
@@ -64,7 +65,9 @@ export default {
     // text styles
     '@assets/css/text.scss',
     // link styles
-    '@assets/css/links.scss'
+    '@assets/css/links.scss',
+    // overrided shadows styles
+    '@assets/css/shadows.scss'
   ],
   /*
   ** Plugins to load before mounting the App

@@ -1,156 +1,161 @@
 <template>
-<div :style="{'background-color':actualColorBg}" id="manual">
-  <!-- NAVBAR -->
-  <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand @click="beforeLeave" class="cursor-pointer">
-      <img src="@/assets/icons/home_logo_off.svg" width="50" height="50"/>
-    </b-navbar-brand>
-    <span class="ml-3 manual-title">{{ manual_name }}</span>
-    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-    <b-collapse id="nav-collapse" is-nav>
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-          <b-button @click="onChangeFontSize" size="sm" class="btnLetterChange mr-2 d-flex justify-content-center align-items-center" type="submit" :style="`font-size:${fontSize}em;`">
-            <div >A</div>
+  <div id="manual" :style="{'background-color':actualColorBg}">
+    <!-- NAVBAR -->
+    <b-navbar :style="{'background-color':`${actualColorBg} !important`, 'color':`${actualColorFont} !important`}" class="navbarBg" toggleable="lg" type="dark" variant="info">
+      <b-navbar-brand class="cursor-pointer" @click="beforeLeave">
+        <img src="@/assets/icons/home_logo_off.svg" width="50" height="50">
+      </b-navbar-brand>
+      <span class="ml-3 manual-title">{{ manual_name }}</span>
+      <b-navbar-toggle target="nav-collapse" />
+      <b-collapse id="nav-collapse" is-nav>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-button size="sm" class="btnLetterChange mr-2 d-flex justify-content-center align-items-center" type="submit" :style="`font-size:${fontSize}em;`" @click="onChangeFontSize">
+            <div>A</div>
           </b-button>
-          <b-button :style="{'background-color':actualColorBtn}" @click="onchangeColorBg" size="sm" class="btnColorChange mr-2" type="submit"/>
+          <b-button :style="{'background-color':actualColorBtn}" size="sm" class="btnColorChange mr-2" type="submit" @click="onchangeColorBg" />
           <b-button
+            v-if="!showLoading && !finished && phase.id !== 2 && !finish_manual_extra"
             size="sm"
             class="my-2 my-sm-0 finishManualBtn"
             type="submit"
             @click="finishManual"
-            v-if="!showLoading && !finished && phase.id !== 2 && !finish_manual_extra">
+          >
             Finalizar Manual
           </b-button>
-      </b-navbar-nav>
-    </b-collapse>
-  </b-navbar>
-  <!-- Loading State -->
-  <div v-if="showLoading" id="loading-state" class="d-flex align-items-center justify-content-center" style="height: 85vh">
-    <loading-state :message="message" v-if="!error_http"/>
-    <div style="font-size: 28px;" v-else>
-      {{message_error}}
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    <!-- Loading State -->
+    <div v-if="showLoading" id="loading-state" class="d-flex align-items-center justify-content-center" style="height: 85vh">
+      <loading-state v-if="!error_http" :message="message" />
+      <div v-else style="font-size: 28px;">
+        {{ message_error }}
+      </div>
     </div>
-  </div>
-  <!-- CONTAINER -->
-  <b-container style="max-width: 98vw;" v-else>
-    <b-row class="mt-3">
-      <b-col cols="8">
-        <div
-          :style="`font-size:${fontSize}em; color: ${actualColorFont}`"
-          id="content"
-          ref="content"
-          oncopy="return false"
-          oncut="return false"
-          onpaste="return false">
+    <!-- CONTAINER -->
+    <b-container v-else style="max-width: 98vw;">
+      <b-row class="mt-3">
+        <b-col cols="8">
           <div
-            ref="manual-html"
-            @contextmenu.prevent.stop="return true"
-            @mouseup.prevent.stop="handleMouseUp($event, {selection: my_window.getSelection()})"
-            v-html="manualHTML">
-          </div>
-          <div class="flashcards-edit">
-            <transition name="slide-fade">
-              <div v-if="showFlashCards">
-                <div class="controls d-flex justify-content-end pr-4 pb-4">
-                  <b-overlay
-                    :show="savingFlashcard"
-                    rounded
-                    opacity="0.6"
-                    spinner-small
-                    spinner-variant="primary"
-                    class="d-inline-block"
-                    style="align-self: center;"
-                  >
-                    <img src="@/assets/icons/save.svg" width="35" @click="saveFlashcard">
-                  </b-overlay>
-                  <b-overlay
-                    :show="false"
-                    rounded
-                    opacity="0.6"
-                    spinner-small
-                    spinner-variant="primary"
-                    class="d-inline-block"
-                  >
-                    <img src="@/assets/icons/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
-                  </b-overlay>
-                </div>
-                <div class="editors">
-                  <div class="labels-editors d-flex justify-content-between">
-                    <div>Frente</div>
-                    <div>Detrás</div>
+            id="content"
+            ref="content"
+            :style="`font-size:${fontSize}em; color: ${actualColorFont}`"
+            oncopy="return false"
+            oncut="return false"
+            onpaste="return false"
+          >
+            <div
+              ref="manual-html"
+              @contextmenu.prevent.stop="return true"
+              @mouseup.prevent.stop="handleMouseUp($event, {selection: my_window.getSelection()})"
+              v-html="manualHTML"
+            />
+            <div class="flashcards-edit">
+              <transition name="slide-fade">
+                <div v-if="showFlashCards">
+                  <div class="controls d-flex justify-content-end pr-4 pb-4">
+                    <b-overlay
+                      :show="savingFlashcard"
+                      rounded
+                      opacity="0.6"
+                      spinner-small
+                      spinner-variant="primary"
+                      class="d-inline-block"
+                      style="align-self: center;"
+                    >
+                      <img src="@/assets/icons/save.svg" width="35" @click="saveFlashcard">
+                    </b-overlay>
+                    <b-overlay
+                      :show="false"
+                      rounded
+                      opacity="0.6"
+                      spinner-small
+                      spinner-variant="primary"
+                      class="d-inline-block"
+                    >
+                      <img src="@/assets/icons/cancel.svg" width="35" class="ml-2" @click="closeFlashcard">
+                    </b-overlay>
                   </div>
-                  <div class="content-editors d-flex">
-                    <quill-editor
-                      class="flashA"
-                      ref="flashAQuillEditor"
-                      v-model="flashA"
-                      :options="editorOption"
-                    />
-                    <div class="division"></div>
-                    <quill-editor
-                      class="flashB"
-                      ref="flashBQuillEditor"
-                      v-model="flashB"
-                      :options="editorOption"
-                    />
+                  <div class="editors">
+                    <div class="labels-editors d-flex justify-content-between">
+                      <div>Frente</div>
+                      <div>Detrás</div>
+                    </div>
+                    <div class="content-editors d-flex">
+                      <quill-editor
+                        ref="flashAQuillEditor"
+                        v-model="flashA"
+                        class="flashA"
+                        :options="editorOption"
+                      />
+                      <div class="division" />
+                      <quill-editor
+                        ref="flashBQuillEditor"
+                        v-model="flashB"
+                        class="flashB"
+                        :options="editorOption"
+                      />
+                    </div>
                   </div>
                 </div>
+              </transition>
+              <div class="trigger" @click="showFlashCards = !showFlashCards">
+                <img src="@/assets/icons/flashcard_trigger.svg" height="50px">
               </div>
-            </transition>
-            <div class="trigger" @click="showFlashCards = !showFlashCards">
-              <img src="@/assets/icons/flashcard_trigger.svg" height="50px">
             </div>
           </div>
-        </div>
-      </b-col>
-      <b-col id="quill-notes">
-        <client-only>
-          <div class="save-note">
-            <b-overlay
-              :show="savingNotes"
-              rounded
-              opacity="0.6"
-              spinner-small
-              spinner-variant="primary"
-              class="d-inline-block"
-            >
-              <img src="@/assets/icons/save.svg" width="30" @click="saveNote">
-            </b-overlay>
-          </div>
-          <quill-editor
-            ref="noteQuillEditor"
-            v-model="content"
-            :options="editorOption"
-            @change="savedNotes = false"
-            @blur="onEditorBlur($event)"
-          />
-        </client-only>
-      </b-col>
-    </b-row>
-  </b-container>
-  <!-- CONTEXT MENU -->
-  <vue-simple-context-menu
-      :elementId="'contextMenu'"
-      :options="optionsMenu"
+        </b-col>
+        <b-col id="quill-notes">
+          <client-only>
+            <div class="save-note">
+              <b-overlay
+                :show="savingNotes"
+                rounded
+                opacity="0.6"
+                spinner-small
+                spinner-variant="primary"
+                class="d-inline-block"
+              >
+                <img src="@/assets/icons/save.svg" width="30" @click="saveNote">
+              </b-overlay>
+            </div>
+            <quill-editor
+              ref="noteQuillEditor"
+              v-model="content"
+              :options="editorOption"
+              @change="savedNotes = false"
+              @blur="onEditorBlur($event)"
+            />
+          </client-only>
+        </b-col>
+      </b-row>
+    </b-container>
+    <!-- CONTEXT MENU -->
+    <vue-simple-context-menu
       :ref="'vueContextMenu'"
+      :element-id="'contextMenu'"
+      :options="optionsMenu"
       @option-clicked="optionClicked"
+    />
+    <modal-image />
+    <b-modal
+      id="modal-before-leave"
+      title="Confirmación"
+      cancel-title="Cancelar"
+      cancel-variant="danger"
+      centered
+      @ok="next"
+      @cancel="redirect"
     >
-  </vue-simple-context-menu>
-  <modal-image />
-  <b-modal
-    id="modal-before-leave"
-    title="Confirmación"
-    cancel-title="Cancelar"
-    cancel-variant="danger"
-    centered
-    @ok="next"
-    @cancel="redirect"
-  >
-    <p class="my-2">¿Quieres salir de está página?</p>
-    <p class="my-2">Recuerda que el progreso no guardado de tus notas se perderá, para guardar tus notas, da clic en el icono de guardado.</p>
-  </b-modal>
-</div>
+      <p class="my-2">
+        ¿Quieres salir de está página?
+      </p>
+      <p class="my-2">
+        Recuerda que el progreso no guardado de tus notas se perderá, para guardar tus notas, da clic en el icono de guardado.
+      </p>
+    </b-modal>
+  </div>
 </template>
 
 <script>

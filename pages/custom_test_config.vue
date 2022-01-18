@@ -1,15 +1,15 @@
 <template>
-<div id="config_custom_test">
-  <div v-if="onHttpRequest">
-    <loading-state :message="message" />
+  <div id="config_custom_test">
+    <div v-if="onHttpRequest">
+      <loading-state :message="message" />
+    </div>
+    <div v-else-if="errorHttp">
+      <p>{{ message }}</p>
+    </div>
+    <div v-else>
+      <config-test />
+    </div>
   </div>
-  <div v-else-if="errorHttp">
-    <p>{{ message }}</p>
-  </div>
-  <div v-else>
-    <config-test />
-  </div>
-</div>
 </template>
 
 <script>

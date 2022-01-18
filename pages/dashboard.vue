@@ -1,33 +1,40 @@
 <template>
-<div id="dashboard">
-  <b-overlay class="main-container-dashboard mt-5">
-    <!-- QUOTE -->
-    <div class="about quote" align="center">
-      <div>"{{ quoteSelected.quote }}"</div>
-      <div class="author">- {{ quoteSelected.author }}</div>
-    </div>
-    <!-- PHASE PROGRESS BAR -->
-    <div v-if="phase.id" class="mt-5">
-      <phases-index  />
-    </div>
-    <!-- CALENDAR -->
-    <b-container>
-      <div class="w-100" v-if="onHttpRequest">
+  <div id="dashboard">
+    <b-overlay class="main-container-dashboard mt-5">
+      <!-- QUOTE -->
+      <div class="shadow-sm p-2 m-3 bg-white">
+        <div class="about quote" align="center">
+          <div>"{{ quoteSelected.quote }}"</div>
+          <div class="author">
+            - {{ quoteSelected.author }}
+          </div>
+        </div>
+      </div>
+      <!-- PHASE PROGRESS BAR -->
+      <div v-if="phase.id">
+        <div class="shadow-sm p-4 m-3 bg-white">
+          <phases-index />
+        </div>
+      </div>
+      <!-- CALENDAR -->
+      <div v-if="onHttpRequest" class="w-100">
         <loading-state :message="message" height="60vh" />
       </div>
       <div v-else-if="errorHttp" class="about quote" align="center">
         <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
       </div>
       <div v-else>
-        <second-phase v-if="alert_second_stage" />
-        <third-phase v-else-if="alert_third_stage" />
-        <dashboard-calendar v-else />
+        <div class="shadow-sm p-4 m-3 bg-white">
+          <second-phase v-if="alert_second_stage" />
+          <third-phase v-else-if="alert_third_stage" />
+          <dashboard-calendar v-else />
+        </div>
       </div>
-    </b-container>
-    <!-- END_CALENDAR -->
-  </b-overlay>
-</div>
+      <!-- END_CALENDAR -->
+    </b-overlay>
+  </div>
 </template>
+
 <script>
 
 import { mapState } from 'vuex'
@@ -39,7 +46,6 @@ import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 import { quotes } from '@/assets/json/quotes.json'
 
 export default {
-  layout: 'new_default',
   components: {
     PhasesIndex,
     LoadingState,
@@ -47,6 +53,7 @@ export default {
     SecondPhase,
     ThirdPhase
   },
+  layout: 'new_default',
   data () {
     return {
       quos: quotes,
@@ -54,18 +61,6 @@ export default {
         author: '',
         quote: ''
       }
-    }
-  },
-  created () {
-    const size = this.quos.length
-    if (size > 0) {
-      const index = this.getRandomInt(0, size)
-      this.quoteSelected = this.quos[index]
-    }
-  },
-  methods: {
-    getRandomInt (min, max) {
-      return Math.floor(Math.random() * (max - min)) + min
     }
   },
   computed: {
@@ -86,6 +81,18 @@ export default {
       message: state => state.http_request.message,
       errorHttp: state => state.http_request.errorHttp
     })
+  },
+  created () {
+    const size = this.quos.length
+    if (size > 0) {
+      const index = this.getRandomInt(0, size)
+      this.quoteSelected = this.quos[index]
+    }
+  },
+  methods: {
+    getRandomInt (min, max) {
+      return Math.floor(Math.random() * (max - min)) + min
+    }
   }
 }
 </script>

@@ -21,10 +21,10 @@ import StudyPlans from '@/components/welcome/StudyPlans'
 import DiagnosticTest from '@/components/welcome/DiagnosticTest'
 export default {
   name: 'Welcome',
-  layout: 'index',
   components: {
     HorizontalStepper
   },
+  layout: 'index',
   data () {
     return {
       steps: [

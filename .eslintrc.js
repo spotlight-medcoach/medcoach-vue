@@ -13,6 +13,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'unicorn/escape-case': 'off'
+    'unicorn/escape-case': 'off',
+    'no-console': 'off'
   }
 }

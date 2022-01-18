@@ -1,60 +1,68 @@
 <template>
-<b-container>
-  <div v-if="fethcedData" class="my-4">
-    <div v-show="phase.id" class="mt-5">
-      <phases-index :student="student" :phase="phase" />
-    </div>
-    <vue-event-calendar :events="dayEvents" title="Temas" @month-changed="handleMonthChanged" v-if="!reloadData">
-      <template scope="props">
-        <div v-for="(event, index) in props.showEvents" class="event-item" :key="'llave' + index">
-          <div v-for="(manual, indexManuals) in event.manuals" :key="'manual' + index + indexManuals">
-            <div class="item-card-done d-flex justify-content-between align-items-center" v-if="manual.finished">
-              <div>
-                <div class="item-manual mb-1">{{ manual.manual_name }}</div>
-                <div>{{ manual.manual_subtopic_name }}</div>
+  <b-container>
+    <div v-if="fethcedData" class="my-4">
+      <div v-show="phase.id" class="mt-5">
+        <phases-index :student="student" :phase="phase" />
+      </div>
+      <vue-event-calendar v-if="!reloadData" :events="dayEvents" title="Temas" @month-changed="handleMonthChanged">
+        <template slot-scope="props">
+          <div v-for="(event, index) in props.showEvents" :key="'llave' + index" class="event-item">
+            <div v-for="(manual, indexManuals) in event.manuals" :key="'manual' + index + indexManuals">
+              <div v-if="manual.finished" class="item-card-done d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="item-manual mb-1">
+                    {{ manual.manual_name }}
+                  </div>
+                  <div>{{ manual.manual_subtopic_name }}</div>
+                </div>
+                <div class="pr-2">
+                  <img src="@/assets/icons/orange_check.svg" width="33">
+                </div>
               </div>
-              <div class="pr-2">
-                <img src="@/assets/icons/orange_check.svg" width="33">
+              <div v-else class="item-card">
+                <div class="pointer text-decoration-none" @click="goToManual(manual.manual_id)">
+                  <div class="item-manual">
+                    {{ manual.manual_name }}
+                  </div>
+                  <div>{{ manual.manual_subtopic_name }}</div>
+                </div>
               </div>
             </div>
-            <div class="item-card" v-else>
-              <div class="pointer text-decoration-none" @click="goToManual(manual.manual_id)">
-                <div class="item-manual">{{ manual.manual_name }}</div>
-                <div>{{ manual.manual_subtopic_name }}</div>
+            <div v-for="(manual, indexManuals) in event.reviewed" :key="'review' + index + indexManuals">
+              <div v-if="manual.reviewed" class="item-card-done d-flex justify-content-between align-items-center done-review">
+                <div>
+                  <div class="item-manual mb-1">
+                    {{ manual.manual_name }}
+                  </div>
+                  <div>{{ manual.manual_subtopic_name }}</div>
+                </div>
+                <div class="pr-2">
+                  <img src="@/assets/icons/blue_check.svg" width="33">
+                </div>
+              </div>
+              <div v-else class="item-card">
+                <div class="pointer text-decoration-none" @click="goToReview(manual.manual_id)">
+                  <div class="item-manual">
+                    {{ manual.manual_name }}
+                  </div>
+                  <div>{{ manual.manual_subtopic_name }}</div>
+                </div>
               </div>
             </div>
           </div>
-          <div v-for="(manual, indexManuals) in event.reviewed" :key="'review' + index + indexManuals">
-            <div class="item-card-done d-flex justify-content-between align-items-center done-review" v-if="manual.reviewed">
-              <div>
-                <div class="item-manual mb-1">{{ manual.manual_name }}</div>
-                <div>{{ manual.manual_subtopic_name }}</div>
-              </div>
-              <div class="pr-2">
-                <img src="@/assets/icons/blue_check.svg" width="33">
-              </div>
-            </div>
-            <div class="item-card" v-else>
-              <div class="pointer text-decoration-none" @click="goToReview(manual.manual_id)">
-                <div class="item-manual">{{ manual.manual_name }}</div>
-                <div>{{ manual.manual_subtopic_name }}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
-    </vue-event-calendar>
-    <loading-state message="Cargando el calendario, por favor espere" v-else/>
-  </div>
-  <div v-else-if="http_error">
-    <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
-      Error al obtener el Calendario
+        </template>
+      </vue-event-calendar>
+      <loading-state v-else message="Cargando el calendario, por favor espere" />
     </div>
-  </div>
-  <div v-else>
-    <loading-state message="Cargando el calendario, por favor espere" />
-  </div>
-</b-container>
+    <div v-else-if="http_error">
+      <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
+        Error al obtener el Calendario
+      </div>
+    </div>
+    <div v-else>
+      <loading-state message="Cargando el calendario, por favor espere" />
+    </div>
+  </b-container>
 </template>
 
 <script>
