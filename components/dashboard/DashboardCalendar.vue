@@ -1,6 +1,6 @@
 <template>
 <div align="left">
-  <h3><b>{{ currentMonth }}</b></h3>
+  <h3 class="mx-5"><b>{{ currentDate }}</b></h3>
   <b-row
     cols="7"
     cols-sm="12"
@@ -9,14 +9,16 @@
     align="left"
     :no-gutters="true">
     <b-col>
-      <div style="display:flex" align="center">
-        <div v-for="day in week" :key="day.number" class="day">
+      <b-row>
+        <b-col v-for="day in week" :key="day.number" class="px-1">
           <div
+            class="day-header my-4"
+            align="center"
             :class="[
                 day.index == 0 ? 'today' : ''
             ]">
-            <p>{{day.day}}</p>
-            <p>{{day.number}}</p>
+            <p class="my-2">{{day.day}}</p>
+            <p class="my-2">{{day.number}}</p>
           </div>
           <manual-card
             v-for="(item,index) in day.data"
@@ -32,8 +34,8 @@
             :manual="item"
             :today="day.index == 0"
             :review="true"/>
-        </div>
-      </div>
+        </b-col>
+      </b-row>
     </b-col>
   </b-row>
 </div>
@@ -52,7 +54,7 @@ export default {
   data () {
     moment.locale('es')
     return {
-      currentMonth: this.capitalizeFirstLetter(moment().format('MMMM')),
+      currentDate: this.capitalizeFirstLetter(moment().format('MMMM YYYY')),
       week: [
         {
           day: 'Lunes',

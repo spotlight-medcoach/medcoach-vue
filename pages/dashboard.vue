@@ -1,13 +1,13 @@
 <template>
   <div id="dashboard">
-    <b-overlay class="main-container-dashboard mt-5">
+    <b-overlay class="main-container-dashboard">
       <!-- QUOTE -->
-      <div class="shadow-sm p-2 m-3 bg-white">
-        <div class="about quote" align="center">
-          <div>"{{ quoteSelected.quote }}"</div>
-          <div class="author">
+      <div class="shadow-sm p-2 m-3 bg-white" align="center">
+        <div class="about quote">
+          <span>"{{ quoteSelected.quote }}"</span>
+          <span class="author">
             - {{ quoteSelected.author }}
-          </div>
+          </span>
         </div>
       </div>
       <!-- PHASE PROGRESS BAR -->
