@@ -2,13 +2,11 @@
   <div id="dashboard">
     <b-overlay class="main-container-dashboard">
       <!-- QUOTE -->
-      <div class="shadow-sm p-2 m-3 bg-white" align="center">
-        <div class="about quote">
+      <div class="shadow-sm py-2 m-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
           <span>"{{ quoteSelected.quote }}"</span>
           <span class="author">
             - {{ quoteSelected.author }}
           </span>
-        </div>
       </div>
       <!-- PHASE PROGRESS BAR -->
       <div v-if="phase.id">
