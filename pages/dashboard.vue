@@ -5,51 +5,55 @@
   <div v-else-if="errorHttp" class="about quote" align="center">
     <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
   </div>
-  <div v-else>
-    <b-row id="dashboard" class="mx-0"><!--------------------------------------- MAIN CONTENT (LEFT) -->
-      <b-col class="main-container-dashboard px-0 mx-2">
-        <!-- QUOTE -->
-        <div class="shadow-sm py-2 my-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
-          <div>
-            <span>"{{ quoteSelected.quote }}"</span>
-            <span class="author">
-              - {{ quoteSelected.author }}
-            </span>
-          </div>
+  <div id="dashboard" class="m-0 px-3" v-else><!--------------------------------------- MAIN CONTENT (LEFT) -->
+    <article class="main-container">
+      <!-- QUOTE -->
+      <div class="shadow-sm py-2 my-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
+        <div>
+          <span>"{{ quoteSelected.quote }}"</span>
+          <span class="author">
+            - {{ quoteSelected.author }}
+          </span>
         </div>
-        <!-- PHASE PROGRESS BAR -->
-        <div v-if="phase.id">
-          <div class="shadow-sm p-4 my-3 bg-white">
-            <phases-index />
-          </div>
-        </div>
-        <!-- CALENDAR -->
+      </div>
+      <!-- PHASE PROGRESS BAR -->
+      <div v-if="phase.id">
         <div class="shadow-sm p-4 my-3 bg-white">
-          <second-phase v-if="alert_second_stage" />
-          <third-phase v-else-if="alert_third_stage" />
-          <dashboard-calendar v-else />
+          <phases-index />
         </div>
-        <!-- END_CALENDAR -->
-      </b-col>
-      <b-col class="right-container-dashboard pl-0 mx-2" cols="3" md="4"><!-- NOTIFICATIONS / SIMULATORS CONTENT (RIGHT) -->
-        <!-- NOTIFICATIONS -->
-        <div class="shadow-sm p-3 my-3 bg-white">
-          <dashboard-notifications />
-        </div>
-      </b-col>
-    </b-row>
+      </div>
+      <!-- CALENDAR -->
+      <div class="shadow-sm p-4 my-3 bg-white">
+        <second-phase v-if="alert_second_stage" />
+        <third-phase v-else-if="alert_third_stage" />
+        <dashboard-calendar v-else />
+      </div>
+      <!-- END_CALENDAR -->
+    </article>
+    <!-- NOTIFICATIONS -->
+    <article class="notifications-container shadow-sm p-3 mt-3 bg-white">
+      <dashboard-notifications />
+    </article>
+    <!-- SIMULATORS -->
+    <article class="simulators-container shadow-sm p-3 mb-3 bg-white">
+      <dashboard-simulators />
+    </article>
   </div>
 </template>
 
 <script>
 
 import { mapState } from 'vuex'
+
 import LoadingState from '@/components/LoadingState.vue'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import SecondPhase from '@/components/dashboard/SecondPhase.vue'
 import ThirdPhase from '@/components/dashboard/ThirdPhase.vue'
 import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
+
 import DashboardNotifications from '@/components/dashboard/DashboardNotifications.vue'
+import DashboardSimulators from '@/components/dashboard/DashboardSimulators.vue'
+
 import { quotes } from '@/assets/json/quotes.json'
 
 export default {
@@ -59,7 +63,8 @@ export default {
     SecondPhase,
     ThirdPhase,
     DashboardCalendar,
-    DashboardNotifications
+    DashboardNotifications,
+    DashboardSimulators
   },
   layout: 'new_default',
   data () {

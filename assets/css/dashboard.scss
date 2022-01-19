@@ -1,14 +1,26 @@
 #dashboard {
+  display: grid;
+  grid-template-columns: auto 340px;
+  grid-auto-rows: 3fr 2fr;
+  grid-template-areas: 
+    "main notifications"
+    "main simulators";
+  gap: 1rem;
+  .main-container {
+    grid-area: main;
+  }
+  .notifications-container {
+    grid-area: notifications;
+    overflow-y: auto;
+  }
+  .simulators-container {
+    grid-area: simulators;
+    overflow-y: auto;
+  }
   * {
     font-family: 'Avenir', sans-serif;
   }
-  .right-container-dashboard {
-    flex-basis: 460px;
-    & > .shadow-sm:first-of-type {
-      max-height: 60vh;
-      overflow-y: auto;
-    }
-  }
+
   .day-header {
     font-size: 17px;
   }
