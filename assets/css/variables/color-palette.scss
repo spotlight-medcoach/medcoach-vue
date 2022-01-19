@@ -1,0 +1,184 @@
+
+// This table defines the theme colors (variant names)
+$theme-colors: () !default;
+
+$bg: "#fbfdfe";
+
+$neutral-50: "#f8f8f8";
+$neutral-75: "#f9f8f8";
+$neutral-100: "#f3f3f0";
+$neutral-200: "#e8e8e1";
+$neutral-300: "#d4d4d1";
+$neutral-400: "#bbbbb3";
+$neutral-500: "#979797";
+$neutral-600: "#858383";
+$neutral-700: "#5b5b5b";
+$neutral-800: "#1d1d1b";
+$neutral-900: "#0e0e0e";
+$neutral-1000: "#000000";
+$neutral-00: "#ffffff";
+$neutral-900-90: "#1d1d1be6";
+$neutral-900-80: "#1d1d1bcc";
+$neutral-900-70: "#1d1d1bb3";
+$neutral-900-60: "#1d1d1b99";
+$neutral-900-50: "#1d1d1b80";
+$neutral-900-40: "#1d1d1b66";
+$neutral-900-30: "#1d1d1b4d";
+$neutral-900-20: "#1d1d1b33";
+$neutral-900-10: "#1d1d1b1a";
+
+// ------------------- main
+
+$main-50: "#fff8e2";
+$main-100: "#fff2cc";
+$main-200: "#ffe099";
+$main-300: "#ffcb66";
+$main-400: "#ffb63f";
+$main-500: "#ff9300";
+$main-600: "#db7500";
+$main-700: "#b75a00";
+$main-800: "#934200";
+$main-900: "#7a3100";
+$main-500-90: "#ff9300e6";
+$main-500-80: "#ff9300cc";
+$main-500-70: "#ff9300b3";
+$main-500-60: "#ff930099";
+$main-500-50: "#ff930080";
+$main-500-40: "#ff930066";
+$main-500-30: "#ff93004d";
+$main-500-20: "#ff930033";
+$main-500-10: "#ff93001a";
+
+$error-50: "#fff3ec";
+$error-100: "#ffe9db";
+$error-200: "#ffcdb8";
+$error-300: "#ffab95";
+$error-400: "#ff8c7a";
+$error-500: "#ff574f";
+$error-600: "#db393f";
+$error-700: "#b72739";
+$error-800: "#931932";
+$error-900: "#7a0f2e";
+$error-500-90: "#ff574fe6";
+$error-500-80: "#ff574fcc";
+$error-500-70: "#ff574fb3";
+$error-500-60: "#ff574f99";
+$error-500-50: "#ff574f80";
+$error-500-40: "#ff574f66";
+$error-500-30: "#ff574f4d";
+$error-500-20: "#ff574f33";
+$error-500-10: "#ff574f1a";
+
+$warning-50: "#fffce7";
+$warning-100: "#fff9d3";
+$warning-200: "#fff2a8";
+$warning-300: "#ffe87c";
+$warning-400: "#ffdf5c";
+$warning-500: "#ffd026";
+$warning-600: "#dbad1b";
+$warning-700: "#b78c13";
+$warning-800: "#936d0c";
+$warning-900: "#7a5707";
+$warning-500-90: "#ffd026e6";
+$warning-500-80: "#ffd026cc";
+$warning-500-70: "#ffd026b3";
+$warning-500-60: "#ffd02699";
+$warning-500-50: "#ffd02680";
+$warning-500-40: "#ffd02666";
+$warning-500-30: "#ffd0264d";
+$warning-500-20: "#ffd02633";
+$warning-500-10: "#ffd0261a";
+
+$success-50: "#fafff5";
+$success-100: "#edfedf";
+$success-200: "#d7fdbf";
+$success-300: "#bbf99d";
+$success-400: "#9ff484";
+$success-500: "#74ed5c";
+$success-600: "#4fcb43";
+$success-700: "#2faa2e";
+$success-800: "#1d8924";
+$success-900: "#11711f";
+$success-600-90: "#4fcb43e6";
+$success-600-80: "#4fcb43cc";
+$success-600-70: "#4fcb43b3";
+$success-600-60: "#4fcb4399";
+$success-600-50: "#4fcb4380";
+$success-600-40: "#4fcb4366";
+$success-600-30: "#4fcb434d";
+$success-600-20: "#4fcb4333";
+$success-600-10: "#4fcb431a";
+
+$info-50: "#f6f7ff";
+$info-100: "#e6eafe";
+$info-200: "#cdd4fe";
+$info-300: "#b3befd";
+$info-400: "#a0acfb";
+$info-500: "#818ff9";
+$info-600: "#5e6ad6";
+$info-700: "#414bb3";
+$info-800: "#293190";
+$info-900: "#181f77";
+$info-600-90: "#5e6ad6e6";
+$info-600-80: "#5e6ad6cc";
+$info-600-70: "#5e6ad6b3";
+$info-600-60: "#5e6ad680";
+$info-600-50: "#5e6ad666";
+$info-600-40: "#5e6ad666";
+$info-600-30: "#5e6ad64d";
+$info-600-20: "#5e6ad633";
+$info-600-10: "#5e6ad61a";
+
+$accent-50: "#ffeef1";
+$accent-100: "#ffd7de";
+$accent-200: "#ffafc5";
+$accent-300: "#ff88b4";
+$accent-400: "#ff6ab0";
+$accent-500: "#ff39aa";
+$accent-600: "#db29a0";
+$accent-700: "#b71c94";
+$accent-800: "#931283";
+$accent-900: "#7a0a77";
+$accent-500-90: "#ff39aae6";
+$accent-500-80: "#ff39aacc";
+$accent-500-70: "#ff39aab3";
+$accent-500-60: "#ff39aa99";
+$accent-500-50: "#ff39aa80";
+$accent-500-40: "#ff39aa66";
+$accent-500-30: "#ff39aa4d";
+$accent-500-20: "#ff39aa33";
+$accent-500-10: "#ff39aa1a";
+
+$accent_b-50: "#f2feff";
+$accent_b-100: "#d9fafe";
+$accent_b-200: "#b4f1fd";
+$accent_b-300: "#8ee3fb";
+$accent_b-400: "#71d1f8";
+$accent_b-500: "#43b6f4";
+$accent_b-600: "#308fd1";
+$accent_b-700: "#216caf";
+$accent_b-800: "#154c8d";
+$accent_b-900: "#0c3675";
+$accent_b-500-90: "#43b6f4e6";
+$accent_b-500-80: "#43b6f4cc";
+$accent_b-500-70: "#43b6f4b3";
+$accent_b-500-60: "#43b6f499";
+$accent_b-500-50: "#43b6f480";
+$accent_b-500-40: "#43b6f466";
+$accent_b-500-30: "#43b6f44d";
+$accent_b-500-20: "#43b6f433";
+$accent_b-500-10: "#43b6f41a";
+
+$theme-colors: map-merge(
+  (
+    'primary': $main-500,
+    'secondary': $accent-500,
+    'success': $success-500,
+    'info': $info-500,
+    'warning': $warning-500,
+    'danger': $error-500,
+    'light': $neutral-500,
+    'dark': $accent_b-500
+  ),
+  $theme-colors
+);

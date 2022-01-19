@@ -5,8 +5,8 @@
     @click="goToReview(manual.manual_id)"
     v-if="review"
   >
-    <div class="text-overflow"><b>{{manual.manual_name}}</b></div>
-    <div class="text-subtopic">{{manual.manual_subtopic_name}}</div>
+    <div class="subheader-xs text-overflow"><b>{{manual.manual_name}}</b></div>
+    <div class="text-xs-content">{{manual.manual_subtopic_name}}</div>
     <!-- <div class="finished-icon" v-if="manual.reviewed">
       <img src="@/assets/icons/blue_check.svg" width="15" height="15">
     </div> -->
@@ -17,8 +17,8 @@
     @click="goToManual(manual.manual_id)"
     v-else
   >
-    <div class="text-overflow"><b>{{manual.manual_name}}</b></div>
-    <div class="text-subtopic">{{manual.manual_subtopic_name}}</div>
+    <div class="subheader-xs text-overflow"><b>{{manual.manual_name}}</b></div>
+    <div class="text-xs-content">{{manual.manual_subtopic_name}}</div>
     <!-- <div class="finished-icon" v-if="manual.finished">
       <img src="@/assets/icons/orange_check.svg" width="15" height="15">
     </div> -->
@@ -58,3 +58,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .subheader-xs {
+    margin-bottom: 2px;
+    line-height: 12px;
+    font-size: 12px;
+  }
+</style>

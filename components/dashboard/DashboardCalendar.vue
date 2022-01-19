@@ -1,6 +1,6 @@
 <template>
 <div align="left">
-  <h3 class="mx-5"><b>{{ currentDate }}</b></h3>
+  <h3 class="header-md mx-5">{{ currentDate }}</h3>
   <b-row
     cols="7"
     cols-sm="12"

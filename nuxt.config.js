@@ -42,7 +42,9 @@ export default {
     'quill/dist/quill.core.css',
     // for snow theme
     'quill/dist/quill.snow.css',
-    // main css
+    // color-palette
+    '@assets/css/variables/color-palette.scss',
+    // dashboard css
     '@assets/css/main.css',
     // dashboard css
     '@assets/css/dashboard.scss',

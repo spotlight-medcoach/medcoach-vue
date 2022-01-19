@@ -2,6 +2,13 @@
   * {
     font-family: 'Avenir', sans-serif;
   }
+  .right-container-dashboard {
+    flex-basis: 460px;
+    & > .shadow-sm:first-of-type {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  }
   .day-header {
     font-size: 17px;
   }
@@ -40,23 +47,16 @@
     bottom: 10px;
     right: 10px;
   }
-  .text-overflow {
-    text-overflow: clip;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    margin-bottom: 2px;
-    line-height: 12px;
-    font-size: 12px;
-  }
-  .text-subtopic {
-    font-size: 10px;
-  }
   .quote {
     font-weight: 500;
     font-size: 20px;
     min-height: 68px;
+    width: 100%;
+    padding-left: 8vw;
+    padding-right: 8vw;
   }
   .author {
     font-weight: bold;
   }
+
 }
