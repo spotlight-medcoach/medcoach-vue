@@ -1,6 +1,6 @@
 <template>
-  <div class="h-100">
-    <div v-if="isNotes === true" class="h-100">
+  <article>
+    <div v-if="isNotes === true">
       <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
         <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
           <nuxt-link class="pointer" :to="`/review?manual_id=${manual.id}`" v-if="manual.finished">
@@ -11,16 +11,16 @@
           </div>
         </div>
       </div>
-      <div class="row h-100" v-else-if="!fetchedManuals">
-        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+      <div class="row" v-else-if="!fetchedManuals">
+        <div class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center">
           <div>
             <b class="mb-2">Cargando manuales</b>
             <div><img src="@/assets/icons/loading.svg" width="40" /></div>
           </div>
         </div>
       </div>
-      <div class="row h-100" v-else>
-        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+      <div class="row" v-else>
+        <div class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center">
           <div>
             <b class="mb-2">No hay manuales</b>
           </div>
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="h-100" v-else>
+    <div v-else>
       <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
         <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
           <div v-if="manual.isExtra">
@@ -39,23 +39,23 @@
           </div>
         </div>
       </div>
-      <div class="row h-100" v-else-if="!fetchedManuals">
-        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+      <div class="row" v-else-if="!fetchedManuals">
+        <div class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center">
           <div>
             <b class="mb-2">Cargando manuales</b>
             <div><img src="@/assets/icons/loading.svg" width="40" /></div>
           </div>
         </div>
       </div>
-      <div class="row h-100" v-else>
-        <div class="col-sm-12 text-center h-100 d-flex justify-content-around pointer align-items-center">
+      <div class="row" v-else>
+        <div class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center">
           <div>
             <b class="mb-2">No hay manuales</b>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 <script>
 import { mapState } from 'vuex'

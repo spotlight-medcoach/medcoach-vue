@@ -1,14 +1,14 @@
 <template>
-  <b-container>
-      <div
-        v-for="(subtopic, index) in topic.subtopics"
-        @click="selectSubtopic(index)"
-        :key="subtopic._id"
-        class="mb-3 pointer"
-        :class="{'orange': index === subtopic_index }">
-        {{subtopic.name}}
-      </div>
-  </b-container>
+  <article>
+    <div
+      v-for="(subtopic, index) in topic.subtopics"
+      @click="selectSubtopic(index)"
+      :key="subtopic._id"
+      class="mb-3 pointer"
+      :class="{'orange': index === subtopic_index }">
+      {{subtopic.name}}
+    </div>
+  </article>
 </template>
 
 <script>
