@@ -50,6 +50,7 @@ export default {
     align-items: center;
     justify-items: center;
     z-index: 9;
+    padding-right: 55px;
     .toggle-sidebar-container {
       text-align: center;
       .sidebar-icon {
@@ -70,9 +71,6 @@ export default {
         width: 209px;
         height: 47px;
       }
-    }
-    > *:last-child {
-      padding-right: 55px;
     }
   }
 </style>
