@@ -1,5 +1,5 @@
 export const state = () => ({
-  sidebar_active: false
+  sidebar_active: true
 })
 
 export const mutations = {

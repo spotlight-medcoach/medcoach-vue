@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body-content">
     <NewHeader />
     <div class="only-pc d-flex">
       <StudentSidebar />
@@ -52,9 +52,14 @@ export default {
 </script>
 <style lang="scss">
   @import '@/assets/css/variables/_student_header_vars.scss';
+  @import '@/assets/css/variables/_student_sidebar_vars.scss';
+  .body-content > * {
+    position: relative;
+  }
   .main-content {
     flex-grow: 1;
     overflow-y: auto;
     height: calc(100vh - #{$student-header-height});
+    flex-basis: 1280px;
   }
 </style>

@@ -92,17 +92,22 @@ export default {
   @import '@/assets/css/variables/_student_header_vars.scss';
   @import '@/assets/css/variables/_student_sidebar_vars.scss';
   #student-sidebar {
-    -moz-transition: left 0.5s ease;
-    border-right: 1px solid #E8E8E1;
-    height: calc(100vh - #{$student-header-height});
-    left: -#{$student-sidebar-width};
-    padding-top: 30px;
     position: relative;
-    top: 0;
-    transition: left 0.5s ease;
-    width: #{$student-sidebar-width};
+    height: calc(100vh - #{$student-header-height});
+    min-width: #{$student-sidebar-width};
+    flex-basis: #{$student-sidebar-width};
+    margin-left: -#{$student-sidebar-width};
+    padding-top: 30px;
+    border-right: 1px solid #E8E8E1;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.239922);
+    transition: margin-left 0.3s ease;
+    -moz-transition: margin-left 0.5s ease;
   }
   .sidebar-active {
-    left: 0 !important;
+    margin-left: 0 !important;
+  }
+  .nav-icon {
+    transform: scale(0.6);
   }
 </style>

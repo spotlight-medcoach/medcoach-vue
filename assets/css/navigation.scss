@@ -11,10 +11,13 @@
 
     &-text {
       visibility: hidden;
+      opacity: 0;
+      white-space: nowrap;
+      padding: 6px 12px;
       color: white;
       background-color: #BBBBB3;
-      padding: 6px 12px;
-      white-space: nowrap;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.239922);
+      transition: visibility 0s, opacity 0.3s linear;
 
       /* Position the tooltip */
       position: absolute;
@@ -23,18 +26,21 @@
     }
 
     &:hover {
-      .nav-item-tooltip-text{
+      .nav-item-tooltip-text {
         visibility: visible;
+        opacity: 1;
       }
 
-      .nav-icon {
+      .nav-icon, .nav-icon * {
         fill: #FF9300;
+        transition: fill 0.7s;
       }
     }
 
     .nuxt-link-exact-active {
-      .nav-icon {
+      .nav-icon, .nav-icon * {
         fill: #FF9300;
+        transition: fill 0.7s;
       }      
     }
   }
