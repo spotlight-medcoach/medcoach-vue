@@ -6,38 +6,36 @@
     <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
   </div>
   <div id="dashboard" class="m-0 px-3" v-else><!--------------------------------------- MAIN CONTENT (LEFT) -->
-    <article class="main-container">
+    <section class="page-content">
       <!-- QUOTE -->
-      <div class="shadow-sm py-2 my-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
+      <article class="shadow-sm py-2 my-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
         <div>
           <span>"{{ quoteSelected.quote }}"</span>
           <span class="author">
             - {{ quoteSelected.author }}
           </span>
         </div>
-      </div>
+      </article>
       <!-- PHASE PROGRESS BAR -->
-      <div v-if="phase.id">
-        <div class="shadow-sm p-4 my-3 bg-white">
-          <phases-index />
-        </div>
-      </div>
+      <article class="shadow-sm p-4 my-3 bg-white" v-if="phase.id">
+        <phases-index />
+      </article>
       <!-- CALENDAR -->
-      <div class="shadow-sm p-4 my-3 bg-white">
+      <article class="shadow-sm p-4 my-3 bg-white">
         <second-phase v-if="alert_second_stage" />
         <third-phase v-else-if="alert_third_stage" />
         <dashboard-calendar v-else />
-      </div>
+      </article>
       <!-- END_CALENDAR -->
-    </article>
+    </section>
     <!-- NOTIFICATIONS -->
-    <article class="notifications-container shadow-sm p-3 mt-3 bg-white">
+    <section class="notifications-container shadow-sm p-3 mt-3 bg-white">
       <dashboard-notifications />
-    </article>
+    </section>
     <!-- SIMULATORS -->
-    <article class="simulators-container shadow-sm p-3 mb-3 bg-white">
+    <section class="simulators-container shadow-sm p-3 mb-3 bg-white">
       <dashboard-simulators />
-    </article>
+    </section>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <student-header v-if="$route.name!=='manual' && $route.name!=='diagnostic_test' && $route.name!=='simulators' && $route.name!=='introduction_simulator' && $route.name!=='simulator_block1' && $route.name!=='test_simulator' && $route.name!=='simulator_break'"></student-header>
+    <student-header v-if="$route.name !== ('manual' || 'manuals' || 'diagnostic_test' || 'simulators' || 'introduction_simulator' || 'simulator_block1' || 'test_simulator' || 'simulator_break')"></student-header>
     <nuxt class="only-pc" />
     <div class="only-small-device mb-5">
       <p class="m-5 text-center">

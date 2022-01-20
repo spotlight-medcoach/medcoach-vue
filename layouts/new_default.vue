@@ -53,13 +53,22 @@ export default {
 <style lang="scss">
   @import '@/assets/css/variables/_student_header_vars.scss';
   @import '@/assets/css/variables/_student_sidebar_vars.scss';
+  @import '@/assets/css/variables/_student_main.scss';
   .body-content > * {
     position: relative;
   }
   .main-content {
     flex-grow: 1;
-    overflow-y: auto;
-    height: calc(100vh - #{$student-header-height});
     flex-basis: 1280px;
+    background-color: #FBFDFE;
+    overflow-y: auto;
+    height: $student-main-content-height;
+  }
+  .full-height-container {
+    height: $student-main-content-height;
+    overflow: hidden;
+    > * {
+      height: 100%;
+    }
   }
 </style>

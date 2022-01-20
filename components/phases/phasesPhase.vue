@@ -1,37 +1,28 @@
 <template>
-  <div align="left" class="custom-progress" :class="phaseVariant.componentStyle">
-    <div class="text-lg-content font-weight-utra-bolder">
-      {{ averageValue }}%
-    </div>
-    <b-progress
-      :max="totalValue"
-      :value="actualValue"
-      :precision="2"
-      class="mb-2 mt-1"
-    />
-    <div class="fase-scope d-inline-flex align-items-center">
-      <h3 class="subheader-lg pr-2 font-weight-utra-bolder">
-        {{ phaseVariant.title }}
-      </h3>
-      <h4 class="subheader-xs font-weight-utra-bolder">
-        ({{ phaseVariant.totalDays }} días)
-      </h4>
-    </div>
-    <div class="fase-overview">
-      <p class="text-xs-content font-weight-utra-bolder">
-        {{ phaseVariant.textOverview }}
-      </p>
-    </div>
-  </div>
+  <custom-progress-bar
+    :actualValue = actualValue
+    :totalValue = totalValue
+    :topHint = "averageValue + '%'"
+    :colorVariant = phaseVariant.componentStyle
+    :bottomHeader = phaseVariant.title
+    :bottomSubheader = "'( ' + phaseVariant.totalDays + ' días)'"
+    :bottomHint = phaseVariant.textOverview
+    v-if="phaseVariant"
+  />
 </template>
 
 <script>
+
 import moment from 'moment'
 import { mapState } from 'vuex'
-import { phaseVariants } from './data'
+import { phaseVariants } from './phasesStaticData'
+import CustomProgressBar from '@/components/_functional/customProgressBar.vue'
 
 export default {
   name: 'PhasesPhase',
+  components: {
+    CustomProgressBar
+  },
   props: {
     currentPhase: {
       type: Number,
@@ -109,40 +100,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-  .progress {
-    height: 11px;
-    border-radius: 2px;
-  }
-  .accent_b {
-    color: #43B6F4;
-    .progress {
-      border: 1px solid #43B6F4;
-      background-color: #F2FEFF;
-      .progress-bar {
-        background-color: #43B6F4;
-      }
-    }
-  }
-  .primary {
-    color: #ff9300;
-    .progress {
-      border: 1px solid #ff9300;
-      background-color: #FFF8E2;
-      .progress-bar {
-        background-color: #ff9300;
-      }
-    }
-  }
-  .accent_a {
-    color: #ff39aa;
-    .progress {
-      border: 1px solid #ff39aa;
-      background-color: #FFEEF1;
-      .progress-bar {
-        background-color: #ff39aa;
-      }
-    }
-  }
-</style>
