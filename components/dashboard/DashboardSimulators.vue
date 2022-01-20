@@ -5,7 +5,7 @@
     <div
       v-for="(noti, index) in notifications"
       :key="`noti${index}`"
-      class="notification p-2 my-2 mx-auto">
+      class="notification mx-auto">
       <div class="subheader-lg">
         {{ noti.title }}
       </div>

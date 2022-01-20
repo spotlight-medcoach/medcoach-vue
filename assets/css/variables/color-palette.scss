@@ -129,25 +129,25 @@ $info-600-30: "#5e6ad64d";
 $info-600-20: "#5e6ad633";
 $info-600-10: "#5e6ad61a";
 
-$accent-50: "#ffeef1";
-$accent-100: "#ffd7de";
-$accent-200: "#ffafc5";
-$accent-300: "#ff88b4";
-$accent-400: "#ff6ab0";
-$accent-500: "#ff39aa";
-$accent-600: "#db29a0";
-$accent-700: "#b71c94";
-$accent-800: "#931283";
-$accent-900: "#7a0a77";
-$accent-500-90: "#ff39aae6";
-$accent-500-80: "#ff39aacc";
-$accent-500-70: "#ff39aab3";
-$accent-500-60: "#ff39aa99";
-$accent-500-50: "#ff39aa80";
-$accent-500-40: "#ff39aa66";
-$accent-500-30: "#ff39aa4d";
-$accent-500-20: "#ff39aa33";
-$accent-500-10: "#ff39aa1a";
+$accent_a-50: "#ffeef1";
+$accent_a-100: "#ffd7de";
+$accent_a-200: "#ffafc5";
+$accent_a-300: "#ff88b4";
+$accent_a-400: "#ff6ab0";
+$accent_a-500: "#ff39aa";
+$accent_a-600: "#db29a0";
+$accent_a-700: "#b71c94";
+$accent_a-800: "#931283";
+$accent_a-900: "#7a0a77";
+$accent_a-500-90: "#ff39aae6";
+$accent_a-500-80: "#ff39aacc";
+$accent_a-500-70: "#ff39aab3";
+$accent_a-500-60: "#ff39aa99";
+$accent_a-500-50: "#ff39aa80";
+$accent_a-500-40: "#ff39aa66";
+$accent_a-500-30: "#ff39aa4d";
+$accent_a-500-20: "#ff39aa33";
+$accent_a-500-10: "#ff39aa1a";
 
 $accent_b-50: "#f2feff";
 $accent_b-100: "#d9fafe";
@@ -172,7 +172,7 @@ $accent_b-500-10: "#43b6f41a";
 $theme-colors: map-merge(
   (
     'primary': $main-500,
-    'secondary': $accent-500,
+    'secondary': $accent_a-500,
     'success': $success-500,
     'info': $info-500,
     'warning': $warning-500,
