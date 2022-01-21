@@ -1,15 +1,32 @@
 <template>
-  <div id="manuals-progress">
-    <div class="topics-container d-flex flex-column justify-content-between">
-      <div
-        class="mb-3 cursor-pointer"
-        @click="selectTopic(index)"
-        @mouseover="handleHoverTopic(index, true)"
-        @mouseleave="handleHoverTopic(index, false)"
-        v-for="(manual, index) in topics"
-        :key="manual._id"
-        >
-        <div v-if="load">
+  <div id="manuals-progress" class="d-flex flex-column justify-content-between">
+    <b-skeleton-wrapper :loading="!load">
+
+      <template #loading> <!-- Skeleton loading -->
+        <div>
+          <b-skeleton class="mb-5" width="80%"></b-skeleton>
+          <b-skeleton class="mb-5" width="65%"></b-skeleton>
+          <b-skeleton class="mb-5" width="95%"></b-skeleton>
+          <b-skeleton class="mb-5" width="80%"></b-skeleton>
+          <b-skeleton class="mb-5" width="65%"></b-skeleton>
+          <b-skeleton class="mb-5" width="85%"></b-skeleton>
+          <b-skeleton class="mb-5" width="80%"></b-skeleton>
+          <!-- <b-skeleton class="mb-5" width="65%"></b-skeleton>
+          <b-skeleton class="mb-5" width="80%"></b-skeleton> -->
+        </div>
+      </template>
+
+      <!-- Topics -->
+      <div class="topics-container d-flex flex-column justify-content-between">
+        <div
+          class="mb-3 cursor-pointer"
+          @click="selectTopic(index)"
+          @mouseover="handleHoverTopic(index, true)"
+          @mouseleave="handleHoverTopic(index, false)"
+          v-for="(manual, index) in topics"
+          :key="manual._id"
+          >
+          <!-- Custom progress bar -->
           <custom-progress-bar
             :actualValue = manual.progress
             :totalValue = manual.total
@@ -19,21 +36,19 @@
             v-if="manual"
           />
         </div>
-        <div v-else>
-          cargando...
-        </div>
       </div>
-    </div>
-    <div class="text-center py-3">
-      <h5 class="header-md" v-if="load">
-        <h5 class="header-md">Total vistos</h5>
+
+    </b-skeleton-wrapper>
+
+    <!-- Topics Resume -->
+    <div class="total-container text-center flex-grow-1 py-2">
+      <h5 class="header-md">Total vistos</h5>
+      <h5 class="header-md">
         {{ total_progress }} / {{ total_manuals }}
       </h5>
-      <h3 class="font-weight-bolder" v-else>
-        cargando...
-      </h3>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -91,12 +106,10 @@ export default {
 }
 </script>
 <style scoped>
-  #manuals-progress {
-    display: grid;
-    grid-template-rows: minmax(auto, 600px) auto;
-    align-content: space-between;
-  }
   .topics-container {
     max-height: 600px;
+  }
+  .total-container {
+    max-height: 120px;
   }
 </style>

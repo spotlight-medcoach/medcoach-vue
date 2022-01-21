@@ -100,6 +100,7 @@ export default {
       reloadData: false
     }
   },
+  layout: 'new_default',
   computed: {
     dayEvents () {
       let events = []

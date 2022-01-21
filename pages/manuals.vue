@@ -1,21 +1,23 @@
 <template>
-  <div id="manuals" class="full-height-container">
+  <div id="manuals">
     <b-row class="text-center mt-5" v-if="manuals_not_found">
       <b-col class="mt-5">
         <h3>No se encontraron resultados</h3>
       </b-col>
     </b-row>
-    <section class="page-container d-flex align-items-end p-2 pl-4" v-else>
-      <article class="p-2">
+    <!-- MANUALS CONTENT BAR -->
+    <section class="page-container d-flex align-content-stretched p-2 pt-4 pl-4 pt-lg-5" v-else>
+      <article class="p-2"><!-- Topic Progress column -->
         <ManualsProgress class="shadow-sm px-3 py-3 pt-5" :load="load" />
       </article>
-      <article class="p-2">
-        <ManualsSubTopics class="shadow-sm px-4 py-4 pt-5" />
+      <article class="p-2"><!-- SubTopics column -->
+        <ManualsSubTopics class="shadow-sm px-4 py-4 pt-5" :load="load" />
       </article>
-      <article class="p-2">
+      <article class="p-2"><!-- Manual List column -->
         <ManualsStudyGuide class="shadow-sm px-4 py-4 pt-5" :isNotes="isNotes"/>
       </article>
     </section>
+    <!-- END MANUALS CONTENT BAR -->
   </div>
 </template>
 
@@ -115,22 +117,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/css/variables/_student_main.scss';
   .page-container {
-    * {
-      font-family: 'Avenir', sans-serif;
-    }
+    min-height: 100%;
     > article
     {
-      height: 88vh;
-      overflow-y: auto;
       > .shadow-sm {
         min-height: 100%;
       }
       &:nth-child(1) {
         flex-basis: 400px;
+        min-height: calc( #{$student-main-content-height} - 3.5rem );
+        max-height: 710px;
       }
       &:nth-child(2) {
         flex-basis: 370px;
+        min-height: calc( #{$student-main-content-height} - 3.5rem );
+        max-height: 710px;
       }
       &:nth-child(3) {
         flex-basis: 600px;

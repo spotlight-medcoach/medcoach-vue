@@ -9,6 +9,7 @@
   .general-container {
     grid-area: main;
     overflow-y: auto;
+    display: table;
   }
   .notifications-container {
     grid-area: notifications;
@@ -17,9 +18,6 @@
   .simulators-container {
     grid-area: simulators;
     overflow-y: auto;
-  }
-  * {
-    font-family: 'Avenir', sans-serif;
   }
 
   .day-header {

@@ -1,25 +1,35 @@
 <template>
   <div align="left" class="custom-progress" :class="colorVariant">
-    <div class="header-md font-weight-utra-bolder" v-if="topHeader">
+    <!-- Top header -->
+    <div
+      v-if="topHeader"
+      class="header-md font-weight-utra-bolder"
+    >
       {{ topHeader }}
     </div>
-    <div class="text-lg-content font-weight-utra-bolder mt-2" v-if="topHint">
+    <!-- Top hint -->
+    <div
+      v-if="topHint"
+      class="text-lg-content font-weight-utra-bolder mt-2">
       {{ topHint }}
     </div>
+    <!-- Progress bar -->
     <b-progress
       :max="totalValue"
       :value="actualValue"
       :precision="2"
       class="mb-2 mt-1"
     />
-    <div class="d-inline-flex align-items-center" v-if="bottomHeader | bottomSubheader">
-      <h3 class="subheader-lg pr-2 font-weight-utra-bolder" v-if="bottomHeader">
+    <!-- Bottom header -->
+    <div v-if="bottomHeader | bottomSubheader" class="d-inline-flex align-items-center">
+      <h3 v-if="bottomHeader" class="subheader-lg pr-2 font-weight-utra-bolder">
         {{ bottomHeader }}
       </h3>
-      <h4 class="subheader-xs font-weight-utra-bolder" v-if="bottomSubheader">
+      <h4 v-if="bottomSubheader" class="subheader-xs font-weight-utra-bolder">
         {{ bottomSubheader }}
       </h4>
     </div>
+    <!-- Bottom hint -->
     <div v-if="bottomHint">
       <p class="text-xs-content font-weight-utra-bolder">
         {{ bottomHint }}
@@ -112,7 +122,7 @@ export default {
       .progress {
         border: 1px solid #{$accent_a-500};
         background-color: #{$accent_a-50};
-        .progress-bar {
+        ::v-deep .progress-bar {
           background-color: #{$accent_a-500};
         }
       }

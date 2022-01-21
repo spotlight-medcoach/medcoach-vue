@@ -54,15 +54,20 @@ export default {
   @import '@/assets/css/variables/_student_header_vars.scss';
   @import '@/assets/css/variables/_student_sidebar_vars.scss';
   @import '@/assets/css/variables/_student_main.scss';
-  .body-content > * {
-    position: relative;
-  }
-  .main-content {
-    flex-grow: 1;
-    flex-basis: 1280px;
-    background-color: #FBFDFE;
-    overflow-y: auto;
-    height: $student-main-content-height;
+  .body-content {
+    > * {
+      position: relative;
+    }
+    * {
+      font-family: 'Avenir', sans-serif;
+    }
+    .main-content {
+      flex-grow: 1;
+      flex-basis: 1280px;
+      background-color: #FBFDFE;
+      overflow-y: auto;
+      height: $student-main-content-height;
+    }
   }
   .full-height-container {
     height: $student-main-content-height;
