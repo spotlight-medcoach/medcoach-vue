@@ -6,7 +6,7 @@
     <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
   </div>
   <div id="dashboard" class="m-0 px-3" v-else><!--------------------------------------- MAIN CONTENT (LEFT) -->
-    <section class="page-content">
+    <section class="general-container">
       <!-- QUOTE -->
       <article class="shadow-sm py-2 my-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
         <div>

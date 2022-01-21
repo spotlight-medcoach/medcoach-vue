@@ -1,9 +1,11 @@
 <template>
   <div id="manuals-progress">
-    <div class="d-flex flex-column justify-content-between">
+    <div class="topics-container d-flex flex-column justify-content-between">
       <div
         class="mb-3 cursor-pointer"
         @click="selectTopic(index)"
+        @mouseover="handleHoverTopic(index, true)"
+        @mouseleave="handleHoverTopic(index, false)"
         v-for="(manual, index) in topics"
         :key="manual._id"
         >
@@ -13,7 +15,7 @@
             :totalValue = manual.total
             :topHeader = manual.name
             :topHint = "manual.progress + '/' + manual.total"
-            :colorVariant = 'blue'
+            :colorVariant = "isHighlight(index) ? 'blue' : 'neutral'"
             v-if="manual"
           />
         </div>
@@ -21,15 +23,15 @@
           cargando...
         </div>
       </div>
-      <div class="text-center">
-        <h5 class="header-md" v-if="load">
-          <h5 class="header-md">Total vistos</h5>
-          {{ total_progress }} / {{ total_manuals }}
-        </h5>
-        <h3 class="font-weight-bolder" v-else>
-          cargando...
-        </h3>
-      </div>
+    </div>
+    <div class="text-center py-3">
+      <h5 class="header-md" v-if="load">
+        <h5 class="header-md">Total vistos</h5>
+        {{ total_progress }} / {{ total_manuals }}
+      </h5>
+      <h3 class="font-weight-bolder" v-else>
+        cargando...
+      </h3>
     </div>
   </div>
 </template>
@@ -45,6 +47,12 @@ export default {
     load: {
       type: Boolean,
       default: false
+    }
+  },
+  data () {
+    return {
+      topicIdxSelected: 0,
+      topicIdxOnHover: -1
     }
   },
   computed: {
@@ -71,12 +79,24 @@ export default {
   methods: {
     selectTopic (index) {
       this.$store.dispatch('topics/changeTopic', index)
+      this.topicIdxSelected = index
+    },
+    handleHoverTopic (index, isOnHover) {
+      this.topicIdxOnHover = isOnHover ? index : -1
+    },
+    isHighlight (index) {
+      return index === this.topicIdxSelected || index === this.topicIdxOnHover
     }
   }
 }
 </script>
-<style>
-  .d-flex {
-    height: 100%;
+<style scoped>
+  #manuals-progress {
+    display: grid;
+    grid-template-rows: minmax(auto, 600px) auto;
+    align-content: space-between;
+  }
+  .topics-container {
+    max-height: 600px;
   }
 </style>

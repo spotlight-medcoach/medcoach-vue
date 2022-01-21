@@ -5,21 +5,15 @@
         <h3>No se encontraron resultados</h3>
       </b-col>
     </b-row>
-    <section class="page-content d-flex align-items-center pl-4" v-else>
-      <article>
-        <div class="shadow-sm m-2 px-3 pt-5 pb-4">
-          <ManualsProgress :load="load" />
-        </div>
+    <section class="page-container d-flex align-items-end p-2 pl-4" v-else>
+      <article class="p-2">
+        <ManualsProgress class="shadow-sm px-3 py-3 pt-5" :load="load" />
       </article>
-      <article>
-        <div class="shadow-sm m-2 px-3 pt-5">
-          <ManualsSubTopics />
-        </div>
+      <article class="p-2">
+        <ManualsSubTopics class="shadow-sm px-4 py-4 pt-5" />
       </article>
-      <article>
-        <div class="shadow-sm m-2 px-3 pt-5">
-          <ManualsStudyGuide :isNotes="isNotes"/>
-        </div>
+      <article class="p-2">
+        <ManualsStudyGuide class="shadow-sm px-4 py-4 pt-5" :isNotes="isNotes"/>
       </article>
     </section>
   </div>
@@ -121,19 +115,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .page-content {
+  .page-container {
     * {
       font-family: 'Avenir', sans-serif;
     }
-    article
+    > article
     {
-      height: 90%;
+      height: 88vh;
+      overflow-y: auto;
       > .shadow-sm {
-        height: 100%;
-        overflow-y: auto;
-        > * {
-          height: 100%;
-        }
+        min-height: 100%;
       }
       &:nth-child(1) {
         flex-basis: 400px;
@@ -142,7 +133,7 @@ export default {
         flex-basis: 370px;
       }
       &:nth-child(3) {
-        flex-basis: 400px;
+        flex-basis: 600px;
         flex-grow: 1;
       }
     }

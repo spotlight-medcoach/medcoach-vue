@@ -29,7 +29,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'CustomProgressBar',
   props: {
@@ -43,7 +42,7 @@ export default {
     },
     colorVariant: {
       type: String,
-      default: 'blue'
+      default: 'neutral'
     },
     topHeader: {
       type: String,
@@ -68,8 +67,7 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
   @import '@/assets/css/variables/color-palette.scss';
   .custom-progress {
     .progress {
@@ -79,12 +77,22 @@ export default {
     .text-xs-content {
       color: #000000;
     }
+    &.neutral {
+      color: #{$neutral-400};
+      .progress {
+        border: 1px solid #{$neutral-400};
+        background-color: #{$neutral-50};
+        ::v-deep .progress-bar {
+          background-color: #{$neutral-400};
+        }
+      }
+    }
     &.blue {
       color: #{$accent_b-500};
       .progress {
         border: 1px solid #{$accent_b-500};
         background-color: #{$accent_b-50};
-        .progress-bar {
+        ::v-deep .progress-bar {
           background-color: #{$accent_b-500};
         }
       }
@@ -94,7 +102,7 @@ export default {
       .progress {
         border: 1px solid #{$main-500};
         background-color: #{$main-50};
-        .progress-bar {
+        ::v-deep .progress-bar {
           background-color: #{$main-500};
         }
       }

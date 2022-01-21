@@ -6,8 +6,9 @@
     "main notifications"
     "main simulators";
   gap: 1rem;
-  .main-container {
+  .general-container {
     grid-area: main;
+    overflow-y: auto;
   }
   .notifications-container {
     grid-area: notifications;

@@ -1,5 +1,6 @@
 <template>
-  <article>
+  <div id="manuals-study-guide">
+    <h3 class="header-md text-center mb-4">Ver manual</h3>
     <div v-if="isNotes === true">
       <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
         <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
@@ -55,7 +56,7 @@
         </div>
       </div>
     </div>
-  </article>
+  </div>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -108,17 +109,21 @@ export default {
   }
 }
 </script>
-<style>
-.manuals-list{
-  height: 100%;
-  overflow-y:hidden;
-  width: auto;
-  overflow-x: auto;
-}
-.manuals-list::-webkit-scrollbar{
-  height: 10px;
-}
-a{
-  color: black;
-}
+<style lang="scss" scoped>
+  @import '@/assets/css/variables/color-palette.scss';
+  #manuals-study-guide {
+    .manuals-list {
+      max-width: 800px;
+      margin: auto;
+    }
+    ::v-deep {
+      a {
+        color: #{$neutral-400} !important;
+        text-decoration: none;
+      }
+      a:hover {
+        color: #{$neutral-1000} !important;
+      }
+    }
+  }
 </style>
