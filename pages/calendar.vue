@@ -1,59 +1,33 @@
 <template>
-  <b-container>
-    <div v-if="fethcedData" class="my-4">
+  <div>
+
+    <div v-if="fetchedData" class="my-4">
       <div v-show="phase.id" class="mt-5">
         <phases-index :student="student" :phase="phase" />
       </div>
-      <vue-event-calendar v-if="!reloadData" :events="dayEvents" title="Temas" @month-changed="handleMonthChanged">
-        <template slot-scope="props">
-          <div v-for="(event, index) in props.showEvents" :key="'llave' + index" class="event-item">
-            <div v-for="(manual, indexManuals) in event.manuals" :key="'manual' + index + indexManuals">
-              <div v-if="manual.finished" class="item-card-done d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="item-manual mb-1">
-                    {{ manual.manual_name }}
-                  </div>
-                  <div>{{ manual.manual_subtopic_name }}</div>
-                </div>
-                <div class="pr-2">
-                  <img src="@/assets/icons/orange_check.svg" width="33">
-                </div>
-              </div>
-              <div v-else class="item-card">
-                <div class="pointer text-decoration-none" @click="goToManual(manual.manual_id)">
-                  <div class="item-manual">
-                    {{ manual.manual_name }}
-                  </div>
-                  <div>{{ manual.manual_subtopic_name }}</div>
-                </div>
-              </div>
-            </div>
-            <div v-for="(manual, indexManuals) in event.reviewed" :key="'review' + index + indexManuals">
-              <div v-if="manual.reviewed" class="item-card-done d-flex justify-content-between align-items-center done-review">
-                <div>
-                  <div class="item-manual mb-1">
-                    {{ manual.manual_name }}
-                  </div>
-                  <div>{{ manual.manual_subtopic_name }}</div>
-                </div>
-                <div class="pr-2">
-                  <img src="@/assets/icons/blue_check.svg" width="33">
-                </div>
-              </div>
-              <div v-else class="item-card">
-                <div class="pointer text-decoration-none" @click="goToReview(manual.manual_id)">
-                  <div class="item-manual">
-                    {{ manual.manual_name }}
-                  </div>
-                  <div>{{ manual.manual_subtopic_name }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </template>
-      </vue-event-calendar>
+      <div v-if="!reloadData">
+
+        <vue-event-calendar
+          :events="dayEvents"
+          title="Temas"
+          @month-changed="handleMonthChanged"
+          @day-changed="calendarDayChanged"
+          @options-changed="calendarOptionsChanged"
+        >
+        </vue-event-calendar>
+
+        <div v-if="calendarSelectedDayData && calendarOptionsData">
+          <calendar-events
+            :day="calendarSelectedDayData"
+            :locale="calendarOptionsData.locale"
+            :color="calendarOptionsData.color"
+          />
+        </div>
+
+      </div>
       <loading-state v-else message="Cargando el calendario, por favor espere" />
     </div>
+
     <div v-else-if="http_error">
       <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
         Error al obtener el Calendario
@@ -62,25 +36,29 @@
     <div v-else>
       <loading-state message="Cargando el calendario, por favor espere" />
     </div>
-  </b-container>
+
+  </div>
+
 </template>
 
 <script>
 import moment from 'moment'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
+import CalendarEvents from '@/components/calendar/calendarEvents.vue'
 import LoadingState from '@/components/LoadingState.vue'
 
 export default {
   components: {
     PhasesIndex,
-    LoadingState
+    LoadingState,
+    CalendarEvents
   },
   data () {
     moment.locale('es')
     return {
       days: null,
       http_error: false,
-      fethcedData: false,
+      fetchedData: false,
       student: {
         free_day: null,
         end_date: null,
@@ -93,9 +71,10 @@ export default {
         init_date_phase_2: null
       },
       daysDisabled: [0, 0, 0, 0, 0, 0, 0],
+      calendarSelectedDayData: undefined,
+      calendarOptionsData: undefined,
       min_day: null,
       max_day: null,
-      current_month: 0,
       now: null,
       reloadData: false
     }
@@ -148,7 +127,7 @@ export default {
           this.phase.progress = data.progress
           this.phase.total = data.total
           this.phase.init_date_phase_2 = data.start_phase_two
-          this.fethcedData = true
+          this.fetchedData = true
         })
         .catch((error) => {
           this.http_error = true
@@ -183,15 +162,11 @@ export default {
       await this.fetchSyllabus(this.min_day, this.max_day)
       this.reloadData = false
     },
-    goToManual (id) {
-      if (this.$store.state.phase.id === 2) {
-        this.$router.push({ path: '/review', query: { manual_id: id, review: false } })
-      } else {
-        this.$router.push({ path: '/manual', query: { manual_id: id } })
-      }
+    calendarDayChanged (day) {
+      this.calendarSelectedDayData = day
     },
-    goToReview (id) {
-      this.$router.push({ path: '/review', query: { manual_id: id, review: true } })
+    calendarOptionsChanged (options) {
+      this.calendarOptionsData = options
     }
   }
 }
