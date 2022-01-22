@@ -1,20 +1,29 @@
 <template>
-  <div id="manuals">
-    <b-row class="text-center mt-5" v-if="manuals_not_found">
+  <div id="manuals" class=" p-2 pt-4 pl-4 pt-lg-5">
+    <b-row v-if="manuals_not_found" class="text-center mt-5">
       <b-col class="mt-5">
         <h3>No se encontraron resultados</h3>
       </b-col>
     </b-row>
     <!-- MANUALS CONTENT BAR -->
-    <section class="page-container d-flex align-content-stretched p-2 pt-4 pl-4 pt-lg-5" v-else>
+    <section v-else class="general-container d-flex align-content-stretched">
       <article class="p-2"><!-- Topic Progress column -->
-        <ManualsProgress class="shadow-sm px-3 py-3 pt-5" :load="load" />
+        <ManualsProgress
+          class="shadow-sm px-3 py-3 pt-5"
+          :load="load"
+        />
       </article>
       <article class="p-2"><!-- SubTopics column -->
-        <ManualsSubTopics class="shadow-sm px-4 py-4 pt-5" :load="load" />
+        <ManualsSubTopics
+          class="shadow-sm px-4 py-4 pt-5"
+          :load="load"
+        />
       </article>
       <article class="p-2"><!-- Manual List column -->
-        <ManualsStudyGuide class="shadow-sm px-4 py-4 pt-5" :isNotes="isNotes"/>
+        <ManualsStudyGuide
+          class="shadow-sm px-4 py-4 pt-5"
+          :isNotes="isNotes"
+        />
       </article>
     </section>
     <!-- END MANUALS CONTENT BAR -->
@@ -118,12 +127,13 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/css/variables/_student_main.scss';
-  .page-container {
+  .general-container {
     min-height: 100%;
     > article
     {
       > .shadow-sm {
         min-height: 100%;
+        background-color: #fff;
       }
       &:nth-child(1) {
         flex-basis: 400px;

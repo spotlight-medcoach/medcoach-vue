@@ -1,13 +1,13 @@
 <template>
-  <div class="cal-wrapper">
+  <div class="cal-wrapper text-center">
     <div class="cal-header">
       <div class="l" @click="preMonth">
-        <div class="arrow-left icon">
-          &nbsp;
-        </div>
+        <div class="arrow-left icon"></div>
       </div>
-      <div class="title">{{curYearMonth}}</div>
-      <div class="r" @click="nextMonth"><div class="arrow-right icon">&nbsp;</div></div>
+      <div class="title header-md">{{ curYearMonth }}</div>
+      <div class="r" @click="nextMonth">
+        <div class="arrow-right icon"></div>
+      </div>
     </div>
     <div class="cal-body">
       <div class="weeks">
@@ -16,7 +16,7 @@
           class="item"
           :key="dayIndex"
           >
-          {{i18n[calendar.options.locale].dayNames[(dayIndex + calendar.options.weekStartOn) % 7]}}
+          {{ i18n[calendar.options.locale].dayNames[(dayIndex + calendar.options.weekStartOn) % 7] }}
         </span>
       </div>
       <div class="dates" >
@@ -29,17 +29,16 @@
             [calendar.options.className] : (date.date == selectedDay)
           }, ...date.customClass]"
           :key="date.date"
+          @click="handleChangeCurday(date)"
           >
-          <p
-            class="date-num"
-            @click="handleChangeCurday(date)"
-            :style="{color: date.title != undefined ? ((date.date == selectedDay) ? '#fff' : customColor) : '#c4c4c4'}">
-            {{date.status ? date.date.split('/')[2] : '&nbsp;'}}</p>
-          <span v-if="date.status ? (today == date.date) : false" class="is-today" :style="{backgroundColor: customColor }" ></span>
+          <p class="date-num">
+            {{ date.status ? date.date.split('/')[2] : '&nbsp;' }}
+          </p>
+          <span v-if="date.status ? (today == date.date) : false" class="is-today"></span>
           <span
             v-if="date.status ? (date.title != undefined) : false"
             class="is-event"
-            :style="{border: 'none', backgroundColor: (date.date == selectedDay) ? customColor : 'inherit'}"></span>
+          ></span>
         </div>
       </div>
     </div>
@@ -156,3 +155,78 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  @import '@/assets/css/variables/color-palette.scss';
+  .weeks,
+  .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 24px;
+  }
+  .weeks {
+    font-size: 17px;
+    text-align: center;
+    margin: 1.4vmax 0;
+  }
+  .dates {
+    .item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 75px;
+      max-height: 8.6vh;
+      text-align: center;
+      border: 2px solid #{$neutral-900-20};
+      cursor: default;
+      font-size: 35px;
+      color: #{$neutral-200};
+      &.event {
+        cursor: pointer;
+        color: #{$neutral-700};
+        &:hover {
+          background-color: #{$accent_b-50};
+        }
+      }
+      &.selected-day {
+        border: 2px solid #{$accent_b-500};
+        color: #{$accent_b-500};
+      }
+    }
+  }
+  .cal-header {
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 250px;
+    .icon {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #000;
+      border-radius: 2px;
+      box-shadow: 0 0 0 0px #000;
+      cursor: pointer;
+      &::before {
+        content: " ";
+        position: absolute;
+        right: 0;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        margin: auto;
+        width: 6px;
+        height: 6px;
+        border-top: 1px solid;
+        border-right: 1px solid;
+      }
+      &.arrow-left::before {
+        transform: rotate(-135deg);
+        left: 4px;
+      }
+      &.arrow-right::before {
+        transform: rotate(45deg);
+        right: 4px;
+      }
+    }
+  }
+</style>

@@ -5,11 +5,9 @@
   grid-template-areas: 
     "main notifications"
     "main simulators";
-  gap: 1rem;
   .general-container {
     grid-area: main;
     overflow-y: auto;
-    display: table;
   }
   .notifications-container {
     grid-area: notifications;
@@ -18,56 +16,6 @@
   .simulators-container {
     grid-area: simulators;
     overflow-y: auto;
-  }
-
-  .day-header {
-    font-size: 17px;
-  }
-  // estilos de los cards
-  .manual {
-    border-radius: 2px;
-    opacity: 0.45;
-  }
-  .manual-today {
-    opacity: 1;
-  }
-  .normal {
-    cursor: pointer;
-    background-color: #FFFFFF;
-    border: 1px solid #979797;
-    color: #252525;
-    min-height: 64px;
-  }
-  .finished {
-    background-color: #FFB63F;
-    border: 1px solid #DB7500;
-    cursor: default;
-  }
-  .review {
-    cursor: pointer;
-    background-color: #D9FAFE;
-    border: 1px solid #8EE3FB;
-  }
-  .finished-review {
-    background-color: #43B6F4;
-    border: 1px solid #216CAF;
-    cursor: default;
-  }
-  .finished-icon {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
-  .quote {
-    font-weight: 500;
-    font-size: 20px;
-    min-height: 68px;
-    width: 100%;
-    padding-left: 8vw;
-    padding-right: 8vw;
-  }
-  .author {
-    font-weight: bold;
   }
 
 }

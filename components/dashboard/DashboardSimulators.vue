@@ -69,10 +69,6 @@ export default {
         text-align: center;
       }
     }
-    .simulator {
-      background-color: black;
-      color: white;
-    }
     .disabled {
       opacity: 0.3;
     }

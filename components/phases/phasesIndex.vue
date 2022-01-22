@@ -1,26 +1,55 @@
 <template>
-  <section>
-    <div class="d-flex justify-content-between">
-      <h3 class="header-md">Fase de estudio</h3>
-      <div class="text-right">
-        <h4 class="header-md">{{ restDays }} días restantes ENARM</h4>
-        <p class="text-xs-content">Calculado al {{ moment_test_date.format('DD [de] MMMM [del] YYYY') }}</p>
+  <div id="phases-progress">
+    <b-skeleton-wrapper :loading="loading">
+      <!-- PHASES LOADING -->
+      <template #loading>
+        <div>
+          <b-skeleton width="40%" type="button" class="mb-5"></b-skeleton>
+        </div>
+        <div class="phases-container">
+          <div>
+            <b-skeleton width="40px"></b-skeleton>
+            <b-skeleton width="100%"></b-skeleton>
+            <b-skeleton width="300px"></b-skeleton>
+          </div>
+          <div>
+            <b-skeleton width="40px"></b-skeleton>
+            <b-skeleton width="100%"></b-skeleton>
+            <b-skeleton width="200px"></b-skeleton>
+          </div>
+          <div>
+            <b-skeleton width="40px"></b-skeleton>
+            <b-skeleton width="100%"></b-skeleton>
+            <b-skeleton width="400px"></b-skeleton>
+          </div>
+        </div>
+      </template>
+      <!-- END PHASES LOADING -->
+    </b-skeleton-wrapper>
+    <template v-if="!loading">
+      <!-- PHASES CONTENT -->
+      <div class="d-flex justify-content-between">
+        <h3 class="header-md">Fase de estudio</h3>
+        <div class="text-right">
+          <h4 class="header-md">{{ restDays }} días restantes ENARM</h4>
+          <p class="text-xs-content">Calculado al {{ moment_test_date.format('DD [de] MMMM [del] YYYY') }}</p>
+        </div>
       </div>
-    </div>
-    <div class="phases-container">
-      <div class="my-2">
-        <phases-phase :currentPhase="1"/>
+      <div class="phases-container">
+        <div class="my-2">
+          <phases-phase :currentPhase="1" />
+        </div>
+        <div class="my-2">
+          <phases-phase :currentPhase="2" />
+        </div>
+        <div class="my-2">
+          <phases-phase :currentPhase="3" />
+        </div>
       </div>
-      <div class="my-2">
-        <phases-phase :currentPhase="2"/>
-      </div>
-      <div class="my-2">
-        <phases-phase :currentPhase="3"/>
-      </div>
-    </div>
-  </section>
+      <!-- EN PHASES CONTENT -->
+    </template>
+  </div>
 </template>
-
 <script>
 import moment from 'moment'
 import { mapState } from 'vuex'
@@ -30,7 +59,13 @@ export default {
   components: {
     phasesPhase
   },
-  name: 'phases-index',
+  name: 'PhasesIndex',
+  props: {
+    loading: {
+      type: Boolean,
+      default: () => true
+    }
+  },
   data () {
     moment.locale('es')
     return {
@@ -56,7 +91,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss">
   .phases-container {
     display: grid;

@@ -1,44 +1,44 @@
 <template>
-<div align="left">
-  <h3 class="header-md mx-5">{{ currentDate }}</h3>
-  <b-row
-    cols="7"
-    cols-sm="12"
-    cols-md="12"
-    cols-lg="12"
-    align="left"
-    :no-gutters="true">
-    <b-col>
-      <b-row>
-        <b-col v-for="day in week" :key="day.number" class="px-1">
-          <div
-            class="day-header my-4"
-            align="center"
-            :class="[
-                day.index == 0 ? 'today' : ''
-            ]">
-            <p class="my-2">{{day.day}}</p>
-            <p class="my-2">{{day.number}}</p>
-          </div>
-          <manual-card
-            v-for="(item,index) in day.data"
-            :key="index"
-            :manual="item"
-            :today="day.index == 0"
-          >
-          </manual-card>
-          <hr v-if="day.reviewed && day.reviewed.length" style="border-color: black;" />
-          <manual-card
-            v-for="(item,index) in day.reviewed"
-            :key="'reviewed' + index"
-            :manual="item"
-            :today="day.index == 0"
-            :review="true"/>
-        </b-col>
-      </b-row>
-    </b-col>
-  </b-row>
-</div>
+  <div align="left">
+    <h3 class="header-md mx-5">
+      {{ currentDate }}
+    </h3>
+    <b-row
+      cols="7"
+      cols-sm="12"
+      cols-md="12"
+      cols-lg="12"
+      align="left"
+      :no-gutters="true">
+      <b-col>
+        <b-row>
+          <b-col v-for="day in week" :key="day.number" class="px-1">
+            <div
+              class="day-header my-4"
+              align="center"
+              :class="[day.index == 0 ? 'today' : '']">
+              <p class="my-2">{{ day.day }}</p>
+              <p class="my-2">{{ day.number }}</p>
+            </div>
+            <manual-card
+              v-for="(item,index) in day.data"
+              :key="index"
+              :manual="item"
+              :today="day.index == 0"
+            />
+            <hr v-if="day.reviewed && day.reviewed.length" style="border-color: black;">
+            <manual-card
+              v-for="(item,index) in day.reviewed"
+              :key="'reviewed' + index"
+              :manual="item"
+              :today="day.index == 0"
+              :review="true"
+            />
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
+  </div>
 </template>
 
 <script>
@@ -47,7 +47,7 @@ import moment from 'moment'
 import ManualCard from '@/components/ManualCard'
 
 export default {
-  name: 'dashboard-calendar',
+  name: 'DashboardCalendar',
   components: {
     ManualCard
   },
@@ -108,6 +108,9 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState(['syllabus'])
+  },
   created () {
     const today = moment()
     let dayOfWeek = moment().day()
@@ -136,9 +139,6 @@ export default {
     capitalizeFirstLetter (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     }
-  },
-  computed: {
-    ...mapState(['syllabus'])
   }
 }
 </script>

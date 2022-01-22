@@ -3,36 +3,24 @@
     <cal-panel
       :events="events"
       :calendar="calendarOptions"
-      :selectedDay='selectedDayEvents.date'
+      :selectedDay="selectedDayEvents.date"
       @options-changed="calendarOptions"
       @cur-day-changed="handleChangeCurDay"
       @month-changed="handleMonthChanged"
-    >
-    </cal-panel>
+    />
   </div>
 </template>
 <script>
 import { isEqualDateStr } from './tools.js'
-
-// import calEvents from './components/cal-events.vue'
 import calPanel from './components/cal-panel.vue'
 
 const inBrowser = typeof window !== 'undefined'
 export default {
-  name: 'vue-event-calendar',
+  name: 'VueEventCalendar',
   components: {
     'cal-panel': calPanel
   },
-  data () {
-    return {
-      selectedDayEvents: {
-        date: 'all',
-        events: this.events || [] // default show all event
-      }
-    }
-  },
   props: {
-    title: String,
     events: {
       type: Array,
       required: true,
@@ -46,6 +34,14 @@ export default {
           }
         })
         return validate
+      }
+    }
+  },
+  data () {
+    return {
+      selectedDayEvents: {
+        date: 'all',
+        events: this.events || [] // default show all event
       }
     }
   },
@@ -86,32 +82,6 @@ export default {
       }
     }
   },
-  created () {
-    if (this.calendarParams.curEventsDate !== 'all') {
-      this.handleChangeCurDay(this.calendarParams.curEventsDate)
-    }
-  },
-  methods: {
-    handleChangeCurDay (_date) {
-      const _events = this.events.filter(function (event) {
-        return isEqualDateStr(event.date, _date)
-      })
-      if (_events.length > 0) {
-        this.selectedDayEvents = {
-          date: _date,
-          events: _events
-        }
-      }
-      console.log(_events)
-      this.$emit('day-changed', {
-        date: _date,
-        events: _events
-      })
-    },
-    handleMonthChanged (yearMonth) {
-      this.$emit('month-changed', yearMonth)
-    }
-  },
   watch: {
     calendarParams () {
       if (this.calendarParams.curEventsDate !== 'all') {
@@ -135,7 +105,32 @@ export default {
         events: this.events || []
       }
     }
+  },
+  created () {
+    if (this.calendarParams.curEventsDate !== 'all') {
+      this.handleChangeCurDay(this.calendarParams.curEventsDate)
+    }
+  },
+  methods: {
+    handleChangeCurDay (_date) {
+      const _events = this.events.filter(function (event) {
+        return isEqualDateStr(event.date, _date)
+      })
+      if (_events.length > 0) {
+        this.selectedDayEvents = {
+          date: _date,
+          events: _events
+        }
+      }
+      this.$emit('day-changed', {
+        date: _date,
+        events: _events
+      })
+    },
+    handleMonthChanged (yearMonth) {
+      this.$emit('month-changed', yearMonth)
+    }
   }
 }
+// <style src="./style.less" lang="less"></style>
 </script>
-<style src="./style.less" lang="less"></style>

@@ -1,85 +1,96 @@
 <template>
-  <div>
-
-    <div v-if="fetchedData" class="my-4">
-      <div v-show="phase.id" class="mt-5">
-        <phases-index :student="student" :phase="phase" />
-      </div>
-      <div v-if="!reloadData">
-
-        <vue-event-calendar
-          :events="dayEvents"
-          title="Temas"
-          @month-changed="handleMonthChanged"
-          @day-changed="calendarDayChanged"
-          @options-changed="calendarOptionsChanged"
-        >
-        </vue-event-calendar>
-
-        <div v-if="calendarSelectedDayData && calendarOptionsData">
-          <calendar-events
-            :day="calendarSelectedDayData"
-            :locale="calendarOptionsData.locale"
-            :color="calendarOptionsData.color"
-          />
+  <div id="calendar" class="p-2 pt-4 pl-4 pt-lg-5">
+    <section class="general-container"><!--------------------------------------- MAIN CONTENT (LEFT) -->
+      <!-- QUOTE -->
+      <article class="p-2">
+        <motivational-quote class="shadow-sm" />
+      </article>
+      <!-- END QUOTE -->
+      <!-- PHASE PROGRESS BAR -->
+      <article class="p-2">
+        <phases-index
+          :loading="!fetchedData"
+          class="shadow-sm p-4"
+        />
+      </article>
+      <!-- END PHASE PROGRESS BAR -->
+      <!-- CALENDAR -->
+      <article class="p-2">
+        <div class="shadow-sm p-4">
+          <div v-if="fetchedData && !reloadData">
+            <vue-event-calendar
+              :events="dayEvents"
+              @month-changed="handleMonthChanged"
+              @day-changed="calendarDayChanged"
+              @options-changed="calendarOptionsChanged"
+            />
+          </div>
+          <div v-else-if="http_error">
+            <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
+              Error al obtener el Calendario
+            </div>
+          </div>
+          <div v-else>
+            <loading-state message="Cargando el calendario, por favor espere" />
+          </div>
         </div>
-
-      </div>
-      <loading-state v-else message="Cargando el calendario, por favor espere" />
-    </div>
-
-    <div v-else-if="http_error">
-      <div class="mt-5 d-flex justify-content-around" style="font-size: 28px;">
-        Error al obtener el Calendario
-      </div>
-    </div>
-    <div v-else>
-      <loading-state message="Cargando el calendario, por favor espere" />
-    </div>
-
+      </article>
+      <!-- END CALENDAR -->
+    </section>
+    <section class="topics-day-container"><!-------- EXTRA CONTENT (RIGHT) -->
+      <!-- TOPICS BY DAY -->
+      <article class="p-2">
+        <calendar-events
+          class="shadow-sm p-4"
+          :loading="!fetchedData"
+          :day="calendarSelectedDayData"
+        />
+      </article>
+    </section>
   </div>
-
 </template>
-
 <script>
+
 import moment from 'moment'
+import LoadingState from '@/components/LoadingState.vue'
+import MotivationalQuote from '@/components/_functional/motivationalQuote.vue'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import CalendarEvents from '@/components/calendar/calendarEvents.vue'
-import LoadingState from '@/components/LoadingState.vue'
 
 export default {
   components: {
-    PhasesIndex,
     LoadingState,
+    MotivationalQuote,
+    PhasesIndex,
     CalendarEvents
   },
+  layout: 'new_default',
   data () {
     moment.locale('es')
     return {
-      days: null,
       http_error: false,
       fetchedData: false,
-      student: {
-        free_day: null,
-        end_date: null,
-        test_date: null
-      },
       phase: {
         id: null,
         progress: 0,
         total: 0,
         init_date_phase_2: null
       },
+      days: null,
+      student: {
+        free_day: null,
+        end_date: null,
+        test_date: null
+      },
       daysDisabled: [0, 0, 0, 0, 0, 0, 0],
-      calendarSelectedDayData: undefined,
-      calendarOptionsData: undefined,
       min_day: null,
       max_day: null,
       now: null,
-      reloadData: false
+      reloadData: false,
+      calendarSelectedDayData: undefined,
+      calendarOptionsData: undefined
     }
   },
-  layout: 'new_default',
   computed: {
     dayEvents () {
       let events = []
@@ -171,3 +182,24 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  @import '@/assets/css/variables/_student_main.scss';
+  #calendar {
+    display: grid;
+    grid-template-columns: 3fr minmax(340px, 1fr);
+    grid-template-areas:
+      "main topics";
+    .general-container {
+      grid-area: main;
+    }
+    .topics-day-container {
+      grid-area: topics;
+      .shadow-sm {
+        height: calc( #{$student-main-content-height} - 5.5rem );
+      }
+    }
+    article > .shadow-sm {
+      background-color: #fff;
+    }
+  }
+</style>

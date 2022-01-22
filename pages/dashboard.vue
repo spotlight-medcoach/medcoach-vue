@@ -5,58 +5,51 @@
   <div v-else-if="errorHttp" class="about quote" align="center">
     <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
   </div>
-  <div id="dashboard" class="m-0 px-3" v-else><!--------------------------------------- MAIN CONTENT (LEFT) -->
-    <section class="general-container">
+  <div v-else id="dashboard" class="mx-2">
+    <section class="general-container"><!--------------------------------------- MAIN CONTENT (LEFT) -->
       <!-- QUOTE -->
-      <article class="shadow-sm py-2 my-3 bg-white d-flex align-items-center justify-content-center text-center about quote">
-        <div>
-          <span>"{{ quoteSelected.quote }}"</span>
-          <span class="author">
-            - {{ quoteSelected.author }}
-          </span>
-        </div>
+      <article class="shadow-sm m-2 my-3">
+        <motivational-quote />
       </article>
       <!-- PHASE PROGRESS BAR -->
-      <article class="shadow-sm p-4 my-3 bg-white" v-if="phase.id">
-        <phases-index />
+      <article class="shadow-sm p-4 m-2 my-3">
+        <phases-index :loading="false" />
       </article>
       <!-- CALENDAR -->
-      <article class="shadow-sm p-4 my-3 bg-white">
+      <article class="shadow-sm p-4 m-2 my-3">
         <second-phase v-if="alert_second_stage" />
         <third-phase v-else-if="alert_third_stage" />
         <dashboard-calendar v-else />
       </article>
-      <!-- END_CALENDAR -->
     </section>
-    <!-- NOTIFICATIONS -->
-    <section class="notifications-container shadow-sm p-3 mt-3 bg-white">
+    <section class="notifications-container shadow-sm p-3 m-2 mt-3"><!-------- EXTRA CONTENT (TOP) -->
+      <!-- NOTIFICATIONS -->
       <dashboard-notifications />
     </section>
-    <!-- SIMULATORS -->
-    <section class="simulators-container shadow-sm p-3 mb-3 bg-white">
+    <section class="simulators-container shadow-sm p-3 m-2 mb-3"><!-------- EXTRA CONTENT (BOTTOM) -->
+      <!-- SIMULATORS -->
       <dashboard-simulators />
     </section>
   </div>
 </template>
-
 <script>
 
 import { mapState } from 'vuex'
-
 import LoadingState from '@/components/LoadingState.vue'
+
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import SecondPhase from '@/components/dashboard/SecondPhase.vue'
 import ThirdPhase from '@/components/dashboard/ThirdPhase.vue'
-import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 
+import MotivationalQuote from '@/components/_functional/motivationalQuote.vue'
+import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 import DashboardNotifications from '@/components/dashboard/DashboardNotifications.vue'
 import DashboardSimulators from '@/components/dashboard/DashboardSimulators.vue'
-
-import { quotes } from '@/assets/json/quotes.json'
 
 export default {
   components: {
     LoadingState,
+    MotivationalQuote,
     PhasesIndex,
     SecondPhase,
     ThirdPhase,
@@ -65,15 +58,6 @@ export default {
     DashboardSimulators
   },
   layout: 'new_default',
-  data () {
-    return {
-      quos: quotes,
-      quoteSelected: {
-        author: '',
-        quote: ''
-      }
-    }
-  },
   computed: {
     alert_third_stage () {
       if (this.rest_days && this.rest_days <= this.phase_3_days && this.phase.id !== 3) {
@@ -92,18 +76,31 @@ export default {
       message: state => state.http_request.message,
       errorHttp: state => state.http_request.errorHttp
     })
-  },
-  created () {
-    const size = this.quos.length
-    if (size > 0) {
-      const index = this.getRandomInt(0, size)
-      this.quoteSelected = this.quos[index]
-    }
-  },
-  methods: {
-    getRandomInt (min, max) {
-      return Math.floor(Math.random() * (max - min)) + min
-    }
   }
 }
 </script>
+<style lang="scss" scoped>
+  #dashboard {
+    display: grid;
+    grid-template-columns: 3fr minmax(340px, 1fr);
+    grid-auto-rows: 3fr 2fr;
+    grid-template-areas:
+      "main notifications"
+      "main simulators";
+    .general-container {
+      grid-area: main;
+      overflow-y: auto;
+    }
+    .notifications-container {
+      grid-area: notifications;
+      overflow-y: auto;
+    }
+    .simulators-container {
+      grid-area: simulators;
+      overflow-y: auto;
+    }
+    article.shadow-sm {
+      background-color: #fff;
+    }
+  }
+</style>
