@@ -3,14 +3,14 @@
     <!-- Top header -->
     <div
       v-if="topHeader"
-      class="header-md font-weight-utra-bolder"
+      class="subheader-lg font-weight-utra-bolder mb-1"
     >
       {{ topHeader }}
     </div>
     <!-- Top hint -->
     <div
       v-if="topHint"
-      class="text-lg-content font-weight-utra-bolder mt-2">
+      class="text-lg-content font-weight-utra-bolder">
       {{ topHint }}
     </div>
     <!-- Progress bar -->
@@ -18,7 +18,7 @@
       :max="totalValue"
       :value="actualValue"
       :precision="2"
-      class="mb-2 mt-1"
+      class="mb-2 mt-2"
     />
     <!-- Bottom header -->
     <div v-if="bottomHeader || bottomSubheader" class="d-inline-flex align-items-center">

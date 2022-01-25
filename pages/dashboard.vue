@@ -1,17 +1,16 @@
 <template>
-
-  <div id="dashboard" class="mx-2">
+  <div id="dashboard" class="p-2">
     <section class="general-container"><!--------------------------------------- MAIN CONTENT (LEFT) -->
       <!-- QUOTE -->
-      <article class="shadow-sm m-2 my-3">
+      <article class="shadow-sm m-2 mb-3">
         <motivational-quote />
       </article>
       <!-- PHASE PROGRESS BAR -->
-      <article class="shadow-sm p-4 m-2 my-3">
+      <article class="shadow-sm p-4 m-2 mb-3">
         <phases-index />
       </article>
       <!-- CALENDAR -->
-      <article class="shadow-sm p-4 m-2 my-3">
+      <article class="shadow-sm p-4 m-2">
         <div v-if="onHttpRequest" class="w-100">
           <loading-state :message="message" height="60vh" />
         </div>
@@ -25,11 +24,11 @@
         </template>
       </article>
     </section>
-    <section class="notifications-container shadow-sm p-3 m-2 mt-3"><!-------- EXTRA CONTENT (TOP) -->
+    <section class="notifications-container shadow-sm p-3 m-2"><!-------- EXTRA CONTENT (TOP) -->
       <!-- NOTIFICATIONS -->
-      <dashboard-notifications :loading="onHttpRequest"/>
+      <dashboard-notifications :loading="onHttpRequest" />
     </section>
-    <section class="simulators-container shadow-sm p-3 m-2 mb-3"><!-------- EXTRA CONTENT (BOTTOM) -->
+    <section class="simulators-container shadow-sm p-3 m-2"><!-------- EXTRA CONTENT (BOTTOM) -->
       <!-- SIMULATORS -->
       <dashboard-simulators :loading="onHttpRequest" />
     </section>

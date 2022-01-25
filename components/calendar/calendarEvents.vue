@@ -46,11 +46,12 @@ export default {
     }
   },
   methods: {
-    itemSelected (item) {
+    itemSelected (manual) {
       if (this.$store.state.phase.id === 2) {
-        this.$router.push({ path: '/review', query: { manual_id: item.id, review: false } })
+        this.$router.push({ path: '/review', query: { manual_id: manual.manual_id, review: false } })
       } else {
-        this.$router.push({ path: '/manual', query: { manual_id: item.id } })
+        console.log(manual)
+        this.$router.push({ path: '/manual', query: { manual_id: manual.manual_id } })
       }
     }
   }

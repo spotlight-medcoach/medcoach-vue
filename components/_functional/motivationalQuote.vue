@@ -1,6 +1,6 @@
 <template>
-  <div class="quote-container d-flex align-items-center justify-content-center">
-    <div class="quote text-center">
+  <div class="quote-container d-flex align-items-center justify-content-center py-2">
+    <div class="quote text-center text-lg-content">
       <span>
         “{{ quoteSelected.quote }}”
       </span>
@@ -42,10 +42,6 @@ export default {
     height: 100%;
     padding-left: 8vw;
     padding-right: 8vw;
-    .quote {
-      font-weight: 500;
-      font-size: 20px;
-    }
   }
   .author {
     font-weight: bold;

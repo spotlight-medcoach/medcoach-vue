@@ -13,6 +13,7 @@
 import StudentHeader from '@/components/headers/StudentHeader'
 const pathsDisabledForStudentHeader = [
   'manual',
+  'manual',
   'manuals',
   'diagnostic_test',
   'simulators',
@@ -54,7 +55,7 @@ export default {
     },
     validateLoadStudentHeader (routerPath) {
       const isDisallowed = routerPath in pathsDisabledForStudentHeader
-      return isDisallowed
+      return !isDisallowed
     }
   }
 }

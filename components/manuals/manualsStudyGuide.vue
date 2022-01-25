@@ -1,9 +1,12 @@
 <template>
-  <div id="manuals-study-guide">
-    <h3 class="header-md text-center mb-4">Ver manual</h3>
-    <div v-if="isNotes === true">
-      <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
-        <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
+  <div id="manuals-study-guide" class="d-flex flex-column justify-content-between">
+    <template v-if="isNotes === true">
+      <div
+        v-if="subtopic.manuals.length"
+        class="manuals-list"
+        :style="{'column-count': columnCount}"
+      >
+        <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3" :class="{'review': manual.finished}">
           <nuxt-link class="pointer" :to="`/review?manual_id=${manual.id}`" v-if="manual.finished">
             {{manual.name}}
           </nuxt-link>
@@ -27,9 +30,13 @@
           </div>
         </div>
       </div>
-    </div>
+      <div class="text-center mx-auto mx-5 my-3">
+        Los manuales resaltados son aquellos en los que has realizado notas y/o flashcards
+      </div>
+    </template>
 
-    <div v-else>
+    <template v-else>
+      <h3 class="header-md text-center mb-4">Ver manual</h3>
       <div v-if="subtopic.manuals.length" class="manuals-list" :style="{'column-count': columnCount}">
         <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
           <div v-if="manual.isExtra">
@@ -55,7 +62,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 <script>
@@ -114,16 +121,19 @@ export default {
   #manuals-study-guide {
     .manuals-list {
       max-width: 800px;
-      margin: auto;
+      min-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    ::v-deep {
-      a {
-        color: #{$neutral-400} !important;
-        text-decoration: none;
-      }
-      a:hover {
-        color: #{$neutral-1000} !important;
-      }
+    .review a {
+      color: #{$neutral-1000};
+    }
+    a {
+      color: #{$neutral-400};
+      text-decoration: none;
+    }
+    a:hover {
+      color: #{$neutral-1000};
     }
   }
 </style>

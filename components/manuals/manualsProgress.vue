@@ -11,8 +11,6 @@
           <b-skeleton class="mb-5" width="65%"></b-skeleton>
           <b-skeleton class="mb-5" width="85%"></b-skeleton>
           <b-skeleton class="mb-5" width="80%"></b-skeleton>
-          <!-- <b-skeleton class="mb-5" width="65%"></b-skeleton>
-          <b-skeleton class="mb-5" width="80%"></b-skeleton> -->
         </div>
       </template>
 

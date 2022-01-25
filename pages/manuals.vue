@@ -1,5 +1,5 @@
 <template>
-  <div id="manuals" class=" p-2 pt-4 pl-4 pt-lg-5">
+  <div id="manuals" class=" p-2">
     <b-row v-if="manuals_not_found" class="text-center mt-5">
       <b-col class="mt-5">
         <h3>No se encontraron resultados</h3>
@@ -9,19 +9,25 @@
     <section v-else class="general-container d-flex align-content-stretched">
       <article class="p-2"><!-- Topic Progress column -->
         <ManualsProgress
-          class="shadow-sm px-3 py-3 pt-5"
+          class="shadow-sm full px-3 py-3"
           :load="load"
         />
       </article>
       <article class="p-2"><!-- SubTopics column -->
         <ManualsSubTopics
-          class="shadow-sm px-4 py-4 pt-5"
+          class="shadow-sm full px-4 py-4"
           :load="load"
         />
       </article>
       <article class="p-2"><!-- Manual List column -->
+        <div v-if="isNotes" class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3">
+          <div class="text-center">
+            Notas y Flashcards
+          </div>
+        </div>
         <ManualsStudyGuide
-          class="shadow-sm px-4 py-4 pt-5"
+          class="shadow-sm px-4 py-4"
+          :class="isNotes ? 'full reduced' : 'full'"
           :isNotes="isNotes"
         />
       </article>
@@ -48,7 +54,7 @@ export default {
   props: {
     isNotes: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data () {
@@ -131,23 +137,30 @@ export default {
     min-height: 100%;
     > article
     {
+      min-height: calc( #{$student-main-content-height} - 1rem );
+      max-height: 622px;
+      flex-grow: 1;
       > .shadow-sm {
-        min-height: 100%;
         background-color: #fff;
+        &.full {
+          padding-top: 1.7vmax !important;
+          min-height: 100%;
+        }
+        &.full.reduced {
+          min-height: calc(100% - 56px - 1rem)
+        }
       }
       &:nth-child(1) {
-        flex-basis: 400px;
-        min-height: calc( #{$student-main-content-height} - 3.5rem );
-        max-height: 710px;
+        flex-basis: 280px;
+        max-width: 400px;
       }
       &:nth-child(2) {
-        flex-basis: 370px;
-        min-height: calc( #{$student-main-content-height} - 3.5rem );
-        max-height: 710px;
+        flex-basis: 240px;
+        max-width: 370px;
       }
       &:nth-child(3) {
-        flex-basis: 600px;
-        flex-grow: 1;
+        flex-basis: 640px;
+        overflow-y: scroll;
       }
     }
   }

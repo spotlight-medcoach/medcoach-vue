@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="fetchedData && !reloadData">
+    <div v-if="fetchedData">
       <vue-event-calendar
         :events="dayEvents"
         @month-changed="handleMonthChanged"
@@ -12,7 +12,7 @@
         Error al obtener el Calendario
       </div>
     </div>
-    <div v-else>
+    <div v-if="!fetchedData || reloadData">
       <loading-state message="Cargando el calendario, por favor espere" />
     </div>
   </div>
@@ -38,6 +38,7 @@ export default {
         total: 0,
         init_date_phase_2: null
       },
+      selectedDay: '',
       days: null,
       student: {
         free_day: null,

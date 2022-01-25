@@ -4,23 +4,23 @@
       <!-- PHASES LOADING -->
       <template #loading>
         <div>
-          <b-skeleton width="40%" type="button" class="mb-5"></b-skeleton>
+          <b-skeleton width="40%" type="button" class="mb-5" />
         </div>
         <div class="phases-container">
           <div>
-            <b-skeleton width="40px"></b-skeleton>
-            <b-skeleton width="100%"></b-skeleton>
-            <b-skeleton width="300px"></b-skeleton>
+            <b-skeleton width="40px" />
+            <b-skeleton width="100%" />
+            <b-skeleton width="300px" />
           </div>
           <div>
-            <b-skeleton width="40px"></b-skeleton>
-            <b-skeleton width="100%"></b-skeleton>
-            <b-skeleton width="200px"></b-skeleton>
+            <b-skeleton width="40px" />
+            <b-skeleton width="100%" />
+            <b-skeleton width="200px" />
           </div>
           <div>
-            <b-skeleton width="40px"></b-skeleton>
-            <b-skeleton width="100%"></b-skeleton>
-            <b-skeleton width="400px"></b-skeleton>
+            <b-skeleton width="40px" />
+            <b-skeleton width="100%" />
+            <b-skeleton width="400px" />
           </div>
         </div>
       </template>
@@ -34,7 +34,7 @@
           <h3 class="header-md">
             Fase de estudio
           </h3>
-          <div class="text-right" v-if="student">
+          <div v-if="student" class="text-right">
             <h4 class="header-md">
               {{ restDays }} días restantes ENARM
             </h4>
@@ -57,7 +57,7 @@
               :topHint = "calcAverageValue(p.total, p.progress) + '%'"
               :colorVariant = p.componentStyle
               :bottomHeader = p.title
-              :bottomSubheader = "'( ' + p.total + ' días)'"
+              :bottomSubheader = "'( ' + p.total + ' días )'"
               :bottomHint = p.textOverview
               :enabled = isEnablePhase(phaseId)
             />
@@ -75,10 +75,10 @@ import { phaseVariants } from './phasesStaticData'
 import CustomProgressBar from '@/components/_functional/customProgressBar.vue'
 
 export default {
+  name: 'PhasesIndex',
   components: {
     CustomProgressBar
   },
-  name: 'PhasesIndex',
   data () {
     moment.locale('es')
     return {
@@ -116,6 +116,7 @@ export default {
     },
     calcAverageValue (totalValue, actualValue) {
       let average = 0
+      console.log(totalValue, actualValue)
       if (totalValue !== 0) {
         const aux = ((actualValue / totalValue) * 100)
         if (aux > 9) {

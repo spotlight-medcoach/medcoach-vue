@@ -3,21 +3,21 @@
     <b-skeleton-wrapper :loading="loading">
       <template #loading>
         <div class="item my-2 p-2">
-          <b-skeleton width="140px"></b-skeleton>
+          <b-skeleton width="140px" />
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
         <div class="item my-2 p-2">
-          <b-skeleton width="180px"></b-skeleton>
+          <b-skeleton width="180px" />
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
         <div class="item my-2 p-2">
-          <b-skeleton width="120px"></b-skeleton>
+          <b-skeleton width="120px" />
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
       </template>
@@ -29,11 +29,11 @@
           :class="item.enabled ? 'pointer': 'disabled'"
           @click="itemSelected(item)"
         >
-          <div class="subheader-lg">
+          <div class="text-xl-content">
             {{ item.title }}
           </div>
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
       </template>

@@ -39,6 +39,7 @@ export default {
   },
   data () {
     return {
+      selectedDay: '',
       selectedDayEvents: {
         date: 'all',
         events: this.events || [] // default show all event
@@ -47,6 +48,7 @@ export default {
   },
   computed: {
     calendarOptions () {
+      console.log('calendarOptions')
       const dateObj = new Date()
       let calendarOptions = {}
       if (inBrowser) {
@@ -69,6 +71,7 @@ export default {
       return calendarOptions
     },
     calendarParams () {
+      console.log('calendarParams')
       const dateObj = new Date()
       if (inBrowser) {
         return window.VueCalendarBarEventBus.CALENDAR_EVENTS_DATA.params
@@ -84,6 +87,7 @@ export default {
   },
   watch: {
     calendarParams () {
+      console.log('calendarParams')
       if (this.calendarParams.curEventsDate !== 'all') {
         const events = this.events.filter((event) => {
           return isEqualDateStr(event.date, this.calendarParams.curEventsDate)
@@ -100,19 +104,23 @@ export default {
       }
     },
     events () {
+      console.log('events', this.selectedDayEvents.date, this.dateString)
       this.selectedDayEvents = {
-        date: 'all',
+        date: this.dateString,
         events: this.events || []
       }
     }
   },
   created () {
+    console.log('created')
     if (this.calendarParams.curEventsDate !== 'all') {
       this.handleChangeCurDay(this.calendarParams.curEventsDate)
     }
   },
   methods: {
     handleChangeCurDay (_date) {
+      console.log('handleChangeCurDay', _date)
+      this.dateString = _date
       const _events = this.events.filter(function (event) {
         return isEqualDateStr(event.date, _date)
       })

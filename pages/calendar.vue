@@ -1,23 +1,23 @@
 <template>
-  <div id="calendar" class="p-2 pt-4 pl-4 pt-lg-5">
+  <div id="calendar" class="p-2">
     <section class="general-container"><!--------------------------------------- MAIN CONTENT (LEFT) -->
       <!-- QUOTE -->
-      <article class="shadow-sm m-2 my-3">
+      <article class="shadow-sm m-2 mb-3 ">
         <motivational-quote />
       </article>
       <!-- PHASE PROGRESS BAR -->
-      <article class="shadow-sm p-4 m-2 my-3">
+      <article class="shadow-sm p-4 m-2 mb-3">
         <phases-index />
       </article>
       <!-- CALENDAR -->
-      <article class="shadow-sm p-4 m-2 my-3">
+      <article class="shadow-sm p-4 m-2">
         <calendar-calendar
           @day-changed="calendarDayChanged"
-        ></calendar-calendar>
+        />
       </article>
       <!-- END CALENDAR -->
     </section>
-    <section class="topics-day-container shadow-sm p-3 m-2 mt-3"><!-------- EXTRA CONTENT (RIGHT) -->
+    <section class="topics-day-container shadow-sm p-3 m-2"><!-------- EXTRA CONTENT (RIGHT) -->
       <!-- TOPICS BY DAY -->
       <calendar-events
         :loading="!calendarSelectedDayData"
