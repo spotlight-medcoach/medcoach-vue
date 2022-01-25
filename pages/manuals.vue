@@ -54,7 +54,7 @@ export default {
   props: {
     isNotes: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data () {
