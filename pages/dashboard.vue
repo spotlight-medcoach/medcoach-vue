@@ -1,11 +1,6 @@
 <template>
-  <div v-if="onHttpRequest" class="w-100">
-    <loading-state :message="message" height="60vh" />
-  </div>
-  <div v-else-if="errorHttp" class="about quote" align="center">
-    <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
-  </div>
-  <div v-else id="dashboard" class="mx-2">
+
+  <div id="dashboard" class="mx-2">
     <section class="general-container"><!--------------------------------------- MAIN CONTENT (LEFT) -->
       <!-- QUOTE -->
       <article class="shadow-sm m-2 my-3">
@@ -13,22 +8,30 @@
       </article>
       <!-- PHASE PROGRESS BAR -->
       <article class="shadow-sm p-4 m-2 my-3">
-        <phases-index :loading="false" />
+        <phases-index />
       </article>
       <!-- CALENDAR -->
       <article class="shadow-sm p-4 m-2 my-3">
-        <second-phase v-if="alert_second_stage" />
-        <third-phase v-else-if="alert_third_stage" />
-        <dashboard-calendar v-else />
+        <div v-if="onHttpRequest" class="w-100">
+          <loading-state :message="message" height="60vh" />
+        </div>
+        <div v-else-if="errorHttp" class="about quote" align="center">
+          <p>Estamos diseñando tu plan de estudios personalizado, refresca la página en un momento, disculpa las molestias</p>
+        </div>
+        <template v-else>
+          <second-phase v-if="alert_second_stage" />
+          <third-phase v-else-if="alert_third_stage" />
+          <dashboard-calendar v-else />
+        </template>
       </article>
     </section>
     <section class="notifications-container shadow-sm p-3 m-2 mt-3"><!-------- EXTRA CONTENT (TOP) -->
       <!-- NOTIFICATIONS -->
-      <dashboard-notifications />
+      <dashboard-notifications :loading="onHttpRequest"/>
     </section>
     <section class="simulators-container shadow-sm p-3 m-2 mb-3"><!-------- EXTRA CONTENT (BOTTOM) -->
       <!-- SIMULATORS -->
-      <dashboard-simulators />
+      <dashboard-simulators :loading="onHttpRequest" />
     </section>
   </div>
 </template>
@@ -37,11 +40,11 @@
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
 
-import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import SecondPhase from '@/components/dashboard/SecondPhase.vue'
 import ThirdPhase from '@/components/dashboard/ThirdPhase.vue'
 
 import MotivationalQuote from '@/components/_functional/motivationalQuote.vue'
+import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 import DashboardNotifications from '@/components/dashboard/DashboardNotifications.vue'
 import DashboardSimulators from '@/components/dashboard/DashboardSimulators.vue'
@@ -89,16 +92,17 @@ export default {
       "main simulators";
     .general-container {
       grid-area: main;
-      overflow-y: auto;
     }
     .notifications-container {
       grid-area: notifications;
-      overflow-y: auto;
     }
     .simulators-container {
       grid-area: simulators;
+    }
+    > section {
       overflow-y: auto;
     }
+    section.shadow-sm,
     article.shadow-sm {
       background-color: #fff;
     }

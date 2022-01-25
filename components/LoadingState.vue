@@ -20,7 +20,7 @@ export default {
     },
     height: {
       type: String,
-      default: '85vh'
+      default: '80vh'
     }
   }
 }

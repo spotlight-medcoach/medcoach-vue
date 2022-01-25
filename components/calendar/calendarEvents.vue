@@ -2,23 +2,19 @@
   <div id="day-topics">
     <h3 class="my-2 header-md">Temas del día</h3>
     <hr class="mb-0 mt-4">
-    <manual-list-preview
+    <custom-list-preview-two-lines
       :loading="loading"
-      :manuals="dayManuals"
+      :items="dayManuals"
+      :onEmptyListMessage="'No tiene temas pendientes'"
+      @item-selected="itemSelected"
     />
-    <div v-if="dayManuals.length === 0 & !loading">
-      <p class="text-center mt-5" >
-        Sin temas pendientes
-      </p>
-    </div>
   </div>
 </template>
-
 <script>
-import ManualListPreview from '@/components/_functional/manualListPreview.vue'
+import CustomListPreviewTwoLines from '~/components/_functional/customListPreviewTwoLines.vue'
 export default {
   components: {
-    ManualListPreview
+    CustomListPreviewTwoLines
   },
   name: 'CalendarEvents',
   props: {
@@ -38,26 +34,24 @@ export default {
       if (!this.day.events.length) { return [] }
       if (!this.day.events[0].manuals) { return [] }
       if (!this.day.events[0].manuals.length) { return [] }
-      return this.day.events[0].manuals.map(
-        (manual) => {
+      return this.day.events[0].manuals
+        .map((manual) => {
           return {
             title: manual.manual_name,
-            hint: manual.manual_subtopic_name
+            hint: manual.manual_subtopic_name,
+            enabled: true,
+            data: manual
           }
-        }
-      )
+        })
     }
   },
   methods: {
-    goToManual (id) {
+    itemSelected (item) {
       if (this.$store.state.phase.id === 2) {
-        this.$router.push({ path: '/review', query: { manual_id: id, review: false } })
+        this.$router.push({ path: '/review', query: { manual_id: item.id, review: false } })
       } else {
-        this.$router.push({ path: '/manual', query: { manual_id: id } })
+        this.$router.push({ path: '/manual', query: { manual_id: item.id } })
       }
-    },
-    goToReview (id) {
-      this.$router.push({ path: '/review', query: { manual_id: id, review: true } })
     }
   }
 }

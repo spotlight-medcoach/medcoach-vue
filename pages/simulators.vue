@@ -73,10 +73,10 @@ export default {
    font-size:20px;
   }
   .image{
-     display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  margin-bottom:20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-bottom:20px;
   }
 </style>

@@ -1,22 +1,22 @@
 <template>
-  <div class="manual-list-container">
+  <div class="item-list-container">
     <b-skeleton-wrapper :loading="loading">
       <template #loading>
-        <div class="manual-item py-2">
+        <div class="item py-2">
           <b-skeleton width="140px"></b-skeleton>
           <b-skeleton width="80px"></b-skeleton>
           <div class="icon-container">
             <b-icon icon="chevron-right"></b-icon>
           </div>
         </div>
-        <div class="manual-item py-2">
+        <div class="item py-2">
           <b-skeleton width="180px"></b-skeleton>
           <b-skeleton width="30px"></b-skeleton>
           <div class="icon-container">
             <b-icon icon="chevron-right"></b-icon>
           </div>
         </div>
-        <div class="manual-item py-2">
+        <div class="item py-2">
           <b-skeleton width="120px"></b-skeleton>
           <b-skeleton width="90px"></b-skeleton>
           <div class="icon-container">
@@ -24,43 +24,71 @@
           </div>
         </div>
       </template>
-      <div
-        v-for="(manual, index) in manuals"
-        :key="`manual${index}`"
-        class="manual-item py-2 mx-auto"
-        :class="manual.readed ? 'disabled': 'pointer'"
-        @click="goToManual(manual.id, manual.readed, manual.manual_id)">
-        <div class="subheader-md">
-          {{ manual.title }}
+      <template v-if="items.length">
+        <div
+          v-for="(item, index) in items"
+          :key="`item${index}`"
+          class="item py-2 mx-auto"
+          :class="item.enabled ? 'pointer': 'disabled'"
+          @click="itemSelected(item)"
+        >
+          <div class="subheader-md">
+            {{ item.title }}
+          </div>
+          <div class="subheader-xs">
+            {{ item.hint }}
+          </div>
+          <div class="icon-container">
+            <b-icon icon="chevron-right"></b-icon>
+          </div>
         </div>
-        <div class="subheader-xs">
-          {{ manual.hint }}
-        </div>
-        <div class="icon-container">
-          <b-icon icon="chevron-right"></b-icon>
-        </div>
-      </div>
+      </template>
+      <template v-else>
+        <p class="text-center mt-5">
+          {{onEmptyListMessage}}
+        </p>
+      </template>
     </b-skeleton-wrapper>
   </div>
 </template>
 <script>
+
+// interface listItem {
+//     id: string;
+//     title: number;
+//     hint: number;
+//     enabled: string;
+//     data: Object;
+// }
+
 export default {
-  name: 'ManualListPreview',
+  name: 'CustomListPreviewTwoLines',
   props: {
     loading: {
       type: Boolean,
       default: () => true
     },
-    manuals: {
+    onEmptyListMessage: {
+      type: String,
+      default: 'No se encontraron elementos'
+    },
+    items: {
       type: Array,
       default: () => []
+    }
+  },
+  methods: {
+    itemSelected (item) {
+      if (item.enabled) {
+        this.$emit('item-selected', item.data)
+      }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-  .manual-list-container {
-    .manual-item {
+  .item-list-container {
+    .item {
       border-bottom: 1px solid #979797;
       display: grid;
       grid-template-columns: 1fr auto;

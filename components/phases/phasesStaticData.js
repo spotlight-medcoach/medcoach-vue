@@ -1,20 +1,26 @@
 export const phaseVariants = {
   1: {
     title: 'Fase 1',
-    totalDays: 120,
     textOverview: 'Estudiar manuales y realizar notas / flashcards de todos los temas',
-    componentStyle: 'blue'
+    componentStyle: 'blue',
+    total: 0,
+    progress: 0,
+    enabled: false
   },
   2: {
     title: 'Fase 2',
-    totalDays: 164,
     textOverview: 'Repaso de notas y flashcards con algoritmo de repetición espaciada',
-    componentStyle: 'orange'
+    componentStyle: 'orange',
+    total: 0,
+    progress: 0,
+    enabled: false
   },
   3: {
     title: 'Fase 3',
-    totalDays: 40,
     textOverview: 'Repaso de los temas más relevantes para el ENARM (se activa automáticamente 40 días antes del examen)',
-    componentStyle: 'pink'
+    componentStyle: 'pink',
+    total: 0,
+    progress: 0,
+    enabled: false
   }
 }

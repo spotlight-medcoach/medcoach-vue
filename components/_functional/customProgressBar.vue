@@ -1,5 +1,5 @@
 <template>
-  <div align="left" class="custom-progress" :class="colorVariant">
+  <div align="left" class="custom-progress" :class="enabled ? colorVariant : 'neutral'">
     <!-- Top header -->
     <div
       v-if="topHeader"
@@ -21,7 +21,7 @@
       class="mb-2 mt-1"
     />
     <!-- Bottom header -->
-    <div v-if="bottomHeader | bottomSubheader" class="d-inline-flex align-items-center">
+    <div v-if="bottomHeader || bottomSubheader" class="d-inline-flex align-items-center">
       <h3 v-if="bottomHeader" class="subheader-lg pr-2 font-weight-utra-bolder">
         {{ bottomHeader }}
       </h3>
@@ -73,6 +73,10 @@ export default {
     bottomHint: {
       type: String,
       default: undefined
+    },
+    enabled: {
+      type: Boolean,
+      default: true
     }
   }
 }
