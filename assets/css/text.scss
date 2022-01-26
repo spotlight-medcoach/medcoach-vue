@@ -34,14 +34,18 @@
   overflow-wrap: break-word;
 }
 
-.header-md {
+.header-lg {
   font-size: 25px;
   font-weight: 900;
 }
-.subheader-lg {
-  font-size: 20px;
+.header-md {
+  font-size: 22px;
+  font-weight: 900;
 }
-.subheader-md {
+.subheader-xl {
+  font-size: 19px;
+}
+.subheader-lg {
   font-size: 14px;
 }
 .subheader-xs {
@@ -56,4 +60,3 @@
 .font-weight-utra-bolder {
   font-weight: 900;
 }
-

@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard-notifications">
-    <h3 class="my-2 text-center header-md">Notificaciones</h3>
+    <h3 class="my-2 text-center subheader-xl font-weight-utra-bolder">Notificaciones</h3>
     <hr class="mb-0 mt-4">
     <custom-list-preview-two-lines
       :loading="loading"
@@ -27,6 +27,10 @@ export default {
     ...mapState({
       notifications: state => state.notifications.data
         .filter(noti => noti.type !== 'simuladores')
+        .sort((notiA, notiB) => {
+          if (notiB.readed) { return -1 }
+          return new Date(notiA) < new Date(notiB)
+        })
         .map((noti) => {
           return {
             id: noti.manual_id,
@@ -52,5 +56,8 @@ export default {
 <style lang="scss" scoped>
   hr {
     border-color:#000000;
+  }
+  custom-list-preview-two-lines {
+    overflow-y: scroll;
   }
 </style>

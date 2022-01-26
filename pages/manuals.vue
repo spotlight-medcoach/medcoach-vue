@@ -144,10 +144,10 @@ export default {
         background-color: #fff;
         &.full {
           padding-top: 1.7vmax !important;
-          min-height: 100%;
+          height: 100%;
         }
         &.full.reduced {
-          min-height: calc(100% - 56px - 1rem)
+          height: calc(100% - 56px - 1rem)
         }
       }
       &:nth-child(1) {
@@ -160,7 +160,9 @@ export default {
       }
       &:nth-child(3) {
         flex-basis: 640px;
-        overflow-y: scroll;
+        > .shadow-sm {
+          overflow-y: scroll;
+        }
       }
     }
   }

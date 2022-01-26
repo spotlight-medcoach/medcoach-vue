@@ -56,20 +56,25 @@ html {
   color: #2c3e50;
   height: 100%;
 }
+
+/* width */
+*:hover::-webkit-scrollbar-track,
+*:hover::-webkit-scrollbar-thumb {
+  background: #00000011;
+}
+
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #5b5b5b22;
-  border-radius: 7px;
+  border-radius: 6px;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #1d1d1b22;
-  border-radius: 7px;
+  border-radius: 6px;
 }
 
 p {

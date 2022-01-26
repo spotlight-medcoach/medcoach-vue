@@ -82,6 +82,10 @@ export default {
 </script>
 <style lang="scss" scoped>
   .item-list-container {
+    overflow-y: auto;
+    height: calc(100% - 55px);
+    margin-right: -7px;
+    padding-right: 7px;
     .item {
       border: 1px solid #979797;
       display: grid;
@@ -89,7 +93,7 @@ export default {
       grid-auto-rows: 1fr;
       min-height: 50px;
       align-items: center;
-      .subheader-md {
+      .subheader-lg {
         font-weight: 900;
       }
       .icon-container {

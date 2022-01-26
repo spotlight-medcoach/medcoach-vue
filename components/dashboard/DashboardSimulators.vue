@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard-simulators">
-    <h3 class="my-2 text-center header-md">Simuladores</h3>
+    <h3 class="my-2 text-center subheader-xl font-weight-utra-bolder">Simuladores</h3>
     <hr class="mb-0 mt-4">
     <custom-list-preview-box
       :loading="loading"

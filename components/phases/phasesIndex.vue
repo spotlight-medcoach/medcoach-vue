@@ -8,19 +8,19 @@
         </div>
         <div class="phases-container">
           <div>
-            <b-skeleton width="40px" />
+            <b-skeleton width="18%" />
             <b-skeleton width="100%" />
-            <b-skeleton width="300px" />
+            <b-skeleton width="60%" />
           </div>
           <div>
-            <b-skeleton width="40px" />
+            <b-skeleton width="18%" />
             <b-skeleton width="100%" />
-            <b-skeleton width="200px" />
+            <b-skeleton width="80%" />
           </div>
           <div>
-            <b-skeleton width="40px" />
+            <b-skeleton width="18%" />
             <b-skeleton width="100%" />
-            <b-skeleton width="400px" />
+            <b-skeleton width="40%" />
           </div>
         </div>
       </template>
@@ -31,11 +31,11 @@
       <template v-else>
         <!-- PHASES TOP CONTENT -->
         <div class="d-flex justify-content-between">
-          <h3 class="header-md">
+          <h3 class="header-lg">
             Fase de estudio
           </h3>
           <div v-if="student" class="text-right">
-            <h4 class="header-md">
+            <h4 class="header-lg">
               {{ restDays }} días restantes ENARM
             </h4>
             <p class="text-xs-content">
@@ -115,8 +115,7 @@ export default {
       return (phaseRefId <= this.phase.id)
     },
     calcAverageValue (totalValue, actualValue) {
-      let average = 0
-      console.log(totalValue, actualValue)
+      let average = 0.0
       if (totalValue !== 0) {
         const aux = ((actualValue / totalValue) * 100)
         if (aux > 9) {

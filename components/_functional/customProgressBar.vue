@@ -3,7 +3,7 @@
     <!-- Top header -->
     <div
       v-if="topHeader"
-      class="subheader-lg font-weight-utra-bolder mb-1"
+      class="subheader-xl font-weight-utra-bolder mb-1"
     >
       {{ topHeader }}
     </div>
@@ -22,7 +22,7 @@
     />
     <!-- Bottom header -->
     <div v-if="bottomHeader || bottomSubheader" class="d-inline-flex align-items-center">
-      <h3 v-if="bottomHeader" class="subheader-lg pr-2 font-weight-utra-bolder">
+      <h3 v-if="bottomHeader" class="subheader-xl pr-2 font-weight-utra-bolder">
         {{ bottomHeader }}
       </h3>
       <h4 v-if="bottomSubheader" class="subheader-xs font-weight-utra-bolder">

@@ -25,7 +25,7 @@ export default {
     box-sizing: border-box;
     border-radius: 5px;
     width: 867px;
-    height: 48px;
+    height: 40px;
     display: flex;
     align-items: center;
     padding: 0px 10px;

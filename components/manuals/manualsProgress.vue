@@ -108,6 +108,6 @@ export default {
     max-height: 600px;
   }
   .total-container {
-    max-height: 120px;
+    max-height: 90px;
   }
 </style>

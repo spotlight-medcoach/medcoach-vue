@@ -32,7 +32,7 @@
           :class="item.enabled ? 'pointer': 'disabled'"
           @click="itemSelected(item)"
         >
-          <div class="subheader-md">
+          <div class="subheader-lg">
             {{ item.title }}
           </div>
           <div class="subheader-xs">
@@ -88,12 +88,16 @@ export default {
 </script>
 <style lang="scss" scoped>
   .item-list-container {
+    overflow-y: auto;
+    height: calc(100% - 65px);
+    margin-right: -7px;
+    padding-right: 7px;
     .item {
       border-bottom: 1px solid #979797;
       display: grid;
       grid-template-columns: 1fr auto;
       grid-auto-rows: 1fr 1fr;
-      .subheader-md {
+      .subheader-lg {
         font-weight: 900;
       }
       .icon-container {

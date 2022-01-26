@@ -1,6 +1,6 @@
 <template>
   <div id="day-topics">
-    <h3 class="my-2 header-md">Temas del día</h3>
+    <h3 class="my-2 subheader-xl font-weight-utra-bolder">Temas del día</h3>
     <hr class="mb-0 mt-4">
     <custom-list-preview-two-lines
       :loading="loading"
@@ -67,7 +67,7 @@ export default {
       display: grid;
       grid-template-columns: 1fr auto;
       grid-auto-rows: 1fr 1fr;
-      .subheader-md {
+      .subheader-lg {
         font-weight: 900;
       }
       .icon-container {

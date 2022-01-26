@@ -4,7 +4,7 @@
       <div class="l" @click="preMonth">
         <div class="arrow-left icon"></div>
       </div>
-      <div class="title header-md">{{ curYearMonth }}</div>
+      <div class="title header-lg">{{ curYearMonth }}</div>
       <div class="r" @click="nextMonth">
         <div class="arrow-right icon"></div>
       </div>

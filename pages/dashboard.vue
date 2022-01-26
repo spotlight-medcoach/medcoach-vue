@@ -91,6 +91,7 @@ export default {
       "main simulators";
     .general-container {
       grid-area: main;
+      overflow-y: auto;
     }
     .notifications-container {
       grid-area: notifications;
@@ -98,12 +99,12 @@ export default {
     .simulators-container {
       grid-area: simulators;
     }
-    > section {
-      overflow-y: auto;
-    }
     section.shadow-sm,
     article.shadow-sm {
       background-color: #fff;
+      > div {
+        height: 100%;
+      }
     }
   }
 </style>

@@ -46,8 +46,6 @@ export default {
     '@assets/css/variables/color-palette.scss',
     // dashboard css
     '@assets/css/main.css',
-    // dashboard css
-    '@assets/css/dashboard.scss',
     // settings css
     '@assets/css/settings.scss',
     // diagnostic_test css
