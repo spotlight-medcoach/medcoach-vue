@@ -50,8 +50,6 @@ export default {
     '@assets/css/settings.scss',
     // diagnostic_test css
     '@assets/css/diagnostic_test.scss',
-    // manual css
-    '@assets/css/manual.scss',
     // index/reset_password css
     '@assets/css/index.css',
     // simulator scss

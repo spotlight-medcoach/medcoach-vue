@@ -85,7 +85,7 @@
               icon="check-circle-fill"
               variant="danger"
               class="mr-1 h5 mb-0"
-            ></b-icon>
+             />
             <span
               style="font-size: 16px;"
               class="text-danger"
@@ -99,7 +99,7 @@
         icon="check-circle-fill"
         variant="success"
         class="my-3 h1"
-      ></b-icon>
+       />
       <div class="deleted-flashcard-alert">
         Flashcard eliminada existosamente.
       </div>
@@ -111,7 +111,7 @@
         :class="{'disabled-chevron': flashcards_index <= 0}"
         @click="prevFlashcard"
       >
-        <b-icon icon="chevron-left"></b-icon>
+        <b-icon icon="chevron-left" />
       </div>
       <div id="flip-container">
         <vue-flip v-model="flipped" width="100%" height="100%">
@@ -142,10 +142,10 @@
               <div v-else @click="flipped =! flipped">
                 <div class="d-flex mb-1 justify-content-end">
                   <div class="h4 mr-3" @click.stop.prevent="openQuillA">
-                    <b-icon icon="pencil-square"></b-icon>
+                    <b-icon icon="pencil-square" />
                   </div>
                   <div class="h4" @click.stop.prevent="showDeleteAlert = !showDeleteAlert">
-                    <b-icon icon="trash" variant="danger"></b-icon>
+                    <b-icon icon="trash" variant="danger" />
                   </div>
                 </div>
                 <div class="note-content d-flex justify-content-center align-items-center">
@@ -184,7 +184,7 @@
               </div>
               <div v-else @click="flipped =! flipped">
                 <div class="h4 mb-2 text-right" @click.stop.prevent="openQuillB">
-                  <b-icon icon="pencil-square"></b-icon>
+                  <b-icon icon="pencil-square" />
                 </div>
                 <div class="note-content d-flex justify-content-center"  v-if="flashcard">
                   <div v-html="flashcard.body_user"></div>
@@ -205,7 +205,7 @@
         :class="{'disabled-chevron': flashcards_index >= flashcards.length - 1}"
         @click="nextFlashcard"
       >
-        <b-icon icon="chevron-right"></b-icon>
+        <b-icon icon="chevron-right" />
       </div>
     </div>
   </b-modal>

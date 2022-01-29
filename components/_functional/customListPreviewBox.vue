@@ -1,6 +1,6 @@
 <template>
   <div class="item-list-container">
-    <b-skeleton-wrapper :loading="loading">
+    <b-skeleton-wrapper :loading="loading"><!----------------- Skeleton loading -->
       <template #loading>
         <div class="item my-2 p-2">
           <b-skeleton width="140px" />
@@ -21,7 +21,7 @@
           </div>
         </div>
       </template>
-      <template v-if="items.length">
+      <template v-if="items.length"><!------------------------ List -->
         <div
           v-for="(item, index) in items"
           :key="`item${index}`"
@@ -29,16 +29,18 @@
           :class="item.enabled ? 'pointer': 'disabled'"
           @click="itemSelected(item)"
         >
+          <!-- Header -->
           <div class="text-xl-content">
             {{ item.title }}
           </div>
+          <!-- Icon arrow -->
           <div class="icon-container">
             <b-icon icon="chevron-right" />
           </div>
         </div>
       </template>
       <template v-else>
-        <p class="text-center mt-5">
+        <p class="text-center mt-5"><!-- Mensaje cuando está vacío -->
           {{onEmptyListMessage}}
         </p>
       </template>

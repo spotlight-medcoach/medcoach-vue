@@ -1,9 +1,7 @@
 <template>
   <div class="quote-container d-flex align-items-center justify-content-center py-2">
     <div class="quote text-center text-lg-content">
-      <span>
-        “{{ quoteSelected.quote }}”
-      </span>
+      <q>{{ quoteSelected.quote }}</q>
       <span class="author">
         - {{ quoteSelected.author }}
       </span>

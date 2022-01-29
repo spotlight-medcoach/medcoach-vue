@@ -14,6 +14,11 @@ module.exports = {
   // add your custom rules here
   rules: {
     'unicorn/escape-case': 'off',
-    'no-console': 'off'
+    'no-console': 'off',
+    'no-tabs': 0,
+    'indent': [
+      1,
+      'tab'
+    ]
   }
 }

@@ -1,30 +1,30 @@
 <template>
   <div class="item-list-container">
-    <b-skeleton-wrapper :loading="loading">
+    <b-skeleton-wrapper :loading="loading"><!----------------- Skeleton loading -->
       <template #loading>
         <div class="item py-2">
           <b-skeleton width="140px"></b-skeleton>
           <b-skeleton width="80px"></b-skeleton>
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
         <div class="item py-2">
           <b-skeleton width="180px"></b-skeleton>
           <b-skeleton width="30px"></b-skeleton>
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
         <div class="item py-2">
           <b-skeleton width="120px"></b-skeleton>
           <b-skeleton width="90px"></b-skeleton>
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
       </template>
-      <template v-if="items.length">
+      <template v-if="items.length"><!------------------------ List -->
         <div
           v-for="(item, index) in items"
           :key="`item${index}`"
@@ -32,19 +32,22 @@
           :class="item.enabled ? 'pointer': 'disabled'"
           @click="itemSelected(item)"
         >
+          <!-- Top header -->
           <div class="subheader-lg">
             {{ item.title }}
           </div>
+          <!-- Top subheader -->
           <div class="subheader-xs">
             {{ item.hint }}
           </div>
+          <!-- Icon arrow -->
           <div class="icon-container">
-            <b-icon icon="chevron-right"></b-icon>
+            <b-icon icon="chevron-right" />
           </div>
         </div>
       </template>
       <template v-else>
-        <p class="text-center mt-5">
+        <p class="text-center mt-5"><!-- Mensaje cuando está vacío -->
           {{onEmptyListMessage}}
         </p>
       </template>

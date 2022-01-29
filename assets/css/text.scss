@@ -1,16 +1,10 @@
 /* Estilos para los textos y títulos */
+@import '@/assets/css/variables/color-palette.scss';
 
 .title-lg {
   font-style: normal;
   font-weight: 750;
   font-size: 32px;
-  line-height: 36px;
-}
-
-.title-sm {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
   line-height: 36px;
 }
 
@@ -59,4 +53,14 @@
 }
 .font-weight-utra-bolder {
   font-weight: 900;
+}
+
+.main-color {
+  color: #{$main-500};
+}
+.neutral-color {
+  color: #{$neutral-500};
+  &-600 {
+    color: #{$neutral-600};
+  }
 }

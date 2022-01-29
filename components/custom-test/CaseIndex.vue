@@ -57,8 +57,8 @@
             v-html="ans.html"
           ></label>
           <span class="h4 icono" v-if="retro">
-            <b-icon class="correct" icon="check" v-if="ans.id === question.correct_answer"></b-icon>
-            <b-icon class="incorrect" icon="x" v-else></b-icon>
+            <b-icon class="correct" icon="check" v-if="ans.id === question.correct_answer" />
+            <b-icon class="incorrect" icon="x" v-else />
           </span>
         </div>
       </div>

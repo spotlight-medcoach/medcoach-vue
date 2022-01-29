@@ -1,0 +1,20 @@
+{
+	"light": {
+		"icon": "brightness-high",
+		"background": "#ffffff",
+		"button": "#fff2b4",
+		"font": "#000000"
+	},
+	"dark": {
+		"icon": "brightness-low-fill",
+		"background": "#000000",
+		"button": "#ffffff",
+		"font": "#ffffff"
+	},
+	"sepia": {
+		"icon": "brightness-alt-low",
+		"background": "#fff2b4",
+		"button": "#000000",
+		"font": "#000000"
+	}
+}

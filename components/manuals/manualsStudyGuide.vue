@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="text-center mx-5 mt-4">
+    <div class="text-center mx-5 mt-4" v-if="isNotes === true">
       Los manuales resaltados son aquellos en los que has realizado notas y/o flashcards
     </div>
   </div>

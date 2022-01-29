@@ -115,16 +115,10 @@ export default {
       return (phaseRefId <= this.phase.id)
     },
     calcAverageValue (totalValue, actualValue) {
-      let average = 0.0
-      if (totalValue !== 0) {
-        const aux = ((actualValue / totalValue) * 100)
-        if (aux > 9) {
-          average = Math.floor(aux)
-        } else {
-          average = aux.toFixed(1)
-        }
+      if (totalValue === 0 || actualValue === 0) {
+        return 0
       }
-      return average
+      return +parseFloat(actualValue / totalValue * 100).toFixed(2)
     },
     calcPhasesForStudent () {
       const phasesContent = phaseVariants
