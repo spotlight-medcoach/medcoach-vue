@@ -13,11 +13,25 @@
           />
         </li>
       </ul>
+      <div class="d-flex align-items-center">
+        <p class="subheader-xl mr-27px">Número de preguntas</p>
+        <b-form-input
+          id="questions-quantity"
+          class="mr-27px"
+          type="number"
+          :min="settings.minQuestions"
+          :max="settings.maxQuestions"
+          step="1"
+          v-model="settings.questions_quantity"
+          :disabled="!fetchedData"
+        />
+        <p>Máximo {{settings.maxQuestions}} por bloque</p>
+      </div>
     </div>
   </section>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import OrangeCheckbox from '@/components/OrangeCheckbox'
 
 export default {
@@ -33,6 +47,9 @@ export default {
   computed: {
     ...mapGetters({
       subtopics: 'custom_test/subtopics'
+    }),
+    ...mapState({
+      fetchedData: state => state.custom_test.fetchedData
     }),
     showNumber () {
       return this.settings.mode !== ''
@@ -72,6 +89,9 @@ export default {
     }
     li {
       list-style: none;
+    }
+    #questions-quantity {
+      width: 85px;
     }
   }
 </style>
