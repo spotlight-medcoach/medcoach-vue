@@ -1,5 +1,5 @@
 <template>
-  <div id="manuals" class=" p-2">
+  <div id="manuals" class="p-2">
     <b-row v-if="manuals_not_found" class="text-center mt-5">
       <b-col class="mt-5">
         <h3>No se encontraron resultados</h3>

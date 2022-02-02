@@ -2,7 +2,8 @@
 	<div id="manuals-progress" class="d-flex flex-column justify-content-between">
 		<b-skeleton-wrapper :loading="!load">
 
-			<template #loading> <!-- Skeleton loading -->
+			<!-- Skeleton loading -->
+			<template #loading>
 				<div>
 					<b-skeleton class="mb-5" width="80%"></b-skeleton>
 					<b-skeleton class="mb-5" width="65%"></b-skeleton>
@@ -84,9 +85,7 @@ export default {
 			return total
 		},
 		...mapState({
-			topics: state => state.topics.data,
-			topic: state => state.topics.topic,
-			topic_index: state => state.topics.topic_index
+			topics: state => state.topics.data
 		})
 	},
 	methods: {

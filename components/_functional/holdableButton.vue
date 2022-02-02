@@ -1,6 +1,6 @@
 <template>
    <div
-      class="holdable-button pointer d-inline-flex align-items-center"
+      class="holdable-button pointer d-inline-flex align-items-center justify-content-around"
       :class="{'holded' : isHoldOn || checked}"
       :style="`max-width: ${maxWidth}px`"
       @mousedown="holdOn()"

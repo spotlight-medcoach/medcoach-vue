@@ -5,7 +5,7 @@
 			{{ message_error }}
 		</div>
 
-		<!-- MANUALS CONTENT BAR -->
+		<!-- MANUAL CONTENT -->
 		<section class="general-container">
 			<!----------------------------------------------------------------- NAVBAR -->
 			<article class="shadow-sm m-2 mb-3">
@@ -37,8 +37,8 @@
 				:flash_b="flash_b"
 			/>
 		</section>
-		<!-- END MANUALS CONTENT BAR -->
-		<!-- END NOTES CONTENT -->
+		<!-- END MANUAL CONTENT -->
+		<!-- NOTES CONTENT -->
 		<section class="quill-notes-container shadow-sm full m-2 px-3 pb-3">
 			<!----------------------------------------------------------------- NOTES -->
 			<article class="h-100">
@@ -51,7 +51,8 @@
 				</client-only>
 			</article>
 		</section>
-		<!----------------------------------------------------------------- NO SÉ -->
+		<!-- END NOTES CONTENT -->
+		<!--------------------------------------------------------------------- NO SÉ -->
 		<modal-image />
 		<b-modal
 			id="modal-before-leave"
