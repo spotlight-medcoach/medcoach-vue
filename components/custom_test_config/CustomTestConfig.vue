@@ -1,30 +1,44 @@
 <template>
   <section id="custom-test-config">
-    <div>
-      <CustomTestMode
-        :settings="settings"
-        class="mb-16px"
-      />
-      <CustomTestTopics
-        :settings="settings"
-        ref="customTestTopics"
-        class="mb-16px"
-      />
-      <CustomTestSubtopics
-        :settings="settings"
-      />
-      <div class="text-right">
-        <b-overlay :show="custom_test_loading" spinner-small>
-          <b-button
-            variant="primary"
-            @click="generateCustomTest"
+    <div
+      class="mr-16px flex-grow-1"
+      style="min-width: 800px;"
+    >
+      <article id="left-article" ref="leftArticle">
+        <CustomTestMode
+          :settings="settings"
+          class="mb-16px"
+        />
+        <CustomTestTopics
+          :settings="settings"
+          ref="customTestTopics"
+          class="mb-16px"
+        />
+        <CustomTestSubtopics
+          :settings="settings"
+          class="mb-32px"
+        />
+        <div class="text-right">
+          <b-overlay
+            :show="custom_test_loading"
+            spinner-small
+            class="d-inline-block"
           >
-            Generar examen
-          </b-button>
-        </b-overlay>
-      </div>
+            <b-button
+              variant="primary"
+              @click="generateCustomTest"
+            >
+              Generar examen
+            </b-button>
+          </b-overlay>
+        </div>
+      </article>
     </div>
-    <CustomTestHistory />
+    <CustomTestHistory
+      :style="{
+        'height': `${left_article_height}px`
+      }"
+    />
   </section>
 </template>
 <script>
@@ -51,7 +65,8 @@ export default {
         maxQuestions: 40
       },
       customTestTopics: null,
-      custom_test_loading: true
+      custom_test_loading: false,
+      left_article_height: 900
     }
   },
   computed: {
@@ -109,6 +124,7 @@ export default {
   },
   mounted () {
     this.customTestTopics = this.$refs.customTestTopics
+    this.left_article_height = this.$refs.leftArticle.clientHeight
   },
   async created () {
     this.$store.commit('custom_test/setHistory', null)

@@ -7,7 +7,7 @@
       <p>{{ message }}</p>
     </div>
     <div v-else>
-      <config-test />
+      <CustomTestConfig />
     </div>
   </div>
 </template>
@@ -15,12 +15,13 @@
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import ConfigTest from '@/components/custom-test/ConfigTest.vue'
+import CustomTestConfig from '@/components/custom_test_config/CustomTestConfig.vue'
 
 export default {
+  layout: 'new_default',
   components: {
     LoadingState,
-    ConfigTest
+    CustomTestConfig
   },
   computed: {
     ...mapState({

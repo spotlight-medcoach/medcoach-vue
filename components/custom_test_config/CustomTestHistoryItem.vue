@@ -9,10 +9,11 @@
         <span v-if="item.finished">{{ parseFloat(item.score).toFixed(0) }}%</span>
         <span v-else>Pendiente</span>
       </div>
-      <ExpandIcon
-        class="cursor-pointer icon-percent"
-        @click="goTo"
-      />
+      <span class="cursor-pointer" @click="goTo()">
+        <ExpandIcon
+          class="icon-percent"
+        />
+      </span>
     </div>
   </section>
 </template>
@@ -55,6 +56,7 @@ export default {
 
     .icon-percent {
       height: 17px;
+      transform: rotate(180deg);
     }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <section id="custom-test-subtopics"  class="custom-card">
     <div>
-      <ul class="p-0 listado">
+      <ul class="listado">
         <li v-for="(subtopic, index) in subtopics" :key="`subcategory-${index}`">
           <orange-checkbox
             :value="subtopic.check"
@@ -81,17 +81,23 @@ export default {
 }
 </script>
 <style lang="scss">
+  @import '@/assets/css/variables/color-palette.scss';
+
   #custom-test-subtopics {
     .listado {
       columns: 3;
       -webkit-columns: 3;
       -moz-columns: 3;
+      padding: 0px 0px 24px 0px;
+      border-bottom: thin solid black;
+      margin-bottom: 34px;
     }
     li {
       list-style: none;
     }
     #questions-quantity {
       width: 85px;
+      background-color: #{$neutral-100};
     }
   }
 </style>
