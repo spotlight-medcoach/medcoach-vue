@@ -1,7 +1,7 @@
 <template>
   <section id="custom-test-mode" class="custom-card d-flex">
     <div id="exam-mode">
-      <p class="header-md mb-20px">Modo de examen</p>
+      <p class="header-md mb-20px text-nowrap">Modo de examen</p>
       <toggle-switch
         v-model="settings.time"
         label="Tiempo"
