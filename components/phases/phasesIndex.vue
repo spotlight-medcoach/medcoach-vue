@@ -72,7 +72,7 @@
 import moment from 'moment'
 import { mapState } from 'vuex'
 import { phaseVariants } from './phasesStaticData'
-import CustomProgressBar from '@/components/_functional/customProgressBar.vue'
+import CustomProgressBar from '~/components/_functional/CustomProgressBar.vue'
 
 export default {
   name: 'PhasesIndex',

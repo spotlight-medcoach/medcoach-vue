@@ -136,3 +136,6 @@ p {
   padding: 40px;
   border-radius: 0px;
 }
+input::placeholder {
+  color: #d4d4d1 !important
+}

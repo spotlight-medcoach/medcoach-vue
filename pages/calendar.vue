@@ -28,7 +28,7 @@
 </template>
 <script>
 
-import MotivationalQuote from '@/components/_functional/motivationalQuote.vue'
+import MotivationalQuote from '~/components/_functional/MotivationalQuote.vue'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import CalendarCalendar from '@/components/calendar/calendarCalendar.vue'
 import CalendarEvents from '@/components/calendar/calendarEvents.vue'

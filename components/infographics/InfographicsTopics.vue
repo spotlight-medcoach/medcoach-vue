@@ -15,13 +15,13 @@
 				<!-------------------------------------------------------------------- Topics -->
 				<div class="topics-container m-4">
 					<div
-						v-for="(manual, index) in topics"
-						:key="manual._id"
+						v-for="(topic, index) in topics"
+						:key="topic._id"
 						class="topic-item cursor-pointer my-3"
 						:class="{'selected subheader-xl font-weight-utra-bolder': index === selectedTopicIdx}"
 						@click="selectTopic(index)"
 					>
-						{{manual.name}}
+						{{topic.name}}
 					</div>
 				</div>
 				<hr>

@@ -52,7 +52,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import CustomProgressBar from '@/components/_functional/customProgressBar.vue'
+import CustomProgressBar from '~/components/_functional/CustomProgressBar.vue'
 export default {
 	components: {
 		CustomProgressBar

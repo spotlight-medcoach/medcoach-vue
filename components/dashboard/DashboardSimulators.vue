@@ -12,7 +12,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import CustomListPreviewBox from '@/components/_functional/customListPreviewBox.vue'
+import CustomListPreviewBox from '@/components/_functional/CustomListPreviewBox.vue'
 export default {
   components: {
     CustomListPreviewBox

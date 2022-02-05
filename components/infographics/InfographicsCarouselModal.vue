@@ -1,11 +1,17 @@
 <template>
 	<b-modal
-		id="infographic-modal"
-		ref="infographic-modal"
+		id="infographics-carousel-modal"
+		ref="infographics-carousel-modal"
 		v-if="selectedInfographic"
 		:title="selectedInfographic.title"
-		header-text-variant="light"
+		header-close-label="x"
 		size="lg"
+		header-class="p-0"
+		title-class="w-100 pl-5"
+		body-class="p-0"
+		footer-class="p-0"
+		header-text-variant="light"
+		v-b-modal.infographics-delete-modal
 		centered
 	>
 		<div slot="modal-header-close">
@@ -39,8 +45,8 @@
 import { infographics } from '@/components/infographics/template'
 import HoldableButton from '@/components/_functional/holdableButton.vue'
 export default {
-	name: 'InfographicsModal',
-   components: {
+	name: 'InfographicsCarouselModal',
+	components: {
 		HoldableButton
 	},
 	props: {
@@ -49,17 +55,17 @@ export default {
 			default: 0
 		}
 	},
-   watch: {
+	watch: {
 		selectedInfographicIdx () {
 			this.infographicIdx = this.selectedInfographicIdx
 		}
 	},
-   data () {
+	data () {
 		return {
-         infographicIdx: 0
-      }
-   },
-   computed: {
+			infographicIdx: 0
+		}
+	},
+	computed: {
 		infographics () {
 			return infographics
 		},
@@ -67,35 +73,24 @@ export default {
 			return infographics[this.infographicIdx]
 		}
 	},
-   methods: {
+	methods: {
 		markAsLearned () {
-         this.$refs['infographic-modal'].hide()
-         this.$emit('onMarkAsLearned', this.infographicIdx)
+			this.$refs['infographics-carousel-modal'].hide()
+			this.$emit('onMarkAsLearned', this.infographicIdx)
 		}
-   }
+	}
 }
 </script>
 <style lang="scss">
-	#infographic-modal {
+	#infographics-carousel-modal {
 		text-align: center;
 		.modal-content {
-			border: none;
 			background-color: transparent;
-			> * {
-				border: none;
-				padding: 0
-			}
 		}
 		img {
 			height: 60vh;
 			object-fit: contain;
 			object-position: center;
-		}
-		h5 {
-			margin: auto;
-			position: absolute;
-			left: 2vw;
-			right: 2vw;
 		}
 		.holdable-button {
 			background-color: #ffffff;

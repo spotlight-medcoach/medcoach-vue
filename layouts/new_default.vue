@@ -76,4 +76,10 @@ export default {
       height: 100%;
     }
   }
+  .modal-content {
+    border: none;
+    > * {
+      border: none;
+    }
+  }
 </style>

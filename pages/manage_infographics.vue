@@ -1,11 +1,5 @@
 <template>
 	<div id="infographics" class="p-2">
-		<!--  EXTRA CONTENT (LEFT) -->
-		<section class="manuals-container">
-			<article class="shadow-sm full m-2 mb-3 p-3">
-				<infographics-topics />
-			</article>
-		</section>
 		<!-- MAIN CONTENT (RIGHT) -->
 		<section class="infographics-container">
 			<article class="shadow-sm full m-2 mb-3 p-5">
@@ -17,39 +11,40 @@
 				</div>
 				<template v-else>
 					<!-------------------------------------------------------------------- Infographics Header -->
-					<infographics-header
-						:infographicCardSize="infographicCardSize"
-						@onChangeInfographicCardSize="changeInfographicCardSize"
-					/>
+					<infographics-admin-header class="pb-4"/>
 					<!-------------------------------------------------------------------- Infographics Content -->
 					<infographics-grid
 						:infographicCardSize="infographicCardSize"
+						:overlayIcon="'trash-fill'"
 						@onSelectedInfographic="selectInfographic"
 					/>
 				</template>
 			</article>
 		</section>
 		<!--------------------------------------------------------------------------- Infographic Modal -->
-		<infographics-carousel-modal
-			:selectedInfographicIdx="selectedInfographicIdx"
-			@onMarkAsLearned="markAsLearned"
-		/>
+		<template v-if="!onHttpRequest && message">
+			<infographic-create-modal />
+			<infographic-delete-modal
+				:selectedInfographicIdx="selectedInfographicIdx"
+			/>
+		</template>
 	</div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import InfographicsTopics from '@/components/infographics/InfographicsTopics.vue'
-import InfographicsHeader from '@/components/infographics/InfographicsHeader.vue'
+// import InfographicsTopics from '@/components/infographics/InfographicsTopics.vue'
+import InfographicsAdminHeader from '@/components/infographics/InfographicsAdminHeader.vue'
 import InfographicsGrid from '@/components/infographics/InfographicsGrid.vue'
-import InfographicsCarouselModal from '@/components/infographics/InfographicsCarouselModal.vue'
+import InfographicCreateModal from '@/components/infographics/InfographicCreateModal.vue'
+import InfographicDeleteModal from '@/components/infographics/InfographicDeleteModal.vue'
 export default {
 	components: {
 		LoadingState,
-		InfographicsTopics,
-		InfographicsHeader,
+		InfographicsAdminHeader,
 		InfographicsGrid,
-		InfographicsCarouselModal
+		InfographicCreateModal,
+		InfographicDeleteModal
 	},
 	layout: 'new_default',
 	data () {
@@ -69,34 +64,16 @@ export default {
 		})
 	},
 	methods: {
+		createInfographic () {
+			this.$bvModal.show('infographic-create-modal')
+		},
 		selectInfographic (selectedInfographicIdx) {
 			this.selectedInfographicIdx = selectedInfographicIdx
-			this.$bvModal.show('infographics-carousel-modal')
-		},
-		changeInfographicCardSize (infographicCardSize) {
-			this.infographicCardSize = infographicCardSize
-		},
-		markAsLearned (selectedInfographicIdx) {
-			this.selectedInfographicIdx = selectedInfographicIdx
+			this.$bvModal.show('infographic-delete-modal')
 		}
 	}
 }
 </script>
 <style lang="scss" scoped>
 	@import '@/assets/css/variables/_student_main.scss';
-	#infographics {
-		display: grid;
-		grid-template-columns: minmax(320px, auto) 3fr;
-		overflow-y: hidden;
-		section {
-			height: $student-main-content-height;
-		}
-		article.shadow-sm {
-			background-color: #fff;
-			overflow-y: auto;
-			&.full {
-				height: calc(100% - 2rem) !important
-			}
-		}
-	}
 </style>

@@ -66,7 +66,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import SwitchBrightnessButton from '@/components/_functional/switchBrightnessButton.vue'
+import SwitchBrightnessButton from '~/components/_functional/SwitchBrightnessButton.vue'
 import HoldableButton from '@/components/_functional/holdableButton.vue'
 export default {
 	components: {

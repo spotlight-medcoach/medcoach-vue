@@ -45,7 +45,7 @@ import LoadingState from '@/components/LoadingState.vue'
 import SecondPhase from '@/components/dashboard/SecondPhase.vue'
 import ThirdPhase from '@/components/dashboard/ThirdPhase.vue'
 
-import MotivationalQuote from '@/components/_functional/motivationalQuote.vue'
+import MotivationalQuote from '~/components/_functional/MotivationalQuote.vue'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 import DashboardNotifications from '@/components/dashboard/DashboardNotifications.vue'
