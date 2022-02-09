@@ -10,10 +10,7 @@
       </div>
     </div>
     <div class="logo-container">
-      <img
-        src="@/assets/images/logo.svg"
-        class="logo"
-      >
+      <img src="@/assets/images/logo.svg" class="logo">
     </div>
     <Searchbar />
     <Profile />

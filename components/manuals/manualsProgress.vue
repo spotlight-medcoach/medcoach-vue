@@ -1,6 +1,6 @@
 <template>
 	<div id="manuals-progress" class="d-flex flex-column justify-content-between">
-		<b-skeleton-wrapper :loading="!load">
+		<b-skeleton-wrapper :loading="!loaded">
 
 			<!-- Skeleton loading -->
 			<template #loading>
@@ -16,7 +16,7 @@
 			</template>
 
 			<!-- Topics -->
-			<div class="topics-container d-flex flex-column justify-content-between">
+			<div v-if="topics" class="topics-container d-flex flex-column justify-content-between">
 				<div
 					class="mb-3 cursor-pointer"
 					@click="selectTopic(index)"
@@ -57,12 +57,6 @@ export default {
 	components: {
 		CustomProgressBar
 	},
-	props: {
-		load: {
-			type: Boolean,
-			default: false
-		}
-	},
 	data () {
 		return {
 			topicIdxSelected: 0,
@@ -85,7 +79,8 @@ export default {
 			return total
 		},
 		...mapState({
-			topics: state => state.topics.data
+			topics: state => state.topics.data,
+			loaded: state => state.topics.fetchedManuals
 		})
 	},
 	methods: {
