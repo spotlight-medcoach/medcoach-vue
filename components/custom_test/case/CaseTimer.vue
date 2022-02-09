@@ -1,6 +1,10 @@
 <template>
   <section id="case-timer" class="custom-card">
-    <div>
+    <div
+      :class="{
+        'invisible': !timerString
+      }"
+    >
       <span>Tiempo: </span>
       <span>{{ timerString }}</span>
     </div>

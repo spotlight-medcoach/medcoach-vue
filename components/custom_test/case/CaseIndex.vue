@@ -1,5 +1,5 @@
 <template>
-  <section id="case-index" class="d-flex">
+  <section id="case-index" class="d-flex mx-0 justify-content-center">
     <div id="right-side-questions">
       <CaseTimer class="mb-16px" />
       <!-- Descripción del caso clínico -->
@@ -9,32 +9,25 @@
           <p v-html="caseSelected.content"></p>
         </div>
         <CaseQuestions class="mb-10px"/>
-        <div class="d-flex justify-content-between align-items-center">
-          <span class="report-question">Reportar pregunta</span>
-          <b-button
-            :disabled="caseIndex >= customTest.cases.length - 1"
-            variant="primary"
-            @click="$store.dispatch('custom_test/nextCase')"
-          >
-            Siguiente
-          </b-button>
-        </div>
+        <CaseFooter />
       </section>
     </div>
-    <LeftSideQuestionsIndex/>
+    <AsideQuestionsIndex/>
   </section>
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex'
 import CaseTimer from '@/components/custom_test/case/CaseTimer.vue'
 import CaseQuestions from '@/components/custom_test/case/CaseQuestions.vue'
-import LeftSideQuestionsIndex from '@/components/custom_test/case/LeftSideQuestionsIndex.vue'
+import AsideQuestionsIndex from '@/components/custom_test/case/AsideQuestionsIndex.vue'
+import CaseFooter from '@/components/custom_test/case/CaseFooter.vue'
 
 export default {
   components: {
     CaseTimer,
     CaseQuestions,
-    LeftSideQuestionsIndex
+    AsideQuestionsIndex,
+    CaseFooter
   },
   computed: {
     ...mapState({
@@ -61,6 +54,7 @@ export default {
   }
 
   #right-side-questions {
+    min-width: 793px;
     width: 793px;
     margin-right: 15px;
   }
