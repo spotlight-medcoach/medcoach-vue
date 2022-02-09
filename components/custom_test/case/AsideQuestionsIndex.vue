@@ -1,6 +1,14 @@
 <template>
   <aside id="aside-questions-index" class="custom-card">
-    <p class="text-center header-md mb-32px">Preguntas</p>
+    <p
+      v-if="retro"
+      class="text-center header-md mb-32px"
+    >
+      <span>Calificación</span>
+      <span>{{ testGrade }}</span>
+      <span>( {{ `${correctAnswers}/${custom_test.questions.length}` }} )</span>
+    </p>
+    <p v-else class="text-center header-md mb-32px">Preguntas</p>
     <div>
       <div
         class="question-element cursor-pointer"
@@ -8,7 +16,9 @@
         :key="`question-${index}`"
         :class="{
           'question-element-answered': question.response != 0,
-          'question-element-current': question.case_id == caseId
+          'question-element-current' : question.case_id == caseId,
+          'question-element-correct' : (retro && question.correct_answer === question.response),
+          'question-element-incorrect' : (retro && question.correct_answer !== question.response)
         }"
         @click="goToCase(question.case_id)"
       >
@@ -26,22 +36,34 @@
       </div>
     </div>
     <b-button
+      v-if="!retro"
       class="mt-auto"
       variant="primary"
+      @click="finishTest"
     >
       Terminar examen
     </b-button>
   </aside>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import RedFlagIcon from '@/components/icons/RedFlagIcon'
 
 export default {
+  props: {
+    retro: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     RedFlagIcon
   },
   computed: {
+    ...mapGetters({
+      testGrade: 'custom_test/testGrade',
+      correctAnswers: 'custom_test/correctAnswers'
+    }),
     ...mapState({
       custom_test: state => state.custom_test.customTest,
       caseId: state => state.custom_test.caseId
@@ -50,6 +72,22 @@ export default {
   methods: {
     goToCase (caseId) {
       this.$store.commit('custom_test/setCaseId', caseId)
+    },
+    finishTest () {
+      this.$store.dispatch('custom_test/sendAnswers')
+        .then((response) => {
+          console.clear()
+          console.log(response)
+          this.$toastr.success('Se guardaron sus respuestas correctamente', 'Éxito')
+        })
+        .catch((error) => {
+          console.clear()
+          console.log(error.response)
+          this.$toastr.error('Hubo un error al enviar sus respuestas', 'Error')
+        })
+        .finally(() => {
+          this.$router.push({ path: '/custom_test_config' })
+        })
     }
   }
 }
@@ -95,6 +133,7 @@ export default {
     }
 
     &-current {
+      border: 2px solid #000000;
       .question-element-number {
         opacity: 1;
       }
@@ -121,6 +160,18 @@ export default {
           border-radius: 7.5px;
           background-color: #FF9300;
         }
+      }
+    }
+
+    &-correct {
+      .question-element-container {
+        background: #D7FDBF;
+      }
+    }
+
+    &-incorrect {
+      .question-element-container {
+        background: rgba(255, 87, 79, 0.3)
       }
     }
   }

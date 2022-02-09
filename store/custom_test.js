@@ -90,6 +90,24 @@ export const getters = {
   },
   caseIndex (state) {
     return state.caseIndex
+  },
+  correctAnswers (state) {
+    let correct = 0
+    if (state.customTest && state.customTest.questions && state.customTest.questions.length) {
+      state.customTest.questions.forEach((question) => {
+        if (question.response === question.correct_answer) {
+          correct++
+        }
+      })
+    }
+    return correct
+  },
+  testGrade (state, getters) {
+    let grade = 0
+    if (state.customTest && state.customTest.questions && state.customTest.questions.length) {
+      grade = getters.correctAnswers / state.customTest.questions.length * 100
+    }
+    return grade.toFixed(2)
   }
 }
 

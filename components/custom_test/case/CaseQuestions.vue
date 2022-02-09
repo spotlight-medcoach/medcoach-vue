@@ -9,7 +9,7 @@
         Pregunta {{question.index + 1}}
       </div>
       <div v-html="question.content"></div>
-      <div>
+      <div class="mb-40px">
         <div
           class="mb-10px position-relative d-flex cursor-pointer"
           v-for="(ans, index2) in question.answers"
@@ -44,17 +44,12 @@
               'incorrect': (retro && ans.id !== question.correct_answer)
             }"
           />
-          <span class="h4 icono" v-if="retro">
-            <b-icon class="correct" icon="check" v-if="ans.id === question.correct_answer" />
-            <b-icon class="incorrect" icon="x" v-else />
-          </span>
         </div>
       </div>
       <!-- RETRO -->
       <div v-if="retro" class="mb-5">
-        <div class="title-question">Retroalimentación</div>
+        <div class="header-md mb-10px">Retroalimentación</div>
         <div v-html="question.retro"></div>
-        <hr class="mt-5">
       </div>
       <!-- FIN RETRO -->
     </div>
@@ -101,7 +96,7 @@ export default {
 <style lang="scss">
 #case-questions {
   padding-bottom: 60px;
-  border-bottom: 1px solid #979797;;
+  border-bottom: 1px solid #979797;
 
   .questions {
     .incorrect {

@@ -1,7 +1,14 @@
 <template>
 <div class="h-100">
-  <CaseIndex v-if="caseId"/>
-  <QuestionsIndex :custom_test="custom_test" v-else/>
+  <CaseIndex
+    v-if="caseId"
+    retro
+  />
+  <QuestionsIndex
+    v-else
+    :retro="true"
+    :custom_test="custom_test"
+  />
 </div>
 </template>
 <script>
@@ -10,7 +17,7 @@ import QuestionsIndex from '@/components/custom_test/QuestionsIndex.vue'
 import CaseIndex from '@/components/custom_test/case/CaseIndex.vue'
 
 export default {
-  name: 'custom-test',
+  name: 'custom-test-retro',
   components: {
     QuestionsIndex,
     CaseIndex
@@ -20,15 +27,10 @@ export default {
       custom_test_id: null
     }
   },
-  async created () {
+  created () {
     this.$store.commit('custom_test/initCustomTest')
     this.custom_test_id = this.$route.query.custom_test_id
-    const customTest = JSON.parse(localStorage.getItem(`test_${this.custom_test_id}`))
-    if (customTest) {
-      await this.$store.dispatch('custom_test/loadCustomTest', customTest)
-    } else {
-      await this.$store.dispatch('custom_test/fetchCustomTest', this.custom_test_id)
-    }
+    this.$store.dispatch('custom_test/fetchCustomTestRetro', this.custom_test_id)
   },
   computed: {
     ...mapState({

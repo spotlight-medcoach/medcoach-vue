@@ -1,5 +1,5 @@
 <template>
-  <div id="custom_test" class="">
+  <div id="config_custom_test" class="container">
     <div v-if="onHttpRequest">
       <loading-state :message="message" />
     </div>
@@ -10,7 +10,7 @@
       <loading-state message="Enviando respuestas, por favor espere" />
     </div>
     <div v-else>
-      <CustomTest />
+      <custom-test />
     </div>
   </div>
 </template>
@@ -18,10 +18,9 @@
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import CustomTest from '@/components/custom_test/CustomTest.vue'
+import CustomTest from '@/components/custom-test/CustomTest.vue'
 
 export default {
-  layout: 'new_default',
   components: {
     LoadingState,
     CustomTest

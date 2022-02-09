@@ -6,9 +6,9 @@
   </div>
   <div v-else class="mt-5 px-3 text-center w-100">
     <div
-      :class="{'answered': retro && question.response === question.correct_answer}"
-      class="square text-center m-1 pointer"
       v-for="(question, index) in custom_test.questions"
+      class="square text-center m-1 pointer"
+      :class="{'answered': retro && question.response === question.correct_answer}"
       @click="goToCase(question.case_id)"
       :key="`question-${index}`">
       {{ index+1 }}
