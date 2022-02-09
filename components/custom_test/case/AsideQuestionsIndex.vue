@@ -16,16 +16,21 @@
         :key="`question-${index}`"
         :class="{
           'question-element-answered': question.response != 0,
-          'question-element-current' : question.case_id == caseId,
+          'question-element-current' : question.index == selectedQuestion.index,
           'question-element-correct' : (retro && question.correct_answer === question.response),
           'question-element-incorrect' : (retro && question.correct_answer !== question.response)
         }"
-        @click="goToCase(question.case_id)"
+        @click="goToQuestion(question)"
       >
-        <div class="question-element-container">
+        <div
+          class="question-element-container"
+          :class="{
+            'question-element-container-marked': question.marked && !retro
+          }"
+        >
           <RedFlagIcon
-            v-if="question.marked"
-            class="mx-auto"
+            v-if="question.marked && !retro"
+            class="mx-auto d-block"
           />
           <span
             v-else
@@ -62,7 +67,8 @@ export default {
   computed: {
     ...mapGetters({
       testGrade: 'custom_test/testGrade',
-      correctAnswers: 'custom_test/correctAnswers'
+      correctAnswers: 'custom_test/correctAnswers',
+      selectedQuestion: 'custom_test/selectedQuestion'
     }),
     ...mapState({
       custom_test: state => state.custom_test.customTest,
@@ -70,8 +76,8 @@ export default {
     })
   },
   methods: {
-    goToCase (caseId) {
-      this.$store.commit('custom_test/setCaseId', caseId)
+    goToQuestion (question) {
+      this.$store.commit('custom_test/setSelectedQuestion', question)
     },
     finishTest () {
       this.$store.dispatch('custom_test/sendAnswers')
@@ -102,9 +108,9 @@ export default {
 
   .question-element {
     display: inline-block;
-    margin: 0px 5.5px 15px 5.5px;
 
     &-container {
+      margin: 0px 5.5px 15px 5.5px;
       display: flex;
       flex-direction: column;
       width: 30px;
@@ -114,6 +120,10 @@ export default {
       background: #FFFFFF;
       box-sizing: border-box;
       border: 1px solid #979797;
+    }
+
+    &-container-marked {
+      padding: 4px 0px;
     }
 
     &-number {
@@ -133,7 +143,9 @@ export default {
     }
 
     &-current {
-      border: 2px solid #000000;
+      .question-element-container {
+        border: 2px solid #000000;
+      }
       .question-element-number {
         opacity: 1;
       }

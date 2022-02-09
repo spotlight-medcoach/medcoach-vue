@@ -6,7 +6,7 @@
     >
       <p>
         <span>Respuesta correcta:</span>
-        <span>B</span>
+        <span>{{ String.fromCharCode(64 + selectedQuestion.correct_answer) }}</span>
       </p>
       <p>
         <StatisticsIcon />
@@ -38,7 +38,7 @@
       >
         <span class="mr-16px">Marcar pregunta</span>
         <ToggleSwitch
-          v-model="mark"
+          v-model="question.marked"
         />
       </div>
     </div>
@@ -64,16 +64,35 @@ export default {
   },
   data () {
     return {
-      mark: false
+      question: {
+        marked: false
+      }
+    }
+  },
+  watch: {
+    selectedQuestion (newVal) {
+      if (newVal) {
+        this.question = JSON.parse(JSON.stringify(newVal))
+      }
+    },
+    'question.marked' (value) {
+      this.$store.commit('custom_test/setQuestionMark', {
+        index: this.question.index,
+        value
+      })
     }
   },
   computed: {
     ...mapGetters({
-      testGrade: 'custom_test/testGrade'
+      testGrade: 'custom_test/testGrade',
+      selectedQuestion: 'custom_test/selectedQuestion'
     }),
     ...mapState({
       timerString: state => state.custom_test.timerString
     })
+  },
+  mounted () {
+    this.question = JSON.parse(JSON.stringify(this.selectedQuestion))
   }
 }
 </script>

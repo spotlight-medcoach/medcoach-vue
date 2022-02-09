@@ -7,9 +7,9 @@
       Reportar pregunta
     </span>
     <b-button
-      :disabled="caseIndex >= customTest.cases.length - 1"
+      :disabled="selectedQuestion.index >= customTest.questions.length - 1"
       variant="primary"
-      @click="$store.dispatch('custom_test/nextCase')"
+      @click="$store.dispatch('custom_test/nextQuestion')"
     >
       Siguiente
     </b-button>
@@ -32,7 +32,8 @@ export default {
     }),
     ...mapGetters({
       caseSelected: 'custom_test/caseSelected',
-      caseIndex: 'custom_test/caseIndex'
+      caseIndex: 'custom_test/caseIndex',
+      selectedQuestion: 'custom_test/selectedQuestion'
     })
   }
 }

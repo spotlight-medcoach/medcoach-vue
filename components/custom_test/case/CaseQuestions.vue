@@ -2,8 +2,6 @@
   <section id="case-questions">
     <div
       class="questions"
-      v-for="(question, index) in questions"
-      :key="`quest-${index}`"
     >
       <div class="header-md mb-10px">
         Pregunta {{question.index + 1}}
@@ -13,12 +11,12 @@
         <div
           class="mb-10px position-relative d-flex cursor-pointer"
           v-for="(ans, index2) in question.answers"
-          :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+          :key="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
         >
           <b-form-radio
             :disabled="retro && ans.id !== question.response"
-            :id="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-            :name="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            :id="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
+            :name="`answer-radio-${caseSelected.id}-${question.index}`"
             v-bind:value="ans.id"
             v-model="question.response"
             @change="setAnswer(question.index, question.response)"
@@ -28,15 +26,15 @@
           <input
             :disabled="retro && ans.id !== question.response"
             type="radio"
-            :id="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-            :name="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            :id="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
+            :name="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
             v-bind:value="ans.id"
             v-model="question.response"
             @change="setAnswer(question.index, question.response)"
           />
           -->
           <label
-            :for="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            :for="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
             v-html="ans.html"
             class="cursor-pointer"
             :class="{
@@ -67,19 +65,20 @@ export default {
   },
   data () {
     return {
-      questions: []
+      question: {}
     }
   },
   computed: {
     ...mapGetters({
       questionsByCase: 'custom_test/questionsByCase',
-      caseSelected: 'custom_test/caseSelected'
+      caseSelected: 'custom_test/caseSelected',
+      selectedQuestion: 'custom_test/selectedQuestion'
     })
   },
   watch: {
-    questionsByCase (newVal) {
+    selectedQuestion (newVal) {
       if (newVal) {
-        this.questions = JSON.parse(JSON.stringify(this.questionsByCase))
+        this.question = JSON.parse(JSON.stringify(newVal))
       }
     }
   },
@@ -89,7 +88,7 @@ export default {
     }
   },
   mounted () {
-    this.questions = JSON.parse(JSON.stringify(this.questionsByCase))
+    this.question = JSON.parse(JSON.stringify(this.selectedQuestion))
   }
 }
 </script>

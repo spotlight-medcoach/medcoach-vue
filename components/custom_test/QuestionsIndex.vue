@@ -9,7 +9,7 @@
       v-for="(question, index) in custom_test.questions"
       class="square text-center m-1 pointer"
       :class="{'answered': retro && question.response === question.correct_answer}"
-      @click="goToCase(question.case_id)"
+      @click="goToQuestion(question)"
       :key="`question-${index}`">
       {{ index+1 }}
     </div>
@@ -25,8 +25,8 @@ export default {
     LoadingState
   },
   methods: {
-    goToCase (caseId) {
-      this.$store.commit('custom_test/setCaseId', caseId)
+    goToQuestion (question) {
+      this.$store.commit('custom_test/setSelectedQuestion', question)
     }
   }
 }
