@@ -2,7 +2,7 @@
   <div id="manuals-subtopics">
     <h3 class="header-md text-center mb-4">Materia</h3>
 
-    <b-skeleton-wrapper :loading="!load"> <!-- Skeleton loading -->
+    <b-skeleton-wrapper :loading="!loaded"> <!-- Skeleton loading -->
       <template #loading>
         <div>
           <b-skeleton class="mb-3" width="80%"></b-skeleton>
@@ -40,16 +40,11 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-  props: {
-    load: {
-      type: Boolean,
-      default: false
-    }
-  },
   computed: {
     ...mapState({
       topic: state => state.topics.topic,
-      subtopic_index: state => state.topics.subtopic_index
+      subtopic_index: state => state.topics.subtopic_index,
+      loaded: state => state.topics.fetchedManuals
     })
   },
   methods: {
