@@ -17,7 +17,7 @@
 		<template #modal-header-close>
 			<b-icon icon="x" font-scale="1.1"></b-icon>
 		</template>
-		<b-form @submit="onSubmit" id="infographic-form" name="infographic-form">
+		<b-form @submit="createInfographic" id="infographic-form" name="infographic-form">
 			<b-form-group label="Nombre" label-for="name">
 				<b-form-input
 					id="name"
@@ -62,7 +62,7 @@
 			@change="onChange">
 		</picture-input>
 		<template #modal-footer>
-			<b-button type="submit" form="infographic-form" variant="primary">Guardar Infografía</b-button>
+			<b-button type="submit" form="infographic-form" variant="primary" :disabled="!form.image">Guardar Infografía</b-button>
 		</template>
 	</b-modal>
 </template>
@@ -70,6 +70,12 @@
 import { mapState } from 'vuex'
 import PictureInput from 'vue-picture-input'
 // https://github.com/alessiomaffeis/vue-picture-input
+const formDefault = {
+	name: '',
+	topic: null,
+	subtopic: null,
+	image: ''
+}
 export default {
 	name: 'InfographicsCreateModal',
 	components: {
@@ -134,23 +140,28 @@ export default {
 	methods: {
 		onChange (image) {
 			if (image) {
-				this.image = image
+				this.form.image = image
 			} else {
 				console.log('FileReader API not supported: use the <form>, Luke!')
 			}
 		},
-		createInfographic () {
-			this.$emit('onCreate', this.infographicIdx)
-			this.$refs['infographic-create-modal'].hide()
-		},
-		onSubmit (event) {
+		async createInfographic (event) {
 			event.preventDefault()
-			console.log(this.form)
-			console.log(this.image)
+			const data = await this.$store.dispatch('infographics/createInfographic', {
+				name: this.form.name,
+				topic_id: this.form.topic._id,
+				subtopic_id: this.form.subtopic._id,
+				base64: this.form.image
+			})
+			if (data) {
+				this.form = Object.assign({}, formDefault)
+				this.$emit('onCreate', this.infographicIdx)
+				this.$refs['infographic-create-modal'].hide()
+			}
 		}
 	},
 	mounted () {
-		this.$refs['infographic-create-modal'].show()
+		this.form = Object.assign({}, formDefault)
 	}
 }
 </script>

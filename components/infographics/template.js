@@ -66,7 +66,7 @@ export const infographics = [
 	},
 	{
 		_id: '9',
-		title: 'Antiarrítmicos(1)',
+		title: 'Antiarrítmicos',
 		image: require('@/assets/images/infographics/Antiarrítmicos(1).png'),
 		isLearned: true,
 		learnedOn: '2021/02/07',

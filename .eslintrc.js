@@ -16,9 +16,9 @@ module.exports = {
     'unicorn/escape-case': 'off',
     'no-console': 'off',
     'no-tabs': 0,
-    'indent': [
-      1,
-      'tab'
-    ]
+    // 'indent': {
+    //   'options': ['tabs', 1]
+    // },
+    'vue/html-indent': ['error', 'tab'],
   }
 }

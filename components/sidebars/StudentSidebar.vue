@@ -53,6 +53,14 @@
       <span class="nav-item-tooltip-text">Exámenes</span>
     </div>
 
+    <!-- Infográficos -->
+    <div class="text-center nav-item-tooltip">
+      <nuxt-link to="/infographics">
+        <InfographicsIcon class="nav-icon" />
+      </nuxt-link>
+      <span class="nav-item-tooltip-text">Infográficos</span>
+    </div>
+
     <!-- Análisis -->
     <div class="text-center nav-item-tooltip">
       <nuxt-link to="/">
@@ -70,6 +78,7 @@ import ManualsIcon from '@/components/icons/ManualsIcon.vue'
 import NotesIcon from '@/components/icons/NotesIcon.vue'
 import FlashcardIcon from '@/components/icons/FlashcardIcon.vue'
 import InsightsIcon from '@/components/icons/InsightsIcon.vue'
+import InfographicsIcon from '@/components/icons/InfographicsIcon.vue'
 import TestsIcon from '@/components/icons/TestsIcon.vue'
 export default {
   components: {
@@ -79,6 +88,7 @@ export default {
     NotesIcon,
     FlashcardIcon,
     InsightsIcon,
+    InfographicsIcon,
     TestsIcon
   },
   computed: {
@@ -107,7 +117,11 @@ export default {
   .sidebar-active {
     margin-left: 0 !important;
   }
+  .nav-item-tooltip {
+    height: 40px;
+  }
   .nav-icon {
-    transform: scale(0.6);
+    height: 26px;
+    width: 26px;
   }
 </style>

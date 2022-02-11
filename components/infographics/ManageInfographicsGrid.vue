@@ -23,25 +23,14 @@
 				</div>
 			</div>
 		</div>
-		<div class="my-5" v-if="infographics.length === 0">
-			Sin resultados
-		</div>
 	</div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
 	name: 'InfographicsGrid',
 	props: {
-		topicId: {
-			type: String,
-			default: undefined
-		},
-		subtopicId: {
-			type: String,
-			default: undefined
-		},
 		infographicCardSize: {
 			type: Number,
 			default: 0
@@ -51,20 +40,6 @@ export default {
 			default: undefined
 		}
 	},
-	data () {
-		return {
-			infographics: []
-		}
-	},
-	watch: {
-		topicId (topicId) {
-			this.filterByTopic(topicId)
-		},
-		subtopicId (subtopicId) {
-			console.log(subtopicId)
-			this.filterBySubTopic(subtopicId)
-		}
-	},
 	computed: {
 		createIcon () {
 			return {
@@ -72,11 +47,8 @@ export default {
 			}
 		},
 		...mapGetters({
-			loadingState: 'infographics/loadingState',
-			allInfographics: 'infographics/allInfographics'
-		}),
-		...mapState({
-			allInfographics: state => state.infographics.infographics
+			infographics: 'infographics/allInfographics',
+			loadingState: 'infographics/loadingState'
 		})
 	},
 	methods: {
@@ -84,25 +56,11 @@ export default {
 			if (!this.loadingState) {
 				this.$emit('onSelectedInfographic', infographicIdx)
 			}
-		},
-		filterByTopic (topicId) {
-			this.infographics = this.allInfographics.filter(
-				infographic => infographic.topic_id === topicId
-			)
-		},
-		filterBySubTopic (subtopicId) {
-			this.infographics = this.allInfographics.filter(
-				infographic => infographic.subtopic_id === subtopicId
-			)
 		}
 	},
 	mounted () {
 		if (this.infographics === undefined) {
 			this.$store.dispatch('infographics/fetchInfographics')
-		} else if (this.subTopicId) {
-			this.filterBySubTopic(this.subTopicId)
-		} else if (this.topicId) {
-			this.filterByTopic(this.topicId)
 		}
 	}
 }

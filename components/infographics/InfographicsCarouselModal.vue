@@ -20,7 +20,7 @@
 		<b-carousel
 			id="carousel-1"
 			v-model="infographicIdx"
-			:interval="3000"
+			:interval="0"
 			controls
 		>
 			<b-carousel-slide
@@ -37,13 +37,22 @@
 				@onCheck="markAsLearned"
 			>
 			</holdable-button>
+			<b-button
+				variant="light"
+				class="download-button"
+				:href="selectedInfographic.image"
+				:download="selectedInfographic.name"
+				target="_blank"
+			>
+				<b-icon icon="download" aria-hidden="true"></b-icon>
+			</b-button>
 		</div>
 	</b-modal>
 </template>
 
 <script>
 import { infographics } from '@/components/infographics/template'
-import HoldableButton from '@/components/_functional/holdableButton.vue'
+import HoldableButton from '@/components/_functional/HoldableButton.vue'
 export default {
 	name: 'InfographicsCarouselModal',
 	components: {
@@ -95,6 +104,10 @@ export default {
 		.holdable-button {
 			background-color: #ffffff;
 			width: 260px;
+		}
+		.download-button {
+			position: absolute;
+			margin-left: 1rem
 		}
 	}
 </style>

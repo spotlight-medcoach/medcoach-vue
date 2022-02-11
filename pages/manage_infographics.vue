@@ -13,7 +13,7 @@
 					<!-------------------------------------------------------------------- Infographics Header -->
 					<infographics-admin-header class="pb-4"/>
 					<!-------------------------------------------------------------------- Infographics Content -->
-					<infographics-grid
+					<manage-infographics-grid
 						:infographicCardSize="infographicCardSize"
 						:overlayIcon="'trash-fill'"
 						@onSelectedInfographic="selectInfographic"
@@ -33,23 +33,21 @@
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-// import InfographicsTopics from '@/components/infographics/InfographicsTopics.vue'
 import InfographicsAdminHeader from '@/components/infographics/InfographicsAdminHeader.vue'
-import InfographicsGrid from '@/components/infographics/InfographicsGrid.vue'
+import ManageInfographicsGrid from '@/components/infographics/ManageInfographicsGrid.vue'
 import InfographicCreateModal from '@/components/infographics/InfographicCreateModal.vue'
 import InfographicDeleteModal from '@/components/infographics/InfographicDeleteModal.vue'
 export default {
 	components: {
 		LoadingState,
 		InfographicsAdminHeader,
-		InfographicsGrid,
+		ManageInfographicsGrid,
 		InfographicCreateModal,
 		InfographicDeleteModal
 	},
 	layout: 'new_default',
 	data () {
 		return {
-			loadStatus: undefined,
 			selectedTopicIdx: 0,
 			selectedSubtopicIdx: 0,
 			selectedInfographicIdx: 0,
@@ -76,4 +74,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 	@import '@/assets/css/variables/_student_main.scss';
+	#infographics {
+		.shadow-sm {
+			background-color: #ffffff;
+			overflow-y: auto;
+		}
+	}
 </style>

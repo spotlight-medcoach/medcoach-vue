@@ -3,7 +3,10 @@
 		<!--  EXTRA CONTENT (LEFT) -->
 		<section class="manuals-container">
 			<article class="shadow-sm full m-2 mb-3 p-3">
-				<infographics-topics />
+				<infographics-topics
+					@onTopicChange="selectTopic"
+					@onSubtopicChange="selectSubtopic"
+				/>
 			</article>
 		</section>
 		<!-- MAIN CONTENT (RIGHT) -->
@@ -23,9 +26,15 @@
 					/>
 					<!-------------------------------------------------------------------- Infographics Content -->
 					<infographics-grid
+						v-if="loadingState === false && selectedTopicId !== undefined"
+						:topicId="selectedTopicId"
+						:subtopicId="selectedSubtopicId"
 						:infographicCardSize="infographicCardSize"
 						@onSelectedInfographic="selectInfographic"
 					/>
+					<div class="text-center py-5" v-else>
+						- Necesitas seleccionar un tema y subtema -
+					</div>
 				</template>
 			</article>
 		</section>
@@ -37,7 +46,7 @@
 	</div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
 import InfographicsTopics from '@/components/infographics/InfographicsTopics.vue'
 import InfographicsHeader from '@/components/infographics/InfographicsHeader.vue'
@@ -54,9 +63,8 @@ export default {
 	layout: 'new_default',
 	data () {
 		return {
-			loadStatus: undefined,
-			selectedTopicIdx: 0,
-			selectedSubtopicIdx: 0,
+			selectedTopicId: undefined,
+			selectedSubtopicId: undefined,
 			selectedInfographicIdx: 0,
 			infographicCardSize: 300
 		}
@@ -66,9 +74,20 @@ export default {
 			onHttpRequest: state => state.http_request.onHttpRequest,
 			message: state => state.http_request.message,
 			errorHttp: state => state.http_request.errorHttp
+		}),
+		...mapGetters({
+			loadingState: 'infographics/loadingState',
+			allInfographics: 'infographics/allInfographics'
 		})
 	},
 	methods: {
+		selectTopic (topicId) {
+			this.selectedTopicId = topicId
+			this.selectedSubtopicId = undefined
+		},
+		selectSubtopic (subtopicId) {
+			this.selectedSubtopicId = subtopicId
+		},
 		selectInfographic (selectedInfographicIdx) {
 			this.selectedInfographicIdx = selectedInfographicIdx
 			this.$bvModal.show('infographics-carousel-modal')
@@ -78,6 +97,16 @@ export default {
 		},
 		markAsLearned (selectedInfographicIdx) {
 			this.selectedInfographicIdx = selectedInfographicIdx
+			// const selectedInfographic = this.allInfographics[selectedInfographicIdx]
+			// const infographics = this.allInfographics.splice(selectedInfographicIdx, 1)
+			// const infographics = this.allInfographics
+			// this.allInfographics.push(selectedInfographic)
+			// this.$store.commit('infographics/setInfographics', this.allInfographics)
+		}
+	},
+	mounted () {
+		if (this.infographics === undefined) {
+			this.$store.dispatch('infographics/fetchInfographics')
 		}
 	}
 }
@@ -91,8 +120,8 @@ export default {
 		section {
 			height: $student-main-content-height;
 		}
-		article.shadow-sm {
-			background-color: #fff;
+		.shadow-sm {
+			background-color: #ffffff;
 			overflow-y: auto;
 			&.full {
 				height: calc(100% - 2rem) !important

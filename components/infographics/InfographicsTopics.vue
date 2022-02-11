@@ -1,6 +1,6 @@
 <template>
 	<div id="topics">
-		<b-skeleton-wrapper :loading="loadStatus == undefined">
+		<b-skeleton-wrapper :loading="!loadStatus">
 			<!-------------------------------------------------------------------- Skeleton -->
 			<template #loading>
 				<div class="topics-container m-4">
@@ -26,13 +26,13 @@
 				</div>
 				<hr>
 				<!-------------------------------------------------------------------- Sub Topics -->
-				<div class="subtopics-container m-4">
+				<div class="subtopics-container m-4" v-if="selectedTopicIdx !== undefined">
 					<div
 						v-for="(subtopic, index) in subtopics"
 						:key="subtopic._id"
 						class="subtopic-item cursor-pointer my-3"
 						:class="{'selected': index === selectedSubtopicIdx}"
-						@click="selectedSubtopicIdx = index"
+						@click="selectSubtopic(index)"
 					>
 						{{subtopic.name}}
 					</div>
@@ -52,9 +52,8 @@ export default {
 	name: 'InfographicsTopics',
 	data () {
 		return {
-			loadStatus: undefined,
-			selectedTopicIdx: 0,
-			selectedSubtopicIdx: 0,
+			selectedTopicIdx: undefined,
+			selectedSubtopicIdx: undefined,
 			error: ''
 		}
 	},
@@ -63,39 +62,21 @@ export default {
 			return this.topics[this.selectedTopicIdx].subtopics
 		},
 		...mapState({
-			topics: state => state.topics.data
+			topics: state => state.topics.data,
+			loadStatus: state => state.topics.fetchedManuals
 		})
 	},
 	methods: {
-		getAllManuals () {
-			return this.$axios
-				.get('/topics', {
-					headers: {
-						Authorization: `Bearer ${this.$store.state.token}`
-					}
-				})
-				.then((res) => {
-					this.$store.commit('topics/setTopics', res.data.topics)
-					this.loadStatus = true
-				})
-				.catch((err) => {
-					this.error = err
-					this.loadStatus = false
-				})
-		},
 		skeletonWidth (min, max) {
 			return getRandomNumberBetween(min, max)
 		},
 		selectTopic (index) {
 			this.selectedTopicIdx = index
-			this.selectedSubtopicIdx = 0
-		}
-	},
-	mounted () {
-		if (!this.$store.state.topics.fetchedManuals) {
-			this.getAllManuals()
-		} else {
-			this.loadStatus = true
+			this.$emit('onTopicChange', this.topics[index]._id)
+		},
+		selectSubtopic (index) {
+			this.selectedSubtopicIdx = index
+			this.$emit('onSubtopicChange', this.subtopics[index]._id)
 		}
 	}
 }
