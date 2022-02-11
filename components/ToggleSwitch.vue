@@ -1,6 +1,6 @@
 <template>
 <div class="d-flex toggle-switch">
-  <span class="mr-2">{{ label }}</span>
+  <span class="mr-2" v-if="label">{{ label }}</span>
   <label class="switch">
     <input type="checkbox" v-model="myVal" :disabled="disabled">
     <span class="slider round"></span>
@@ -16,7 +16,7 @@ export default {
     },
     label: {
       type: String,
-      required: true
+      default: null
     },
     disabled: {
       type: Boolean,
@@ -72,7 +72,7 @@ export default {
     content: "";
     height: 1.25rem;
     width: 1.25rem;
-    left: -1px;
+    left: -0.75px;
     bottom: -1px;
     -webkit-transition: .4s;
     transition: .4s;

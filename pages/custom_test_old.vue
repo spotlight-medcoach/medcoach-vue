@@ -1,13 +1,16 @@
 <template>
-  <div id="custom_test_retro">
+  <div id="config_custom_test" class="container">
     <div v-if="onHttpRequest">
       <loading-state :message="message" />
     </div>
     <div v-else-if="errorHttp">
       <p>{{ message }}</p>
     </div>
-    <div v-else class="h-100">
-      <CustomTestRetro />
+    <div v-else-if="sendingAnswers">
+      <loading-state message="Enviando respuestas, por favor espere" />
+    </div>
+    <div v-else>
+      <custom-test />
     </div>
   </div>
 </template>
@@ -15,19 +18,19 @@
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import CustomTestRetro from '@/components/custom_test/CustomTestRetro.vue'
+import CustomTest from '@/components/custom-test/CustomTest.vue'
 
 export default {
-  layout: 'new_default',
   components: {
     LoadingState,
-    CustomTestRetro
+    CustomTest
   },
   computed: {
     ...mapState({
       onHttpRequest: state => state.http_request.onHttpRequest,
       message: state => state.http_request.message,
-      errorHttp: state => state.http_request.errorHttp
+      errorHttp: state => state.http_request.errorHttp,
+      sendingAnswers: state => state.custom_test.sendingAnswers
     })
   },
   created () {
@@ -38,8 +41,3 @@ export default {
   }
 }
 </script>
-<style>
-  #custom_test_retro {
-    background: #FBFDFE !important;
-  }
-</style>

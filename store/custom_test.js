@@ -33,7 +33,8 @@ export const state = () => ({
   sendingAnswers: false,
   type: '',
   timer: null,
-  timerString: ''
+  timerString: '',
+  selectedQuestion: null
 })
 
 // GETTERS
@@ -90,6 +91,27 @@ export const getters = {
   },
   caseIndex (state) {
     return state.caseIndex
+  },
+  correctAnswers (state) {
+    let correct = 0
+    if (state.customTest && state.customTest.questions && state.customTest.questions.length) {
+      state.customTest.questions.forEach((question) => {
+        if (question.response === question.correct_answer) {
+          correct++
+        }
+      })
+    }
+    return correct
+  },
+  testGrade (state, getters) {
+    let grade = 0
+    if (state.customTest && state.customTest.questions && state.customTest.questions.length) {
+      grade = getters.correctAnswers / state.customTest.questions.length * 100
+    }
+    return grade.toFixed(2)
+  },
+  selectedQuestion (state) {
+    return state.selectedQuestion
   }
 }
 
@@ -139,11 +161,15 @@ export const mutations = {
   },
   setCustomTest (state, payload) {
     state.customTest = payload
-    state.customTest.questions.forEach((question, index) => {
+    state.customTest.questions = state.customTest.questions.map((question, index) => {
       if (question.response === undefined) {
         question.response = question.answer || 0
       }
+      if (question.marked === undefined) {
+        question.marked = false
+      }
       question.index = index
+      return question
     })
   },
   setFetchedTest (state, payload) {
@@ -156,6 +182,11 @@ export const mutations = {
   setQuestionResponse (state, payload) {
     const { index, value } = payload
     state.customTest.questions[index].response = value
+    localStorage.setItem(`test_${state.customTest.id}`, JSON.stringify(state.customTest))
+  },
+  setQuestionMark (state, payload) {
+    const { index, value } = payload
+    state.customTest.questions[index].marked = value
     localStorage.setItem(`test_${state.customTest.id}`, JSON.stringify(state.customTest))
   },
   setCaseIndex (state, payload) {
@@ -204,6 +235,11 @@ export const mutations = {
       })
     })
     state.topics = data.topics
+  },
+  setSelectedQuestion (state, payload) {
+    state.selectedQuestion = payload
+    state.caseId = payload.case_id
+    state.caseIndex = state.customTest.cases.findIndex(caso => caso.id === state.caseId)
   }
 }
 
@@ -299,6 +335,13 @@ export const actions = {
   nextCase ({ state, commit }) {
     if (state.caseIndex < state.customTest.cases.length - 1) {
       commit('setCaseIndex', state.caseIndex + 1)
+    }
+  },
+  nextQuestion ({ state, commit, getters }) {
+    if (getters.selectedQuestion.index < state.customTest.questions.length - 1) {
+      const nextIndex = getters.selectedQuestion.index + 1
+      const question = state.customTest.questions[nextIndex]
+      commit('setSelectedQuestion', question)
     }
   },
   sendAnswers ({ state, commit }) {
