@@ -8,7 +8,7 @@
 					<b-skeleton animation="throb" width="300px" height="30px" class="ml-2"></b-skeleton>
 				</div>
 			</template>
-			<div class="mx-3 header-md" v-if="(title)">
+			<div v-if="(title)" class="mx-3 header-md">
 				{{ title }}
 			</div>
 		</b-skeleton-wrapper>
@@ -67,7 +67,7 @@
 <script>
 import { mapState } from 'vuex'
 import SwitchBrightnessButton from '~/components/_functional/SwitchBrightnessButton.vue'
-import HoldableButton from '@/components/_functional/holdableButton.vue'
+import HoldableButton from '@/components/_functional/HoldableButton.vue'
 export default {
 	components: {
 		SwitchBrightnessButton,

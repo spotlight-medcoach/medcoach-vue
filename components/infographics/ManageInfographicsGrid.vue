@@ -19,7 +19,7 @@
 					v-if="overlayIcon"
 					class="overlay-content d-flex justify-content-center align-items-center"
 				>
-					<b-icon v-bind="createIcon" font-scale="2" color="white"></b-icon>
+					<b-icon v-bind="createIcon" font-scale="2" color="white" />
 				</div>
 			</div>
 		</div>
@@ -51,16 +51,16 @@ export default {
 			loadingState: 'infographics/loadingState'
 		})
 	},
+	mounted () {
+		if (this.infographics === undefined) {
+			this.$store.dispatch('infographics/fetchInfographics')
+		}
+	},
 	methods: {
 		selectedInfographic (infographicIdx) {
 			if (!this.loadingState) {
 				this.$emit('onSelectedInfographic', infographicIdx)
 			}
-		}
-	},
-	mounted () {
-		if (this.infographics === undefined) {
-			this.$store.dispatch('infographics/fetchInfographics')
 		}
 	}
 }

@@ -21,30 +21,34 @@
 				<template v-else>
 					<!-------------------------------------------------------------------- Infographics Header -->
 					<infographics-header
-						:infographicCardSize="infographicCardSize"
+						:infographic-card-size="infographicCardSize"
 						@onChangeInfographicCardSize="changeInfographicCardSize"
 					/>
-					<!-------------------------------------------------------------------- Infographics Content -->
-					<infographics-grid
-						v-if="loadingState === false && selectedTopicId !== undefined"
-						:topicId="selectedTopicId"
-						:subtopicId="selectedSubtopicId"
-						:infographicCardSize="infographicCardSize"
-						@onSelectedInfographic="selectInfographic"
-					/>
-					<div class="text-center py-5" v-else>
+					<template v-if="selectedTopicId !== undefined">
+						<!---------------------------------------------------------------- Infographics Content -->
+						<infographics-grid
+							:topic-id="selectedTopicId"
+							:subtopic-id="selectedSubtopicId"
+							:infographic-card-size="infographicCardSize"
+							:overlay-icon="'check2-circle'"
+							:overlay-action="'learned'"
+							@onSelectedInfographic="selectInfographic"
+						/>
+						<!---------------------------------------------------------------- Infographic Modal -->
+						<infographics-carousel-modal
+							:selected-infographic-id="selectedInfographicId"
+							@onMarkAsLearned="markAsLearned"
+						/>
+					</template>
+					<div v-else class="text-center py-5">
 						- Necesitas seleccionar un tema y subtema -
 					</div>
 				</template>
 			</article>
 		</section>
-		<!--------------------------------------------------------------------------- Infographic Modal -->
-		<infographics-carousel-modal
-			:selectedInfographicIdx="selectedInfographicIdx"
-			@onMarkAsLearned="markAsLearned"
-		/>
 	</div>
 </template>
+
 <script>
 import { mapState, mapGetters } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
@@ -65,7 +69,7 @@ export default {
 		return {
 			selectedTopicId: undefined,
 			selectedSubtopicId: undefined,
-			selectedInfographicIdx: 0,
+			selectedInfographicId: undefined,
 			infographicCardSize: 300
 		}
 	},
@@ -77,36 +81,32 @@ export default {
 		}),
 		...mapGetters({
 			loadingState: 'infographics/loadingState',
-			allInfographics: 'infographics/allInfographics'
+			allInfographics: 'infographics/allInfographics',
+			studentInfographics: 'infographics/studentInfographics'
 		})
+	},
+	mounted () {
+		if (this.infographics === undefined) {
+			this.$store.dispatch('infographics/fetchInfographics')
+		}
 	},
 	methods: {
 		selectTopic (topicId) {
 			this.selectedTopicId = topicId
-			this.selectedSubtopicId = undefined
 		},
 		selectSubtopic (subtopicId) {
 			this.selectedSubtopicId = subtopicId
 		},
-		selectInfographic (selectedInfographicIdx) {
-			this.selectedInfographicIdx = selectedInfographicIdx
+		selectInfographic (selectedInfographicId) {
+			this.selectedInfographicId = selectedInfographicId
 			this.$bvModal.show('infographics-carousel-modal')
 		},
 		changeInfographicCardSize (infographicCardSize) {
 			this.infographicCardSize = infographicCardSize
 		},
-		markAsLearned (selectedInfographicIdx) {
-			this.selectedInfographicIdx = selectedInfographicIdx
-			// const selectedInfographic = this.allInfographics[selectedInfographicIdx]
-			// const infographics = this.allInfographics.splice(selectedInfographicIdx, 1)
-			// const infographics = this.allInfographics
-			// this.allInfographics.push(selectedInfographic)
-			// this.$store.commit('infographics/setInfographics', this.allInfographics)
-		}
-	},
-	mounted () {
-		if (this.infographics === undefined) {
-			this.$store.dispatch('infographics/fetchInfographics')
+		markAsLearned (selectedInfographicId) {
+			this.selectedInfographicId = undefined
+			this.$store.dispatch('infographics/setInfographicToStudent', selectedInfographicId)
 		}
 	}
 }

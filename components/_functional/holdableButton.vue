@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="holdable-button pointer d-inline-flex align-items-center justify-content-around"
-		:class="{'holded' : isHoldOn || checked}"
+		:class="{'holded' : isHoldOn || checked, 'disabled': disabled}"
 		:style="`max-width: ${maxWidth}px`"
 		@mousedown="holdOn()"
 		@mouseup="holdOff()"
@@ -31,6 +31,10 @@ export default {
 		maxWidth: {
 			type: Number,
 			default: 200
+		},
+		disabled: {
+			type: Boolean,
+			default: false
 		}
 	},
 	data () {
@@ -107,5 +111,9 @@ export default {
 			margin-left: 0px;
 			border-radius: 5px;
 		}
+	}
+	.holdable-button.disabled {
+		pointer-events: none;
+		opacity: 0.6;
 	}
 </style>

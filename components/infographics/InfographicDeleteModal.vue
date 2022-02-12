@@ -12,15 +12,15 @@
 			body-class="px-4"
 			footer-class="d-flex justify-content-between"
 			size="sm"
-			@ok="deleteInfographic"
 			centered
+			@ok="deleteInfographic"
 		>
 			<template #modal-header-close>
-				<b-icon icon="x" color="red" font-scale="1.1"></b-icon>
+				<b-icon icon="x" color="red" font-scale="1.1" />
 			</template>
 			<p v-if="selectedInfographic">
 				Estás por eliminar la infografía
-				<q>{{selectedInfographic.name}}</q>
+				<q>{{ selectedInfographic.name }}</q>
 			</p>
 		</b-modal>
 	</div>
@@ -41,11 +41,6 @@ export default {
 			infographicIdx: 0
 		}
 	},
-	watch: {
-		selectedInfographicIdx () {
-			this.infographicIdx = this.selectedInfographicIdx
-		}
-	},
 	computed: {
 		selectedInfographic () {
 			return this.infographics[this.infographicIdx]
@@ -53,6 +48,11 @@ export default {
 		...mapGetters({
 			infographics: 'infographics/allInfographics'
 		})
+	},
+	watch: {
+		selectedInfographicIdx () {
+			this.infographicIdx = this.selectedInfographicIdx
+		}
 	},
 	methods: {
 		deleteInfographic () {

@@ -37,14 +37,6 @@
       <span class="nav-item-tooltip-text">Notas</span>
     </div>
 
-    <!-- Flashcards -->
-    <div class="text-center nav-item-tooltip">
-      <nuxt-link to="/">
-        <FlashcardIcon class="nav-icon" />
-      </nuxt-link>
-      <span class="nav-item-tooltip-text">Flashcards</span>
-    </div>
-
     <!-- Exámenes -->
     <div class="text-center nav-item-tooltip">
       <nuxt-link to="/custom_test_config">
@@ -58,7 +50,7 @@
       <nuxt-link to="/infographics">
         <InfographicsIcon class="nav-icon" />
       </nuxt-link>
-      <span class="nav-item-tooltip-text">Infográficos</span>
+      <span class="nav-item-tooltip-text">Spotlights</span>
     </div>
 
     <!-- Análisis -->
@@ -76,7 +68,6 @@ import HomeIcon from '@/components/icons/HomeIcon.vue'
 import CalendarIcon from '@/components/icons/CalendarIcon.vue'
 import ManualsIcon from '@/components/icons/ManualsIcon.vue'
 import NotesIcon from '@/components/icons/NotesIcon.vue'
-import FlashcardIcon from '@/components/icons/FlashcardIcon.vue'
 import InsightsIcon from '@/components/icons/InsightsIcon.vue'
 import InfographicsIcon from '@/components/icons/InfographicsIcon.vue'
 import TestsIcon from '@/components/icons/TestsIcon.vue'
@@ -86,7 +77,6 @@ export default {
     CalendarIcon,
     ManualsIcon,
     NotesIcon,
-    FlashcardIcon,
     InsightsIcon,
     InfographicsIcon,
     TestsIcon

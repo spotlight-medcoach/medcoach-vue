@@ -1,5 +1,8 @@
 <template>
-	<div class="d-flex flex-wrap justify-content-around">
+	<div
+		v-if="allInfographics && studentInfographics"
+		class="d-flex flex-wrap justify-content-around"
+	>
 		<div
 			v-for="(infographic, index) in infographics"
 			:key="index"
@@ -7,7 +10,7 @@
 		>
 			<div
 				class="infographic-preview"
-				:class="{'disabled': loadingState}"
+				:class="{'disabled': loadingState, 'hovered': infographic.learned}"
 				:style="{'width': infographicCardSize+'px', 'height': infographicCardSize+'px'}"
 				@click="selectedInfographic(index)"
 			>
@@ -19,18 +22,18 @@
 					v-if="overlayIcon"
 					class="overlay-content d-flex justify-content-center align-items-center"
 				>
-					<b-icon v-bind="createIcon" font-scale="2" color="white"></b-icon>
+					<b-icon v-bind="createIcon" font-scale="2" color="white" />
 				</div>
 			</div>
 		</div>
-		<div class="my-5" v-if="infographics.length === 0">
+		<div v-if="infographics.length === 0" class="my-5">
 			Sin resultados
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
 	name: 'InfographicsGrid',
 	props: {
@@ -56,15 +59,6 @@ export default {
 			infographics: []
 		}
 	},
-	watch: {
-		topicId (topicId) {
-			this.filterByTopic(topicId)
-		},
-		subtopicId (subtopicId) {
-			console.log(subtopicId)
-			this.filterBySubTopic(subtopicId)
-		}
-	},
 	computed: {
 		createIcon () {
 			return {
@@ -73,36 +67,48 @@ export default {
 		},
 		...mapGetters({
 			loadingState: 'infographics/loadingState',
-			allInfographics: 'infographics/allInfographics'
-		}),
-		...mapState({
-			allInfographics: state => state.infographics.infographics
+			allInfographics: 'infographics/allInfographics',
+			studentInfographics: 'infographics/studentInfographics'
 		})
 	},
-	methods: {
-		selectedInfographic (infographicIdx) {
-			if (!this.loadingState) {
-				this.$emit('onSelectedInfographic', infographicIdx)
-			}
+	watch: {
+		topicId (topicId) {
+			this.filterResults(topicId, this.subtopicId)
 		},
-		filterByTopic (topicId) {
-			this.infographics = this.allInfographics.filter(
-				infographic => infographic.topic_id === topicId
-			)
-		},
-		filterBySubTopic (subtopicId) {
-			this.infographics = this.allInfographics.filter(
-				infographic => infographic.subtopic_id === subtopicId
-			)
+		subtopicId (subtopicId) {
+			this.filterResults(this.topicId, subtopicId)
 		}
 	},
 	mounted () {
 		if (this.infographics === undefined) {
 			this.$store.dispatch('infographics/fetchInfographics')
-		} else if (this.subTopicId) {
-			this.filterBySubTopic(this.subTopicId)
-		} else if (this.topicId) {
-			this.filterByTopic(this.topicId)
+		} else if (this.topicId || this.subtopicId) {
+			this.filterResults(this.topicId, this.subtopicId)
+		}
+	},
+	methods: {
+		selectedInfographic (filteredIdx) {
+			if (!this.loadingState) {
+				const selectedInfographic = this.infographics[filteredIdx]
+				this.$emit('onSelectedInfographic', selectedInfographic._id)
+			}
+		},
+		filterResults (topicId, subtopicId) {
+			if (subtopicId) {
+				this.filterBySubTopic()
+			} else if (topicId) {
+				this.filterByTopic()
+			}
+		},
+		filterByTopic () {
+			this.infographics = this.allInfographics.filter(
+				infographic => infographic.topic_id === this.topicId
+			)
+		},
+		filterBySubTopic () {
+			this.infographics = this.allInfographics.filter(
+				infographic => infographic.subtopic_id === this.subtopicId
+			)
 		}
 	}
 }
@@ -114,11 +120,11 @@ export default {
 		.infographic-preview {
 			position: relative;
 			background-color: #eeeeee;
+			transition: all 0.6s;
 			img {
 				object-fit: cover;
 				object-position: center;
 				width: 100%;
-				transition: all 0.6s;
 			}
 			.overlay-content {
 				position: absolute;
@@ -133,7 +139,8 @@ export default {
 				opacity: 0;
 				transition: opacity 0.4s;
 			}
-			&:hover .overlay-content {
+			&.hover:hover .overlay-content,
+			&.hovered .overlay-content {
 				z-index: 1;
 				opacity: 1;
 			}

@@ -15,7 +15,7 @@
 					@onChangeFontSize="changeFontSize"
 					@onChangeBrightness="changeBrightness"
 					@onFinishManual="finishManual"
-				></manual-navbar>
+				/>
 			</article>
 			<!----------------------------------------------------------------- DOCUMENT FILE HTML -->
 			<article>
@@ -106,6 +106,13 @@ export default {
 			notes: 'Cargando notas...',
 			message_error: 'Ocurrió un error su petición',
 			error_http: false
+		}
+	},
+	watch: {
+		$route (to, from) {
+			if (from.manual_id !== to.query.manual_id) {
+				this.manual_id = to.query.manual_id
+			}
 		}
 	},
 	methods: {

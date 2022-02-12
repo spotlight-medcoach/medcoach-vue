@@ -15,16 +15,16 @@
 		@hidden="loaded = false"
 	>
 		<template #modal-header-close>
-			<b-icon icon="x" font-scale="1.1"></b-icon>
+			<b-icon icon="x" font-scale="1.1" />
 		</template>
-		<b-form @submit="createInfographic" id="infographic-form" name="infographic-form">
+		<b-form id="infographic-form" name="infographic-form" @submit="createInfographic">
 			<b-form-group label="Nombre" label-for="name">
 				<b-form-input
 					id="name"
 					v-model="form.name"
 					placeholder="Nombre de Infografía"
 					required
-				></b-form-input>
+				/>
 			</b-form-group>
 			<b-form-group label="Tema" label-for="topic">
 				<b-form-select
@@ -33,9 +33,10 @@
 					:options="topicOptions"
 					required
 				>
-				<template #button-content>
-					<b-icon icon="gear-fill" aria-hidden="true"></b-icon> Settings
-				</template>
+					<template #button-content>
+						<b-icon icon="gear-fill" aria-hidden="true" />
+						Settings
+					</template>
 				</b-form-select>
 			</b-form-group>
 			<b-form-group label="Subtema" label-for="subtopic">
@@ -59,10 +60,12 @@
 			button-class="btn btn-light"
 			class="mt-4 mb-2"
 			:custom-strings="pictureInputStrings"
-			@change="onChange">
-		</picture-input>
+			@change="onChange"
+		/>
 		<template #modal-footer>
-			<b-button type="submit" form="infographic-form" variant="primary" :disabled="!form.image">Guardar Infografía</b-button>
+			<b-button type="submit" form="infographic-form" variant="primary" :disabled="!form.image">
+				Guardar Infografía
+			</b-button>
 		</template>
 	</b-modal>
 </template>
@@ -137,6 +140,9 @@ export default {
 			this.infographicIdx = this.selectedInfographicIdx
 		}
 	},
+	mounted () {
+		this.form = Object.assign({}, formDefault)
+	},
 	methods: {
 		onChange (image) {
 			if (image) {
@@ -159,9 +165,6 @@ export default {
 				this.$refs['infographic-create-modal'].hide()
 			}
 		}
-	},
-	mounted () {
-		this.form = Object.assign({}, formDefault)
 	}
 }
 </script>

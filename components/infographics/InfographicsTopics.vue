@@ -4,11 +4,11 @@
 			<!-------------------------------------------------------------------- Skeleton -->
 			<template #loading>
 				<div class="topics-container m-4">
-					<b-skeleton v-for="index in 5" :key="index" class="mb-3" :width="`${skeletonWidth(60, 100)}%`"/>
+					<b-skeleton v-for="index in 5" :key="index" class="mb-3" :width="`${skeletonWidth(60, 100)}%`" />
 				</div>
 				<hr>
 				<div class="subtopics-container m-4">
-					<b-skeleton v-for="index in 9" :key="index" class="mb-3" :width="`${skeletonWidth(60, 100)}%`"/>
+					<b-skeleton v-for="index in 9" :key="index" class="mb-3" :width="`${skeletonWidth(60, 100)}%`" />
 				</div>
 			</template>
 			<template v-if="loadStatus">
@@ -21,12 +21,12 @@
 						:class="{'selected subheader-xl font-weight-utra-bolder': index === selectedTopicIdx}"
 						@click="selectTopic(index)"
 					>
-						{{topic.name}}
+						{{ topic.name }}
 					</div>
 				</div>
 				<hr>
 				<!-------------------------------------------------------------------- Sub Topics -->
-				<div class="subtopics-container m-4" v-if="selectedTopicIdx !== undefined">
+				<div v-if="selectedTopicIdx !== undefined" class="subtopics-container m-4">
 					<div
 						v-for="(subtopic, index) in subtopics"
 						:key="subtopic._id"
@@ -34,12 +34,12 @@
 						:class="{'selected': index === selectedSubtopicIdx}"
 						@click="selectSubtopic(index)"
 					>
-						{{subtopic.name}}
+						{{ subtopic.name }}
 					</div>
 				</div>
 			</template>
 			<div v-else>
-				{{error}}
+				{{ error }}
 			</div>
 		</b-skeleton-wrapper>
 	</div>
@@ -71,12 +71,18 @@ export default {
 			return getRandomNumberBetween(min, max)
 		},
 		selectTopic (index) {
-			this.selectedTopicIdx = index
-			this.$emit('onTopicChange', this.topics[index]._id)
+			if (this.selectedTopicIdx !== index) {
+				this.selectedTopicIdx = index
+				this.$emit('onTopicChange', this.topics[index]._id)
+			}
+			this.selectedSubtopicIdx = undefined
+			this.$emit('onSubtopicChange', undefined)
 		},
 		selectSubtopic (index) {
-			this.selectedSubtopicIdx = index
-			this.$emit('onSubtopicChange', this.subtopics[index]._id)
+			if (this.selectedSubtopicIdx !== index) {
+				this.selectedSubtopicIdx = index
+				this.$emit('onSubtopicChange', this.subtopics[index]._id)
+			}
 		}
 	}
 }

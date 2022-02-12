@@ -1,9 +1,10 @@
 <template>
 	<b-modal
+		v-if="allInfographics && studentInfographics && selectedInfographicId"
 		id="infographics-carousel-modal"
 		ref="infographics-carousel-modal"
-		v-if="selectedInfographic"
-		:title="selectedInfographic.title"
+		v-b-modal.infographics-delete-modal
+		:title="selectedInfographic.name"
 		header-close-label="x"
 		size="lg"
 		header-class="p-0"
@@ -11,11 +12,10 @@
 		body-class="p-0"
 		footer-class="p-0"
 		header-text-variant="light"
-		v-b-modal.infographics-delete-modal
 		centered
 	>
 		<div slot="modal-header-close">
-			<b-icon icon="x" font-scale="2"></b-icon>
+			<b-icon icon="x" font-scale="2" />
 		</div>
 		<b-carousel
 			id="carousel-1"
@@ -24,19 +24,19 @@
 			controls
 		>
 			<b-carousel-slide
-				v-for="(infographic, index) in infographics"
+				v-for="(infographic, index) in allInfographics"
 				:key="index"
 				:img-src="infographic.image"
-			></b-carousel-slide>
+			/>
 		</b-carousel>
 		<div slot="modal-footer" class="mx-auto mt-4">
 			<holdable-button
 				class="rounded p-2"
 				message="Marcar como aprendido"
-				:maxWidth="300"
+				:max-width="300"
 				@onCheck="markAsLearned"
-			>
-			</holdable-button>
+				:disabled="selectedInfographic.learned"
+			/>
 			<b-button
 				variant="light"
 				class="download-button"
@@ -44,14 +44,14 @@
 				:download="selectedInfographic.name"
 				target="_blank"
 			>
-				<b-icon icon="download" aria-hidden="true"></b-icon>
+				<b-icon icon="download" aria-hidden="true" />
 			</b-button>
 		</div>
 	</b-modal>
 </template>
 
 <script>
-import { infographics } from '@/components/infographics/template'
+import { mapGetters } from 'vuex'
 import HoldableButton from '@/components/_functional/HoldableButton.vue'
 export default {
 	name: 'InfographicsCarouselModal',
@@ -59,14 +59,9 @@ export default {
 		HoldableButton
 	},
 	props: {
-		selectedInfographicIdx: {
-			type: Number,
-			default: 0
-		}
-	},
-	watch: {
-		selectedInfographicIdx () {
-			this.infographicIdx = this.selectedInfographicIdx
+		selectedInfographicId: {
+			type: String,
+			default: undefined
 		}
 	},
 	data () {
@@ -75,17 +70,28 @@ export default {
 		}
 	},
 	computed: {
-		infographics () {
-			return infographics
-		},
+		...mapGetters({
+			allInfographics: 'infographics/allInfographics',
+			studentInfographics: 'infographics/studentInfographics'
+		}),
 		selectedInfographic () {
-			return infographics[this.infographicIdx]
+			return this.allInfographics[this.infographicIdx]
+		}
+	},
+	watch: {
+		selectedInfographicId (infographicId) {
+			this.infographicIdx = this.allInfographics.findIndex(infographic => infographic._id === infographicId)
+		}
+	},
+	mounted () {
+		if (this.allInfographics === undefined) {
+			this.$store.dispatch('infographics/fetchInfographics')
 		}
 	},
 	methods: {
 		markAsLearned () {
 			this.$refs['infographics-carousel-modal'].hide()
-			this.$emit('onMarkAsLearned', this.infographicIdx)
+			this.$emit('onMarkAsLearned', this.selectedInfographicId)
 		}
 	}
 }
