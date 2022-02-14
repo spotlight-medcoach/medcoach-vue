@@ -1,8 +1,8 @@
 <template>
 	<div class="quote-container d-flex align-items-center justify-content-center py-2">
-		<div class="quote text-center text-lg-content">
+		<div class="quote text-center body-medium-3">
 			<q>{{ quoteSelected.quote }}</q>
-			<span class="author">
+			<span class="author body-title-3">
 				- {{ quoteSelected.author }}
 			</span>
 		</div>
@@ -40,8 +40,5 @@ export default {
 		height: 100%;
 		padding-left: 8vw;
 		padding-right: 8vw;
-	}
-	.author {
-		font-weight: bold;
 	}
 </style>

@@ -25,7 +25,7 @@
 						:to="`/manual?manual_id=${manual.manual_id}`"
 					>
 						<div class="manual-txt">{{ manual.manual_name }}</div>
-						<div class="manual-ext ml-auto text-right text-xs-content">
+						<div class="manual-ext ml-auto text-right body-xsm">
 							<div><b>{{ manual.subtopic_name }}</b></div>
 							<div><b>{{ manual.topic_name }}</b></div>
 						</div>
@@ -39,7 +39,7 @@
 						<div class="manual-txt">
 							{{ manual.manual_name }}
 						</div>
-						<div class="manual-ext ml-auto text-right text-xs-content">
+						<div class="manual-ext ml-auto text-right body-xsm">
 							<div><b>{{ manual.subtopic_name }}</b></div>
 							<div><b>{{ manual.topic_name }}</b></div>
 						</div>

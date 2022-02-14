@@ -1,0 +1,320 @@
+
+$line-height-0: 84%;
+$line-height-1:  64px;
+$line-height-2:  48px;
+$line-height-3:  36px;
+$line-height-4:  28px;
+$line-height-5:  20px;
+$line-height-6:  26px;
+$line-height-7:  22px;
+$line-height-8:  16px;
+$line-height-9:  normal;
+
+$font-weight-avenir-lt-std-0: 900;
+$font-weight-avenir-lt-std-1: 500;
+$font-weight-avenir-lt-std-2: 700;
+$font-weight-avenir-lt-std-3: 800;
+$font-weight-avenir-lt-std-4: 400;
+
+$font-size-0: 8px;
+$font-size-1: 10px;
+$font-size-2: 12px;
+$font-size-3: 14px;
+$font-size-4: 16px;
+$font-size-5: 17px;
+$font-size-6: 18px;
+$font-size-7: 20px;
+$font-size-8: 24px;
+$font-size-9: 29px;
+$font-size-10: 32px;
+$font-size-11: 35px;
+$font-size-12: 42px;
+$font-size-13: 50px;
+$font-size-14: 56px;
+$font-size-15: 60px;
+$font-size-16: 72px;
+$font-size-17: 74px;
+$font-size-18: 87px;
+
+$letter-spacing-0: 0.5px;
+$letter-spacing-1: 0.45px;
+$letter-spacing-2: 0.35px;
+$letter-spacing-3: 0.25px;
+$letter-spacing-4: -0.02px;
+$letter-spacing-5: -0.15px;
+$letter-spacing-6: -0.01px;
+$letter-spacing-7: 0px;
+$letter-spacing-8: 0.016px;
+$letter-spacing-9: 0.3px;
+$letter-spacing-10: 0.022px;
+$letter-spacing-11: 0.22px;
+$letter-spacing-12: 0.069px;
+$letter-spacing-13: 0.69px;
+$letter-spacing-14: 0.03px;
+
+$text-case-capitalize: capitalize;
+$text-case-uppercase: uppercase;
+
+$text-decoration-underline: underline;
+
+.display-1 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-18;
+    letter-spacing: $letter-spacing-7;
+}
+.display-2 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-16;
+    letter-spacing: $letter-spacing-7;
+}
+.display-3 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-15;
+    letter-spacing: $letter-spacing-7;
+}
+.display-4 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-13;
+    letter-spacing: $letter-spacing-7;
+}
+
+.heading-1 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-0;
+    line-height: $line-height-9;
+    font-size: $font-size-15;
+    letter-spacing: $letter-spacing-7;
+}
+.heading-2 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-0;
+    line-height: $line-height-9;
+    font-size: $font-size-13;
+    letter-spacing: $letter-spacing-7;
+}
+.heading-3 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-0;
+    line-height: $line-height-9;
+    font-size: $font-size-12;
+    letter-spacing: $letter-spacing-7;
+}
+.heading-4 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-0;
+    line-height: $line-height-9;
+    font-size: $font-size-11;
+    letter-spacing: $letter-spacing-7;
+}
+.heading-5 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-0;
+    line-height: $line-height-9;
+    font-size: $font-size-9;
+    letter-spacing: $letter-spacing-7;
+}
+.heading-6 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-0;
+    line-height: $line-height-9;
+    font-size: $font-size-8;
+    letter-spacing: $letter-spacing-9;
+}
+
+.body-title-1 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-3;
+    line-height: $line-height-9;
+    font-size: $font-size-8;
+    letter-spacing: $letter-spacing-1;
+}
+.body-title-2 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-3;
+    line-height: $line-height-9;
+    font-size: $font-size-7;
+    letter-spacing: $letter-spacing-1;
+}
+.body-title-3 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-3;
+    line-height: $line-height-9;
+    font-size: $font-size-5;
+    letter-spacing: $letter-spacing-1;
+}
+.body-title-4 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-3;
+    line-height: $line-height-9;
+    font-size: $font-size-3;
+    letter-spacing: $letter-spacing-0;
+}
+.body-title-5 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-3;
+    line-height: $line-height-9;
+    font-size: $font-size-2;
+    letter-spacing: $letter-spacing-1;
+}
+.body-title-6 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-3;
+    line-height: $line-height-9;
+    font-size: $font-size-1;
+    letter-spacing: $letter-spacing-0;
+}
+
+.body-xxxlg {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-10;
+    letter-spacing: $letter-spacing-9;
+}
+.body-xxlg {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-8;
+    letter-spacing: $letter-spacing-9;
+}
+.body-xlg {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-7;
+    letter-spacing: $letter-spacing-9;
+}
+.body-lg {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-5;
+    letter-spacing: $letter-spacing-13;
+}
+.body-md {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-3;
+    letter-spacing: $letter-spacing-7;
+}
+.body-sm {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-2;
+    letter-spacing: $letter-spacing-11;
+}
+.body-xsm {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-1;
+    letter-spacing: $letter-spacing-11;
+}
+.caption {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-0;
+    letter-spacing: $letter-spacing-7;
+    text-transform: $text-case-uppercase;
+}
+.calendar {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-11;
+    letter-spacing: $letter-spacing-14;
+}
+.body-medium-1 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-2;
+    line-height: $line-height-9;
+    font-size: $font-size-8;
+    letter-spacing: $letter-spacing-10;
+}
+.body-medium-2 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-2;
+    line-height: $line-height-9;
+    font-size: $font-size-7;
+    letter-spacing: $letter-spacing-11;
+}
+.body-medium-3 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-2;
+    line-height: $line-height-9;
+    font-size: $font-size-5;
+    letter-spacing: $letter-spacing-12;
+}
+.body-medium-4 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-2;
+    line-height: $line-height-9;
+    font-size: $font-size-3;
+    letter-spacing: $letter-spacing-0;
+}
+.body-medium-5 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-2;
+    line-height: $line-height-9;
+    font-size: $font-size-2;
+    letter-spacing: $letter-spacing-11;
+}
+.body-medium-6 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-2;
+    line-height: $line-height-9;
+    font-size: $font-size-1;
+    letter-spacing: $letter-spacing-0;
+}
+.button-link-xsm {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-1;
+    letter-spacing: $letter-spacing-7;
+    text-decoration: $text-decoration-underline;
+}
+.button-link-sm {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-2;
+    letter-spacing: $letter-spacing-7;
+    text-decoration: $text-decoration-underline;
+}
+.button-link-xlg {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-7;
+    letter-spacing: $letter-spacing-7;
+    text-decoration: $text-decoration-underline;
+}
+.button-link-lg {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-5;
+    letter-spacing: $letter-spacing-7;
+    text-decoration: $text-decoration-underline;
+}
+.button-link-md {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-1;
+    line-height: $line-height-9;
+    font-size: $font-size-3;
+    letter-spacing: $letter-spacing-7;
+    text-decoration: $text-decoration-underline;
+}

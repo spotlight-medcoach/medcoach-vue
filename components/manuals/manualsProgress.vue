@@ -5,13 +5,13 @@
 			<!-- Skeleton loading -->
 			<template #loading>
 				<div>
-					<b-skeleton class="mb-5" width="80%"></b-skeleton>
-					<b-skeleton class="mb-5" width="65%"></b-skeleton>
-					<b-skeleton class="mb-5" width="95%"></b-skeleton>
-					<b-skeleton class="mb-5" width="80%"></b-skeleton>
-					<b-skeleton class="mb-5" width="65%"></b-skeleton>
-					<b-skeleton class="mb-5" width="85%"></b-skeleton>
-					<b-skeleton class="mb-5" width="80%"></b-skeleton>
+					<b-skeleton class="mb-5" width="80%" />
+					<b-skeleton class="mb-5" width="65%" />
+					<b-skeleton class="mb-5" width="95%" />
+					<b-skeleton class="mb-5" width="80%" />
+					<b-skeleton class="mb-5" width="65%" />
+					<b-skeleton class="mb-5" width="85%" />
+					<b-skeleton class="mb-5" width="80%" />
 				</div>
 			</template>
 
@@ -24,7 +24,7 @@
 					@mouseleave="handleHoverTopic(index, false)"
 					v-for="(manual, index) in topics"
 					:key="manual._id"
-					>
+				>
 					<!-- Custom progress bar -->
 					<custom-progress-bar
 						:actualValue = manual.progress
@@ -41,8 +41,8 @@
 
 		<!-- Topics Resume -->
 		<div class="total-container text-center flex-grow-1 py-2">
-			<h5 class="header-md">Total vistos</h5>
-			<h5 class="header-md">
+			<h5 class="body-title-1">Total vistos</h5>
+			<h5 class="body-title-1">
 				{{ total_progress }} / {{ total_manuals }}
 			</h5>
 		</div>

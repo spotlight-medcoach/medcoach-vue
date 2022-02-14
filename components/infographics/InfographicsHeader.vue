@@ -1,7 +1,7 @@
 <template>
 	<div class="infographics-header">
 		<div />
-		<h3 class="header-md text-center mb-4">SpotlightMed Infographics</h3>
+		<h3 class="body-title-1 text-center mb-4">SpotlightMed Infographics</h3>
 		<div>
 			<b-icon icon="dash" class="h4 m-2 pointer" @click="changeInfographicCardSize(-1)" />
 			<b-icon icon="plus" class="h4 m-2 pointer" @click="changeInfographicCardSize(1)" />

@@ -17,8 +17,8 @@
 					<div
 						v-for="(topic, index) in topics"
 						:key="topic._id"
-						class="topic-item cursor-pointer my-3"
-						:class="{'selected subheader-xl font-weight-utra-bolder': index === selectedTopicIdx}"
+						class="topic-item cursor-pointer body-lg my-3"
+						:class="{'selected body-title-2': index === selectedTopicIdx}"
 						@click="selectTopic(index)"
 					>
 						{{ topic.name }}
@@ -30,7 +30,7 @@
 					<div
 						v-for="(subtopic, index) in subtopics"
 						:key="subtopic._id"
-						class="subtopic-item cursor-pointer my-3"
+						class="subtopic-item cursor-pointer body-lg my-3"
 						:class="{'selected': index === selectedSubtopicIdx}"
 						@click="selectSubtopic(index)"
 					>
@@ -92,6 +92,9 @@ export default {
 	.topics-container,
 	.subtopics-container {
 		color: #{$neutral-400};
+	}
+	.body-lg {
+		font-weight: 300
 	}
 	.topic-item.selected {
 		color: #{$accent_b-500};

@@ -1,6 +1,6 @@
 <template>
 	<div class="infographics-header d-flex justify-content-between">
-		<h3 class="header-md mb-4">Infográficos</h3>
+		<h3 class="body-title-1 mb-4">Infográficos</h3>
 		<b-button
 			class="add-infographic-button"
 			variant="primary"

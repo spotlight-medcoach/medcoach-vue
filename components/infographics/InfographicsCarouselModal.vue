@@ -84,7 +84,7 @@ export default {
 		}
 	},
 	mounted () {
-		if (this.allInfographics === undefined) {
+		if (this.allInfographics === undefined && this.loadingState === false) {
 			this.$store.dispatch('infographics/fetchInfographics')
 		}
 	},

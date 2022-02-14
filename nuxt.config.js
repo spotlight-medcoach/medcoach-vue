@@ -24,7 +24,18 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'https://s3.amazonaws.com/appforest_uf/f1579284400919x190003394063938080/Stripe.png' },
-      { rel: 'stylesheet', href:"https://fonts.googleapis.com/css2?family=Montserrat&display=swap"}
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Black.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-BlackOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Book.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-BookOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Heavy.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-HeavyOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Light.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-LightOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Medium.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-MediumOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Oblique.otf', type: 'opentype', crossorigin: 'anonymous' },
+      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Roman.otf', type: 'opentype', crossorigin: 'anonymous' }
     ],
     script: [
       { src: 'https://kit.fontawesome.com/b9fa278f43.js', crossorigin:'anonymous' }
@@ -42,6 +53,10 @@ export default {
     'quill/dist/quill.core.css',
     // for snow theme
     'quill/dist/quill.snow.css',
+    // theme fonts css
+    '@assets/css/variables/fonts.scss',
+    // theme font styles css
+    '@assets/css/variables/font-styles.scss',
     // color-palette
     '@assets/css/_custom_theme.scss',
     // dashboard css

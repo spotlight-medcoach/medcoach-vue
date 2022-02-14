@@ -1,8 +1,4 @@
 @font-face {
-  font-family: Avenir;
-  src: url("https://spotlightmed.s3-us-west-2.amazonaws.com/fonts/AvenirLTStd-Book.otf");
-}
-@font-face {
   font-family: 'Helvetica Neue Light';
   src: url('./../fonts/helvetica-neue-light.ttf');
 }

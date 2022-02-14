@@ -28,33 +28,6 @@
   overflow-wrap: break-word;
 }
 
-.header-lg {
-  font-size: 25px;
-  font-weight: 900;
-}
-.header-md {
-  font-size: 22px;
-  font-weight: 900;
-}
-.subheader-xl {
-  font-size: 19px;
-}
-.subheader-lg {
-  font-size: 14px;
-}
-.subheader-xs {
-  font-size: 12px;
-}
-.text-lg-content {
-  font-size: 14px;
-}
-.text-xs-content {
-  font-size: 10px;
-}
-.font-weight-utra-bolder {
-  font-weight: 900;
-}
-
 .main-color {
   color: #{$main-500};
 }
@@ -62,11 +35,5 @@
   color: #{$neutral-500};
   &-600 {
     color: #{$neutral-600};
-  }
-}
-
-.font-size{
-  &-14px {
-    font-size: 14px !important;
   }
 }

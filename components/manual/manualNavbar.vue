@@ -5,10 +5,10 @@
 		<b-skeleton-wrapper :loading="!(title)">
 			<template #loading>
 				<div>
-					<b-skeleton animation="throb" width="300px" height="30px" class="ml-2"></b-skeleton>
+					<b-skeleton animation="throb" width="300px" height="30px" class="ml-2" />
 				</div>
 			</template>
-			<div v-if="(title)" class="mx-3 header-md">
+			<div v-if="(title)" class="mx-3 body-title-1">
 				{{ title }}
 			</div>
 		</b-skeleton-wrapper>

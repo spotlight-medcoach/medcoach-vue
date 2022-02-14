@@ -80,7 +80,7 @@ export default {
 		}
 	},
 	mounted () {
-		if (this.infographics === undefined) {
+		if (this.infographics === undefined && this.loadingState === false) {
 			this.$store.dispatch('infographics/fetchInfographics')
 		} else if (this.topicId || this.subtopicId) {
 			this.filterResults(this.topicId, this.subtopicId)
