@@ -25,6 +25,8 @@
 				</template>
 			</article>
 		</section>
+		<!-- <template>
+		</template> -->
 		<!-- EXTRA CONTENT (TOP) -->
 		<section class="notifications-container shadow-sm p-3 m-2">
 			<!----------------------------------------------------------------------- NOTIFICATIONS -->

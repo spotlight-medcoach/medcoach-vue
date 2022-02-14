@@ -20,7 +20,7 @@
 					v-if="isNotes"
 					class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3"
 				>
-					<div class="text-center">
+					<div class="text-center body-medium-3">
 						Notas y Flashcards
 					</div>
 				</div>

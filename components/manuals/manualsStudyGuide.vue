@@ -110,6 +110,9 @@ export default {
 		.review a {
 			color: #{$neutral-1000};
 		}
+		.mb-3 {
+			margin-bottom: calc(1rem + 1vh) !important;
+		}
 		a {
 			font-weight: 300;
 			color: #{$neutral-400};

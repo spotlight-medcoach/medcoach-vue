@@ -27,7 +27,7 @@
 					v-for="(subtopic, index) in topic.subtopics"
 					:key="subtopic._id"
 					class="my-3 pointer subtopic-item body-medium-3"
-					:class="{'font-weight-utra-bolder': index === subtopic_index }"
+					:class="{'active': index === subtopic_index }"
 					@click="selectSubtopic(index)"
 				>
 					{{ subtopic.name }}
@@ -63,7 +63,10 @@ export default {
 		}
 		.subtopic-item {
 			font-weight: 300;
+			margin-top: calc(1rem + 1vh) !important;
+			margin-bottom: calc(1rem + 1vh) !important;
 		}
+		.active,
 		.subtopic-item:hover {
 			font-weight: 900;
 		}
