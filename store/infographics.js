@@ -48,8 +48,8 @@ export const actions = {
 	fetchInfographics ({ commit }) {
 		commit('setLoadingState', true)
 		return Promise.all([
-			this.$axios.get('http://localhost:3000/api/infographics'),
-			this.$axios.get('http://localhost:3000/api/student/infographics')
+			this.$axios.get('/infographics'),
+			this.$axios.get('/student/infographics')
 		])
 			.then(([infographicsResponse, StudentInfographicsResponse]) => {
 				const studentInfographics = StudentInfographicsResponse.data.studentInfographics
@@ -79,7 +79,7 @@ export const actions = {
 	createInfographic ({ commit }, infographic) {
 		commit('setLoadingState', true)
 		return this.$axios
-			.post('http://localhost:3000/api/infographic',
+			.post('/infographic',
 				infographic
 			)
 			.then((response) => {
@@ -98,7 +98,7 @@ export const actions = {
 	deleteInfographic ({ commit }, infographicId) {
 		commit('setLoadingState', true)
 		return this.$axios
-			.delete('http://localhost:3000/api/infographic',
+			.delete('/infographic',
 				{ data: { infographic_id: infographicId } }
 			)
 			.then((response) => {
@@ -115,7 +115,7 @@ export const actions = {
 	setInfographicToStudent ({ commit }, infographicId) {
 		commit('setLoadingState', true)
 		return this.$axios
-			.post('http://localhost:3000/api/student/infographic', { infographic_id: infographicId })
+			.post('/student/infographic', { infographic_id: infographicId })
 			.then((sudentInfographic) => {
 				commit('addStudentInfographic', sudentInfographic)
 				commit('markInfographicAsLearned', infographicId)
