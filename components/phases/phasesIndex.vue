@@ -1,5 +1,5 @@
 <template>
-	<div id="phases-progress">
+	<div id="phases-progress" :class="isFreeTrial ? 'free-trial' : 'default'">
 		<b-skeleton-wrapper :loading="onHttpRequest">
 			<!-- PHASES LOADING -->
 			<template #loading>
@@ -7,20 +7,10 @@
 					<b-skeleton width="40%" type="button" class="mb-5" />
 				</div>
 				<div class="phases-container">
-					<div>
+					<div v-for="block in isFreeTrial ? 1 : 3" :key="block">
 						<b-skeleton width="18%" />
 						<b-skeleton width="100%" />
-						<b-skeleton width="60%" />
-					</div>
-					<div>
-						<b-skeleton width="18%" />
-						<b-skeleton width="100%" />
-						<b-skeleton width="80%" />
-					</div>
-					<div>
-						<b-skeleton width="18%" />
-						<b-skeleton width="100%" />
-						<b-skeleton width="40%" />
+						<b-skeleton :width="`${skeletonWidth(40, 80)}%`" />
 					</div>
 				</div>
 			</template>
@@ -29,41 +19,62 @@
 			</template>
 			<!-- END PHASES LOADING -->
 			<template v-else>
-				<!-- PHASES TOP CONTENT -->
-				<div class="d-flex justify-content-between">
-					<h3 class="body-title-1">
-						Fase de estudio
-					</h3>
-					<div v-if="student" class="text-right">
-						<h4 class="body-medium-1">
-							{{ restDays }} días restantes ENARM
-						</h4>
-						<p class="body-xsm">
-							Calculado al {{ testDate.format('DD [de] MMMM [del] YYYY') }}
-						</p>
+
+				<!-- PHASES CONTENT (no trial) -->
+				<template v-if="!isFreeTrial">
+					<div class="d-flex justify-content-between">
+						<h3 class="body-title-1"> Fase de estudio </h3>
+						<div class="text-right">
+							<h4 class="body-medium-1"> {{ restDays }} días restantes ENARM </h4>
+							<p class="body-xsm"> Calculado al {{ testDate.format('DD [de] MMMM [del] YYYY') }} </p>
+						</div>
 					</div>
-				</div>
-				<!-- END PHASES TOP CONTENT -->
-				<!-- PHASES CONTENT -->
-				<div class="phases-container">
-					<div
-						v-for="(p, phaseId) in calcPhasesForStudent()"
-						:key="phaseId"
-						class="my-2"
-					>
-						<custom-progress-bar
-							:actual-value = "p.progress"
-							:total-value = "p.total"
-							:top-hint = "calcAverageValue(p.total, p.progress) + '%'"
-							:color-variant = "p.componentStyle"
-							:bottom-header = "p.title"
-							:bottom-subheader = "'( ' + p.total + ' días )'"
-							:bottom-hint = "p.textOverview"
-							:enabled = "isEnablePhase(phaseId)"
-						/>
+					<div class="phases-container">
+						<div
+							v-for="(p, phaseId) in calcPhasesForStudent()"
+							:key="phaseId"
+							class="my-2"
+						>
+							<custom-progress-bar
+								:actual-value = "p.progress"
+								:total-value = "p.total"
+								:top-hint = "calcAverageValue(p.total, p.progress) + '%'"
+								:color-variant = "p.componentStyle"
+								:bottom-header = "p.title"
+								:bottom-subheader = "'( ' + p.total + ' días )'"
+								:bottom-hint = "p.textOverview"
+								:enabled = "isEnablePhase(phaseId)"
+							/>
+						</div>
 					</div>
-				</div>
-				<!-- END PHASES CONTENT -->
+				</template>
+
+				<!-- PHASES CONTENT (trial) -->
+				<template v-else-if="student">
+					<div class="d-flex justify-content-between">
+						<h3 class="body-title-1 mx-auto">
+							{{!freeTrial.isTrialEnd ? `Prueba de ${freeTrial.totalDuration} días` : 'Tu prueba ha terminado'}}
+						</h3>
+						<div class="text-right flex-grow-1" v-if="!freeTrial.isTrialEnd">
+							<h4 class="body-medium-1"> {{ restDays }} días restantes ENARM </h4>
+							<!-- <p class="body-xsm"> Calculado al {{ testDate.format('DD [de] MMMM [del] YYYY') }} </p> -->
+						</div>
+					</div>
+					<div class="phases-container">
+						<div :set="p = calcTrialProgress()" class="my-2">
+							<custom-progress-bar
+								:actual-value = "p.progress"
+								:total-value = "p.total"
+								:top-hint = "calcAverageValue(p.total, p.progress) + '%'"
+								:color-variant = "p.componentStyle"
+								:bottom-header = "p.title"
+								:bottom-subheader = "'( ' + p.progress + ' días )'"
+								:bottom-hint = "p.textOverview"
+							/>
+						</div>
+					</div>
+				</template>
+
 			</template>
 		</b-skeleton-wrapper>
 	</div>
@@ -72,8 +83,8 @@
 import moment from 'moment'
 import { mapState } from 'vuex'
 import { phaseVariants } from './phasesStaticData'
+import { getRandomNumberBetween } from '@/helpers/skeleton'
 import CustomProgressBar from '~/components/_functional/CustomProgressBar.vue'
-
 export default {
 	name: 'PhasesIndex',
 	components: {
@@ -89,27 +100,21 @@ export default {
 		testDate () {
 			return moment(this.student.test_date)
 		},
-		restDays () {
-			return this.calcRestDays()
-		},
 		...mapState({
 			student: 'studentInfo',
 			phase: 'phase',
 			phase_3_days: 'phase_3_days',
+			isFreeTrial: 'isFreeTrial',
+			freeTrial: 'free_trial',
+			restDays: 'restDays',
 			onHttpRequest: state => state.http_request.onHttpRequest,
 			message: state => state.http_request.message,
 			errorHttp: state => state.http_request.errorHttp
 		})
 	},
 	methods: {
-		calcRestDays () {
-			let days = 0
-			days = this.testDate.diff(this.now, 'days') // fecha_test - fecha_actual
-			if (days < 0) {
-				days = 0
-			}
-			this.$store.commit('setRestDays', days)
-			return days
+		skeletonWidth (min, max) {
+			return getRandomNumberBetween(min, max)
 		},
 		isEnablePhase (phaseRefId) {
 			return (phaseRefId <= this.phase.id)
@@ -119,6 +124,15 @@ export default {
 				return 0
 			}
 			return +parseFloat(actualValue / totalValue * 100).toFixed(2)
+		},
+		calcTrialProgress () {
+			return {
+				title: `Prueba de ${this.freeTrial.totalDuration} días`,
+				textOverview: 'Estudiar manuales y realizar notas / flashcards de todos los temas',
+				componentStyle: 'blue',
+				total: this.freeTrial.totalDuration,
+				progress: this.freeTrial.restDays
+			}
 		},
 		calcPhasesForStudent () {
 			const phasesContent = phaseVariants
@@ -158,7 +172,7 @@ export default {
 }
 </script>
 <style lang="scss">
-	.phases-container {
+	.default .phases-container {
 		display: grid;
 		grid-template-columns: 3fr 4fr 3fr;
 		gap: 7px;

@@ -24,21 +24,24 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'https://s3.amazonaws.com/appforest_uf/f1579284400919x190003394063938080/Stripe.png' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Black.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-BlackOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Book.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-BookOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Heavy.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-HeavyOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Light.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-LightOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Medium.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-MediumOblique.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Oblique.otf', type: 'opentype', crossorigin: 'anonymous' },
-      { rel: 'preload', as: 'font', href: './assets/fonts/AvenirLTStd/AvenirLTStd-Roman.otf', type: 'opentype', crossorigin: 'anonymous' }
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Black.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-BlackOblique.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Book.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-BookOblique.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Heavy.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-HeavyOblique.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Light.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-LightOblique.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Medium.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-MediumOblique.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Oblique.otf', crossorigin: 'anonymous' },
+      { href: './assets/fonts/AvenirLTStd/AvenirLTStd-Roman.otf', crossorigin: 'anonymous' },
+      { href: './assets/lotties/85744-success.json', crossorigin: 'anonymous' }
     ],
     script: [
-      { src: 'https://kit.fontawesome.com/b9fa278f43.js', crossorigin:'anonymous' }
+      { src: 'https://kit.fontawesome.com/b9fa278f43.js', crossorigin:'anonymous' },
+      { src: 'https://pay.conekta.com/v1.0/js/conekta-checkout.min.js' },
+      { src: 'https://unpkg.com/@lottiefiles/lottie-player@0.4.0/dist/lottie-player.js' }
     ]
   },
   /*

@@ -1,19 +1,18 @@
 <template>
-	<header id="new-header">
+	<header id="new-header" :class="{'navigation-disabled': !navigationEnabled}">
 		<div class="toggle-sidebar-container">
 			<div
 				class="cursor-pointer sidebar-icon"
-				:class="sidebarActive ? 'is-sidebar-active' : 'is-sidebar-inactive'"
+				:class="{'sidebar-inactive': !sidebarActive}"
 				@click="$store.commit('sidebar/setSidebarActive', !sidebarActive)"
 			>
 				<ExpandIcon />
 			</div>
 		</div>
-		<div class="logo-container">
+		<nuxt-link class="logo-container" to="/dashboard">
 			<img src="@/assets/images/MedCOACH.png" class="logo">
-			<!-- <img src="@/assets/images/logo.svg" class="logo"> -->
-		</div>
-		<Searchbar />
+		</nuxt-link>
+		<Searchbar v-if="navigationEnabled" />
 		<Profile />
 	</header>
 </template>
@@ -30,7 +29,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			sidebarActive: 'sidebar/sidebarActive'
+			sidebarActive: 'sidebar/sidebarActive',
+			navigationEnabled: 'sidebar/navigationEnabled'
 		})
 	}
 }
@@ -60,7 +60,7 @@ export default {
 					height: 24px;
 				}
 			}
-			.sidebar-icon.is-sidebar-inactive {
+			.sidebar-icon.sidebar-inactive {
 				transform: rotateY(180deg);
 			}
 		}

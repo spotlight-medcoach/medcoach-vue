@@ -18,5 +18,7 @@ module.exports = {
     'no-tabs': 0,
     'indent': ['error', 'tab'],
     'vue/html-indent': ['error', 'tab'],
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'off'
   }
 }
