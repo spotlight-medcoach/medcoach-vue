@@ -1,45 +1,23 @@
 <template>
 	<div id="dashboard">
+		<!-- <horizontal-stepper
+			:steps="steps"
+			@completed-step="completeStep"
+			@active-step="isStepActive"
+		/> -->
 		<welcome-intro />
 	</div>
 </template>
 <script>
 // import HorizontalStepper from '@/components/welcome/HorizontalStepper/HorizontalStepper'
-// import Welcome from '@/components/welcome/Welcome'
-// import WelcomeIntro from '@/components/welcome/WelcomeIntro'
-import WelcomeIntro from '~/components/welcome/WelcomeIntro.vue'
+import WelcomeIntro from '@/components/welcome/WelcomeIntro.vue'
 // import DiagnosticTest from '@/components/welcome/DiagnosticTest'
 export default {
 	name: 'Welcome',
 	components: {
 		WelcomeIntro
-		// HorizontalStepper
 	},
 	layout: 'new_default',
-	// data () {
-	// 	return {
-	// 		steps: [
-	// 			{
-	// 				icon: '',
-	// 				name: 'first',
-	// 				title: 'Bienvenida',
-	// 				component: Welcome,
-	// 				completed: true,
-	// 				alwaysActive: true
-
-	// 			},
-	// 			{
-	// 				icon: '',
-	// 				name: 'third',
-	// 				title: 'Diagnóstico',
-	// 				component: DiagnosticTest,
-	// 				completed: true,
-	// 				alwaysActive: true
-	// 			}
-	// 		],
-	// 		plan_selected: null
-	// 	}
-	// },
 	created () {
 		const token = this.$route.query.token
 		if (token !== undefined) {
@@ -58,6 +36,9 @@ export default {
 		this.$store.commit('sidebar/setNavigationEnabled', false)
 	},
 	methods: {
+		increaseStepIdx () {
+
+		},
 		completeStep (payload) {
 			this.steps.forEach((step) => {
 				if (step.name === payload.name) {

@@ -2,7 +2,15 @@
 	<section class="w-100 h-100 d-flex align-items-center">
 		<article>
 			<div class="text-center">
-				<img src="" alt="">
+				<lottie-player
+					ref="welcome-intro"
+					class="welcome-intro"
+					background="transparent"
+					mode="normal"
+					speed="1"
+					loop
+					autoplay
+				/>
 			</div>
 		</article>
 		<article>
@@ -22,7 +30,7 @@
 				<p class="my-4">
 					¡Mucho éxito!
 				</p>
-				<b-button variant="primary">
+				<b-button variant="primary" @click="createTest()">
 					Iniciar examen
 				</b-button>
 			</div>
@@ -31,17 +39,37 @@
 </template>
 <script>
 export default {
-	name: 'WelcomeIntro'
-	// data () {
-	// 	return {
-	// 	}
-	// },
-	// created () {
-	// },
-	// mounted () {
-	// },
-	// methods: {
-	// }
+	name: 'WelcomeIntro',
+	created () {
+		this.$emit('can-continue', { value: true })
+	},
+	mounted () {
+		setTimeout(() => {
+			const successLottie = require('@/assets/lotties/welcome_intro.json')
+			this.$refs['welcome-intro'].load(successLottie)
+			this.$emit('can-continue', { value: true })
+		}, 1500)
+	},
+	methods: {
+		createTest () {
+			this.loading = true
+			let token = ''
+			if (process.client) {
+				token = localStorage.getItem('usertoken')
+			}
+			const headers = { Authorization: `Bearer ${token}` }
+			this.$axios
+				.post('/students/diagnostic', { first: true }, { headers })
+				.then((response) => {
+					console.log('Response:', response)
+					this.$router.push({ path: '/diagnostic_test' })
+				})
+				.catch((err) => {
+					console.log('Error:', err)
+					this.test_error = true
+				})
+		}
+	}
 }
 </script>
 <style lang="scss" scoped>
@@ -51,16 +79,19 @@ export default {
 	}
 	article {
 		> * {
-			width: 480px;
-			min-height: 480px;
+			width: 500px;
+			height: 100%;
 		}
 		p {
 			font-size: 16px;
 		}
-		img {
-			background: #eee;
-			width: 100%;
-			height: 100%;
+		.welcome-intro {
+			width: 680px;
+			text-align: center;
+			lottie-player {
+				max-width: 100%;
+				max-height: 100%;
+			}
 		}
 	}
 	.body-xxxlg {

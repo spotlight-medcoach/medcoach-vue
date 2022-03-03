@@ -12,8 +12,12 @@
 		<nuxt-link class="logo-container" to="/dashboard">
 			<img src="@/assets/images/MedCOACH.png" class="logo">
 		</nuxt-link>
-		<Searchbar v-if="navigationEnabled" />
-		<Profile />
+		<div>
+			<Searchbar v-if="navigationEnabled" />
+		</div>
+		<div>
+			<Profile />
+		</div>
 	</header>
 </template>
 <script>

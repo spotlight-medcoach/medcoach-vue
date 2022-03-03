@@ -1,31 +1,6 @@
 <template>
-	<div class="stepper-box">
-		<div class="top">
-			<div class="divider-line line-1" :style="{width: `${(100/(steps.length))}%`}" :class="{'disabled': currentStep.index == 0}"></div>
-			<div class="divider-line line-2" :style="{width: `${(100/(steps.length))}%`}" :class="{'disabled': currentStep.index <= 1}"></div>
-			<div class="steps-wrapper">
-				<template v-if="topButtons">
-					<div v-if="currentStep.index > 0" class="stepper-button-top previous" @click="backStep()">
-						<i class="material-icons">keyboard_arrow_left</i>
-					</div>
-				</template>
-				<template v-for="(step, index) in steps">
-					<div :class="['step', isVisited(index, step)]" :key="index" :style="{width: `${100 / steps.length}%`}">
-						<div class="step-title">
-							<h5>{{step.title}}</h5>
-						</div>
-						<div class="circle">
-							<i class="material-icons md-18">
-								<!--{{ (step.completed) ? 'done' : step.icon }}-->
-							</i>
-						</div>
-					</div>
-				</template>
-				<div v-if="topButtons" :class="['stepper-button-top next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
-					<i class="material-icons">keyboard_arrow_right</i>
-				</div>
-			</div>
-		</div>
+	<div class="stepper-box h-100">
+
 		<div class="content">
 			<transition :enter-active-class="enterAnimation" :leave-active-class="leaveAnimation" mode="out-in">
 				<!--If keep alive-->
@@ -34,7 +9,7 @@
 						:is="steps[currentStep.index].component"
 						:clickedNext="nextButton[currentStep.name]"
 						@can-continue="proceed"
-						@change-next="changeNextBtnValue"
+						@change-next="nextStep"
 						:current-step="currentStep"
 					/>
 				</keep-alive>
@@ -49,7 +24,7 @@
 				/>
 			</transition>
 		</div>
-		<div :class="['bottom', (currentStep.index > 0) ? '' : 'only-next']">
+		<!-- <div :class="['bottom', (currentStep.index > 0) ? '' : 'only-next']">
 			<div v-if="currentStep.index > 0" class="stepper-button previous" @click="backStep()">
 				<i class="material-icons">keyboard_arrow_left</i>
 				<span>{{ 'back' | translate(locale) }}</span>
@@ -58,7 +33,7 @@
 				<span>{{ (finalStep) ? 'finish' : 'next' | translate(locale) }}</span>
 				<i class="material-icons">keyboard_arrow_right</i>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -90,6 +65,10 @@ export default {
 		reset: {
 			type: Boolean,
 			default: false
+		},
+		stepIdx: {
+			type: Number,
+			default: 0
 		}
 	},
 	data () {
@@ -160,6 +139,7 @@ export default {
 			this.$forceUpdate()
 		},
 		nextStep () {
+			console.log('padre')
 			if (!this.$listeners || !this.$listeners['before-next-step']) {
 				this.nextStepAction()
 			}
@@ -179,7 +159,6 @@ export default {
 			}
 		},
 		proceed (payload) {
-			console.log('Proceed:', payload)
 			this.canContinue = payload.value
 		},
 		changeNextBtnValue (payload) {
@@ -195,6 +174,9 @@ export default {
 		}
 	},
 	watch: {
+		stepIdx (idx) {
+			console.log(idx)
+		},
 		reset (val) {
 			if (!val) {
 				return
@@ -218,28 +200,28 @@ export default {
 
 </style>
 <style scoped>
-@font-face {
-	font-family: "Material Icons";
-	font-style: normal;
-	font-weight: 400;
-	src: local("Material Icons"), local("MaterialIcons-Regular"),
-		url('https://fonts.gstatic.com/s/materialicons/v17/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2')
-		format("woff2");
-}
+	@font-face {
+		font-family: "Material Icons";
+		font-style: normal;
+		font-weight: 400;
+		src: local("Material Icons"), local("MaterialIcons-Regular"),
+			url('https://fonts.gstatic.com/s/materialicons/v17/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2')
+			format("woff2");
+	}
 
-.material-icons {
-	font-family: "Material Icons";
-	font-weight: normal;
-	font-style: normal;
-	font-size: 24px;
-	line-height: 1;
-	letter-spacing: normal;
-	text-transform: none;
-	display: inline-block;
-	white-space: nowrap;
-	word-wrap: normal;
-	direction: ltr;
-	-webkit-font-feature-settings: "liga";
-	-webkit-font-smoothing: antialiased;
-}
+	.material-icons {
+		font-family: "Material Icons";
+		font-weight: normal;
+		font-style: normal;
+		font-size: 24px;
+		line-height: 1;
+		letter-spacing: normal;
+		text-transform: none;
+		display: inline-block;
+		white-space: nowrap;
+		word-wrap: normal;
+		direction: ltr;
+		-webkit-font-feature-settings: "liga";
+		-webkit-font-smoothing: antialiased;
+	}
 </style>
