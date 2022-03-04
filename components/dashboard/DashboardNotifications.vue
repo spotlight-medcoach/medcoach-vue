@@ -2,20 +2,20 @@
 	<div id="dashboard-notifications">
 		<h3 class="my-2 text-center body-title-2">Notificaciones</h3>
 		<hr class="mb-0 mt-4">
-		<custom-list-preview-two-lines
+		<!-- <custom-list-preview-two-lines
 			:loading="loading"
 			:items="notifications"
 			:onEmptyListMessage="'No tiene nuevas notificaciones'"
 			@item-selected="itemSelected"
-		/>
+		/> -->
 	</div>
 </template>
 <script>
 import { mapState } from 'vuex'
-import CustomListPreviewTwoLines from '~/components/_functional/CustomListPreviewTwoLines.vue'
+// import CustomListPreviewTwoLines from '@/components/_functional/CustomListPreviewTwoLines.vue'
 export default {
 	components: {
-		CustomListPreviewTwoLines
+		// CustomListPreviewTwoLines
 	},
 	props: {
 		loading: {

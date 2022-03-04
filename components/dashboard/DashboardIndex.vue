@@ -1,6 +1,5 @@
 <template>
 	<div id="dashboard" class="h-100 p-2">
-		SOY INDEX
 		<!--  MAIN CONTENT (LEFT) -->
 		<section class="general-container d-flex flex-column py-2">
 			<!------------------------------------------------------------------------ QUOTE -->
@@ -103,7 +102,7 @@ export default {
 		section.simulators-container {
 			grid-area: simulators;
 		}
-		section.shadow-sm {
+		.shadow-sm {
 			background-color: #fff;
 		}
 	}

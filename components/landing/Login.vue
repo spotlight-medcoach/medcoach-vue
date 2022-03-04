@@ -92,10 +92,10 @@
 <script>
 import { required, email } from '@/assets/utils/validations.js'
 export default {
-	layout: 'index',
 	components: {
 		ValidatePhoneModal: () => import('@/components/ValidatePhoneModal.vue')
 	},
+	layout: 'index',
 	data () {
 		return {
 			form: {

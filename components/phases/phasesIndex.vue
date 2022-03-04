@@ -19,14 +19,13 @@
 			</template>
 			<!-- END PHASES LOADING -->
 			<template v-else>
-
 				<!-- PHASES CONTENT (no trial) -->
 				<template v-if="!isFreeTrial">
 					<div class="d-flex justify-content-between">
 						<h3 class="body-title-1"> Fase de estudio </h3>
 						<div class="text-right">
 							<h4 class="body-medium-1"> {{ restDays }} días restantes ENARM </h4>
-							<p class="body-xsm"> Calculado al {{ testDate.format('DD [de] MMMM [del] YYYY') }} </p>
+							<p v-if="student" class="body-xsm"> Calculado al {{ testDate.format('DD [de] MMMM [del] YYYY') }} </p>
 						</div>
 					</div>
 					<div class="phases-container">
@@ -36,45 +35,43 @@
 							class="my-2"
 						>
 							<custom-progress-bar
-								:actual-value = "p.progress"
-								:total-value = "p.total"
-								:top-hint = "calcAverageValue(p.total, p.progress) + '%'"
-								:color-variant = "p.componentStyle"
-								:bottom-header = "p.title"
-								:bottom-subheader = "'( ' + p.total + ' días )'"
-								:bottom-hint = "p.textOverview"
-								:enabled = "isEnablePhase(phaseId)"
+								:actual-value="p.progress"
+								:total-value="p.total"
+								:top-hint="calcAverageValue(p.total, p.progress) + '%'"
+								:color-variant="p.componentStyle"
+								:bottom-header="p.title"
+								:bottom-subheader="`( ${p.total} ${p.scope} )`"
+								:bottom-hint="p.textOverview"
+								:enabled="isEnablePhase(phaseId)"
 							/>
 						</div>
 					</div>
 				</template>
-
 				<!-- PHASES CONTENT (trial) -->
 				<template v-else-if="student">
-					<div class="d-flex justify-content-between">
+					<div v-if="freeTrial" class="d-flex justify-content-between">
 						<h3 class="body-title-1 mx-auto">
-							{{!freeTrial.isTrialEnd ? `Prueba de ${freeTrial.totalDuration} días` : 'Tu prueba ha terminado'}}
+							{{ !freeTrial.isTrialEnd ? `Prueba de ${freeTrial.totalDuration} días` : 'Tu prueba ha terminado' }}
 						</h3>
-						<div class="text-right flex-grow-1" v-if="!freeTrial.isTrialEnd">
+						<div v-if="!freeTrial.isTrialEnd" class="text-right flex-grow-1">
 							<h4 class="body-medium-1"> {{ restDays }} días restantes ENARM </h4>
 							<!-- <p class="body-xsm"> Calculado al {{ testDate.format('DD [de] MMMM [del] YYYY') }} </p> -->
 						</div>
 					</div>
 					<div class="phases-container">
-						<div :set="p = calcTrialProgress()" class="my-2">
+						<div :set="p=calcTrialProgress()" class="my-2">
 							<custom-progress-bar
-								:actual-value = "p.progress"
-								:total-value = "p.total"
-								:top-hint = "calcAverageValue(p.total, p.progress) + '%'"
-								:color-variant = "p.componentStyle"
-								:bottom-header = "p.title"
-								:bottom-subheader = "'( ' + p.progress + ' días )'"
-								:bottom-hint = "p.textOverview"
+								:actual-value="p.progress"
+								:total-value="p.total"
+								:top-hint="calcAverageValue(p.total, p.progress) + '%'"
+								:color-variant="p.componentStyle"
+								:bottom-header="p.title"
+								:bottom-subheader="'( ' + p.progress + ' días )'"
+								:bottom-hint="p.textOverview"
 							/>
 						</div>
 					</div>
 				</template>
-
 			</template>
 		</b-skeleton-wrapper>
 	</div>

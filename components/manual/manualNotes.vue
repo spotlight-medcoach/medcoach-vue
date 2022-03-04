@@ -1,10 +1,9 @@
-
 <template>
 	<div id="manual-notes" class="h-100">
 		<quill-editor
-			class="h-100"
 			ref="noteQuillEditor"
 			v-model="content"
+			class="h-100"
 			:options="editorOption"
 			@change="savedNotes = false"
 			@blur="onEditorBlur($event)"
@@ -12,17 +11,34 @@
 		<b-button
 			class="save-button w-100 position-absolute"
 			variant="primary"
-			@click="saveNote"
 			:disabled="savingNotes"
+			@click="saveNote"
 		>
 			{{ savingNotes ? 'Guardando notas ...' : 'Guardar notas' }}
-			<b-spinner small v-if="savingNotes"></b-spinner>
+			<b-spinner v-if="savingNotes" small />
 			<b-icon v-if="savedNotesCheck === true" icon="check" />
 			<b-icon v-if="savedNotesCheck === false" icon="x" />
 		</b-button>
+		<b-modal
+			id="modal-before-leave"
+			title="Confirmación"
+			cancel-title="Cancelar"
+			cancel-variant="danger"
+			centered
+			@ok="next"
+			@cancel="redirect"
+		>
+			<p class="my-2">
+				¿Quieres salir de está página?
+			</p>
+			<p class="my-2">
+				Recuerda que el progreso no guardado de tus notas se perderá, para guardar tus notas, da clic en el icono de guardado.
+			</p>
+		</b-modal>
 	</div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
 	props: {
 		manual_id: {
@@ -34,24 +50,16 @@ export default {
 			default: ''
 		}
 	},
-	computed: {
-		editor () {
-			return this.$refs.noteQuillEditor.quill
-		}
-	},
-	watch: {
-		notes () {
-			this.content += '<br>' + this.notes
-		}
-	},
 	data () {
 		return {
+			next: () => true,
 			content: '',
 			savingNotes: false,
 			savedNotesCheck: undefined,
 			savedNotes: true,
 			saveOnTimelapseListener: undefined,
 			saveOnTimelapseLastState: '',
+			studyTimeTimelapseListener: undefined,
 			editorOption: {
 				modules: {
 					toolbar: {
@@ -72,6 +80,19 @@ export default {
 			}
 		}
 	},
+	computed: {
+		editor () {
+			return this.$refs.noteQuillEditor.quill
+		},
+		...mapGetters({
+			manualsTimelapse: 'studytime/manualsTimelapse'
+		})
+	},
+	watch: {
+		notes () {
+			this.content += '<br>' + this.notes
+		}
+	},
 	async created () {
 		await this.getManualNote()
 	},
@@ -81,6 +102,13 @@ export default {
 		}
 	},
 	methods: {
+		copyText () {
+			this.editor.clipboard.dangerouslyPasteHTML(this.cursor_index, this.html_selection)
+		},
+		onEditorBlur (event) {
+			this.cursor_index = event.selection.savedRange.index
+			this.cursor_index = event.getLength()
+		},
 		getManualNote () {
 			return this.$axios
 				.get(`/manuals/note?manual_id=${this.manual_id}`)
@@ -89,16 +117,26 @@ export default {
 					this.finished = res.data.finished
 					this.$emit('isFinished', this.finished)
 					this.autoSave()
+					this.addStudyTime()
 				}).catch((err) => {
 					console.log(err)
 				})
 		},
-		copyText () {
-			this.editor.clipboard.dangerouslyPasteHTML(this.cursor_index, this.html_selection)
+		autoSave () {
+			this.saveOnTimelapseListener = setInterval(function () {
+				if (this.saveOnTimelapseLastState !== this.content) {
+					this.saveNote()
+					this.saveOnTimelapseLastState = this.content
+				}
+			}.bind(this), 30000)
 		},
-		onEditorBlur (event) {
-			this.cursor_index = event.selection.savedRange.index
-			this.cursor_index = event.getLength()
+		addStudyTime () {
+			this.studyTimeTimelapseListener = setInterval(function () {
+				this.$store.dispatch('studytime/addStudyTime', 'manuals')
+			}.bind(this), this.manualsTimelapse * 60000)
+		},
+		redirect () {
+			this.next(this.from)
 		},
 		async saveNote () {
 			if (this.content.trim() === '') {
@@ -120,17 +158,11 @@ export default {
 			}
 			this.savingNotes = undefined
 		},
-		autoSave () {
-			this.saveOnTimelapseListener = setInterval(function () {
-				if (this.saveOnTimelapseLastState !== this.content) {
-					this.saveNote()
-					this.saveOnTimelapseLastState = this.content
-				}
-			}.bind(this), 30000)
+		finalize () {
+			clearInterval(this.saveOnTimelapseListener)
+			clearInterval(this.studyTimeTimelapseListener)
+			return this.saveNote()
 		}
-	},
-	beforeRouteLeave () {
-		clearInterval(this.saveOnTimelapseListener)
 	}
 }
 </script>

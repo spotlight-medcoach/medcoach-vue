@@ -93,7 +93,6 @@
 import { mapState, mapGetters } from 'vuex'
 import ModalImage from '@/components/ModalImage'
 import CaseReport from '@/components/simulators/CaseReport'
-
 export default {
 	name: 'case-index',
 	props: {

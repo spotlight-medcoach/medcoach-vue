@@ -11,7 +11,7 @@
 			<article class="shadow-sm m-2 mb-3">
 				<manual-navbar
 					:manual_id="manual_id"
-					:allowFinishManual="!finished && !finish_manual_extra"
+					:allow-finish-manual="!finished && !finish_manual_extra"
 					@onChangeFontSize="changeFontSize"
 					@onChangeBrightness="changeBrightness"
 					@onFinishManual="finishManual"
@@ -20,7 +20,7 @@
 			<!----------------------------------------------------------------- DOCUMENT FILE HTML -->
 			<article>
 				<manual-document
-					class="shadow-sm full m-2 mb-3"
+					class="shadow-sm full m-2"
 					:manual_id="manual_id"
 					:brightness="brightness"
 					:font_size="font_size"
@@ -44,6 +44,7 @@
 			<article class="h-100">
 				<client-only>
 					<manual-notes
+						ref="notes"
 						:manual_id="manual_id"
 						:notes="notes"
 						@isFinished="getFinishedState"
@@ -54,22 +55,6 @@
 		<!-- END NOTES CONTENT -->
 		<!--------------------------------------------------------------------- NO SÉ -->
 		<modal-image />
-		<b-modal
-			id="modal-before-leave"
-			title="Confirmación"
-			cancel-title="Cancelar"
-			cancel-variant="danger"
-			centered
-			@ok="next"
-			@cancel="redirect"
-		>
-			<p class="my-2">
-				¿Quieres salir de está página?
-			</p>
-			<p class="my-2">
-				Recuerda que el progreso no guardado de tus notas se perderá, para guardar tus notas, da clic en el icono de guardado.
-			</p>
-		</b-modal>
 	</div>
 </template>
 
@@ -88,11 +73,13 @@ export default {
 		ManualNotes,
 		ModalImage
 	},
+	async beforeRouteLeave (to, from, next) {
+		await this.$refs.notes.finalize()
+		next()
+	},
 	layout: 'new_default',
 	data () {
 		return {
-			next: () => true,
-			from: null,
 			manual_id: this.$route.query.manual_id,
 			is_extra: (this.$route.query.extra === 'true'),
 			finish_manual_extra: (this.$route.query.finishManualExtra === 'true'),
@@ -148,36 +135,6 @@ export default {
 					this.error_http = true
 					this.message_error = err.response.data.message
 				})
-		},
-		async beforeLeave () {
-			if (!this.savedNotes) {
-				this.$toastr.success('Guardando las Notas antes de salir', 'Espere un momento')
-				const params = {
-					manual_id: this.manual_id,
-					body: this.content
-				}
-				this.savingNotes = true
-				const data = await this.$store.dispatch('manuals/saveNote', params)
-				if (data) {
-					this.savedNotes = true
-				}
-				this.savingNotes = false
-			}
-			this.$router.push({
-				name: 'dashboard'
-			})
-		},
-		redirect () {
-			this.next(this.from)
-		}
-	},
-	beforeRouteLeave (to, from, next) {
-		if (!this.savedNotes) {
-			this.$bvModal.show('modal-before-leave')
-			this.next = next
-			this.from = from
-		} else {
-			next()
 		}
 	}
 }
