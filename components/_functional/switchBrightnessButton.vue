@@ -22,18 +22,15 @@ export default {
 	methods: {
 		changeBrightness () {
 			switch (this.brightnessState) {
-				case 'light': {
-					this.brightnessState = 'dark'
-					break
-				}
-				case 'dark': {
-					this.brightnessState = 'sepia'
-					break
-				}
-				case 'sepia': {
-					this.brightnessState = 'light'
-					break
-				}
+			case 'light':
+				this.brightnessState = 'dark'
+				break
+			case 'dark':
+				this.brightnessState = 'sepia'
+				break
+			case 'sepia':
+				this.brightnessState = 'light'
+				break
 			}
 			const brightness = brightnessStates[this.brightnessState]
 			this.$emit('onChangeBrightness', brightness)

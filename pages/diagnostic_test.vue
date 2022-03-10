@@ -123,7 +123,7 @@ export default {
 	components: {
 		LoadingState
 	},
-	layout: 'new_default',
+	layout: 'diagnostic_test_layout',
 	data () {
 		return {
 			questions: [],

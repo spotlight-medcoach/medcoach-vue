@@ -22,17 +22,6 @@
 						@change="setAnswer(question.index, question.response)"
 						class="mr-16px cursor-pointer"
 					/>
-					<!--
-					<input
-						:disabled="retro && ans.id !== question.response"
-						type="radio"
-						:id="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
-						:name="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
-						v-bind:value="ans.id"
-						v-model="question.response"
-						@change="setAnswer(question.index, question.response)"
-					/>
-					-->
 					<label
 						:for="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
 						v-html="ans.html"
