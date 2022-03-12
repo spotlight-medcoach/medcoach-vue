@@ -74,14 +74,6 @@
   padding-top: 0.75em;
 }
 
-.dropdown-toggle {
-  color: white;
-}
-
-.dropdown-toggle:hover {
-  color: white !important;
-}
-
 .menu {
   height: 60px;
 }

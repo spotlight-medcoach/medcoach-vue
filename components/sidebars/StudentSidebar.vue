@@ -55,7 +55,7 @@
 
 		<!-- Análisis -->
 		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial }">
-			<nuxt-link to="/">
+			<nuxt-link to="/analysis">
 				<InsightsIcon class="nav-icon" />
 			</nuxt-link>
 			<span class="nav-item-tooltip-text">Análisis</span>

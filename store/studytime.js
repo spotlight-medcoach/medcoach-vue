@@ -21,14 +21,18 @@ export const mutations = {
 }
 
 export const actions = {
-	addStudyTime ({ state, commit }, scope) {
+	addStudyTime ({ state }, scope) {
 		const timelapseScope = state[`${scope}Timelapse`]
 		const data = {
-			date: DateTime.utc().toISO(),
+			date: DateTime.now().toISODate(),
 			time_on: scope,
 			minutes: timelapseScope
 		}
 		return this.$axios.$put('/students/studytime', data)
+			.then(() => { return true })
+	},
+	fetchStudyTime ({ commit }) {
+		return this.$axios.$get('/students/studytime')
 			.then((result) => {
 				commit('setStudyTime', result.study_time)
 				return true

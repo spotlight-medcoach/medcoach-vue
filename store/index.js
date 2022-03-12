@@ -85,8 +85,9 @@ export const actions = {
 				dispatch('free_trial/calculeTrialLeftDays', startTrialOn),
 				await dispatch('payment/fetchSubscriptionPlans')
 			])
-		} else {
+		} else if (state.phase !== 0) {
 			promises.concat([ // sólo para usuario con suscripción
+				dispatch('infographics/fetchInfographics'),
 				dispatch('notifications/loopFetchData'),
 				await dispatch('fetchSyllabus')
 			])

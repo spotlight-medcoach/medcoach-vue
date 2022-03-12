@@ -80,9 +80,7 @@ export default {
 			errorHttp: state => state.http_request.errorHttp
 		}),
 		...mapGetters({
-			loadingState: 'infographics/loadingState',
-			allInfographics: 'infographics/allInfographics',
-			studentInfographics: 'infographics/studentInfographics'
+			loadingState: 'infographics/loadingState'
 		})
 	},
 	mounted () {
