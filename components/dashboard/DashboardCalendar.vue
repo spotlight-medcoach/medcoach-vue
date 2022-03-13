@@ -1,5 +1,5 @@
 <template>
-	<div align="left">
+	<div v-if="syllabus" align="left">
 		<h3 class="body-title-1">
 			{{ currentDate }}
 		</h3>
