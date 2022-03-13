@@ -1,5 +1,5 @@
 <template>
-	<div class="d-flex justify-content-between align-items-center">
+	<div id="diagnostic-test-footer" class="d-flex justify-content-between align-items-center pt-1">
 		<span
 			class="report-question"
 			@click="$bvModal.show('report-question-modal')"
@@ -10,11 +10,12 @@
 			:disabled="question_index >= questions.length - 1"
 			variant="primary"
 			@click="$emit('goToNextQuestion')"
+			size="sm"
 		>
 			Siguiente
 		</b-button>
 		<ReportQuestionModal
-			:caseId="1"
+			caseId="1"
 		/>
 	</div>
 </template>
@@ -37,3 +38,9 @@ export default {
 	}
 }
 </script>
+<style lang="scss">
+	#diagnostic-test-footer {
+		margin-top: 10px;
+		border-top: 1px solid #979797;
+	}
+</style>

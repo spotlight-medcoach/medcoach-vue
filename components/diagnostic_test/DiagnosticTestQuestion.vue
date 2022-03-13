@@ -5,7 +5,7 @@
 		>
 			<div class="mb-40px">
 				<div
-					class="mb-10px position-relative d-flex cursor-pointer"
+					class="mb-1 position-relative d-flex"
 					v-for="(ans, index2) in question.id.answers"
 					:key="`answer-radio-${index2}`"
 				>
@@ -18,7 +18,8 @@
 						class="mr-16px cursor-pointer"
 					/>
 					<label
-						:id="`answer-radio-${index2}`"
+						:id="`answer-label-${index2}`"
+						v-bind:for="`answer-radio-${index2}`"
 						v-html="ans.html"
 						class="cursor-pointer"
 					/>
@@ -60,7 +61,6 @@ export default {
 <style lang="scss">
 #diagnostic-test-question {
 	padding-bottom: 60px;
-	border-bottom: 1px solid #979797;
 
 	.questions {
 		.incorrect {

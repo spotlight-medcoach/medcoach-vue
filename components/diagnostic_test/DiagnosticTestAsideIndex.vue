@@ -68,8 +68,8 @@ export default {
 </script>
 <style lang="scss">
 #diagnostic-test-aside-index {
-	min-width: 364px;
-	width: 364px;
+	min-width: 450px;
+	width: 450px;
 	padding: 24px 16px 10px 18px;
 	display: flex;
 	flex-direction: column;
