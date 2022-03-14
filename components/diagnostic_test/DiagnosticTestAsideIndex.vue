@@ -30,13 +30,20 @@
 				</div>
 			</div>
 		</div>
-		<b-button
-			class="mt-auto"
-			variant="primary"
-			@click="finishTest"
-		>
-			Terminar examen
-		</b-button>
+		<div class="mt-auto">
+			<b-overlay
+				spinner-small
+				:show="loading"
+			>
+				<b-button
+					variant="primary"
+					@click="finishTest"
+					class="w-100"
+				>
+					Terminar examen
+				</b-button>
+			</b-overlay>
+		</div>
 	</aside>
 </template>
 <script>
@@ -53,6 +60,11 @@ export default {
 			required: true
 		}
 	},
+	data () {
+		return {
+			loading: false
+		}
+	},
 	components: {
 		RedFlagIcon
 	},
@@ -61,6 +73,7 @@ export default {
 			this.$emit('goToQuestion', index)
 		},
 		finishTest () {
+			this.loading = true
 			this.$emit('onFinishTest')
 		}
 	}

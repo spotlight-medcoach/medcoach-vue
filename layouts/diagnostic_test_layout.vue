@@ -1,5 +1,5 @@
 <template>
-	<div class="body-content">
+	<div id="diagnostic-test-layout" class="body-content">
 		<DiagnosticTestHeader />
 		<div class="only-pc d-flex">
 			<nuxt class="main-content" />
@@ -51,6 +51,9 @@ export default {
 	@import '@/assets/css/variables/_student_header_vars.scss';
 	@import '@/assets/css/variables/_student_sidebar_vars.scss';
 	@import '@/assets/css/variables/_student_main.scss';
+	#diagnostic-test-layout {
+		background: #F8F8F8;
+	}
 	.body-content {
 		font-family: 'Avenir', sans-serif;
 		font-size: 14px;

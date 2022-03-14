@@ -125,19 +125,9 @@ export default {
 					correct: answer.correct
 				}))
 			}
-			console.log('body', body)
-			return false
-			/* const body = { answers: this.answers }
 			this.sending_questions = true
 			this.$axios
 				.put('/students/diagnostic', body)
-				.then((response) => {
-					return new Promise((resolve, reject) => {
-						setTimeout(function () {
-							resolve(response)
-						}, 120000)
-					})
-				})
 				.then((response) => {
 					localStorage.removeItem('diagnostic_test_answers')
 					this.$router.push({
@@ -149,7 +139,7 @@ export default {
 					this.error_request = true
 					this.sending_questions = false
 					this.message_error = 'Lo sentimos. No se pudieron enviar las respuestas'
-				}) */
+				})
 		},
 		goToQuestion (index) {
 			this.question_index = index
