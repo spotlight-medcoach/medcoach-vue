@@ -12,7 +12,7 @@
 					],
 					datasets: [{
 						label: 'Categorías',
-						data: [65, 59, 90, 81, 56],
+						data: answersCategoryData,
 						fill: true,
 						backgroundColor: 'rgba(0, 142, 255, 0.16597)',
 						borderColor: '#008EFF',
@@ -22,20 +22,20 @@
 						pointHoverBorderColor: '#008EFF'
 					}]
 				}"
-				:options="options"
+				:options="chartOptions"
 			/>
 		</div>
 	</article>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import RadarChart from '@/components/_functional/RadarChart.vue'
 export default {
 	components: {
 		RadarChart
 	},
 	data: () => ({
-		options: {
+		chartOptions: {
 			legend: {
 				display: false
 			},
@@ -52,38 +52,43 @@ export default {
 					fontSize: 15,
 					fontStyle: 'bold'
 				}
+			},
+			tooltips: {
+				enabled: true,
+				cornerRadius: 0,
+				borderWidth: 1,
+				borderColor: '#979797',
+				backgroundColor: '#ffffff',
+				bodyFontFamily: "'Avenir', sans-serif",
+				bodyFontSize: 15,
+				bodyFontColor: '#000000',
+				xPadding: 24,
+				yPadding: 8,
+				yAlign: 'bottom',
+				xAlign: 'center',
+				displayColors: false,
+				callbacks: {
+					title: () => {},
+					label: (tooltipItems) => {
+						return tooltipItems.yLabel + ' preguntas'
+					}
+				}
 			}
 		}
 	}),
 	computed: {
-		totalProgress () {
-			return this.topics.reduce((acc, curr) => acc + curr.progress, 0)
+		answersCategoryData () {
+			return [
+				this.studentStats ? this.studentStats.total_diagnostic_questions		: 0,
+				this.studentStats ? this.studentStats.total_basic_sciences_questions	: 0,
+				this.studentStats ? this.studentStats.total_prevention_questions		: 0,
+				this.studentStats ? this.studentStats.total_prognosis_questions			: 0,
+				this.studentStats ? this.studentStats.total_treatment_questions			: 0
+			]
 		},
-		totalManuals () {
-			return this.topics.reduce((acc, curr) => acc + curr.total, 0)
-		},
-		...mapState({
-			topics: state => state.topics.data,
-			loaded: state => state.topics.fetchedManuals
+		...mapGetters({
+			studentStats: 'student_stats/studentStats'
 		})
-	},
-	mounted () {
-		const containerWidth = this.$refs['my-general-progress'].offsetWidth
-		const nElements = this.topics.length + 1
-		this.doughnutWidthContainer = this.calculeChartSize(containerWidth, nElements, 1)
-	},
-	methods: {
-		calculeChartSize (containerSize, nElements, chartScale) {
-			return Math.floor(containerSize / nElements * chartScale)
-		},
-		chartByTopic (totalValue, actualValue) {
-			if (totalValue !== 0 && actualValue !== 0) {
-				const learned = +parseFloat(actualValue / totalValue * 100).toFixed(2)
-				const pending = 100 - learned
-				return [learned, pending]
-			}
-			return [0, 100]
-		}
 	}
 }
 </script>

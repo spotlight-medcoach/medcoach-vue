@@ -1,63 +1,77 @@
 <template>
-	<article class="d-flex flex-row justify-content-between align-items-center">
+	<article v-if="studentStats" class="d-flex flex-row justify-content-between align-items-center">
 		<div class="analysis-column">
-			<div
-				class="chart-container mb-3"
-				:set="percentage=calculePercentage(studentStats.total_correct_questions, studentStats.total_wrong_questions)"
-			>
-				<div class="doughnut-chart w-100 w-100">
-					<doughnut-chart
-						:chart-data="{
-							labels: ['Pendientes','Estudiados'],
-							datasets: [{
-								data: [studentStats.total_correct_questions, studentStats.total_wrong_questions],
-								backgroundColor: ['#FFB63F', '#FF574F']
-							}]
-						}"
-						:options="chartOptions"
-					/>
-				</div>
-				<div class="caption-progress body-xxlg">{{ percentage[1] }} %</div>
+			<!----------------------------------------- Tu puntaje dougnut chart -->
+			<div class="chart-container mb-3">
+				<template v-if="studentStats">
+					<div class="doughnut-chart w-100 w-100">
+						<doughnut-chart
+							:chart-data="{
+								labels: ['Pendientes','Estudiados'],
+								datasets: [{
+									data: [studentStats.total_correct_questions, studentStats.total_wrong_questions],
+									backgroundColor: ['#FFB63F', '#FF574F']
+								}]
+							}"
+							:options="chartOptions"
+						/>
+					</div>
+					<div
+						:set="percentage=calculePercentage(studentStats.total_correct_questions, studentStats.total_wrong_questions)"
+						class="caption-progress body-xxlg"
+					>
+						{{ percentage[1] }} %
+					</div>
+				</template>
 			</div>
-			<div
-				class="chart-container mb-3"
-				:set="percentage=calculePercentage(studentStats.total, studentStats.total_used_questions)"
-			>
-				<div class="doughnut-chart w-100 w-100">
-					<doughnut-chart
-						:chart-data="{
-							labels: ['Pendientes','Estudiados'],
-							datasets: [{
-								data: [5, 95],
-								backgroundColor: ['#FFB63F', '#BBBBB3']
-							}]
-						}"
-						:options="chartOptions"
-					/>
-				</div>
-				<div class="caption-progress body-xxlg">{{ percentage[0] }} %</div>
+			<!----------------------------------------- Uso del banco dougnut chart -->
+			<div class="chart-container mb-3">
+				<template v-if="studentStats">
+					<div class="doughnut-chart w-100 w-100">
+						<doughnut-chart
+							:chart-data="{
+								labels: ['Pendientes','Estudiados'],
+								datasets: [{
+									data: [5, 95],
+									backgroundColor: ['#FFB63F', '#BBBBB3']
+								}]
+							}"
+							:options="chartOptions"
+						/>
+					</div>
+					<div
+						:set="percentage=calculePercentage(studentStats.total, studentStats.total_used_questions)"
+						class="caption-progress body-xxlg"
+					>
+						{{ percentage[0] }} %
+					</div>
+				</template>
 			</div>
 		</div>
 		<div class="analysis-column">
-			<div class="table-container mt-2" :set="data=questionsScore()">
+			<!----------------------------------------- Tu puntaje scores -->
+			<div class="table-container mt-2" :set="data=questionsScore">
 				<b-table-lite :borderless="true" :small="true" :items="data.items" :fields="data.fields" />
 			</div>
-			<div class="table-container mt-2" :set="data=questionsDataset()">
+			<!----------------------------------------- Tu puntaje banco -->
+			<div class="table-container mt-2" :set="data=questionsDataset">
 				<b-table-lite :borderless="true" :small="true" :items="data.items" :fields="data.fields" />
 			</div>
 		</div>
 		<div class="analysis-column">
-			<div class="table-container mt-2" :set="data=incertitudeAnswers()">
+			<!----------------------------------------- Cambio de preguntas scores -->
+			<div class="table-container mt-2" :set="data=incertitudeAnswers">
 				<b-table-lite :borderless="true" :small="true" :items="data.items" :fields="data.fields" />
 			</div>
-			<div class="table-container mt-2" :set="data=testsStats()">
+			<!----------------------------------------- Número de exámenes scores -->
+			<div class="table-container mt-2" :set="data=testsStats">
 				<b-table-lite :borderless="true" :small="true" :items="data.items" :fields="data.fields" />
 			</div>
 		</div>
 	</article>
 </template>
 <script>
-// import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import DoughnutChart from '@/components/_functional/DoughnutChart.vue'
 const defaultFields = [
 	{
@@ -78,26 +92,35 @@ export default {
 		DoughnutChart
 	},
 	data: () => ({
-		studentStats: {
-			total_correct_questions: 152,
-			total_wrong_questions: 48,
-			total_used_questions: 200,
-			change_correct_to_incorrect: 0,
-			change_incorrect_to_correct: 0,
-			change_incorrect_to_incorrect: 0,
-			// total_diagnostic_questions: { type: Number, default: 0 },
-			// total_prognosis_questions: { type: Number, default: 0 },
-			total: 3971
-		},
 		chartOptions: {
 			legend: { display: false },
 			cutoutPercentage: 82,
 			tooltips: {
-				enabled: false
+				enabled: true,
+				cornerRadius: 0,
+				borderWidth: 1,
+				borderColor: '#979797',
+				backgroundColor: '#ffffff',
+				bodyFontFamily: "'Avenir', sans-serif",
+				bodyFontSize: 15,
+				bodyFontColor: '#000000',
+				xPadding: 24,
+				yPadding: 8,
+				displayColors: false,
+				callbacks: {
+					title: () => {},
+					label: (tooltipItem, data) => {
+						const indice = tooltipItem.index
+						const tag = data.datasets[0].data[indice] === 1 ? 'manual' : 'manuales'
+						return data.datasets[0].data[indice] + ' ' + tag
+					}
+				}
 			}
 		},
-		placeholderText: '...',
-		questionsScore: () => {
+		placeholderText: 0
+	}),
+	computed: {
+		questionsScore () {
 			const fields = structuredClone(defaultFields) // deepCopy
 			fields[0].label = 'Tu puntaje'
 			return {
@@ -105,16 +128,16 @@ export default {
 				items: [
 					{
 						approach: 'Total de correctas',
-						results: 152
+						results: this.studentStats ? this.studentStats.total_correct_questions : this.placeholderText
 					},
 					{
 						approach: 'Total incorrectas',
-						results: 48
+						results: this.studentStats ? this.studentStats.total_wrong_questions : this.placeholderText
 					}
 				]
 			}
 		},
-		questionsDataset: () => {
+		questionsDataset () {
 			const fields = structuredClone(defaultFields)
 			fields[0].label = 'Uso del banco'
 			return {
@@ -122,20 +145,20 @@ export default {
 				items: [
 					{
 						approach: 'Preguntas utilizadas',
-						results: 200
+						results: this.studentStats ? this.studentStats.total_used_questions : this.placeholderText
 					},
 					{
 						approach: 'Preguntas sin utilizar',
-						results: 3771
+						results: this.studentStats ? (this.studentStats.total - this.studentStats.total_used_questions) : this.placeholderText
 					},
 					{
 						approach: 'Total de preguntas',
-						results: 3971
+						results: this.studentStats ? this.studentStats.total : this.placeholderText
 					}
 				]
 			}
 		},
-		incertitudeAnswers: () => {
+		incertitudeAnswers () {
 			const fields = structuredClone(defaultFields)
 			fields[0].label = 'Cambio de preguntas'
 			return {
@@ -143,20 +166,20 @@ export default {
 				items: [
 					{
 						approach: 'Correcta a incorrecta',
-						results: 0
+						results: this.studentStats ? this.studentStats.change_correct_to_incorrect : this.placeholderText
 					},
 					{
 						approach: 'Incorrecta a correcta',
-						results: 0
+						results: this.studentStats ? this.studentStats.change_incorrect_to_correct : this.placeholderText
 					},
 					{
 						approach: 'Incorrecta a incorrecta',
-						results: 0
+						results: this.studentStats ? this.studentStats.change_incorrect_to_incorrect : this.placeholderText
 					}
 				]
 			}
 		},
-		testsStats: () => {
+		testsStats () {
 			const fields = structuredClone(defaultFields)
 			fields[0].label = 'Número de exámenes'
 			return {
@@ -164,23 +187,35 @@ export default {
 				items: [
 					{
 						approach: 'Exámenes creados',
-						results: 24
+						results: this.studentCustomTests ? this.studentCustomTests.length : this.placeholderText
 					},
 					{
 						approach: 'Exámenes completados',
-						results: 23
+						results: this.finishedCustomTests ? this.finishedCustomTests : this.placeholderText
 					},
 					{
 						approach: 'Exámenes suspendidos',
-						results: 1
+						results: this.discontinuedCustomTests ? this.discontinuedCustomTests : this.placeholderText
 					}
 				]
 			}
-		}
-	}),
-	computed: {
-	},
-	mounted () {
+		},
+		finishedCustomTests () {
+			if (this.studentCustomTests) {
+				return this.studentCustomTests.reduce((prev, curr) => curr.finished ? prev + 1 : prev, 0)
+			}
+			return 0
+		},
+		discontinuedCustomTests () {
+			if (this.studentCustomTests) {
+				return this.studentCustomTests.reduce((prev, curr) => !curr.finished ? prev + 1 : prev, 0)
+			}
+			return 0
+		},
+		...mapGetters({
+			studentStats: 'student_stats/studentStats',
+			studentCustomTests: 'custom_test/history'
+		})
 	},
 	methods: {
 		calculePercentage (totalValue, actualValue) {

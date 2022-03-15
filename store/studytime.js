@@ -28,11 +28,11 @@ export const actions = {
 			time_on: scope,
 			minutes: timelapseScope
 		}
-		return this.$axios.$put('/students/studytime', data)
+		return this.$axios.$put('/student/studytime', data)
 			.then(() => { return true })
 	},
 	fetchStudyTime ({ commit }) {
-		return this.$axios.$get('/students/studytime')
+		return this.$axios.$get('/student/studytime')
 			.then((result) => {
 				commit('setStudyTime', result.study_time)
 				return true

@@ -8,9 +8,8 @@
 				<div class="doughnut-chart">
 					<doughnut-chart
 						:chart-data="{
-							labels: ['Pendientes','Estudiados'],
 							datasets: [{
-								data: [100, 56],
+								data: [medscore, 100 - medscore],
 								backgroundColor: ['#FF9300', '#BBBBB3']
 							}]
 						}"
@@ -33,10 +32,19 @@
 	</article>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import DoughnutChart from '@/components/_functional/DoughnutChart.vue'
 export default {
 	components: {
 		DoughnutChart
+	},
+	computed: {
+		medscore () {
+			return this.studentInfo.medscore
+		},
+		...mapGetters({
+			studentInfo: 'user'
+		})
 	}
 }
 </script>

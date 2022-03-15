@@ -71,7 +71,8 @@ export default {
 		...mapGetters({
 			studyTime: 'studytime/studyTime',
 			studentFlashcards: 'flashcards/flashcards',
-			studentCustomTests: 'custom_test/history'
+			studentCustomTests: 'custom_test/history',
+			studentStats: 'student_stats/studentStats'
 		})
 	},
 	mounted () {
@@ -83,6 +84,9 @@ export default {
 		}
 		if (this.studentCustomTests === null) {
 			this.$store.dispatch('custom_test/fetchHistory')
+		}
+		if (this.studentStats === null) {
+			this.$store.dispatch('student_stats/fetchStudentStats')
 		}
 	}
 }

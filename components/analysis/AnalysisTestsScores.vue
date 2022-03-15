@@ -1,43 +1,43 @@
 <template>
 	<article>
-		<h3 class="body-title-2 mb-3">Calificación por exámenes</h3>
+		<div class="controls">
+			<span class="score body-title-3 ml-5">Calificación por exámenes</span>
+			<span class="pending body-title-3 ml-5">Exámen pendiente</span>
+		</div>
 		<div class="bar-chart">
 			<bar-chart
-				v-if="loaded"
-				:chart-data="chartdata"
-				:options="options"
+				:chart-data="{
+					labels: customTestsContent.labels,
+					datasets: [{
+						label: 'Calificación por exámenes',
+						data: customTestsContent.data,
+						backgroundColor: customTestsContent.background,
+						borderWidth: 0
+					}]
+				}"
+				:options="chartOptions"
 			/>
 		</div>
 	</article>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import BarChart from '@/components/_functional/BarChart.vue'
+const { DateTime } = require('luxon')
 export default {
 	components: {
 		BarChart
 	},
 	data: () => ({
-		loaded: false,
-		chartdata: {
-			labels: ['1', '2', '3', '4', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-			datasets: [{
-				label: 'Calificación por exámenes',
-				data: [65, 80, 30, 65],
-				backgroundColor: '#FF930080',
-				borderWidth: 0
-			}]
-		},
-		options: {
+		minChartBarColumns: 34,
+		chartOptions: {
 			responsive: true,
 			maintainAspectRatio: false,
 			legend: { display: false },
 			scales: {
 				yAxes: [{
 					ticks: {
-						min: 0,
 						max: 100,
-						// maxTicksLimit: 6,
 						stepSize: 25,
 						fontColor: '#1d1d1b66',
 						fontFamily: "'Avenir', sans-serif",
@@ -45,7 +45,6 @@ export default {
 					}
 				}],
 				xAxes: [{
-					maxBarThickness: 24,
 					ticks: {
 						min: 20,
 						fontColor: '#000000',
@@ -55,6 +54,9 @@ export default {
 					gridLines: {
 						display: false
 					}
+				}],
+				dataset: [{
+					maxBarThickness: 24
 				}]
 			},
 			tooltips: {
@@ -73,29 +75,52 @@ export default {
 				displayColors: false,
 				callbacks: {
 					title: () => {},
-					label: tooltipItems => 'Calificación: ' + tooltipItems.yLabel
+					label: (tooltipItems) => {
+						console.log(tooltipItems.yLabel === -25)
+						return tooltipItems.yLabel === -25 ? 'Pendiente' : 'Calificación: ' + tooltipItems.yLabel
+					}
+				}
+			},
+			layout: {
+				padding: {
+					top: 40
 				}
 			}
 		}
 	}),
 	computed: {
-		totalProgress () {
-			return this.topics.reduce((acc, curr) => acc + curr.progress, 0)
+		customTestsContent () {
+			const blank = { labels: [], background: [], data: [] }
+			if (this.studentCustomTests) {
+				const studentCustomTests = structuredClone(this.studentCustomTests)
+					.sort((a, b) => {
+						const keyA = DateTime.fromFormat(a.date, 'DDD', { locale: 'es' })
+						const keyB = DateTime.fromFormat(b.date, 'DDD', { locale: 'es' })
+						return (keyA < keyB) ? -1 : 1
+					}).reduce((acc, customTests) => {
+						const ISODate = DateTime.fromFormat(customTests.date, 'DDD', { locale: 'es' }).toFormat('dd/MM/yyyy')
+						const cleanScoreString = customTests.score.replace(/[^\d.]/g, '')
+						const score = cleanScoreString ? +parseFloat(cleanScoreString).toFixed(2) : 0
+						const background = customTests.finished ? '#FF930080' : '#BBBBB380'
+						acc.labels.push(customTests.finished ? `${ISODate}` : `• ${ISODate}`)
+						acc.background.push(background)
+						acc.data.push(score)
+						return acc
+					}, blank)
+				if (this.studentCustomTests.length < this.minChartBarColumns) {
+					const nEmptyCols = this.minChartBarColumns - this.studentCustomTests.length
+					const valEmptyCols = Array.from({ length: nEmptyCols }, (_, i) => '')
+					studentCustomTests.labels.push(...valEmptyCols)
+					studentCustomTests.background.push(...valEmptyCols)
+					studentCustomTests.data.push(...valEmptyCols)
+				}
+				return studentCustomTests
+			}
+			return blank
 		},
-		totalManuals () {
-			return this.topics.reduce((acc, curr) => acc + curr.total, 0)
-		},
-		...mapState({
-			topics: state => state.topics.data,
-			loaded: state => state.topics.fetchedManuals
+		...mapGetters({
+			studentCustomTests: 'custom_test/history'
 		})
-	},
-	mounted () {
-		setTimeout(() => {
-			this.loaded = true
-		}, 500)
-	},
-	methods: {
 	}
 }
 </script>
@@ -104,6 +129,24 @@ export default {
 	article {
 		.bar-chart, .bar-chart > * {
 			height: 260px !important;
+		}
+	}
+	.controls {
+		> * {
+			position: relative;
+		}
+		> .pending::before {
+			content: '•';
+			position: absolute;
+			left: -20px;
+		}
+		> .score::before {
+			content: '';
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			left: -30px;
+			background-color: #FF930080;
 		}
 	}
 </style>
