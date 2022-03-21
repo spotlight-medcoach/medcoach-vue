@@ -8,7 +8,7 @@ export const state = () => ({
 export const getters = {
 	flashcards: state => state.flashcards,
 	selectedFlashcard: state => state.flashcards.find(flashcard => flashcard.id === state.selected_flashcard_id),
-	randmonActivated: state => state.random_activated,
+	randomActivated: state => state.random_activated,
 	repeatActivated: state => state.repeat_activated
 }
 

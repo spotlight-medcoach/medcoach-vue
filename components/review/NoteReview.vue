@@ -255,25 +255,6 @@ export default {
 			.note-sheet-header {
 				padding: 12px;
 				margin: 20px 33px 16px 33px;
-
-				.manual-title {
-					font-size: 20px;
-					font-weight: 900;
-				}
-				.back-link {
-					cursor: pointer;
-					p {
-						font-size: 18px;
-						margin-left: 14px;
-					}
-					svg {
-						height: 17px;
-						color: rgba(199, 199, 199, 1);
-					}
-					&:hover {
-						text-decoration: underline;
-					}
-				}
 			}
 			.note-edition-area {
 				/*position: relative;*/

@@ -1,45 +1,41 @@
 <template>
 	<section id="flashcards-list">
-		<!------------ Encabezado -->
-		<div class="flashcards-list-header">
-			<div class="row">
-				<!----- Botón de regresar------->
-				<div
-					class="col-sm  my-auto"
-					@click="$emit('setCurrentComponent', 'note_review')"
-				>
-					<div class="d-flex align-items-center back-link">
-						<ExpandIcon />
-						<p>Regresar</p>
-					</div>
-				</div>
-				<!----- Título ----------------->
-				<div class="col-sm text-center  my-auto">
-					<p class="manual-title">{{ manual_title }}</p>
-				</div>
-				<!----- Marcar como aprendido -->
-				<div class="col-sm">
-					<div class="d-flex justify-content-end">
-						<RepeatIcon />
-						<ShuffleIcon />
-						<PlayIcon />
-					</div>
-				</div>
-			</div>
-		</div>
+		<!---------------------- Encabezado -->
+		<FlashcardsListHeader
+			:manual_title="manual_title"
+			back_component="note_review"
+			@setCurrentComponent="$emit('setCurrentComponent', $event)"
+			class="mb-32px"
+		/>
 		<!------------ Listado de Flashcards -->
-		<div class="flashcards-list-content">
+		<div id="flashcards-list-content">
 			<div class="row">
+				<div
+					v-for="(flashcard, index) in flashcards"
+					:key="`flashcard-${index}`"
+					class="col-2 mb-32px"
+				>
+					<div class="d-flex justify-content-center">
+						<FlashcardsListElement
+							:flashcard="flashcard"
+						/>
+					</div>
+				</div>
 			</div>
+			<span
+				class="add-flashcard-icon option-icon"
+				@click="$emit('setCurrentComponent', 'flashcard_form')"
+			>
+				<AddIcon />
+			</span>
 		</div>
 	</section>
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import ExpandIcon from '@/components/icons/ExpandIcon.vue'
-import PlayIcon from '@/components/icons/PlayIcon.vue'
-import RepeatIcon from '@/components/icons/RepeatIcon.vue'
-import ShuffleIcon from '@/components/icons/ShuffleIcon.vue'
+import FlashcardsListElement from '@/components/review/flashcards_list/FlashcardsListElement'
+import FlashcardsListHeader from '@/components/review/flashcards_list/FlashcardsListHeader'
+import AddIcon from '@/components/icons/AddIcon'
 
 export default {
 	props: {
@@ -49,10 +45,9 @@ export default {
 		}
 	},
 	components: {
-		ExpandIcon,
-		PlayIcon,
-		RepeatIcon,
-		ShuffleIcon
+		FlashcardsListElement,
+		FlashcardsListHeader,
+		AddIcon
 	},
 	computed: {
 		...mapGetters({
@@ -63,10 +58,20 @@ export default {
 </script>
 <style lang="scss">
 	#flashcards-list {
-		.flashcards-list-header {
-			box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.239922);
-			padding: 14px 34px;
-			margin-bottom: 38px;
+		padding: 30px 0px;
+
+		&-content  {
+			position: relative;
+
+			.add-flashcard-icon {
+				position: absolute;
+				right: -50px;
+				top: 0px;
+
+				svg {
+					width: 36px;
+				}
+			}
 		}
 	}
 </style>
