@@ -10,12 +10,12 @@
 		/>
 
 		<!---------- Envoltura de la flashcard -->
-		<div id="flashcard-wrapper">
+		<div id="flashcard-wrapper" v-if="flashcard">
 			<!-- Indicador de flashcard activa -->
 			<div class="flashcard-indicator">
-				<span>1</span>
+				<span>{{ flashcard_index + 1 }}</span>
 				/
-				<span>20</span>
+				<span>{{ flashcards.length }}</span>
 			</div>
 			<b-tabs
 				v-model="tab_index"
@@ -28,20 +28,30 @@
 				nav-class-wrapper="custom-nav-class-wrapper"
 				class="mb-32px"
 			>
-				<b-tab title="Frente" active><p class="text-left">I'm the first tab</p></b-tab>
-				<b-tab title="Detrás"><p>I'm the second tab</p></b-tab>
+				<b-tab title="Frente" active>
+					<div class="text-center" v-html="flashcard.body_note"></div>
+				</b-tab>
+				<b-tab title="Detrás">
+					<div v-html="flashcard.body_user"></div>
+				</b-tab>
 			</b-tabs>
 			<!-- Icono de Edición ---------------->
 			<span
 				class="option-icon edit-icon"
-				@click="$emit('setCurrentComponent', 'flashcard_form')"
+				@click="goToForm"
 			>
 				<EditIcon />
 			</span>
 			<!-- Controles de las flashcards ----->
 			<div class="d-flex align-items-center justify-content-between">
 				<div class="d-flex align-items-center">
-					<span class="option-icon mr-16px">
+					<span
+						@click="$store.commit('flashcards/setRepeatActivated', !repeatActivated)"
+						class="option-icon mr-16px"
+						:class="{
+							'option-icon-active': repeatActivated
+						}"
+					>
 						<RepeatIcon
 							:style="{
 								height: '34.5px',
@@ -49,7 +59,13 @@
 							}"
 						/>
 					</span>
-					<span class="option-icon">
+					<span
+						@click="$store.commit('flashcards/setRandomActivated', !randomActivated)"
+						class="option-icon"
+						:class="{
+							'option-icon-active': randomActivated
+						}"
+					>
 						<ShuffleIcon
 							:style="{
 								height: '28.5px',
@@ -59,7 +75,13 @@
 					</span>
 				</div>
 				<div class="d-flex align-items-center">
-					<span class="option-icon mr-50px">
+					<span
+						class="option-icon mr-50px"
+						@click="prevFlashcard"
+						:class="{
+							'disabled': !prevBtnActive
+						}"
+					>
 						<PlayIcon
 							:style="{
 								height: '52px',
@@ -68,7 +90,13 @@
 							}"
 						/>
 					</span>
-					<span class="option-icon">
+					<span
+						class="option-icon"
+						@click="nextFlashcard"
+						:class="{
+							'disabled': !nextBtnActive
+						}"
+					>
 						<PlayIcon
 							:style="{
 								height: '52px',
@@ -78,7 +106,10 @@
 					</span>
 				</div>
 				<div class="d-flex align-items-center">
-					<span class="option-icon">
+					<span
+						@click="deleteFlashcard"
+						class="option-icon"
+					>
 						<TrashIcon
 							:style="{
 								height: '30px'
@@ -132,7 +163,8 @@ export default {
 	},
 	data () {
 		return {
-			tab_index: 0
+			tab_index: 0,
+			flashcard_index: 0
 		}
 	},
 	components: {
@@ -147,8 +179,44 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			flashcards: 'flashcards/flashcards'
-		})
+			flashcards: 'flashcards/flashcards',
+			randomActivated: 'flashcards/randomActivated',
+			repeatActivated: 'flashcards/repeatActivated'
+		}),
+		flashcard () {
+			return this.flashcards[this.flashcard_index]
+		},
+		prevBtnActive () {
+			return this.repeatActivated || this.flashcard_index > 0
+		},
+		nextBtnActive () {
+			return this.repeatActivated || this.flashcard_index < (this.flashcards.length - 1)
+		}
+	},
+	watch: {
+		'flashcards' () {
+			this.flashcard_index = 0
+		}
+	},
+	methods: {
+		prevFlashcard () {
+			if (this.prevBtnActive) {
+				this.flashcard_index = (this.repeatActivated && this.flashcard_index === 0) ? this.flashcards.length - 1 : this.flashcard_index - 1
+			}
+		},
+		nextFlashcard () {
+			if (this.nextBtnActive) {
+				this.flashcard_index = (this.repeatActivated && this.flashcard_index === (this.flashcards.length - 1)) ? 0 : this.flashcard_index + 1
+			}
+		},
+		goToForm () {
+			this.$store.commit('flashcards/setFlashcardId', this.flashcard._id)
+			this.$emit('setCurrentComponent', 'flashcard_form')
+		},
+		deleteFlashcard () {
+			this.$store.commit('flashcards/setFlashcardId', this.flashcard._id)
+			this.$bvModal.show('confirm-delete-flashcard-modal')
+		}
 	}
 }
 </script>

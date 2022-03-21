@@ -39,7 +39,10 @@
 					>
 						<ShuffleIcon />
 					</span>
-					<span class="mr-15px option-icon">
+					<span
+						class="mr-15px option-icon"
+						@click="$emit('setCurrentComponent', 'flashcards_study')"
+					>
 						<PlayIcon />
 					</span>
 				</div>

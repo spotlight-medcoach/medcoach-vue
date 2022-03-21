@@ -18,6 +18,7 @@
 					<div class="d-flex justify-content-center">
 						<FlashcardsListElement
 							:flashcard="flashcard"
+							@setCurrentComponent="$emit('setCurrentComponent', $event)"
 						/>
 					</div>
 				</div>

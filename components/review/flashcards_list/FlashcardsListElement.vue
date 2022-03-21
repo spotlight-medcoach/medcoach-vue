@@ -3,14 +3,20 @@
 		<p v-html="flashcard.body_note"></p>
 		<!-- Parte de Edición -->
 		<div class="flashcards-list-element-edition">
-			<span class="option-icon mr-27px">
+			<span
+				class="option-icon mr-27px"
+				@click="editFlashcard"
+			>
 				<EditIcon
 					:style="{
 						height: '30px'
 					}"
 				/>
 			</span>
-			<span class="option-icon">
+			<span
+				class="option-icon"
+				@click="deleteFlashCard"
+			>
 				<TrashIcon
 					:style="{
 						height: '25px'
@@ -34,6 +40,16 @@ export default {
 	components: {
 		EditIcon,
 		TrashIcon
+	},
+	methods: {
+		deleteFlashCard () {
+			this.$store.commit('flashcards/setFlashcardId', this.flashcard._id)
+			this.$bvModal.show('confirm-delete-flashcard-modal')
+		},
+		editFlashcard () {
+			this.$store.commit('flashcards/setFlashcardId', this.flashcard._id)
+			this.$emit('setCurrentComponent', 'flashcard_form')
+		}
 	}
 }
 </script>

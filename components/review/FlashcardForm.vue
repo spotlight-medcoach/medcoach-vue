@@ -15,7 +15,7 @@
 				<!------------------ QuillEditor -->
 				<quill-editor
 					ref="noteQuillEditor"
-					v-model="content"
+					v-model="form.body_note"
 					:options="editorOption"
 				/>
 			</div>
@@ -28,7 +28,7 @@
 				<!------------------ QuillEditor -->
 				<quill-editor
 					ref="noteQuillEditor"
-					v-model="content"
+					v-model="form.body_user"
 					:options="editorOption"
 				/>
 			</div>
@@ -42,6 +42,7 @@
 			>
 				<b-button
 					variant="primary"
+					@click="saveFlashcard"
 				>
 					Actualizar
 				</b-button>
@@ -50,6 +51,7 @@
 	</section>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import FlashcardsListHeader from '@/components/review/flashcards_list/FlashcardsListHeader'
 import RepeatAltIcon from '@/components/icons/RepeatAltIcon'
 
@@ -85,13 +87,63 @@ export default {
 					}
 				}
 			},
+			form: {
+				body_note: '',
+				body_user: ''
+			},
+			manual_id: this.$route.query.manual_id,
 			content: ''
 		}
 	},
 	computed: {
+		...mapGetters({
+			flashcard: 'flashcards/selectedFlashcard'
+		}),
 		back_component () {
 			return 'flashcards_list'
 		}
+	},
+	methods: {
+		async saveFlashcard () {
+			let response = null
+			this.loading = true
+			if (this.form.body_note.trim() === '') {
+				this.$toastr.error('Debes introducir el contenido de la parte frontal de la flashcard', 'Error')
+				return false
+			}
+			if (this.form.body_user.trim() === '') {
+				this.$toastr.error('Debes introducir el contenido de la parte trasera de la flashcard', 'Error')
+				return false
+			}
+			if (this.flashcard) {
+				const params = {
+					flashcard_id: this.flashcard._id,
+					body_note: this.form.body_note,
+					body_user: this.form.body_user
+				}
+				response = await this.$store.dispatch('flashcards/updateFlashcard', params)
+			} else {
+				const params = {
+					manual_id: this.manual_id,
+					body_note: this.form.body_note,
+					body_user: this.form.body_user
+				}
+				response = await this.$store.dispatch('flashcards/createFlashcard', params)
+			}
+			if (response) {
+				this.$emit('setCurrentComponent', this.back_component)
+			}
+			this.loading = false
+		}
+	},
+	created () {
+		if (this.flashcard) {
+			this.form.body_note = this.flashcard.body_note
+			this.form.body_user = this.flashcard.body_user
+		}
+	},
+	destroyed () {
+		this.$store.commit('flashcards/setFlashcardId', null)
 	}
 }
 </script>
