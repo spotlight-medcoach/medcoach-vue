@@ -22,10 +22,10 @@
 						}"
 					/>
 				</div>
-				<div class="caption-progress body-xxlg">
-					<span class="heading-2">56</span>
+				<div v-if="medscore" class="caption-progress body-xxlg">
+					<span class="heading-2">{{ medscoreSegmented.numerator }}</span>
 					<span class="heading-6">.</span>
-					<small class="body-title-1">234</small>
+					<small class="body-title-1">{{ medscoreSegmented.denominator }}</small>
 				</div>
 			</div>
 		</div>
@@ -40,7 +40,14 @@ export default {
 	},
 	computed: {
 		medscore () {
-			return this.studentInfo.medscore
+			return this.studentInfo ? this.studentInfo.medscore : 0
+		},
+		medscoreSegmented () {
+			const medscoreSegmented = this.medscore.toString().split('.')
+			return {
+				numerator: medscoreSegmented[0],
+				denominator: medscoreSegmented[1] ? medscoreSegmented[1] : 0
+			}
 		},
 		...mapGetters({
 			studentInfo: 'user'

@@ -101,7 +101,8 @@ export default {
 			},
 			elements: {
 				line: {
-					fill: 'bottom'
+					fill: 'bottom',
+					tension: 0.5
 				}
 			}
 		}
@@ -195,7 +196,17 @@ export default {
 					data: values,
 					borderWidth: 2,
 					borderColor: layer.color,
-					backgroundColor: `${layer.color}60`
+					backgroundColor: (context) => {
+						const chart = context.chart
+						const { ctx, chartArea } = chart
+						if (!chartArea) {
+							return `${layer.color}DD`
+						}
+						const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom)
+						gradient.addColorStop(0, `${layer.color}C0`)
+						gradient.addColorStop(1, `${layer.color}10`)
+						return gradient
+					}
 				}
 			})
 		}

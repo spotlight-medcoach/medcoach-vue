@@ -49,7 +49,9 @@ export default {
 						min: 20,
 						fontColor: '#000000',
 						fontFamily: "'Avenir', sans-serif",
-						fontSize: 14
+						fontSize: 12,
+						maxRotation: 0,
+						minRotation: 0
 					},
 					gridLines: {
 						display: false
@@ -98,7 +100,7 @@ export default {
 						const keyB = DateTime.fromFormat(b.date, 'DDD', { locale: 'es' })
 						return (keyA < keyB) ? -1 : 1
 					}).reduce((acc, customTests) => {
-						const ISODate = DateTime.fromFormat(customTests.date, 'DDD', { locale: 'es' }).toFormat('dd/MM/yyyy')
+						const ISODate = DateTime.fromFormat(customTests.date, 'DDD', { locale: 'es' }).toFormat('dd/MM')
 						const cleanScoreString = customTests.score.replace(/[^\d.]/g, '')
 						const score = cleanScoreString ? +parseFloat(cleanScoreString).toFixed(2) : 0
 						const background = customTests.finished ? '#FF930080' : '#BBBBB380'

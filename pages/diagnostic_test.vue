@@ -4,7 +4,7 @@
 			<div id="right-side-questions">
 				<section
 					id="diagnostic-test-header-section"
-					class="custom-card mb-16px"
+					class="d-flex custom-card mb-16px"
 				>
 					<span class="mr-16px">Marcar pregunta</span>
 					<ToggleSwitch
@@ -19,7 +19,9 @@
 					<div id="case-question">
 						<div id="case-description">
 							<p class="body-title-1 mb-10px">PREGUNTA {{ question_index + 1 }}</p>
-							<p v-html="question.id.question.html"></p>
+							<!-- eslint-disable vue/no-v-html -->
+							<p v-html="question.id.question.html" />
+							<!--eslint-enable-->
 						</div>
 						<DiagnosticTestQuestion
 							:question="question"
@@ -35,14 +37,14 @@
 			</div>
 			<DiagnosticTestAsideIndex
 				:questions="questions"
-				:selectedQuestion="question"
+				:selected-question="question"
 				@onFinishTest="finishTest"
 				@goToQuestion="goToQuestion"
 			/>
 		</div>
-		<div v-else-if="error_request" class="mt-5" style="font-size: 32px;">
+		<!-- <div v-else-if="error_request" class="mt-5" style="font-size: 32px;">
 			{{ message_error }}
-		</div>
+		</div> -->
 		<div v-else>
 			<loading-state message="Cargando preguntas, por favor espere" />
 		</div>
@@ -89,8 +91,40 @@ export default {
 		}
 	},
 	watch: {
-		'question.marked' (newVal) {
+		'question.marked' () {
 			localStorage.setItem('diagnostic_test_answers', JSON.stringify(this.answers))
+		}
+	},
+	async created () {
+		const token = localStorage.getItem('usertoken')
+		if (!token) {
+			alert('No tiene token')
+			this.$router.push({ path: '/' })
+		} else {
+			this.token = token
+			try {
+				const response = await this.getQuestions()
+				this.questions = response.data.questions.map((question) => {
+					question.marked = false
+					return question
+				})
+				const localAnswers = JSON.parse(localStorage.getItem('diagnostic_test_answers'))
+				if (localAnswers === null) {
+					localStorage.setItem('diagnostic_test_answers', JSON.stringify(this.answers))
+				} else {
+					this.questions.forEach((question, index) => {
+						question.response = localAnswers[index].response
+						question.correct = localAnswers[index].correct
+						question.marked = localAnswers[index].marked
+					})
+				}
+				setTimeout(() => {
+					this.setSizes()
+				}, 1000)
+			} catch (e) {
+				this.error_request = true
+				console.error(e)
+			}
 		}
 	},
 	methods: {
@@ -149,38 +183,6 @@ export default {
 			const rightSideQuestions = document.getElementById('right-side-questions')
 			rightSideQuestions.style.height = `${height}px`
 		}
-	},
-	async created () {
-		const token = localStorage.getItem('usertoken')
-		if (!token) {
-			alert('No tiene token')
-			this.$router.push({ path: '/' })
-		} else {
-			this.token = token
-			try {
-				const response = await this.getQuestions()
-				this.questions = response.data.questions.map((question) => {
-					question.marked = false
-					return question
-				})
-				const localAnswers = JSON.parse(localStorage.getItem('diagnostic_test_answers'))
-				if (localAnswers === null) {
-					localStorage.setItem('diagnostic_test_answers', JSON.stringify(this.answers))
-				} else {
-					this.questions.forEach((question, index) => {
-						question.response = localAnswers[index].response
-						question.correct = localAnswers[index].correct
-						question.marked = localAnswers[index].marked
-					})
-				}
-				setTimeout(() => {
-					this.setSizes()
-				}, 1000)
-			} catch (e) {
-				this.error_request = true
-				console.error(e)
-			}
-		}
 	}
 }
 </script>
@@ -190,14 +192,12 @@ export default {
 	background: #F8F8F8;
 
 	#diagnostic-test-header-section {
-		display: flex;
 		justify-content: end;
 		align-items: center;
 		padding: 15px 24px;
 		font-size: 17px;
 		line-height: 20px;
 		width: 100%;
-
 		label {
 			margin: 0px;
 		}
