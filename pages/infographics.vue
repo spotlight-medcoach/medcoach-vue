@@ -34,16 +34,16 @@
 							:overlay-action="'learned'"
 							@onSelectedInfographic="selectInfographic"
 						/>
-						<!---------------------------------------------------------------- Infographic Modal -->
-						<infographics-carousel-modal
-							:selected-infographic-id="selectedInfographicId"
-							@onMarkAsLearned="markAsLearned"
-						/>
 					</template>
 					<div v-else class="text-center py-5">
 						- Necesitas seleccionar un tema y subtema -
 					</div>
 				</template>
+				<!---------------------------------------------------------------- Infographic Modal -->
+				<infographics-carousel-modal
+					:selected-infographic-id="selectedInfographicId"
+					@onMarkAsLearned="markAsLearned"
+				/>
 			</article>
 		</section>
 	</div>
@@ -83,9 +83,19 @@ export default {
 			loadingState: 'infographics/loadingState'
 		})
 	},
+	watch: {
+		$route (to, from) {
+			if (from.infographic_id !== to.query.infographic_id) {
+				this.selectInfographic(to.query.infographic_id)
+			}
+		}
+	},
 	mounted () {
 		if (this.infographics === undefined) {
 			this.$store.dispatch('infographics/fetchInfographics')
+		}
+		if (this.$route.query.infographic_id) {
+			this.selectInfographic(this.$route.query.infographic_id)
 		}
 	},
 	methods: {

@@ -32,7 +32,7 @@
 					class="label-container student"
 					:style="{'left': `${medscore}%`}"
 				>
-					<span class="label body-title-3 text-secondary text-center">{{ medscore }}</span>
+					<span class="label body-title-3 text-success text-center">{{ medscore }}</span>
 				</div>
 			</div>
 		</div>
@@ -112,7 +112,6 @@ export default {
 			}
 			.label-container {
 				position: absolute;
-				border: 1px solid #{$accent_b-500};
 				width: 1px;
 				top: 30px;
 				bottom: 2px;
@@ -122,6 +121,12 @@ export default {
 					margin-top: -30px;
 					margin-left: -30px;
 					margin-left: -30px;
+				}
+				&.global {
+					border: 1px solid #{$accent_b-500};
+				}
+				&.student {
+					border: 1px solid #{$success-500};
 				}
 			}
 		}

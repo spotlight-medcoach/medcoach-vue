@@ -16,41 +16,77 @@
 			>
 		</div>
 		<div v-if="loaded && isSearchbarOpen" class="result-list px-0 py-2">
-			<template v-if="results.length">
-				<template v-for="(manual, index) in results">
-					<nuxt-link
-						v-if="!manual.finished"
-						:key="'manual' + index"
-						class="result-list-item d-flex align-items-center px-4 text-decoration-none"
-						:to="`/manual?manual_id=${manual.manual_id}`"
-					>
-						<div class="manual-txt">{{ manual.manual_name }}</div>
-						<div class="manual-ext ml-auto text-right body-xsm">
-							<div><b>{{ manual.subtopic_name }}</b></div>
-							<div><b>{{ manual.topic_name }}</b></div>
-						</div>
-					</nuxt-link>
-					<div
-						v-else
-						:key="'manual' + index"
-						class="result-list-item d-flex align-items-center px-4 text-decoration-none"
-						style="opacity: 0.30"
-					>
-						<div class="manual-txt">
-							{{ manual.manual_name }}
-						</div>
-						<div class="manual-ext ml-auto text-right body-xsm">
-							<div><b>{{ manual.subtopic_name }}</b></div>
-							<div><b>{{ manual.topic_name }}</b></div>
-						</div>
-					</div>
+			<div>
+				<span class="body-xsm text-primary ml-4">Manuales</span>
+				<hr class="mt-1 mb-0">
+				<template v-if="manualsResults.length">
+					<template v-for="(manual, index) in manualsResults">
+						<nuxt-link
+							:key="'manual' + index"
+							class="result-list-item d-flex align-items-center px-4 text-decoration-none"
+							:to="`/manual?manual_id=${manual.manual_id}`"
+						>
+							<div class="classification-icon">
+								<ManualsIcon />
+							</div>
+							<div class="manual-txt">{{ manual.manual_name }}</div>
+							<div class="manual-ext ml-auto text-right body-xsm">
+								<div><b>{{ manual.subtopic_name }}</b></div>
+								<div><b>{{ manual.topic_name }}</b></div>
+							</div>
+						</nuxt-link>
+					</template>
 				</template>
-			</template>
-			<div v-else>
-				<div
-					class="px-4 py-2"
-					style="opacity: 0.30"
-				>
+				<div v-else class="px-4 py-2" style="opacity: 0.30">
+					<p>No se encontraron resultados</p>
+				</div>
+			</div>
+			<div>
+				<span class="body-xsm text-primary ml-4">Notas</span>
+				<hr class="mt-1 mb-0">
+				<template v-if="notesResults.length">
+					<template v-for="(manual, index) in notesResults">
+						<nuxt-link
+							:key="'manual' + index"
+							class="result-list-item d-flex align-items-center px-4 text-decoration-none"
+							:to="`/manual?manual_id=${manual.manual_id}`"
+						>
+							<div class="classification-icon">
+								<NotesIcon />
+							</div>
+							<div class="manual-txt">{{ manual.manual_name }}</div>
+							<div class="manual-ext ml-auto text-right body-xsm">
+								<div><b>{{ manual.subtopic_name }}</b></div>
+								<div><b>{{ manual.topic_name }}</b></div>
+							</div>
+						</nuxt-link>
+					</template>
+				</template>
+				<div v-else class="px-4 py-2" style="opacity: 0.30">
+					<p>No se encontraron resultados</p>
+				</div>
+			</div>
+			<div>
+				<span class="body-xsm text-primary ml-4">Infográficos</span>
+				<hr class="mt-1 mb-0">
+				<template v-if="infographicsResults.length">
+					<template v-for="(infographic, index) in infographicsResults">
+						<nuxt-link
+							:key="'infographic' + index"
+							class="result-list-item d-flex align-items-center px-4 text-decoration-none"
+							:to="`/infographics?infographic_id=${infographic._id}`"
+						>
+							<div class="classification-icon">
+								<img
+									:src="infographic.image"
+									:alt="infographic.name"
+								>
+							</div>
+							<div class="infographic-txt">{{ infographic.name }}</div>
+						</nuxt-link>
+					</template>
+				</template>
+				<div v-else class="px-4 py-2" style="opacity: 0.30">
 					<p>No se encontraron resultados</p>
 				</div>
 			</div>
@@ -60,9 +96,13 @@
 <script>
 import { mapState } from 'vuex'
 import SearchIcon from '@/components/icons/SearchIcon.vue'
+import ManualsIcon from '@/components/icons/ManualsIcon.vue'
+import NotesIcon from '@/components/icons/NotesIcon.vue'
 export default {
 	components: {
-		SearchIcon
+		SearchIcon,
+		ManualsIcon,
+		NotesIcon
 	},
 	data () {
 		return {
@@ -71,16 +111,31 @@ export default {
 		}
 	},
 	computed: {
-		results () {
+		manualsResults () {
 			if (this.search.length) {
 				const search = this.removeAccents(this.search.toLowerCase())
-				return this.filterManuals(search).slice(0, 8)
+				return this.filterManuals(search).slice(0, 3)
 			}
-			return this.manuals.slice(0, 8)
+			return this.manuals.slice(0, 3)
+		},
+		notesResults () {
+			if (this.search.length) {
+				const search = this.removeAccents(this.search.toLowerCase())
+				return this.filterManuals(search).filter(manual => manual.finished).slice(0, 3)
+			}
+			return this.manuals.filter(manual => !manual.finished).slice(0, 3)
+		},
+		infographicsResults () {
+			if (this.search.length) {
+				const search = this.removeAccents(this.search.toLowerCase())
+				return this.infographics.filter(infographic => infographic.name.toLowerCase().includes(search)).slice(0, 3)
+			}
+			return this.infographics.slice(0, 3)
 		},
 		...mapState({
 			manuals: state => state.topics.manuals,
-			loaded: state => state.topics.fetchedManuals
+			loaded: state => state.topics.fetchedManuals,
+			infographics: state => state.infographics.infographics
 		})
 	},
 	methods: {
@@ -137,7 +192,6 @@ export default {
 		.searchbar-input + * {
 			position: absolute;
 			width: 100%;
-			max-height: 50vh;
 			overflow-x: hidden;
 			overflow-y: auto;
 			background: #ffffff;
@@ -151,6 +205,17 @@ export default {
 				}
 				&:not(a) {
 					cursor: default;
+				}
+			}
+			.body-xsm {
+				color: #{$neutral-400};
+			}
+			.classification-icon {
+				width: 60px;
+				text-align: center;
+				> * {
+					width: 32px;
+					height: 32px;
 				}
 			}
 		}
