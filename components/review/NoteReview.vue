@@ -18,7 +18,10 @@
 				</div>
 				<!----- Marcar como aprendido -->
 				<div class="col-sm">
-					<div class="d-flex justify-content-end">
+					<div
+						v-if="!note.finished"
+						class="d-flex justify-content-end"
+					>
 						<div class="d-inline-flex align-items-center">
 							<holdable-button
 								message="Manten presionado para marcar como aprendido"
@@ -101,9 +104,9 @@ export default {
 			type: String,
 			default: ''
 		},
-		notes: {
-			type: String,
-			default: ''
+		note: {
+			type: Object,
+			default: null
 		},
 		review: {
 			type: Boolean,
@@ -231,7 +234,7 @@ export default {
 		}
 	},
 	created () {
-		this.content = this.notes.slice(0, -1)
+		this.content = this.note.note.slice(0, -1)
 	},
 	mounted () {
 		// this.addStudyTime()

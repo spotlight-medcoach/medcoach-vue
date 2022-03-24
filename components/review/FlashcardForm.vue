@@ -180,11 +180,8 @@ export default {
 			}
 
 			&-detras {
-				background-color: rgba(151, 151, 151, 1);
-
 				&::before {
 					content: "Detrás";
-					background-color: rgba(151, 151, 151, 1);
 				}
 			}
 		}

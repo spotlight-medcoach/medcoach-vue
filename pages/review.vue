@@ -11,7 +11,7 @@
 				<NoteReview
 					v-if="current_component == 'note_review'"
 					:manual_id="manual_id"
-					:notes="notes"
+					:note="note"
 					:review="review"
 					@setCurrentComponent="setCurrentComponent"
 				/>
@@ -60,7 +60,7 @@ export default {
 		return {
 			manual_id: this.$route.query.manual_id,
 			review: this.$route.query.review === 'true',
-			notes: '',
+			note: null,
 			current_component: 'note_review'
 		}
 	},
@@ -112,7 +112,7 @@ export default {
 			return this.$axios
 				.get(`/manuals/note?manual_id=${manualId}`)
 				.then((res) => {
-					this.notes = res.data.note
+					this.note = res.data
 				}).catch((err) => {
 					console.log(err)
 					this.error_http = true
