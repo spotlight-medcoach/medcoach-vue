@@ -91,3 +91,6 @@ sw.*
 
 # Notas
 /notas
+
+# Local Netlify folder
+.netlify
