@@ -1,10 +1,8 @@
 <template>
 	<b-modal
-		v-if="allInfographics && studentInfographics && selectedInfographicId"
 		id="infographics-carousel-modal"
 		ref="infographics-carousel-modal"
 		v-b-modal.infographics-delete-modal
-		:title="selectedInfographic.name"
 		header-close-label="x"
 		size="lg"
 		header-class="p-0"
@@ -16,6 +14,11 @@
 	>
 		<div slot="modal-header-close">
 			<b-icon icon="x" font-scale="2" />
+		</div>
+		<div slot="modal-title">
+			<span v-if="selectedInfographic">
+				{{ selectedInfographic.name }}
+			</span>
 		</div>
 		<b-carousel
 			id="carousel-1"
@@ -31,13 +34,15 @@
 		</b-carousel>
 		<div slot="modal-footer" class="mx-auto mt-4">
 			<holdable-button
+				v-if="selectedInfographic"
 				class="rounded p-2"
 				message="Marcar como aprendido"
 				:max-width="300"
-				@onCheck="markAsLearned"
 				:disabled="selectedInfographic.learned"
+				@onCheck="markAsLearned"
 			/>
 			<b-button
+				v-if="selectedInfographic"
 				variant="light"
 				class="download-button"
 				:href="selectedInfographic.image"
@@ -70,23 +75,23 @@ export default {
 		}
 	},
 	computed: {
+		selectedInfographic () {
+			return this.allInfographics ? this.allInfographics[this.infographicIdx] : undefined
+		},
 		...mapGetters({
 			allInfographics: 'infographics/allInfographics',
 			studentInfographics: 'infographics/studentInfographics'
-		}),
-		selectedInfographic () {
-			return this.allInfographics[this.infographicIdx]
-		}
+		})
 	},
 	watch: {
 		selectedInfographicId (infographicId) {
-			this.infographicIdx = this.allInfographics.findIndex(infographic => infographic._id === infographicId)
+			if (this.allInfographics) {
+				this.infographicIdx = this.allInfographics.findIndex(infographic => infographic._id === infographicId)
+			}
 		}
 	},
 	mounted () {
-		if (this.allInfographics === undefined && this.loadingState === false) {
-			this.$store.dispatch('infographics/fetchInfographics')
-		}
+		console.log(this.infographicIdx)
 	},
 	methods: {
 		markAsLearned () {

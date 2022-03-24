@@ -18,7 +18,7 @@
 				<div v-else-if="errorHttp" class="w-100 about quote" align="center">
 					<p>Refresca la página en un momento, disculpa las molestias</p>
 				</div>
-				<dashboard-calendar v-else class="w-100"/>
+				<dashboard-calendar v-else class="w-100" />
 			</article>
 		</section>
 		<section v-if="!freeTrial.isTrialEnd" class="trial-panel-container shadow-sm p-3 m-2">
@@ -53,7 +53,7 @@ export default {
 	layout: 'new_default',
 	computed: {
 		...mapState({
-			freeTrial: 'free_trial',
+			freeTrial: 'free_trial', // state completo en free_trial.js
 			onHttpRequest: state => state.http_request.onHttpRequest,
 			message: state => state.http_request.message,
 			errorHttp: state => state.http_request.errorHttp

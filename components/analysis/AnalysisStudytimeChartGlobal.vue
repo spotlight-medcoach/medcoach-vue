@@ -41,10 +41,11 @@ export default {
 		selectedScope: DateTime.utc().startOf('month'),
 		subscriptionMonths: null,
 		studyTimesDaysGroupedByMonth: null,
+		globalStudyTimesDaysGroupedByMonth: null,
 		montScopeOptions: null,
 		bestScopeData: null,
 		chartDay: { labels: [], datasets: [] },
-		layerMap: [{ title: 'Mi estudio', color: '#FF9300' }, { title: 'Comunidad MedCOACH', color: '#818FF9' }],
+		layerMap: [{ title: 'Mis horas de estudio', color: '#FF9300' }, { title: 'Horas de estudio promedio de todos los usuarios', color: '#818FF9' }],
 		options: {
 			maintainAspectRatio: false,
 			legend: {
@@ -100,7 +101,8 @@ export default {
 			},
 			elements: {
 				line: {
-					fill: 'bottom'
+					fill: 'bottom',
+					tension: 0.5
 				}
 			}
 		}
@@ -108,7 +110,8 @@ export default {
 	computed: {
 		...mapGetters({
 			student: 'user',
-			studyTime: 'studytime/studyTime'
+			studyTime: 'studytime/studyTime',
+			communityStats: 'community_stats/communityStats'
 		})
 	},
 	watch: {
@@ -118,6 +121,10 @@ export default {
 		},
 		studyTime () {
 			console.log('studyTime')
+			this.initialize()
+		},
+		communityStats () {
+			console.log('communityStats')
 			this.initialize()
 		},
 		selectedScope () {
@@ -141,6 +148,7 @@ export default {
 	methods: {
 		initialize () {
 			this.calculeStudentSubscriptionMonths()
+			this.calculeGlobalStudyTimesDaysGroupedByMonth()
 			this.calculeStudyTimesDaysGroupedByMonth()
 			this.calculeStudentCurrentMonth()
 		},
@@ -149,31 +157,35 @@ export default {
 				const subcriptionStartAt = DateTime.fromISO(this.student.paid_at, { zone: 'utc' })
 				const subcriptionEndAt = DateTime.fromISO(this.student.end_date, { zone: 'utc' })
 				this.subscriptionMonths = fillEmptyDaysGroupingByMonth(subcriptionStartAt, subcriptionEndAt)
+				this.montScopeOptions = Object.values(this.subscriptionMonths).map(sm => sm.date)
+			}
+		},
+		calculeGlobalStudyTimesDaysGroupedByMonth () {
+			if (this.communityStats && this.subscriptionMonths && this.globalStudyTimesDaysGroupedByMonth == null) {
+				this.globalStudyTimesDaysGroupedByMonth = formatByDayGroupingByMonth(this.communityStats.days)
 			}
 		},
 		calculeStudyTimesDaysGroupedByMonth () {
 			if (this.studyTime && this.subscriptionMonths && this.studyTimesDaysGroupedByMonth == null) {
-				this.montScopeOptions = Object.values(this.subscriptionMonths).map(sm => sm.date)
 				this.studyTimesDaysGroupedByMonth = formatByDayGroupingByMonth(this.studyTime.days)
-				this.bestScopeData = this.calculeDatasetByMonth(this.studyTimesDaysGroupedByMonth.best.key)
 			}
 		},
 		calculeStudentCurrentMonth () {
-			const isSame = this.studyTimesDaysGroupedByMonth === this.selectedScope.toFormat('yyyyMM')
-			if (this.subscriptionMonths && this.studyTimesDaysGroupedByMonth && !isSame) {
+			if (this.studyTimesDaysGroupedByMonth && this.globalStudyTimesDaysGroupedByMonth) {
 				console.log('calculeStudentCurrentMonth')
-				const selectedScopeData = this.calculeDatasetByMonth(this.selectedScope.toFormat('yyyyMM'))
-				this.fillChart([selectedScopeData, this.bestScopeData])
+				const selectedScopeDataStudent = this.calculeDatasetByMonth(this.selectedScope.toFormat('yyyyMM'), this.studyTimesDaysGroupedByMonth)
+				const selectedScopeDataGlobal = this.calculeDatasetByMonth(this.selectedScope.toFormat('yyyyMM'), this.globalStudyTimesDaysGroupedByMonth)
+				this.fillChart([selectedScopeDataStudent, selectedScopeDataGlobal])
 			}
 		},
-		calculeDatasetByMonth (monthKey) {
+		calculeDatasetByMonth (monthKey, studyTimesDaysGroupedByMonth) {
 			// emptyMonthRef tiene un archivo de los meses de suscripción del usuario con sus mapa de días por mes con horas de estudio vacías
 			// studyTimeMonthRef tiene un archivo de los studyTimes del usuario sólo con algunos meses y algunos días donde el student estudió
 			// mergedDays rellena con los días donde el student estudió (esto se hizo para que no quedaran días vacíos)
 			// scopedMonthRef crea un nuevo objeto resultado de la combinación de subscriptionMonths/studyTimesDaysGroupedByMonth en el mes scope
 			// (esto se hizo para calcular una sola vez subscriptionMonths/studyTimesDaysGroupedByMonth y sólo hacer switch en el scope)
 			const emptyMonthRef = this.subscriptionMonths[monthKey]
-			const studyTimeMonthRef = this.studyTimesDaysGroupedByMonth[monthKey]
+			const studyTimeMonthRef = studyTimesDaysGroupedByMonth[monthKey]
 			let scopedMonthRef = Object.assign({}, emptyMonthRef)
 			if (studyTimeMonthRef) { // Sólo si hay registros de studyTimesDaysGroupedByMonth en el mes scope
 				const mergedDays = { ...emptyMonthRef.days, ...studyTimeMonthRef.days }
@@ -190,11 +202,21 @@ export default {
 				this.chartDay.labels = this.chartDay.labels > labels ? this.chartDay.labels : labels
 				const layer = this.layerMap[idx]
 				return {
-					label: `${title} (${layer.title})`,
+					label: `${layer.title}`,
 					data: values,
 					borderWidth: 2,
 					borderColor: layer.color,
-					backgroundColor: `${layer.color}60`
+					backgroundColor: (context) => {
+						const chart = context.chart
+						const { ctx, chartArea } = chart
+						if (!chartArea) {
+							return `${layer.color}DD`
+						}
+						const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom)
+						gradient.addColorStop(0, `${layer.color}C0`)
+						gradient.addColorStop(1, `${layer.color}10`)
+						return gradient
+					}
 				}
 			})
 		}

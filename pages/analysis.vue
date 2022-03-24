@@ -50,16 +50,19 @@ import { mapGetters } from 'vuex'
 import AnalysisStudytimeChart from '@/components/analysis/AnalysisStudytimeChart.vue'
 import AnalysisGeneralProgress from '@/components/analysis/AnalysisGeneralProgress.vue'
 import AnalysisMedscore from '@/components/analysis/AnalysisMedscore.vue'
+import AnalysisMedscoreGlobal from '@/components/analysis/AnalysisMedscoreGlobal.vue'
 import AnalysisSummary from '@/components/analysis/AnalysisSummary.vue'
 import AnalysisAnswersAccuracy from '@/components/analysis/AnalysisAnswersAccuracy.vue'
 import AnalysisAnswersCategory from '@/components/analysis/AnalysisAnswersCategory.vue'
 import AnalysisTestsScores from '@/components/analysis/AnalysisTestsScores.vue'
 import AnalysisStudytimeChartGlobal from '@/components/analysis/AnalysisStudytimeChartGlobal.vue'
+const { Settings } = require('luxon')
 export default {
 	components: {
 		AnalysisStudytimeChart,
 		AnalysisGeneralProgress,
 		AnalysisMedscore,
+		AnalysisMedscoreGlobal,
 		AnalysisSummary,
 		AnalysisAnswersAccuracy,
 		AnalysisAnswersCategory,
@@ -72,10 +75,12 @@ export default {
 			studyTime: 'studytime/studyTime',
 			studentFlashcards: 'flashcards/flashcards',
 			studentCustomTests: 'custom_test/history',
-			studentStats: 'student_stats/studentStats'
+			studentStats: 'student_stats/studentStats',
+			communityStats: 'community_stats/communityStats'
 		})
 	},
 	mounted () {
+		Settings.defaultLocale = navigator.language || navigator.userLanguage
 		if (this.studyTime === null) {
 			this.$store.dispatch('studytime/fetchStudyTime')
 		}
@@ -87,6 +92,9 @@ export default {
 		}
 		if (this.studentStats === null) {
 			this.$store.dispatch('student_stats/fetchStudentStats')
+		}
+		if (this.communityStats === null) {
+			this.$store.dispatch('community_stats/fetchCommunityStats')
 		}
 	}
 }
@@ -135,19 +143,17 @@ export default {
 				"mymedscore medscore"
 				"studytime studytime";
 			gap: 2vmax;
-			grid-template-rows: 1fr auto;
-			grid-template-columns: 2fr 1fr;
-			> * {
-				border: 1px solid #000;
-			}
 			#my-medscore {
 				grid-area: mymedscore;
+				justify-self: center;
 			}
 			#global-medscore {
 				grid-area: medscore;
+				justify-self: start;
 			}
 			#global-studytime {
 				grid-area: studytime;
+				width: 100%;
 			}
 		}
 	}

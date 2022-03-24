@@ -1,10 +1,14 @@
 import webpack from 'webpack'
 
 export default {
+  server: {
+    port: 8000
+  },
   env: {
     BASE_PATH: process.env.BASE_PATH,
     BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE,
     IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
+    STORAGE_BASE_URL: process.env.STORAGE_BASE_URL || false,
     DEVELOP: process.env.DEVELOP || false
   },
   ssr: false,

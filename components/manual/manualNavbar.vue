@@ -16,10 +16,7 @@
 		<div class="d-inline-flex align-items-center neutral-color-600">
 			<!----------------------------------------------------------------- Cambiar brillo de vista -->
 			<div class="mx-2 d-inline-flex align-items-center">
-				<switch-brightness-button
-					@onChangeBrightness="changeBrightness"
-				>
-				</switch-brightness-button>
+				<switch-brightness-button @onChangeBrightness="changeBrightness" />
 			</div>
 			<div class="v-divider" />
 			<!----------------------------------------------------------------- Cambiar tamaño de letra -->
@@ -39,34 +36,36 @@
 					@click="changeFontSize(1)"
 				/>
 			</div>
-			<div class="v-divider" />
 			<!----------------------------------------------------------------- Marcar como aprendido -->
-			<template v-if="allowFinishManual && phase.id !== 2">
+			<template v-if="phase.id !== 2">
+				<div class="v-divider" />
 				<div class="mx-2 d-inline-flex align-items-center">
 					<holdable-button
+						ref="finish-manual-button"
 						message="Manten presionado para marcar como aprendido"
-						:maxWidth="200"
+						:max-width="200"
+						:default-value="!allowFinishManual"
+						:disabled="isFreeTrial || !allowFinishManual"
 						@onCheck="finishManual"
-					>
-					</holdable-button>
+					/>
 				</div>
-				<div class="v-divider" />
+				<!-- <div class="v-divider" /> -->
 			</template>
 			<!----------------------------------------------------------------- Reportar manual -->
-			<div class="mx-2 d-inline-flex align-items-center main-color">
+			<!-- <div class="mx-2 d-inline-flex align-items-center main-color">
 				<b-icon
 					align-v="center"
 					icon="exclamation-triangle"
 					class="h3 m-0 mx-2"
 				/>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import SwitchBrightnessButton from '~/components/_functional/SwitchBrightnessButton.vue'
+import SwitchBrightnessButton from '@/components/_functional/SwitchBrightnessButton.vue'
 import HoldableButton from '@/components/_functional/HoldableButton.vue'
 export default {
 	components: {
@@ -81,6 +80,11 @@ export default {
 		allowFinishManual: {
 			type: Boolean,
 			default: false
+		}
+	},
+	data () {
+		return {
+			fontSize: 1
 		}
 	},
 	computed: {
@@ -100,14 +104,10 @@ export default {
 			return name
 		},
 		...mapState({
+			isFreeTrial: 'isFreeTrial',
 			phase: state => state.phase,
 			topics: state => state.topics.data
 		})
-	},
-	data () {
-		return {
-			fontSize: 1
-		}
 	},
 	methods: {
 		changeFontSize (change) {
@@ -123,6 +123,9 @@ export default {
 		},
 		finishManual () {
 			this.$emit('onFinishManual')
+		},
+		resetFinishManualButton () {
+			this.$refs['finish-manual-button'].reset()
 		}
 	}
 }

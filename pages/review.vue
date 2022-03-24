@@ -8,38 +8,64 @@
 				<p>{{ message }}</p>
 			</div>
 			<div v-else>
-				<notes-review
-					ref="notes"
-					:notes="notes"
+				<NoteReview
+					v-if="current_component == 'note_review'"
 					:manual_id="manual_id"
-					:flashcards="flashcards"
+					:note="note"
 					:review="review"
-					@onRefreshFlashCards="getFlashcards(manual_id)"
+					@setCurrentComponent="setCurrentComponent"
+				/>
+				<FlashcardsList
+					v-else-if="current_component == 'flashcards_list'"
+					:manual_title="manualTitle"
+					@setCurrentComponent="setCurrentComponent"
+				/>
+				<FlashcardsStudy
+					v-else-if="current_component == 'flashcards_study'"
+					:manual_title="manualTitle"
+					:manual_id="manual_id"
+					@setCurrentComponent="setCurrentComponent"
+				/>
+				<FlashcardForm
+					v-else-if="current_component == 'flashcard_form'"
+					:manual_title="manualTitle"
+					@setCurrentComponent="setCurrentComponent"
 				/>
 			</div>
 		</b-container>
+		<ConfirmDeleteFlashcardModal />
 	</div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import NotesReview from '@/components/review/Notes.vue'
+import NoteReview from '@/components/review/NoteReview.vue'
+import FlashcardsList from '@/components/review/FlashcardsList.vue'
+import FlashcardsStudy from '@/components/review/FlashcardsStudy.vue'
+import FlashcardForm from '@/components/review/FlashcardForm.vue'
+import ConfirmDeleteFlashcardModal from '@/components/review/ConfirmDeleteFlashcardModal.vue'
+
 export default {
+	layout: 'new_default',
 	components: {
 		LoadingState,
-		NotesReview
+		NoteReview,
+		FlashcardsList,
+		FlashcardsStudy,
+		FlashcardForm,
+		ConfirmDeleteFlashcardModal
 	},
 	data () {
 		return {
 			manual_id: this.$route.query.manual_id,
 			review: this.$route.query.review === 'true',
-			flashcards: [],
-			notes: ''
+			note: null,
+			current_component: 'note_review'
 		}
 	},
 	beforeRouteLeave (to, from, next) {
-		this.$refs.notes.finalize()
+		// this.$refs.notes.finalize()
 		next()
 	},
 	async created () {
@@ -53,20 +79,40 @@ export default {
 		if (flag) {
 			this.$store.commit('http_request/setOnHttpRequest', false)
 		}
+		this.$store.commit('flashcards/setManualId', this.manual_id)
 	},
 	computed: {
 		...mapState({
 			onHttpRequest: state => state.http_request.onHttpRequest,
 			message: state => state.http_request.message,
-			errorHttp: state => state.http_request.errorHttp
-		})
+			errorHttp: state => state.http_request.errorHttp,
+			topics: state => state.topics.data
+		}),
+		...mapGetters({
+			flashcards: 'flashcards/flashcards'
+		}),
+		manualTitle () {
+			let name = ''
+			this.topics.some((topic) => {
+				return topic.subtopics.some((subtopic) => {
+					return subtopic.manuals.some((manual) => {
+						if (manual.id === this.manual_id) {
+							name = manual.name
+							return true
+						}
+						return false
+					})
+				})
+			})
+			return name
+		}
 	},
 	methods: {
 		getManualNote (manualId) {
 			return this.$axios
 				.get(`/manuals/note?manual_id=${manualId}`)
 				.then((res) => {
-					this.notes = res.data.note
+					this.note = res.data
 				}).catch((err) => {
 					console.log(err)
 					this.error_http = true
@@ -74,22 +120,68 @@ export default {
 				})
 		},
 		getFlashcards (manualId) {
-			return this.$axios
-				.get(`/manuals/flashcard?manual_id=${manualId}`)
-				.then((res) => {
-					this.flashcards = res.data.flashcards
-				}).catch((err) => {
+			return this.$store.dispatch('flashcards/fetchFlashcardsByManualId', manualId)
+				.catch((err) => {
 					console.log(err)
 					this.error_http = true
 					this.message = 'Ocurrió un error al obtener sus flashcards'
 				})
+		},
+		setCurrentComponent (component) {
+			this.current_component = component
 		}
+	},
+	destroyed () {
+		this.$store.commit('flashcards/setManualId', null)
 	}
 }
 </script>
-<style>
-	#review .ql-toolbar {
-		display: flex !important;
-		justify-content: center !important;
+<style lang="scss">
+	#review {
+		background-color: rgba(248, 248, 248, 1);
+		.ql-toolbar {
+			display: flex !important;
+			justify-content: center !important;
+		}
+		.manual-title {
+			font-size: 20px;
+			font-weight: 900;
+		}
+		.back-link {
+			cursor: pointer;
+			p {
+				font-size: 18px;
+				margin-left: 14px;
+			}
+			svg {
+				height: 17px;
+				color: rgba(199, 199, 199, 1);
+			}
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+		.option-icon {
+			cursor: pointer;
+			svg {
+				fill: #D4D4D1;
+			}
+
+			&:hover, &-active {
+				svg {
+					fill: #FF9300;
+				}
+			}
+		}
+
+		.option-icon.disabled {
+			cursor: auto;
+			opacity: 0.2;
+			&:hover, &-active {
+				svg {
+					fill: #D4D4D1;
+				}
+			}
+		}
 	}
 </style>

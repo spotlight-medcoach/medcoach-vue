@@ -74,8 +74,8 @@ export const actions = {
 		commit('setBearer')
 		commit('http_request/setOnHttpRequest', true)
 		await dispatch('fetchStudentInfo') // necesita obtener la info del estudiante para saber si es free_trial
-		// en todos los casos (sea trial o no)
-		const promises = [
+		const promises = [ // en todos los casos (sea trial o no)
+			dispatch('infographics/fetchInfographics'),
 			dispatch('calculeTestLeftDays', state.studentInfo.test_date),
 			await dispatch('topics/fetchTopics')
 		]
@@ -121,7 +121,6 @@ export const actions = {
 			})
 	},
 	fetchSyllabus ({ commit, dispatch, state }, message) {
-		dispatch('http_request/initHttpRequest', message)
 		const now = moment()
 		let day = now.day() - 1
 		if (day < 0) {

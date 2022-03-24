@@ -48,7 +48,7 @@ export default {
 			const successLottie = require('@/assets/lotties/welcome_intro.json')
 			this.$refs['welcome-intro'].load(successLottie)
 			this.$emit('can-continue', { value: true })
-		}, 1500)
+		}, 300)
 	},
 	methods: {
 		createTest () {
