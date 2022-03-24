@@ -8,7 +8,7 @@
 		@hide="onHide"
 		@ok="onDelete"
 	>
-		<p class="title-sm">¿Realmente desea eliminar esta flashcard?</p>
+		<p class="title-sm text-center">¿Realmente desea eliminar esta flashcard?</p>
 	</b-modal>
 </template>
 <script>
@@ -35,3 +35,10 @@ export default {
 	}
 }
 </script>
+<style lang="scss">
+	#confirm-delete-flashcard-modal {
+		.modal-footer {
+			justify-content: center !important;
+		}
+	}
+</style>
