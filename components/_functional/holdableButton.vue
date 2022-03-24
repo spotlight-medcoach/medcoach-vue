@@ -13,7 +13,7 @@
 		<span
 			class="bg-layout"
 			:style="`transition-duration: ${checkOnMiliseconds}ms`"
-		></span>
+		/>
 	</div>
 </template>
 <script>
@@ -35,6 +35,10 @@ export default {
 		disabled: {
 			type: Boolean,
 			default: false
+		},
+		defaultValue: {
+			type: Boolean,
+			defaultValue: false
 		}
 	},
 	data () {
@@ -44,6 +48,11 @@ export default {
 			checked: false,
 			isHoldOn: false,
 			step: 100
+		}
+	},
+	watch: {
+		defaultValue (defaultVal) {
+			this.checked = defaultVal
 		}
 	},
 	methods: {
@@ -73,6 +82,16 @@ export default {
 					}
 				}.bind(this), this.step)
 			}
+		},
+		reset () {
+			setTimeout(() => {
+				this.checked = false
+			}, 1)
+		}
+	},
+	mounted () {
+		if (this.defaultValue === true) {
+			this.checked = this.defaultValue
 		}
 	}
 }

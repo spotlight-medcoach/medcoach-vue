@@ -12,6 +12,7 @@
 			<input
 				id="search-input"
 				v-model="search"
+				autocomplete="off"
 				type="text"
 			>
 		</div>
@@ -41,7 +42,7 @@
 					<p>No se encontraron resultados</p>
 				</div>
 			</div>
-			<div>
+			<div v-if="!isFreeTrial">
 				<span class="body-xsm text-primary ml-4">Notas</span>
 				<hr class="mt-1 mb-0">
 				<template v-if="notesResults.length">
@@ -112,27 +113,37 @@ export default {
 	},
 	computed: {
 		manualsResults () {
-			if (this.search.length) {
-				const search = this.removeAccents(this.search.toLowerCase())
-				return this.filterManuals(search).slice(0, 3)
+			if (this.manuals) {
+				if (this.search.length) {
+					const search = this.removeAccents(this.search.toLowerCase())
+					return this.filterManuals(search).slice(0, 3)
+				}
+				return this.manuals.slice(0, 3)
 			}
-			return this.manuals.slice(0, 3)
+			return []
 		},
 		notesResults () {
-			if (this.search.length) {
-				const search = this.removeAccents(this.search.toLowerCase())
-				return this.filterManuals(search).filter(manual => manual.finished).slice(0, 3)
+			if (this.manuals) {
+				if (this.search.length) {
+					const search = this.removeAccents(this.search.toLowerCase())
+					return this.filterManuals(search).filter(manual => manual.finished).slice(0, 3)
+				}
+				return this.manuals.filter(manual => !manual.finished).slice(0, 3)
 			}
-			return this.manuals.filter(manual => !manual.finished).slice(0, 3)
+			return []
 		},
 		infographicsResults () {
-			if (this.search.length) {
-				const search = this.removeAccents(this.search.toLowerCase())
-				return this.infographics.filter(infographic => infographic.name.toLowerCase().includes(search)).slice(0, 3)
+			if (this.infographics) {
+				if (this.search.length) {
+					const search = this.removeAccents(this.search.toLowerCase())
+					return this.infographics.filter(infographic => infographic.name.toLowerCase().includes(search)).slice(0, 3)
+				}
+				return this.infographics.slice(0, 3)
 			}
-			return this.infographics.slice(0, 3)
+			return []
 		},
 		...mapState({
+			isFreeTrial: 'isFreeTrial',
 			manuals: state => state.topics.manuals,
 			loaded: state => state.topics.fetchedManuals,
 			infographics: state => state.infographics.infographics

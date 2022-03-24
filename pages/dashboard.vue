@@ -13,11 +13,11 @@ import { mapState } from 'vuex'
 import DashboardTrial from '@/components/dashboard/DashboardTrial.vue'
 import DashboardIndex from '@/components/dashboard/DashboardIndex.vue'
 export default {
-	layout: 'new_default',
 	components: {
 		DashboardTrial,
 		DashboardIndex
 	},
+	layout: 'new_default',
 	computed: {
 		...mapState({
 			isFreeTrial: 'isFreeTrial'

@@ -101,14 +101,18 @@ export default {
 			}
 		},
 		filterByTopic () {
-			this.infographics = this.allInfographics.filter(
-				infographic => infographic.topic_id === this.topicId
-			)
+			if (this.allInfographics) {
+				this.infographics = this.allInfographics.filter(
+					infographic => infographic.topic_id === this.topicId
+				)
+			}
 		},
 		filterBySubTopic () {
-			this.infographics = this.allInfographics.filter(
-				infographic => infographic.subtopic_id === this.subtopicId
-			)
+			if (this.allInfographics) {
+				this.infographics = this.allInfographics.filter(
+					infographic => infographic.subtopic_id === this.subtopicId
+				)
+			}
 		}
 	}
 }

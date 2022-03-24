@@ -46,7 +46,7 @@
 		</div>
 
 		<!-- Infográficos -->
-		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial }">
+		<div class="text-center nav-item-tooltip">
 			<nuxt-link to="/infographics">
 				<InfographicsIcon class="nav-icon" />
 			</nuxt-link>

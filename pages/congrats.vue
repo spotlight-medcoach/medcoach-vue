@@ -26,7 +26,7 @@ export default {
 		setTimeout(() => {
 			const successLottie = require('@/assets/lotties/congrats_success.json')
 			this.$refs['congrats-animation'].load(successLottie)
-		}, 1000)
+		}, 300)
 	},
 	methods: {
 		updateProfile () {

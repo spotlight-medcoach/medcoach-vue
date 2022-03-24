@@ -139,24 +139,22 @@ export default {
 			this.next(this.from)
 		},
 		async saveNote () {
-			if (this.content.trim() === '') {
-				this.$toastr.error('Su nota está vacía', 'Error')
-				return false
+			if (this.content.trim() !== '') {
+				const params = {
+					manual_id: this.manual_id,
+					body: this.content
+				}
+				this.savingNotes = true
+				const data = await this.$store.dispatch('manuals/saveNote', params)
+				if (data) {
+					this.savedNotes = true
+					this.savedNotesCheck = true
+					setTimeout(() => { this.savedNotesCheck = undefined }, 1000)
+				} else {
+					this.savedNotesCheck = false
+				}
+				this.savingNotes = undefined
 			}
-			const params = {
-				manual_id: this.manual_id,
-				body: this.content
-			}
-			this.savingNotes = true
-			const data = await this.$store.dispatch('manuals/saveNote', params)
-			if (data) {
-				this.savedNotes = true
-				this.savedNotesCheck = true
-				setTimeout(() => { this.savedNotesCheck = undefined }, 1000)
-			} else {
-				this.savedNotesCheck = false
-			}
-			this.savingNotes = undefined
 		},
 		finalize () {
 			clearInterval(this.saveOnTimelapseListener)

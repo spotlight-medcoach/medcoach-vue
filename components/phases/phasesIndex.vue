@@ -101,8 +101,8 @@ export default {
 			student: 'studentInfo',
 			phase: 'phase',
 			phase_3_days: 'phase_3_days',
-			isFreeTrial: 'isFreeTrial',
-			freeTrial: 'free_trial',
+			isFreeTrial: 'isFreeTrial', // variable en index.js
+			freeTrial: 'free_trial', // state completo en free_trial.js
 			restDays: 'restDays',
 			onHttpRequest: state => state.http_request.onHttpRequest,
 			message: state => state.http_request.message,

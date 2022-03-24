@@ -1,5 +1,5 @@
 <template>
-	<div v-if="syllabus" align="left">
+	<div align="left">
 		<h3 class="body-title-1">
 			{{ currentDate }}
 		</h3>
@@ -8,7 +8,8 @@
 				<div
 					class="day-header body-md my-4"
 					align="center"
-					:class="[day.index == 0 ? 'today' : '']">
+					:class="[day.index == 0 ? 'today' : '']"
+				>
 					<p class="my-2">{{ day.day }}</p>
 					<p class="my-2">{{ day.number }}</p>
 				</div>

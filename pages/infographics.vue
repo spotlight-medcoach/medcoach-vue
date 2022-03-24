@@ -91,9 +91,6 @@ export default {
 		}
 	},
 	mounted () {
-		if (this.infographics === undefined) {
-			this.$store.dispatch('infographics/fetchInfographics')
-		}
 		if (this.$route.query.infographic_id) {
 			this.selectInfographic(this.$route.query.infographic_id)
 		}
