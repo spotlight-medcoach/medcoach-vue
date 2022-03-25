@@ -2,9 +2,9 @@ const { DateTime } = require('luxon')
 
 export const state = () => ({
 	studyTime: null,
-	manualsTimelapse: 0.1,	// minutes
-	notesTimelapse: 0.1,	// minutes
-	testsTimelapse: 0.1		// minutes
+	manualsTimelapse: 10,	// minutes
+	notesTimelapse: 10,	// minutes
+	testsTimelapse: 10		// minutes
 })
 
 export const getters = {

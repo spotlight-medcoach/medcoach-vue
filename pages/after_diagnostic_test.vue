@@ -40,7 +40,7 @@ export default {
 			this.progress += this.timelapse
 			if (this.progress >= this.finishOn) { // cuando el "progress" es mayor o igual a "finishOn" detiene el proceso
 				clearInterval(this.progressListener)
-				this.$router.push({ path: '/dashboard' })
+				this.initializeDashboard()
 			}
 		}.bind(this), this.timelapse)
 
@@ -54,6 +54,11 @@ export default {
 			this.$store.dispatch('initialize')
 			const tokenUser = localStorage.getItem('usertoken')
 			this.$router.push({ name: 'welcome', query: { token: tokenUser } })
+		},
+		initializeDashboard () {
+			this.$store.dispatch('fetchSyllabus').then(() => {
+				this.$router.push({ path: '/dashboard' })
+			})
 		}
 	}
 }
