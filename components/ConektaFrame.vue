@@ -46,8 +46,9 @@ export default {
 			this.loading = false
 		},
 		initializeFrame (checkoutId) {
-			// document.cookie = 'same-site-cookie=foo; SameSite=Lax'
-			// document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure'
+			document.cookie = 'same-site-cookie=foo; SameSite=Lax'
+			document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure'
+			console.log(checkoutId)
 			console.log(process.env.CONEKTA_PUBLIC_KEY)
 			window.ConektaCheckoutComponents.Card({
 				targetIFrame: '#conektaIframeContainer',
