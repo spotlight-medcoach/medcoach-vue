@@ -46,7 +46,7 @@ export const actions = {
 		const config = {
 			headers: {
 				Accept: 'application/vnd.conekta-v2.0.0+json',
-				Authorization: `Bearer ${process.env.CONEKTA_PUBLIC_KEY}`,
+				Authorization: `Basic ${btoa(process.env.CONEKTA_PUBLIC_KEY)}`,
 				'Content-Type': 'application/json',
 				'Accept-Language': 'es'
 			}
@@ -58,7 +58,7 @@ export const actions = {
 				return result.data.checkout.id
 			})
 	},
-	createChekoutRequest ({ commit }, payload) {
+	createCheckoutRequest ({ commit }, payload) {
 		return this.$axios.$post('/students/checkout', payload)
 			.then((result) => {
 				commit('setCheckoutId', result.id)
