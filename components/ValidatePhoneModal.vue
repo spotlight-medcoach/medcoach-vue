@@ -2,7 +2,7 @@
 	<b-modal
 		id="validate-phone-modal"
 		ref="validate-phone-modal"
-		size="sm"
+		size="md"
 		title="Necesitamos verificar tu número telefónico"
 		cancel-title="Cancelar"
 		cancel-variant="light"

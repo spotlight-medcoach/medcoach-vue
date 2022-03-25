@@ -53,6 +53,13 @@ export default {
 		},
 		brightness: undefined
 	},
+	watch: {
+		async manual_id () {
+			this.showLoading = true
+			await this.getManualHTML()
+			this.showLoading = false
+		}
+	},
 	data () {
 		return {
 			showLoading: true,

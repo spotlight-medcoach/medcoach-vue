@@ -36,7 +36,7 @@
 			<holdable-button
 				v-if="selectedInfographic"
 				class="rounded p-2"
-				message="Marcar como aprendido"
+				message="Manten presionado para marcar como aprendido"
 				:max-width="300"
 				:disabled="selectedInfographic.learned"
 				@onCheck="markAsLearned"
