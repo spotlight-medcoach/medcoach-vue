@@ -47,7 +47,6 @@ import FlashcardForm from '@/components/review/FlashcardForm.vue'
 import ConfirmDeleteFlashcardModal from '@/components/review/ConfirmDeleteFlashcardModal.vue'
 
 export default {
-	layout: 'new_default',
 	components: {
 		LoadingState,
 		NoteReview,
@@ -56,6 +55,11 @@ export default {
 		FlashcardForm,
 		ConfirmDeleteFlashcardModal
 	},
+	beforeRouteLeave (to, from, next) {
+		// this.$refs.notes.finalize()
+		next()
+	},
+	layout: 'new_default',
 	data () {
 		return {
 			manual_id: this.$route.query.manual_id,
@@ -63,23 +67,6 @@ export default {
 			note: null,
 			current_component: 'note_review'
 		}
-	},
-	beforeRouteLeave (to, from, next) {
-		// this.$refs.notes.finalize()
-		next()
-	},
-	async created () {
-		let flag = false
-		if (!this.onHttpRequest) {
-			flag = true
-			this.$store.dispatch('http_request/initHttpRequest')
-		}
-		await this.getManualNote(this.manual_id)
-		await this.getFlashcards(this.manual_id)
-		if (flag) {
-			this.$store.commit('http_request/setOnHttpRequest', false)
-		}
-		this.$store.commit('flashcards/setManualId', this.manual_id)
 	},
 	computed: {
 		...mapState({
@@ -107,6 +94,22 @@ export default {
 			return name
 		}
 	},
+	async created () {
+		let flag = false
+		if (!this.onHttpRequest) {
+			flag = true
+			this.$store.dispatch('http_request/initHttpRequest')
+		}
+		await this.getManualNote(this.manual_id)
+		await this.getFlashcards(this.manual_id)
+		if (flag) {
+			this.$store.commit('http_request/setOnHttpRequest', false)
+		}
+		this.$store.commit('flashcards/setManualId', this.manual_id)
+	},
+	destroyed () {
+		this.$store.commit('flashcards/setManualId', null)
+	},
 	methods: {
 		getManualNote (manualId) {
 			return this.$axios
@@ -130,9 +133,6 @@ export default {
 		setCurrentComponent (component) {
 			this.current_component = component
 		}
-	},
-	destroyed () {
-		this.$store.commit('flashcards/setManualId', null)
 	}
 }
 </script>
