@@ -42,20 +42,11 @@ export const actions = {
 			})
 	},
 	createConektaNullToken ({ commit }) {
-		const payload = { checkout: { returns_control_on: 'Token' } }
-		const config = {
-			headers: {
-				Accept: 'application/vnd.conekta-v2.0.0+json',
-				Authorization: `Basic ${btoa(process.env.CONEKTA_PUBLIC_KEY)}`,
-				'Content-Type': 'application/json',
-				'Accept-Language': 'es'
-			}
-		}
-		return this.$axios.post('https://api.conekta.io/tokens', payload, config)
+		return this.$axios.post('/payment/token')
 			.then((result) => {
-				commit('setFrameTokenId', result.data.id)
-				commit('setCheckoutId', result.data.checkout.id)
-				return result.data.checkout.id
+				commit('setFrameTokenId', result.data.token.id)
+				commit('setCheckoutId', result.data.token.checkout.id)
+				return result.data.token.checkout.id
 			})
 	},
 	createCheckoutRequest ({ commit }, payload) {

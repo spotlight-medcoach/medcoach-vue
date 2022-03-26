@@ -25,15 +25,15 @@ export default {
 		})
 	},
 	async mounted () {
-		const checkoutId = await this.$store.dispatch('payment/createCheckoutRequest', {
-			student_id: this.student._id,
-			plan_id: this.planId
-		})
-		this.initializeFrame(checkoutId)
+		if (this.checkoutId) {
+			this.initializeFrame(this.checkoutId)
+		} else {
+			const checkoutId = await this.$store.dispatch('payment/createConektaNullToken')
+			this.initializeFrame(checkoutId)
+		}
 	},
 	methods: {
 		async producePayment (token) {
-			console.log(token)
 			this.loading = true
 			const data = await this.$store.dispatch('payment/registerSubscription', {
 				student_id: this.student._id,
@@ -41,13 +41,11 @@ export default {
 				token_id: token.id
 			})
 			if (data) {
-				this.$router.push('/congrats')
+				this.$router.push('congrats')
 			}
 			this.loading = false
 		},
 		initializeFrame (checkoutId) {
-			// document.cookie = 'same-site-cookie=foo; SameSite=Lax'
-			// document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure'
 			window.ConektaCheckoutComponents.Card({
 				targetIFrame: '#conektaIframeContainer',
 				// Este componente 'allowTokenization' permite personalizar el tokenizador, por lo que su valor siempre será TRUE
