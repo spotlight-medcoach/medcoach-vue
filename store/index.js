@@ -87,7 +87,6 @@ export const actions = {
 			])
 		} else if (state.phase !== 0) {
 			promises.concat([ // sólo para usuario con suscripción
-				dispatch('infographics/fetchInfographics'),
 				dispatch('notifications/loopFetchData'),
 				await dispatch('fetchSyllabus')
 			])

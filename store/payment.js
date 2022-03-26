@@ -3,7 +3,6 @@ export const state = () => ({
 	promotedPlanId: '1',
 	subscriptionPlans: [],
 	promotedPlan: undefined,
-	conektaFrameTokenId: undefined,
 	conektaCheckoutId: undefined
 })
 
@@ -17,9 +16,6 @@ export const mutations = {
 	},
 	setPromotedPlan (state, payload) {
 		state.promotedPlan = payload
-	},
-	setFrameTokenId (state, payload) {
-		state.conektaFrameTokenId = payload
 	},
 	setCheckoutId (state, payload) {
 		state.conektaCheckoutId = payload
@@ -44,9 +40,8 @@ export const actions = {
 	createConektaNullToken ({ commit }) {
 		return this.$axios.post('/payment/token')
 			.then((result) => {
-				commit('setFrameTokenId', result.data.token.id)
-				commit('setCheckoutId', result.data.token.checkout.id)
-				return result.data.token.checkout.id
+				commit('setCheckoutId', result.data.checkoutId)
+				return result.data.checkoutId
 			})
 	},
 	createCheckoutRequest ({ commit }, payload) {

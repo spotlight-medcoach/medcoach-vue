@@ -56,7 +56,7 @@ export default {
 			this.$router.push({ name: 'welcome', query: { token: tokenUser } })
 		},
 		initializeDashboard () {
-			this.$store.dispatch('fetchSyllabus').then(() => {
+			this.$store.dispatch('initialize').then(() => {
 				this.$router.push({ path: '/dashboard' })
 			})
 		}

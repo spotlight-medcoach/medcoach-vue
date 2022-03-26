@@ -46,6 +46,8 @@ export default {
 			this.loading = false
 		},
 		initializeFrame (checkoutId) {
+			document.cookie = 'same-site-cookie=foo; SameSite=Lax'
+			document.cookie = 'cross-site-cookie=bar; SameSite=None; Secure'
 			window.ConektaCheckoutComponents.Card({
 				targetIFrame: '#conektaIframeContainer',
 				// Este componente 'allowTokenization' permite personalizar el tokenizador, por lo que su valor siempre será TRUE
