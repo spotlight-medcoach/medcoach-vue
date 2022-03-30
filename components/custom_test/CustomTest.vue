@@ -1,7 +1,7 @@
 <template>
 	<div class="h-100">
 		<CaseIndex v-if="caseId"/>
-		<QuestionsIndex :custom_test="custom_test" v-else/>
+		<!-- <QuestionsIndex :custom_test="custom_test" v-else/> -->
 	</div>
 </template>
 <script>
@@ -29,6 +29,7 @@ export default {
 		} else {
 			await this.$store.dispatch('custom_test/fetchCustomTest', this.custom_test_id)
 		}
+		this.$store.commit('custom_test/setSelectedQuestion', this.custom_test.questions[0])
 	},
 	mounted () {
 		this.addStudyTime()

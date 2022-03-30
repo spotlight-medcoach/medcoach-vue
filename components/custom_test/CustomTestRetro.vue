@@ -27,10 +27,11 @@ export default {
       custom_test_id: null
     }
   },
-  created () {
+  async created () {
     this.$store.commit('custom_test/initCustomTest')
     this.custom_test_id = this.$route.query.custom_test_id
-    this.$store.dispatch('custom_test/fetchCustomTestRetro', this.custom_test_id)
+    await this.$store.dispatch('custom_test/fetchCustomTestRetro', this.custom_test_id)
+    this.$store.commit('custom_test/setSelectedQuestion', this.custom_test.questions[0])
   },
   computed: {
     ...mapState({
