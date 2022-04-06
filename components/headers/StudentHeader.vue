@@ -1,11 +1,11 @@
 <template>
 <b-navbar
-          v-if="showStudentHeader"
-          toggleable="lg"
-          type="white"
-          variant="white"
-          :sticky="true"
-          class="bottomBorder">
+  v-if="showStudentHeader"
+  toggleable="lg"
+  type="white"
+  variant="white"
+  :sticky="true"
+  class="bottomBorder">
   <b-navbar-brand style="margin-bottom: 0.1rem">
     <img src="@/assets/images/logo.svg" id="logo" align="left">
   </b-navbar-brand>
@@ -142,10 +142,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #logo {
-  float: left;
-  padding: 10px;
   width: 200px;
 }
 .menu-item {

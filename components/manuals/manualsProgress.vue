@@ -1,81 +1,107 @@
 <template>
-  <b-container id="manuals-progress">
-    <div
-      @click="selectTopic(index)"
-      v-for="(manual, index) in topics"
-      :key="manual._id"
-      :class="{'orange': index === topic_index}"
-      class="pointer">
-      <div class="mb-2">{{manual.name}}</div>
-      <b-progress :value="manual.progress" :max="manual.total" class="mb-1 ml-1"></b-progress>
-      <div class="mb-3" v-if="load">
-        {{ manual.progress }} / {{ manual.total }}
-      </div>
-      <div class="mb-3" v-else>
-        cargando...
-      </div>
-    </div>
-    <hr>
-    <div class="text-center mt-4 mb-3">
-      <h3 class="font-weight-bolder" v-if="load">
-        {{ total_progress }} / {{ total_manuals }}
-      </h3>
-      <h3 class="font-weight-bolder" v-else>
-        cargando...
-      </h3>
-      <h5 class="font-weight-bolder">Manuales</h5>
-    </div>
-  </b-container>
+	<div id="manuals-progress" class="d-flex flex-column justify-content-between">
+		<b-skeleton-wrapper :loading="!loaded">
+
+			<!-- Skeleton loading -->
+			<template #loading>
+				<div>
+					<b-skeleton class="mb-5" width="80%" />
+					<b-skeleton class="mb-5" width="65%" />
+					<b-skeleton class="mb-5" width="95%" />
+					<b-skeleton class="mb-5" width="80%" />
+					<b-skeleton class="mb-5" width="65%" />
+					<b-skeleton class="mb-5" width="85%" />
+					<b-skeleton class="mb-5" width="80%" />
+				</div>
+			</template>
+
+			<!-- Topics -->
+			<div v-if="topics" class="topics-container d-flex flex-column justify-content-between">
+				<div
+					class="mb-3 cursor-pointer"
+					@click="selectTopic(index)"
+					@mouseover="handleHoverTopic(index, true)"
+					@mouseleave="handleHoverTopic(index, false)"
+					v-for="(manual, index) in topics"
+					:key="manual._id"
+				>
+					<!-- Custom progress bar -->
+					<custom-progress-bar
+						:actualValue = manual.progress
+						:totalValue = manual.total
+						:topHeader = manual.name
+						:topHint = "`${manual.progress} / ${manual.total}`"
+						:colorVariant = "isHighlight(index) ? 'blue' : 'neutral'"
+						v-if="manual"
+					/>
+				</div>
+			</div>
+
+		</b-skeleton-wrapper>
+
+		<!-- Topics Resume -->
+		<div class="total-container text-center flex-grow-1 py-2">
+			<h5 class="body-title-1">Total vistos</h5>
+			<h5 class="body-title-1">
+				{{ total_progress }} / {{ total_manuals }}
+			</h5>
+		</div>
+	</div>
+
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import CustomProgressBar from '~/components/_functional/CustomProgressBar.vue'
 export default {
-  props: {
-    load: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    total_progress () {
-      let progress = 0
-      this.topics.forEach((topic) => {
-        progress += topic.progress
-      })
-      return progress
-    },
-    total_manuals () {
-      let total = 0
-      this.topics.forEach((topic) => {
-        total += topic.total
-      })
-      return total
-    },
-    ...mapState({
-      topics: state => state.topics.data,
-      topic: state => state.topics.topic,
-      topic_index: state => state.topics.topic_index
-    })
-  },
-  methods: {
-    selectTopic (index) {
-      this.$store.dispatch('topics/changeTopic', index)
-    }
-  }
+	components: {
+		CustomProgressBar
+	},
+	data () {
+		return {
+			topicIdxSelected: 0,
+			topicIdxOnHover: -1
+		}
+	},
+	computed: {
+		total_progress () {
+			let progress = 0
+			this.topics.forEach((topic) => {
+				progress += topic.progress
+			})
+			return progress
+		},
+		total_manuals () {
+			let total = 0
+			this.topics.forEach((topic) => {
+				total += topic.total
+			})
+			return total
+		},
+		...mapState({
+			topics: state => state.topics.data,
+			loaded: state => state.topics.fetchedManuals
+		})
+	},
+	methods: {
+		selectTopic (index) {
+			this.$store.dispatch('topics/changeTopic', index)
+			this.topicIdxSelected = index
+		},
+		handleHoverTopic (index, isOnHover) {
+			this.topicIdxOnHover = isOnHover ? index : -1
+		},
+		isHighlight (index) {
+			return index === this.topicIdxSelected || index === this.topicIdxOnHover
+		}
+	}
 }
 </script>
-<style>
-  #manuals-progress .progress {
-    border-radius: 0.5rem !important;
-    height: 0.6rem !important;
-    background-color: #C4C4C4 !important;
-  }
-  #manuals-progress .progress .progress-bar {
-    background-color: #1CA4FC !important;
-    border-radius: 0.5rem !important;
-  }
-  #manuals-progress hr{
-    border-color: #1CA4FC;
-  }
+<style scoped>
+	.topics-container {
+		max-height: 600px;
+	}
+	.total-container {
+		max-height: 90px;
+	}
 </style>

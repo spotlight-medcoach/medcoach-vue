@@ -1,58 +1,58 @@
 <template>
-<div id="simulator_results" class="container">
-  <div class="d-flex justify-content-between my-4">
-    <b-button v-on:click="back()" style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;">
-      <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;"></b-icon-chevron-left>
-      <b>Regresar</b>
-    </b-button>
-  <b-button v-on:click="feedback()" style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;">
-    <b>Ir a retroalimentación</b>
-    <b-icon-chevron-right style="color:#FE9400; width:25px; height:25px;"></b-icon-chevron-right>
-  </b-button>
-  </div>
-  <div class="title">
-    <h1>RESULTADO</h1>
-  </div>
-  <div class="d-flex justify-content-center">
-    <div class="table">
-      <div class="bg-orange">
-        <p><b>Total preguntas correctas</b></p>
+  <div id="simulator_results" class="container">
+    <div class="d-flex justify-content-between my-4">
+      <b-button style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;" @click="back()">
+        <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;" />
+        <b>Regresar</b>
+      </b-button>
+      <b-button style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;" @click="feedback()">
+        <b>Ir a retroalimentación</b>
+        <b-icon-chevron-right style="color:#FE9400; width:25px; height:25px;" />
+      </b-button>
+    </div>
+    <div class="title">
+      <h1>RESULTADO</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="table">
+        <div class="bg-orange">
+          <p><b>Total preguntas correctas</b></p>
+        </div>
+        <div>
+          <p>{{ correct_answers }}</p>
+        </div>
       </div>
-      <div>
-        <p>{{this.correct_answers}}</p>
+      <div class="table">
+        <div class="bg-orange">
+          <p><b>Puntaje total (/100)</b></p>
+        </div>
+        <div>
+          <p>{{ result }}</p>
+        </div>
       </div>
     </div>
-    <div class="table">
-      <div class="bg-orange">
-        <p><b>Puntaje total (/100)</b></p>
-      </div>
-      <div>
-        <p>{{this.result}}</p>
+    <div class="d-flex justify-content-center">
+      <div v-for="item in topics" :key="item.topic" class="question_results">
+        <simulatorResultCard :topic="item" />
       </div>
     </div>
-  </div>
-  <div class="d-flex justify-content-center">
-    <div class="question_results" v-for="item in topics" :key="item.topic">
-      <simulatorResultCard v-bind:topic="item"></simulatorResultCard>
+    <div class="justify-content-center">
+      <div v-for="item in topics" :key="item.topic" class="question_results">
+        <simulatorResultTopic :topic="item" />
+      </div>
     </div>
-  </div>
-  <div class="justify-content-center">
-    <div class="question_results" v-for="item in topics" :key="item.topic">
-      <simulatorResultTopic v-bind:topic="item"></simulatorResultTopic>
+    <div class="d-flex justify-content-center">
+      <div v-for="item in questions_by_type" :key="item.topic" class="question_results">
+        <simulatorResultType :topic="item" />
+      </div>
     </div>
-  </div>
-  <div class="d-flex justify-content-center">
-    <div class="question_results" v-for="item in questions_by_type" :key="item.topic">
-      <simulatorResultType v-bind:topic="item"></simulatorResultType>
-    </div>
-  </div>
-  <b-modal id="modal-1"  hide-footer hide-header no-close-on-backdrop size="sm">
-     <div class="popup">
+    <b-modal id="modal-1" hide-footer hide-header no-close-on-backdrop size="sm">
+      <div class="popup">
         <p>Cargando resultados</p>
         <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
       </div>
-  </b-modal>
-</div>
+    </b-modal>
+  </div>
 </template>
 <script>
 import simulatorResultCard from '../components/simulators/simulatorResultCard.vue'
@@ -65,6 +65,9 @@ export default {
     simulatorResultTopic,
     simulatorResultType
   },
+  props: {
+    // ...
+  },
   data () {
     return {
       correct_answers: '',
@@ -72,9 +75,6 @@ export default {
       topics: [],
       questions_by_type: []
     }
-  },
-  props: {
-    // ...
   },
   mounted () {
     this.fetchData()

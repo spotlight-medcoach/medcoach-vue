@@ -6,30 +6,34 @@
     <div class="container">
       <div class="d-flex justify-content-between countdown mb-4">
         <h3>Segunda parte</h3>
-        <h3>{{this.count}}</h3>
+        <h3>{{ count }}</h3>
       </div>
       <b-button
-        v-on:click="gotoTest(index)"
-        class="question"
         v-for="(item, index) in questions"
+        :key="item.id"
+        class="question"
         :class="{'answered': item.answer !== '0'}"
-        v-bind:item="item"
-        v-bind:key="item.id">
-        {{index + 251}}
+        :item="item"
+        @click="gotoTest(index)"
+      >
+        {{ index + 251 }}
       </b-button>
       <div class="start">
-        <b-button style="margin-right:28px;" width="100" class="bg-danger" v-on:click="startTest">Comenzar</b-button>
-      <div>
+        <b-button style="margin-right:28px;" width="100" class="bg-danger" @click="startTest">
+          Comenzar
+        </b-button>
+        <div />
+      </div>
+      <b-modal id="modal-1" hide-footer hide-header no-close-on-backdrop no-close-on-esc>
+        <p class="title" style="font-size:24px">
+          <b>Finalizando bloque</b>
+        </p>
+        <div>
+          <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+        </div>
+      </b-modal>
     </div>
   </div>
-   <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
-    <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
-    <div>
-      <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
-    </div>
-  </b-modal>
-</div>
-</div>
 </template>
 <script>
 import { mapState } from 'vuex'

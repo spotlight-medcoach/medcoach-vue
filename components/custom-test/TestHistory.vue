@@ -1,4 +1,5 @@
 <template>
+<!-- Este debe ser eliminado -->
 <div id="historial">
   <div class="mb-3 titulo">Historial de Exámenes</div>
   <div v-if="history">
