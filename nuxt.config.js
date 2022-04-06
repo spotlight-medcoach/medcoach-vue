@@ -46,7 +46,7 @@ export default {
       { src: 'https://kit.fontawesome.com/b9fa278f43.js', crossorigin:'anonymous' },
       { src: 'https://pay.conekta.com/v1.0/js/conekta-checkout.min.js' },
       { src: 'https://unpkg.com/@lottiefiles/lottie-player@0.4.0/dist/lottie-player.js' },
-      { src: './js/userback.js' }
+      { src: '/js/userback.js' }
     ]
   },
   /*
