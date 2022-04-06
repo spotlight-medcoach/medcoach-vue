@@ -13,6 +13,12 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'unicorn/escape-case': 'off'
+    'unicorn/escape-case': 'off',
+    'no-console': 'off',
+    'no-tabs': 0,
+    'indent': ['error', 'tab'],
+    'vue/html-indent': ['error', 'tab'],
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'off'
   }
 }

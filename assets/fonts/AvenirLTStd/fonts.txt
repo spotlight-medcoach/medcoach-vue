@@ -1,0 +1,13 @@
+AvenirLTStd-Black.otf
+AvenirLTStd-BlackOblique.otf
+AvenirLTStd-Book.otf
+AvenirLTStd-BookOblique.otf
+AvenirLTStd-Heavy.otf
+AvenirLTStd-HeavyOblique.otf
+AvenirLTStd-Light.otf
+AvenirLTStd-LightOblique.otf
+AvenirLTStd-Medium.otf
+AvenirLTStd-MediumOblique.otf
+AvenirLTStd-Oblique.otf
+AvenirLTStd-Roman.otf
+fonts.txt

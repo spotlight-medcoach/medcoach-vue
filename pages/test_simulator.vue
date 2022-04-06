@@ -1,36 +1,47 @@
 <template>
-<div class="container" id="test-simulator">
-  <div class="test">
-    <div class="d-flex content justify-content-between">
-      <button class="button" v-on:click="goback"> Salir sin terminar la sección</button>
-      <button class="button" v-on:click="save_test">Salir y terminar la sección</button>
-    </div>
-    <div class="d-flex content justify-content-center">
-      <button class="button" v-on:click="goback"> consulta de preguntas </button>
-    </div>
-    <div class="d-flex content justify-content-between">
-      <button class="button" v-on:click="previous"> Anterior </button>
-      <button class="button"> Contestar y permanecer en la pregunta </button>
-      <button
-        class="button"
-        v-on:click="next"
-        :class="{'disabled': questionsByCase[questionsByCase.length - 1].index >= simulator_data.questions.length - 1}">
-      Siguiente </button>
-    </div>
-    <div class="d-flex content justify-content-end">
-      <h3>{{this.count}}</h3>
-    </div>
-    <div style="text-align:center; background-color:#858585;" class="mb-4">
-      <span><b>CASO CLÍNICO</b></span>
-    </div>
-    <div v-html="caseSelected.html">
-    </div>
-    <div class="grp-questions" v-for="(question, index) in preguntas" :key="`grupo-${index}`">
-      <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
-        <span><b> PREGUNTA {{question.index + 1 + initCount}} </b></span>
+  <div id="test-simulator" class="container">
+    <div class="test">
+      <div class="d-flex content justify-content-between">
+        <button class="button" @click="goback">
+          Salir sin terminar la sección
+        </button>
+        <button class="button" @click="save_test">
+          Salir y terminar la sección
+        </button>
       </div>
-      <div class="d-flex" v-html="question.html"></div>
-      <!-- <b-form-group v-for="(item, index2) in question.answers" v-bind:key="`grupo-${index}-question-${index2}`">
+      <div class="d-flex content justify-content-center">
+        <button class="button" @click="goback">
+          consulta de preguntas
+        </button>
+      </div>
+      <div class="d-flex content justify-content-between">
+        <button class="button" @click="previous">
+          Anterior
+        </button>
+        <button class="button">
+          Contestar y permanecer en la pregunta
+        </button>
+        <button
+          class="button"
+          :class="{'disabled': questionsByCase[questionsByCase.length - 1].index >= simulator_data.questions.length - 1}"
+          @click="next"
+        >
+          Siguiente
+        </button>
+      </div>
+      <div class="d-flex content justify-content-end">
+        <h3>{{ count }}</h3>
+      </div>
+      <div style="text-align:center; background-color:#858585;" class="mb-4">
+        <span><b>CASO CLÍNICO</b></span>
+      </div>
+      <div v-html="caseSelected.html" />
+      <div v-for="(question, index) in preguntas" :key="`grupo-${index}`" class="grp-questions">
+        <div style="background-color:#858585; margin:30px; width:200px" class="text-center">
+          <span><b> PREGUNTA {{ question.index + 1 + initCount }} </b></span>
+        </div>
+        <div class="d-flex" v-html="question.html" />
+        <!-- <b-form-group v-for="(item, index2) in question.answers" v-bind:key="`grupo-${index}-question-${index2}`">
         <div class="d-flex">
           <b-form-radio
             type="radio"
@@ -43,45 +54,52 @@
           <div v-html="item.html"></div>
         </div>
       </b-form-group> -->
-      <div>
-        <div
-          class="radios position-relative"
-          v-for="(ans, index2) in question.answers"
-          :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-        >
-          <input
-            type="radio"
-            :id="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-            :name="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-            v-bind:value="ans.id"
-            v-model="question.answer"
-            @change="setAnswer(question.index, question.answer)"
-          />
-          <label
-            :for="`answer-radio-${caseSelected.id}-${index}-${index2}`"
-            v-html="ans.html"
-          ></label>
+        <div>
+          <div
+            v-for="(ans, index2) in question.answers"
+            :key="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+            class="radios position-relative"
+          >
+            <input
+              :id="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+              v-model="question.answer"
+              type="radio"
+              :name="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+              :value="ans.id"
+              @change="setAnswer(question.index, question.answer)"
+            >
+            <label
+              :for="`answer-radio-${caseSelected.id}-${index}-${index2}`"
+              v-html="ans.html"
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="d-flex content justify-content-between my-5">
-      <button class="button" v-on:click="previous"> Anterior </button>
-      <button class="button"> Contestar y permanecer en la pregunta </button>
-      <button
-        class="button"
-        v-on:click="next"
-        :class="{'disabled': questionsByCase[questionsByCase.length - 1].index >= simulator_data.questions.length - 1}">
-      Siguiente
-    </button>
-    </div>
-    <b-modal id="modal-1" hide-footer hide-header  no-close-on-backdrop no-close-on-esc>
-      <p class="title text-center" style="font-size:24px"><b>Finalizando bloque</b></p>
-      <div class="text-center my-4">
-       <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+      <div class="d-flex content justify-content-between my-5">
+        <button class="button" @click="previous">
+          Anterior
+        </button>
+        <button class="button">
+          Contestar y permanecer en la pregunta
+        </button>
+        <button
+          class="button"
+          :class="{'disabled': questionsByCase[questionsByCase.length - 1].index >= simulator_data.questions.length - 1}"
+          @click="next"
+        >
+          Siguiente
+        </button>
       </div>
-    </b-modal>
+      <b-modal id="modal-1" hide-footer hide-header no-close-on-backdrop no-close-on-esc>
+        <p class="title text-center" style="font-size:24px">
+          <b>Finalizando bloque</b>
+        </p>
+        <div class="text-center my-4">
+          <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+        </div>
+      </b-modal>
+    </div>
   </div>
-</div>
 </template>
 </template>
 <script>

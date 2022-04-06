@@ -43,13 +43,14 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+  @import '@/assets/css/variables/color-palette.scss';
   /* The orange-check */
   .orange-check {
     display: block;
     position: relative;
     padding-left: 27px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -74,7 +75,7 @@ export default {
     height: 20px;
     width: 20px;
     background-color: white;
-    border: thin solid #FE9501;
+    border: thin solid #{$neutral-500};
   }
 
   /* On mouse-over, add a grey background color */
@@ -82,9 +83,10 @@ export default {
     background-color: #ccc;
   }
 
-  /* When the checkbox is checked, add a blue background */
+  /* When the checkbox is checked, add a orange background */
   .orange-check input:checked ~ .checkmark {
-    background-color: #FE9501;
+    background-color: #{$main-500};
+    border: thin solid #{$main-500};
   }
 
   /* Create the checkmark/indicator (hidden when not checked) */
@@ -102,11 +104,11 @@ export default {
   /* Style the checkmark/indicator */
   .orange-check .checkmark:after {
     left: 6px;
-    width: 7px;
-    bottom: 3px;
-    height: 17px;
+    width: 6px;
+    bottom: 4px;
+    height: 12px;
     border: solid white;
-    border-width: 0 3px 3px 0;
+    border-width: 0 2px 2px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);

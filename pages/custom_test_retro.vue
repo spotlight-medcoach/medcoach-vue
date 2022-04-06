@@ -1,23 +1,24 @@
 <template>
-<div id="config_custom_test" class="container">
-  <div v-if="onHttpRequest">
-    <loading-state :message="message" />
+  <div id="custom_test_retro">
+    <div v-if="onHttpRequest">
+      <loading-state :message="message" />
+    </div>
+    <div v-else-if="errorHttp">
+      <p>{{ message }}</p>
+    </div>
+    <div v-else class="h-100">
+      <CustomTestRetro />
+    </div>
   </div>
-  <div v-else-if="errorHttp">
-    <p>{{ message }}</p>
-  </div>
-  <div v-else>
-    <custom-test-retro />
-  </div>
-</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import CustomTestRetro from '@/components/custom-test/CustomTestRetro.vue'
+import CustomTestRetro from '@/components/custom_test/CustomTestRetro.vue'
 
 export default {
+  layout: 'new_default',
   components: {
     LoadingState,
     CustomTestRetro
@@ -37,3 +38,8 @@ export default {
   }
 }
 </script>
+<style>
+  #custom_test_retro {
+    background: #FBFDFE !important;
+  }
+</style>

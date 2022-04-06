@@ -8,7 +8,9 @@
       no-close-on-esc
     >
       <div class="text-center">
-        <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
+        <p class="title" style="font-size:24px">
+          <b>Finalizando bloque</b>
+        </p>
         <div>
           <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
         </div>
@@ -22,7 +24,9 @@
       no-close-on-esc
     >
       <div class="text-center">
-        <p class="title" style="font-size:24px"><b>Comenzando el segundo bloque</b></p>
+        <p class="title" style="font-size:24px">
+          <b>Comenzando el segundo bloque</b>
+        </p>
         <div>
           <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
         </div>
@@ -33,7 +37,7 @@
         v-if="steps.SelectSession === step"
         class="m-auto"
         :session="session"
-        :showFinishButton="showFinishButton"
+        :show-finish-button="showFinishButton"
         @onClick="onClickSelectSession"
         @onFinishTest="saveBlock"
       />
@@ -47,7 +51,7 @@
       <test
         v-else-if="steps.ShowTest === step"
         class="m-auto"
-        :startTime="startTime"
+        :start-time="startTime"
         :duration="durationMs"
         :test="test"
         @onSetAnswer="setAnswer"
@@ -57,7 +61,7 @@
       <show-break
         v-else-if="steps.ShowBreak === step"
         :duration="breakDuration"
-        :startTimeBreak="startTimeBreak"
+        :start-time-break="startTimeBreak"
         @onFinishBreak="goToSecondBlock"
       />
       <block-message
@@ -125,6 +129,25 @@ export default {
       }
       return null
     }
+  },
+  created () {
+    this.session = localStorage.getItem('session')
+    this.startTimeBreak = localStorage.getItem('start_break')
+    this.test = JSON.parse(localStorage.getItem('test'))
+
+    if (this.session) {
+      if (this.session === '1') {
+        this.startTime = localStorage.getItem('start_first_block')
+      } else if (this.session === '2') {
+        this.startTime = localStorage.getItem('start_second_block')
+      } else if (this.session === '3') {
+        this.startTimeBreak = localStorage.getItem('start_break')
+        this.step = this.steps.ShowBreak
+      }
+    }
+
+    // const simu = JSON.parse(localStorage.getItem('simulator'))
+    // this.test = prepareTest(simu)
   },
   methods: {
     clearLocalStorage () {
@@ -203,25 +226,6 @@ export default {
       question.answer = answer.id
       localStorage.setItem('test', JSON.stringify(this.test))
     }
-  },
-  created () {
-    this.session = localStorage.getItem('session')
-    this.startTimeBreak = localStorage.getItem('start_break')
-    this.test = JSON.parse(localStorage.getItem('test'))
-
-    if (this.session) {
-      if (this.session === '1') {
-        this.startTime = localStorage.getItem('start_first_block')
-      } else if (this.session === '2') {
-        this.startTime = localStorage.getItem('start_second_block')
-      } else if (this.session === '3') {
-        this.startTimeBreak = localStorage.getItem('start_break')
-        this.step = this.steps.ShowBreak
-      }
-    }
-
-    // const simu = JSON.parse(localStorage.getItem('simulator'))
-    // this.test = prepareTest(simu)
   }
 }
 </script>

@@ -17,7 +17,7 @@
         @click="goToSimulator(noti.id, noti.readed)">
         Ir a simuladores
         <div style="font-size:1.5rem">
-          <b-icon icon="chevron-right"></b-icon>
+          <b-icon icon="chevron-right" />
         </div>
       </div>
       <div
@@ -27,7 +27,7 @@
         :class="{pointer: !noti.readed}">
         Ver manual
         <div style="font-size:1.5rem">
-          <b-icon icon="chevron-right"></b-icon>
+          <b-icon icon="chevron-right" />
         </div>
       </div>
     </div>

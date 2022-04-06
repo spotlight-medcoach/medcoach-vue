@@ -1,31 +1,35 @@
 <template>
   <div id="extra-manuals">
     <div class="header">
-      <div class="titulo">Datos extras ENARM</div>
+      <div class="titulo">
+        Datos extras ENARM
+      </div>
       <div class="input-group md-form form-sm form-2 pl-0 search-input" style="width: auto !important;">
         <input
+          v-model.trim="search"
           style="width: 400px;"
           class="form-control my-0 py-1 lime-border"
           type="text"
-          v-model.trim="search"
         >
         <div class="input-group-append">
-          <span class="input-group-text lime lighten-2" id="basic-text1">
-            <i class="fas fa-search text-grey" aria-hidden="true"></i>
+          <span id="basic-text1" class="input-group-text lime lighten-2">
+            <i class="fas fa-search text-grey" aria-hidden="true" />
           </span>
         </div>
       </div>
     </div>
-    <div class="w-100" v-if="$fetchState.pending">
+    <div v-if="$fetchState.pending" class="w-100">
       <loading-state message="Cargando Manuales" height="60vh" />
     </div>
-    <div class="content" v-else-if="filteredManuals.length">
+    <div v-else-if="filteredManuals.length" class="content">
       <div v-for="(manual, index) in filteredManuals" :key="`card-${index}`" style="margin-bottom: 30px;">
         <extra-manual-card :manual="manual" />
       </div>
     </div>
     <div v-else>
-      <p class="no-manuals">No hay manuales por el momento</p>
+      <p class="no-manuals">
+        No hay manuales por el momento
+      </p>
     </div>
   </div>
 </template>
@@ -44,6 +48,17 @@ export default {
       manuals: []
     }
   },
+  async fetch () {
+    try {
+      const response = await this.$axios.get('/students/extra')
+      this.manuals = response.data.manuals.map((manual) => {
+        manual.canonical = this.toCanonical(manual.name)
+        return manual
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  },
   computed: {
     filteredManuals () {
       let manuals = this.manuals
@@ -58,17 +73,6 @@ export default {
       return manuals.sort((a, b) => {
         return (a.finished === b.finished) ? 0 : b.finished ? -1 : 1
       })
-    }
-  },
-  async fetch () {
-    try {
-      const response = await this.$axios.get('/students/extra')
-      this.manuals = response.data.manuals.map((manual) => {
-        manual.canonical = this.toCanonical(manual.name)
-        return manual
-      })
-    } catch (error) {
-      console.error(error)
     }
   },
   methods: {

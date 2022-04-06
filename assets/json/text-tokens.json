@@ -1,0 +1,940 @@
+{
+  "global": {
+    "fontFamilies": {
+      "avenir-lt-std": {
+        "value": "Avenir LT Std",
+        "type": "fontFamilies"
+      }
+    },
+    "lineHeights": {
+      "0": {
+        "value": "84%",
+        "type": "lineHeights"
+      },
+      "1": {
+        "value": "64",
+        "type": "lineHeights"
+      },
+      "2": {
+        "value": "48",
+        "type": "lineHeights"
+      },
+      "3": {
+        "value": "36",
+        "type": "lineHeights"
+      },
+      "4": {
+        "value": "28",
+        "type": "lineHeights"
+      },
+      "5": {
+        "value": "20",
+        "type": "lineHeights"
+      },
+      "6": {
+        "value": "26",
+        "type": "lineHeights"
+      },
+      "7": {
+        "value": "22",
+        "type": "lineHeights"
+      },
+      "8": {
+        "value": "16",
+        "type": "lineHeights"
+      },
+      "9": {
+        "value": "AUTO",
+        "type": "lineHeights"
+      }
+    },
+    "fontWeights": {
+      "avenir-lt-std-0": {
+        "value": "95 Black",
+        "type": "fontWeights"
+      },
+      "avenir-lt-std-1": {
+        "value": "55 Roman",
+        "type": "fontWeights"
+      },
+      "avenir-lt-std-2": {
+        "value": "65 Medium",
+        "type": "fontWeights"
+      },
+      "avenir-lt-std-3": {
+        "value": "85 Heavy",
+        "type": "fontWeights"
+      },
+      "avenir-lt-std-4": {
+        "value": "45 Book",
+        "type": "fontWeights"
+      }
+    },
+    "fontSize": {
+      "0": {
+        "value": "8",
+        "type": "fontSizes"
+      },
+      "1": {
+        "value": "10",
+        "type": "fontSizes"
+      },
+      "2": {
+        "value": "12",
+        "type": "fontSizes"
+      },
+      "3": {
+        "value": "14",
+        "type": "fontSizes"
+      },
+      "4": {
+        "value": "16",
+        "type": "fontSizes"
+      },
+      "5": {
+        "value": "17",
+        "type": "fontSizes"
+      },
+      "6": {
+        "value": "18",
+        "type": "fontSizes"
+      },
+      "7": {
+        "value": "20",
+        "type": "fontSizes"
+      },
+      "8": {
+        "value": "24",
+        "type": "fontSizes"
+      },
+      "9": {
+        "value": "29",
+        "type": "fontSizes"
+      },
+      "10": {
+        "value": "32",
+        "type": "fontSizes"
+      },
+      "11": {
+        "value": "35",
+        "type": "fontSizes"
+      },
+      "12": {
+        "value": "42",
+        "type": "fontSizes"
+      },
+      "13": {
+        "value": "50",
+        "type": "fontSizes"
+      },
+      "14": {
+        "value": "56",
+        "type": "fontSizes"
+      },
+      "15": {
+        "value": "60",
+        "type": "fontSizes"
+      },
+      "16": {
+        "value": "72",
+        "type": "fontSizes"
+      },
+      "17": {
+        "value": "74",
+        "type": "fontSizes"
+      },
+      "18": {
+        "value": "87",
+        "type": "fontSizes"
+      }
+    },
+    "letterSpacing": {
+      "0": {
+        "value": "5%",
+        "type": "letterSpacing"
+      },
+      "1": {
+        "value": "4.5%",
+        "type": "letterSpacing"
+      },
+      "2": {
+        "value": "3.5%",
+        "type": "letterSpacing"
+      },
+      "3": {
+        "value": "2.5%",
+        "type": "letterSpacing"
+      },
+      "4": {
+        "value": "-2%",
+        "type": "letterSpacing"
+      },
+      "5": {
+        "value": "-1.5%",
+        "type": "letterSpacing"
+      },
+      "6": {
+        "value": "-1%",
+        "type": "letterSpacing"
+      },
+      "7": {
+        "value": "0%",
+        "type": "letterSpacing"
+      },
+      "8": {
+        "value": "0.16",
+        "type": "letterSpacing"
+      },
+      "9": {
+        "value": "3%",
+        "type": "letterSpacing"
+      },
+      "10": {
+        "value": "0.22%",
+        "type": "letterSpacing"
+      },
+      "11": {
+        "value": "0.22",
+        "type": "letterSpacing"
+      },
+      "12": {
+        "value": "0.69%",
+        "type": "letterSpacing"
+      },
+      "13": {
+        "value": "0.69",
+        "type": "letterSpacing"
+      },
+      "14": {
+        "value": "0.3",
+        "type": "letterSpacing"
+      }
+    },
+    "paragraphSpacing": {
+      "0": {
+        "value": "0",
+        "type": "paragraphSpacing"
+      },
+      "1": {
+        "value": "20",
+        "type": "paragraphSpacing"
+      }
+    },
+    "Landing": {
+      "Heading": {
+        "H1": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-0",
+            "lineHeight": "$lineHeights.0",
+            "fontSize": "$fontSize.17",
+            "letterSpacing": "$letterSpacing.0",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.capitalize",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "H2": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-0",
+            "lineHeight": "$lineHeights.1",
+            "fontSize": "$fontSize.14",
+            "letterSpacing": "$letterSpacing.0",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.capitalize",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "H3": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-0",
+            "lineHeight": "$lineHeights.2",
+            "fontSize": "$fontSize.12",
+            "letterSpacing": "$letterSpacing.1",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.capitalize",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "H4": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-0",
+            "lineHeight": "$lineHeights.3",
+            "fontSize": "$fontSize.10",
+            "letterSpacing": "$letterSpacing.2",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.capitalize",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "H5": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-0",
+            "lineHeight": "$lineHeights.4",
+            "fontSize": "$fontSize.8",
+            "letterSpacing": "$letterSpacing.2",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.capitalize",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "H6": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-0",
+            "lineHeight": "$lineHeights.5",
+            "fontSize": "$fontSize.6",
+            "letterSpacing": "$letterSpacing.3",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.capitalize",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        }
+      },
+      "Body": {
+        "P1": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-1",
+            "lineHeight": "$lineHeights.2",
+            "fontSize": "$fontSize.10",
+            "letterSpacing": "$letterSpacing.4",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "P2": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-1",
+            "lineHeight": "$lineHeights.3",
+            "fontSize": "$fontSize.8",
+            "letterSpacing": "$letterSpacing.5",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "P3": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-2",
+            "lineHeight": "$lineHeights.6",
+            "fontSize": "$fontSize.7",
+            "letterSpacing": "$letterSpacing.6",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "P4": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-1",
+            "lineHeight": "$lineHeights.7",
+            "fontSize": "$fontSize.4",
+            "letterSpacing": "$letterSpacing.7",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "P4-SemiBold": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-2",
+            "lineHeight": "$lineHeights.7",
+            "fontSize": "$fontSize.4",
+            "letterSpacing": "$letterSpacing.7",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "P5": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-1",
+            "lineHeight": "$lineHeights.5",
+            "fontSize": "$fontSize.3",
+            "letterSpacing": "$letterSpacing.7",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "P5 - SemiBold": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-2",
+            "lineHeight": "$lineHeights.5",
+            "fontSize": "$fontSize.3",
+            "letterSpacing": "$letterSpacing.7",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.none",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        },
+        "Quote": {
+          "value": {
+            "fontFamily": "$fontFamilies.avenir-lt-std",
+            "fontWeight": "$fontWeights.avenir-lt-std-1",
+            "lineHeight": "$lineHeights.8",
+            "fontSize": "$fontSize.1",
+            "letterSpacing": "$letterSpacing.0",
+            "paragraphSpacing": "$paragraphSpacing.0",
+            "textCase": "$textCase.uppercase",
+            "textDecoration": "$textDecoration.none"
+          },
+          "type": "typography"
+        }
+      }
+    },
+    "Landing Btn": {
+      "Hover": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.6",
+          "letterSpacing": "$letterSpacing.8",
+          "paragraphSpacing": "$paragraphSpacing.1",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.underline"
+        },
+        "type": "typography"
+      },
+      "Main": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.6",
+          "letterSpacing": "$letterSpacing.8",
+          "paragraphSpacing": "$paragraphSpacing.1",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      }
+    },
+    "Display": {
+      "Display 1": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.18",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Display 2": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.16",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Display 3": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.15",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Display 4": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.13",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      }
+    },
+    "Heading": {
+      "Heading 1": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-0",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.15",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Heading 2": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-0",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.13",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Heading 3": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-0",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.12",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Heading 4": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-0",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.11",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Heading 5": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-0",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.9",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Heading 6": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-0",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.8",
+          "letterSpacing": "$letterSpacing.9",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      }
+    },
+    "Body": {
+      "Title 1": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-3",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.8",
+          "letterSpacing": "$letterSpacing.10",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Title 2": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-3",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.7",
+          "letterSpacing": "$letterSpacing.11",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Title 3": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-3",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.5",
+          "letterSpacing": "$letterSpacing.12",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Title 4": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-3",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.3",
+          "letterSpacing": "$letterSpacing.0",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Title 5": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-3",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.2",
+          "letterSpacing": "$letterSpacing.11",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Title 6": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-3",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.1",
+          "letterSpacing": "$letterSpacing.0",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body XXXLG": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.10",
+          "letterSpacing": "$letterSpacing.9",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body XXLG": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.8",
+          "letterSpacing": "$letterSpacing.9",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body XLG": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.7",
+          "letterSpacing": "$letterSpacing.9",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body LG": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.5",
+          "letterSpacing": "$letterSpacing.13",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body MD": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.3",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body SM": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.2",
+          "letterSpacing": "$letterSpacing.11",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Body XSM": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.1",
+          "letterSpacing": "$letterSpacing.11",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Caption": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.0",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.uppercase",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Calendar": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-4",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.11",
+          "letterSpacing": "$letterSpacing.14",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Medium 1": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.8",
+          "letterSpacing": "$letterSpacing.10",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Medium 2": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.7",
+          "letterSpacing": "$letterSpacing.11",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Medium 3": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.5",
+          "letterSpacing": "$letterSpacing.12",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Medium 4": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.3",
+          "letterSpacing": "$letterSpacing.0",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Medium 5": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.2",
+          "letterSpacing": "$letterSpacing.11",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      },
+      "Medium 6": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-2",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.1",
+          "letterSpacing": "$letterSpacing.0",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.none"
+        },
+        "type": "typography"
+      }
+    },
+    "Button": {
+      "Link XSM": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.1",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.underline"
+        },
+        "type": "typography"
+      },
+      "Link SM": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.2",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.underline"
+        },
+        "type": "typography"
+      },
+      "Link XLG": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.7",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.underline"
+        },
+        "type": "typography"
+      },
+      "Link LG": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.5",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.underline"
+        },
+        "type": "typography"
+      },
+      "Link MD": {
+        "value": {
+          "fontFamily": "$fontFamilies.avenir-lt-std",
+          "fontWeight": "$fontWeights.avenir-lt-std-1",
+          "lineHeight": "$lineHeights.9",
+          "fontSize": "$fontSize.3",
+          "letterSpacing": "$letterSpacing.7",
+          "paragraphSpacing": "$paragraphSpacing.0",
+          "textCase": "$textCase.none",
+          "textDecoration": "$textDecoration.underline"
+        },
+        "type": "typography"
+      }
+    },
+    "textCase": {
+      "capitalize": {
+        "value": "capitalize",
+        "type": "textCase"
+      },
+      "none": {
+        "value": "none",
+        "type": "textCase"
+      },
+      "uppercase": {
+        "value": "uppercase",
+        "type": "textCase"
+      }
+    },
+    "textDecoration": {
+      "none": {
+        "value": "none",
+        "type": "textDecoration"
+      },
+      "underline": {
+        "value": "underline",
+        "type": "textDecoration"
+      }
+    }
+  }
+}

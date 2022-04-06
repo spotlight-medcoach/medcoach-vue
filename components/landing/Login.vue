@@ -1,79 +1,188 @@
 <template>
-<div>
-  <div class="control-input d-flex">
-    <p><b-icon-person></b-icon-person></p>
-    <input type="text" v-model="user" placeholder="Usuario" />
-  </div>
-  <br>
-   <div class="control-input d-flex">
-    <p><b-icon-lock-fill></b-icon-lock-fill></p>
-    <input v-model="password" type="password" placeholder="Contraseña" />
-  </div>
-  <br>
-  <div align="center">
-    <div class="divlogin" align="center">
-      <b-overlay
-        :show="busy"
-        rounded
-        opacity="0.6"
-        spinner-small
-        spinner-variant="primary"
-        class="d-inline-block"
-      >
-        <button class="blogin" v-on:click="login()" type="button">Ingresar</button>
-      </b-overlay>
-    </div>
-  </div>
-  <br>
-  <div align="center" @click="goToRecoverPassword">
-    <p class="link">He olvidado la contraseña</p>
-  </div>
-</div>
+	<div id="login">
+		<div class="mx-auto mt-auto">
+			<img
+				src="@/assets/images/logo.svg"
+				class="logo d-block mx-auto mb-40px"
+			>
+			<div class="card login-card mb-20px">
+				<validation-observer ref="loginValidation">
+					<b-form @submit.prevent="login">
+						<div class="text-center mb-40px">
+							<p class="login-title">Bienvenido A</p>
+							<p class="login-title mb-10px">MedCOACH</p>
+							<p class="login-subtitle">Ingresa con tu email</p>
+						</div>
+						<div class="mb-48px">
+							<b-form-group
+								id="email-grp"
+								label="Email"
+								label-for="email"
+								class="mb-24px"
+							>
+								<validation-provider
+									#default="{ errors }"
+									name="Email"
+									rules="required|email"
+								>
+									<b-form-input
+										id="email"
+										v-model="form.email"
+										trim
+										type="email"
+									/>
+									<small class="text-danger">{{ errors[0] }}</small>
+								</validation-provider>
+							</b-form-group>
+							<b-form-group
+								id="password-grp"
+								label="Contraseña"
+								label-for="password"
+							>
+								<validation-provider
+									#default="{ errors }"
+									name="Contraseña"
+									rules="required"
+								>
+									<b-form-input
+										id="password"
+										v-model="form.password"
+										type="password"
+										trim
+									/>
+									<small class="text-danger">{{ errors[0] }}</small>
+								</validation-provider>
+							</b-form-group>
+						</div>
+						<div>
+							<b-overlay :show="loginLoading" spinner-small>
+								<b-button
+									type="submit"
+									variant="primary"
+									class="d-block w-100 mb-16px"
+								>
+									Iniciar sesión
+								</b-button>
+							</b-overlay>
+							<p
+								class="link link-primary text-center"
+								@click="$store.commit('landing/setScreen', 'recovery-password')"
+							>
+								Olvidé mi contraseña
+							</p>
+						</div>
+					</b-form>
+				</validation-observer>
+			</div>
+			<div class="d-flex justify-content-around px-4">
+				<span>¿Nuevo en MedCOACH?</span>
+				<a class="link link-primary" href="https://spotlightmed.com">Crea una cuenta</a>
+			</div>
+		</div>
+		<div class="mx-auto mt-auto mb-40px">
+			<a style="color: #7D7A7A" href="#">AVISO DE PRIVACIDAD</a>
+		</div>
+		<validate-phone-modal
+			v-if="loaded"
+			:email="form.email"
+			@onPhoneValid="login"
+		/>
+	</div>
 </template>
 <script>
+import { required, email } from '@/assets/utils/validations.js'
 export default {
-  name: 'login',
-  data () {
-    return {
-      user: '',
-      password: '',
-      busy: false
-    }
-  },
-  methods: {
-    login () {
-      this.busy = true
-      this.$axios
-        .post('/students/login', {
-          email: this.user,
-          password: this.password // "12345678"
-        })
-        .then((res) => {
-          const userData = res.data.payload
-          if (userData.validated) {
-            if (process.client) {
-              localStorage.setItem('usertoken', res.data.token)
-              this.$store.commit('setToken', res.data.token)
-            }
-            if (res.data.payload.finished_diagnostic_test) {
-              this.$router.push({ path: '/dashboard' })
-            } else {
-              this.$router.push({ path: '/diagnostic_test' })
-            }
-          } else {
-            this.$router.push({ name: 'welcome', query: { token: res.data.token } })
-            this.busy = false
-          }
-        })
-        .catch((err) => {
-          const response = err.response
-          this.$toastr.error(response.data.message, 'Error')
-          this.busy = false
-        })
-    },
-    goToRecoverPassword () {
-      this.$store.commit('setLanding', 'recover_password')
-    }
-  }
+	components: {
+		ValidatePhoneModal: () => import('@/components/ValidatePhoneModal.vue')
+	},
+	layout: 'index',
+	data () {
+		return {
+			form: {
+				email: '',
+				password: ''
+			},
+			required,
+			email,
+			loginLoading: false,
+			loaded: false
+		}
+	},
+	mounted () {
+		this.loaded = true
+		this.$root.$emit('bv::show::modal', 'validate-phone-modal')
+	},
+	methods: {
+		async login () {
+			if (!this.loginLoading) {
+				this.loginLoading = true
+				const success = await this.$refs.loginValidation.validate()
+				if (success) {
+					try {
+						const { data } = await this.$axios.post('/students/login', this.form)
+						const student = data.payload
+						if (student) {
+							this.$store.commit('setFreeTrial', student.is_free_trial)
+							if (!student.is_verified) {
+								this.$root.$emit('bv::show::modal', 'validate-phone-modal')
+							} else if (student.validated || student.is_free_trial) {
+								if (process.client) {
+									localStorage.setItem('usertoken', data.token)
+									this.$store.commit('setToken', data.token)
+								}
+								if (student.finished_diagnostic_test || student.is_free_trial) {
+									this.$router.push({ path: '/dashboard' })
+								} else {
+									this.$router.push({ path: '/diagnostic_test' })
+								}
+							} else {
+								this.$router.push({ name: 'welcome', query: { token: data.token } })
+							}
+						} else {
+							this.$toastr.error('Verifica tus claves de acceso', 'Error')
+						}
+					} catch (error) {
+						if (error.response) {
+							this.$toastr.error(error.response.data.message, 'Error')
+						}
+					}
+				} else {
+					this.$toastr.error('Hay campos incorrectos', 'Error')
+				}
+				this.loginLoading = false
+			}
+		}
+	}
 }
 </script>
+<style lang="scss">
+	#login {
+		height: 100vh;
+		width: 100vw;
+		display: flex;
+		overflow-x: hidden;
+		flex-direction: column;
+
+		.logo {
+			width: 238px;
+		}
+
+		.login-card {
+			width: 508px;
+		}
+
+		.login-title {
+			font-style: normal;
+			font-weight: 750;
+			font-size: 32px;
+			line-height: 36px;
+		}
+
+		.login-subtitle {
+			font-style: normal;
+			font-weight: normal;
+			font-size: 24px;
+			line-height: 36px;
+		}
+	}
+</style>
