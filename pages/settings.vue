@@ -1,36 +1,50 @@
 <template>
-	<div id="settings" style="margin-top:50px">
+	<div id="settings" style="padding-top:50px">
 		<div v-if="onHttpRequest" class="w-100">
 			<loading-state :message="message" height="60vh" />
 		</div>
 		<div v-else-if="errorHttp">
 			<p>{{ message }}</p>
 		</div>
-		<b-container v-else style="margin-bottom: 400px;">
+		<b-container v-else style="margin-bottom: 20px;">
 			<b-row>
 				<!-- //Perfil y usuario -->
 				<b-col style="margin-bottom: 50px">
 					<div align="left">
-						<p class="title">
-							Perfil
-						</p>
-						<b-row class="my-1">
+						<div class="d-flex justify-content-between mb-4">
+							<p class="title">
+								Perfil
+							</p>
+							<b-overlay
+								:show="saving"
+								rounded
+								opacity="0.6"
+								spinner-small
+								spinner-variant="primary"
+								class="d-inline-block"
+							>
+								<b-button variant="primary" @click="sendForm">
+									{{ profileEnabled ? "Guardar Cambios" : "Editar Perfil" }}
+								</b-button>
+							</b-overlay>
+						</div>
+						<b-row class="my-3">
 							<b-col>
 								<label>Nombre</label>
-								<b-form-input v-model="userInfo.first_name" class="inputForm input-valid" :state="null" placeholder="Nombre" />
+								<b-form-input v-model="userInfo.first_name" class="inputForm input-valid" :state="null" placeholder="Nombre" :disabled="!profileEnabled" />
 							</b-col>
 							<b-col>
 								<label>Apellido</label>
-								<b-form-input v-model="userInfo.last_name" class="inputForm input-valid" :state="null" placeholder="Apellidos" />
+								<b-form-input v-model="userInfo.last_name" class="inputForm input-valid" :state="null" placeholder="Apellidos" :disabled="!profileEnabled" />
 							</b-col>
 						</b-row>
 						<b-row>
 							<b-col>
 								<label>Dirección</label>
-								<b-form-input v-model="userInfo.address" class="inputForm input-valid" :state="null" placeholder="Dirección" />
+								<b-form-input v-model="userInfo.address" class="inputForm input-valid" :state="null" placeholder="Dirección" :disabled="!profileEnabled" />
 							</b-col>
 						</b-row>
-						<b-row class="my-1">
+						<b-row class="my-3">
 							<b-col>
 								<label>Correo electrónico</label>
 								<b-form-input
@@ -39,84 +53,188 @@
 									class="inputForm input-valid"
 									:state="null"
 									placeholder="Email"
+									:disabled="!profileEnabled"
 								/>
 							</b-col>
 							<b-col>
 								<label>País</label>
-								<b-form-input v-model="userInfo.country" class="inputForm input-valid" :state="null" placeholder="País" />
+								<b-form-input v-model="userInfo.country" class="inputForm input-valid" :state="null" placeholder="País" :disabled="!profileEnabled" />
 							</b-col>
 						</b-row>
-						<b-row class="my-1">
+						<b-row class="my-3">
 							<b-col>
 								<label>Estado</label>
-								<b-form-input v-model="userInfo.state" class="inputForm input-valid" :state="null" placeholder="Estado" />
+								<b-form-input v-model="userInfo.state" class="inputForm input-valid" :state="null" placeholder="Estado" :disabled="!profileEnabled" />
 							</b-col>
 							<b-col>
 								<label>Teléfono</label>
-								<b-form-input v-model="userInfo.phone" class="inputForm input-valid" :state="null" placeholder="Teléfono" />
+								<b-form-input v-model="userInfo.phone" class="inputForm input-valid" :state="null" placeholder="Teléfono" :disabled="!profileEnabled" />
 							</b-col>
 						</b-row>
 					</div>
-				</b-col>
-
-				<!-- //Informacion de estudio -->
-				<b-col>
-					<b-card>
-						<b-container>
-							<p class="title">
-								Usuario
-							</p>
+					<div align="left" class="mt-5">
+						<p class="title mb-4">
+							Usuario
+						</p>
+						<div class="my-3">
+							<label>Universidad</label>
+							<v-select
+								v-if="universitiesList.length === 0"
+								key="universities"
+								disabled
+								placeholder="Loading..."
+							/>
+							<v-select
+								v-else
+								v-model="userInfo.university"
+								:options="universitiesList"
+								:reduce="user=>user._id"
+								label="name"
+								:disabled="!profileEnabled"/>
+						</div>
+						<div class="my-3">
+							<label>Especialidades</label>
+							<v-select
+								v-if="specialitiesList.length === 0"
+								key="specialities"
+								disabled
+								placeholder="Loading..."
+							/>
+							<v-select
+								v-else
+								v-model="userInfo.speciality"
+								:options="specialitiesList"
+								:reduce="user=>user._id"
+								label="name"
+								:disabled="!profileEnabled"/>
+						</div>
+					</div>
+					<div align="left" class="mt-5" v-if="userInfo.card !== null">
+						<p class="title mb-4">
+							Estudio
+						</p>
+						<div class="my-3">
 							<label class="lblInfo">Fecha de examen</label>
 							<b-form-datepicker id="dateExam" v-model="userInfo.test_date" class="mb-2" :disabled="true" />
-							<!-- <p>Value: '{{ userInfo.dateExam }}'</p> -->
+						</div>
+						<div class="my-3">
 							<label class="lblInfo">Dia de descanso</label>
-							<b-form-select v-model="userInfo.free_day">
+							<b-form-select v-model="userInfo.free_day" :disabled="!profileEnabled">
 								<option v-for="option in dayOptions" :key="option.value" :value="option.value">
 									{{ option.label }}
 								</option>
 							</b-form-select>
-							<!--<span>Selected: {{ userInfo.free_day }}</span>-->
-						</b-container>
-					</b-card>
-					<b-row class="justify-content-md-center mt-3">
-						<b-overlay
-							:show="saving"
-							rounded
-							opacity="0.6"
-							spinner-small
-							spinner-variant="primary"
-							class="d-inline-block"
-						>
-							<b-button variant="outline-primary" @click="isEmailValid">
-								Guardar & Salir
+						</div>
+					</div>
+				</b-col>
+
+				<!-- // Formulario de pago -->
+				<b-col>
+					<div align="left" v-if="userInfo.card !== null">
+						<div class="d-flex justify-content-between mb-4">
+							<p class="title">
+								Pago y tarjeta
+							</p>
+							<b-button :variant="cardEnabled ? 'danger' : 'primary'" @click="loadConektaForm">
+								{{ cardEnabled ? "Cancelar" : "Editar tarjeta" }}
 							</b-button>
-						</b-overlay>
-					</b-row>
+						</div>
+						<b-row class="my-3" v-if="cardEnabled">
+							<conekta-frame
+								:planId="1"
+								class="w-100"
+								:type="updateCard"
+								@onUpdateCard="updateCard"
+							/>
+						</b-row>
+						<div v-else>
+							<b-row class="my-3">
+								<b-col>
+									<label>Nombre en la tarjeta</label>
+									<b-form-input v-model="userInfo.card.name" class="inputForm input-valid" :state="null" placeholder="Nombre en la tarjeta" disabled />
+								</b-col>
+							</b-row>
+							<b-row class="my-3">
+								<b-col>
+									<label>Número en la tarjeta</label>
+									<b-input-group>
+										<template #prepend>
+											<b-icon icon="credit-card-fill" font-scale="1.5"  />
+										</template>
+										<b-form-input v-model="cardNumber" class="inputForm input-valid" :state="null" placeholder="Número en la tarjeta" disabled></b-form-input>
+									</b-input-group>
+								</b-col>
+							</b-row>
+							<b-row class="my-3">
+								<b-col>
+									<label>Fecha de expiración</label>
+									<b-form-input v-model="cardExpiration" class="inputForm input-valid" :state="null" placeholder="00/00" disabled />
+								</b-col>
+								<b-col>
+									<label>CVV</label>
+									<b-input-group>
+										<template #prepend>
+											<b-icon icon="lock-fill" font-scale="1.5" />
+										</template>
+										<b-form-input v-model="cvv" class="inputForm input-valid" :state="null" placeholder="***" disabled />
+									</b-input-group>
+								</b-col>
+							</b-row>
+						</div>
+					</div>
+					<div align="left" v-if="userInfo.card !== null">
+						<div class="d-flex justify-content-between mt-5 mb-4">
+							<p class="title">
+								Suscripción
+							</p>
+						</div>
+						<b-row class="my-3">
+							<b-col>
+								<b-alert v-if="userInfo.active_subscription" variant="success" show>
+									<h4>Cuenta activa</h4>
+									<p>${{ userInfo.subscription !== null  ? parseFloat(userInfo.subscription.amount / 100).toFixed(2) : '0.00' }}</p>
+								</b-alert>
+								<b-alert v-else variant="danger" show>
+									<h4>Cuenta desactivada</h4>
+									<p></p>
+								</b-alert>
+							</b-col>
+						</b-row>
+						<b-row class="my-3">
+							<b-col>
+								<b-button v-if="userInfo.active_subscription" variant="danger" class="mr-3" @click="deactiveSubscription">
+									Desactivar cuenta
+								</b-button>
+								<b-button v-else variant="success" class="mr-3" @click="activateSubscription">
+									Reactivar cuenta
+								</b-button>
+								<b-button variant="outline-light" @click="sendForm">
+									Borrar cuenta
+								</b-button>
+							</b-col>
+						</b-row>
+						<b-row class="mb-3 mt-4">
+							<b-col>
+								<label>Fecha de próximo cobro</label>
+								<h4>{{ userInfo.card.next_date_plan }}</h4>
+							</b-col>
+						</b-row>
+						<b-row class="my-3">
+							<b-col>
+								<label>Cobro anterior</label>
+								<h4>{{ userInfo.card.current_date_plan }}</h4>
+							</b-col>
+						</b-row>
+					</div>
 				</b-col>
 			</b-row>
-			<p class="title">
-				Usuario
-			</p>
-			<label>Universidad</label>
-			<v-select
-				v-if="universitiesList.length === 0"
-				key="universities"
-				disabled
-				placeholder="Loading..."
-			/>
-			<v-select v-else v-model="userInfo.university" :options="universitiesList" :reduce="user=>user._id" label="name">
-				hola
-			</v-select>
-
-			<label>Especialidades</label>
-			<v-select
-				v-if="specialitiesList.length === 0"
-				key="specialities"
-				disabled
-				placeholder="Loading..."
-			/>
-			<v-select v-else v-model="userInfo.speciality" :options="specialitiesList" :reduce="user=>user._id" label="name" />
 		</b-container>
+		<cancel-subscription-modal
+			@onCancelSubscription="cancelSubscription"
+		/>
+		<resume-subscription-modal
+			@onResumeSubscription="resumeSubscription"
+		/>
 	</div>
 </template>
 
@@ -125,16 +243,28 @@ import { mapState } from 'vuex'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import LoadingState from '@/components/LoadingState.vue'
+import CancelSubscriptionModal from '@/components/_functional/cancelSubscriptionModal.vue'
+import ResumeSubscriptionModal from '@/components/_functional/resumeSubscriptionModal.vue'
+import ConektaFrame from '@/components/ConektaFrame.vue'
+
 export default {
 	name: 'Configuracion',
 	layout: 'new_default',
 	components: {
 		vSelect,
-		LoadingState
+		LoadingState,
+		CancelSubscriptionModal,
+		ResumeSubscriptionModal,
+		ConektaFrame
 	},
 	data () {
 		return {
 			saving: false,
+			profileEnabled: false,
+			cardEnabled: false,
+			cardNumber: '•••• •••• •••• ••••',
+			cardExpiration: '00/00',
+			cvv: '***',
 			userInfo: {
 				first_name: '',
 				last_name: '',
@@ -191,6 +321,8 @@ export default {
 		studentInfo (newVal) {
 			if (newVal) {
 				this.userInfo = JSON.parse(JSON.stringify(newVal))
+				this.cardNumber = `•••• •••• •••• ${this.userInfo.card.last4}`
+				this.cardExpiration = `${this.userInfo.card.exp_month}/${this.userInfo.card.exp_year}`
 			}
 		}
 	},
@@ -207,6 +339,8 @@ export default {
 		this.getSpecialitiesData()
 		if (this.studentInfo) {
 			this.userInfo = JSON.parse(JSON.stringify(this.studentInfo))
+			this.cardNumber = `•••• •••• •••• ${this.userInfo.card.last4}`
+			this.cardExpiration = `${this.userInfo.card.exp_month}/${this.userInfo.card.exp_year}`
 		}
 	},
 	mounted () {
@@ -282,11 +416,107 @@ export default {
 				})
 				.finally(() => {
 					this.saving = false
+					this.profileEnabled = false
 				})
 		},
 
-		isEmailValid () {
-			return (this.userInfo.email === '') ? console.log('') : (this.reg.test(this.userInfo.email)) ? (this.saveDataLS(), this.saveDataBD()) : console.log('El email es invalido')
+		sendForm () {
+			if (!this.profileEnabled) {
+				this.profileEnabled = true
+			} else {
+				return (this.userInfo.email === '') ? console.log('') : (this.reg.test(this.userInfo.email)) ? (this.saveDataLS(), this.saveDataBD()) : console.log('El email es invalido')
+			}
+		},
+
+		loadConektaForm () {
+			this.cardEnabled = !this.cardEnabled
+		},
+
+		deactiveSubscription () {
+			this.$bvModal.show('cancel-subscription-modal')
+		},
+
+		activateSubscription () {
+			this.$bvModal.show('resume-subscription-modal')
+		},
+
+		cancelSubscription () {
+			let token = ''
+			if (process.client) {
+				token = localStorage.getItem('usertoken')
+			}
+			this.$axios
+				.delete('/students/subscription', {}, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json'
+					}
+				})
+				.then((res) => {
+					console.log(res.data)
+					this.$toastr.success('Suscripción cancelada', '¡Éxito!')
+					this.userInfo.active_subscription = false
+					this.$store.commit('setStudentInfo', this.userInfo)
+				})
+				.catch((err) => {
+					this.userInfo.active_subscription = true
+					console.log(err)
+					this.$toastr.error('Error al cancelar la suscripción', 'Error')
+				})
+				.finally(() => {
+					this.saving = false
+					this.profileEnabled = false
+					this.$bvModal.hide('cancel-subscription-modal')
+				})
+		},
+
+		resumeSubscription () {
+			let token = ''
+			if (process.client) {
+				token = localStorage.getItem('usertoken')
+			}
+			this.$axios
+				.put('/students/subscription', {}, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json'
+					}
+				})
+				.then((res) => {
+					console.log(res.data)
+					this.$toastr.success('Suscripción reanudada', '¡Éxito!')
+					this.userInfo.active_subscription = true
+					this.$store.commit('setStudentInfo', this.userInfo)
+				})
+				.catch((err) => {
+					this.userInfo.active_subscription = true
+					console.log(err)
+					this.$toastr.error('Error al reanudar la suscripción', 'Error')
+				})
+				.finally(() => {
+					this.saving = false
+					this.profileEnabled = false
+					this.$bvModal.hide('resume-subscription-modal')
+				})
+		},
+		updateCard (card) {
+			this.userInfo.card.bin = card.bin
+			this.userInfo.card.brand = card.brand
+			this.userInfo.card.card_type = card.card_type
+			this.userInfo.card.created_at = card.created_at
+			this.userInfo.card.default = card.default
+			this.userInfo.card.exp_month = card.exp_month
+			this.userInfo.card.exp_year = card.exp_year
+			this.userInfo.card.id = card.id
+			this.userInfo.card.last4 = card.last4
+			this.userInfo.card.name = card.name
+			this.userInfo.card.object = card.object
+			this.userInfo.card.parent_id = card.parent_id
+			this.userInfo.card.type = card.type
+			this.userInfo.card.visible_on_checkout = card.visible_on_checkout
+			this.$store.commit('setStudentInfo', this.userInfo)
+			this.cardEnabled = false
+			this.$toastr.success('Tarjeta actualizada', '¡Éxito!')
 		}
 	}
 }

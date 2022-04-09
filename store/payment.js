@@ -53,5 +53,8 @@ export const actions = {
 	},
 	registerSubscription ({ state }, payload) {
 		return this.$axios.$post('/students/subscription', payload)
+	},
+	updateCard ({ state }, payload) {
+		return this.$axios.$put('/students/subscription/card', payload)
 	}
 }

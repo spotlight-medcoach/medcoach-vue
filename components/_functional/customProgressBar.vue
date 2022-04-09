@@ -10,7 +10,8 @@
 		<!-- Top hint -->
 		<div
 			v-if="topHint"
-			class="body-title-4">
+			class="body-title-4"
+		>
 			{{ topHint }}
 		</div>
 		<!-- Progress bar -->

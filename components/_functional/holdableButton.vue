@@ -55,6 +55,11 @@ export default {
 			this.checked = defaultVal
 		}
 	},
+	mounted () {
+		if (this.defaultValue === true) {
+			this.checked = this.defaultValue
+		}
+	},
 	methods: {
 		holdOn () {
 			this.isHoldOn = true // registra el evento de click
@@ -87,11 +92,6 @@ export default {
 			setTimeout(() => {
 				this.checked = false
 			}, 1)
-		}
-	},
-	mounted () {
-		if (this.defaultValue === true) {
-			this.checked = this.defaultValue
 		}
 	}
 }

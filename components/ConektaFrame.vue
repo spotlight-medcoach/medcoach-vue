@@ -1,6 +1,6 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<div id="conektaIframeContainer" style="height: 590px;" />
+		<div id="conektaIframeContainer" style="height: 520px;" />
 	</b-overlay>
 </template>
 <script>
@@ -11,6 +11,10 @@ export default {
 		planId: {
 			type: String,
 			default: ''
+		},
+		type: {
+			type: String,
+			default: 'payment'
 		}
 	},
 	data () {
@@ -42,6 +46,16 @@ export default {
 			})
 			if (data) {
 				this.$router.push('congrats')
+			}
+			this.loading = false
+		},
+		async updateCard (token) {
+			this.loading = true
+			const data = await this.$store.dispatch('payment/updateCard', {
+				token: token.id
+			})
+			if (data) {
+				this.$emit('onUpdateCard', data)
 			}
 			this.loading = false
 		},
@@ -90,7 +104,11 @@ export default {
 				},
 				// Evento que permitirá saber que el token se creao de forma satisfactoria, es importante que se consuman los datos que de él derivan.
 				onCreateTokenSucceeded: (token) => {
-					this.producePayment(token)
+					if (this.type === 'payment') {
+						this.producePayment(token)
+					} else {
+						this.updateCard(token)
+					}
 				},
 				// Evento que permitirá saber que el token se creao de manera incorrecta, es importante que se consuman los datos que de él derivan y se hagan las correciones pertinentes.
 				onCreateTokenError: (error) => {

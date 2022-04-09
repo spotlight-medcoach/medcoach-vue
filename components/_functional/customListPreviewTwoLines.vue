@@ -48,7 +48,7 @@
 			</template>
 			<template v-else>
 				<p class="text-center mt-5"><!-- Mensaje cuando está vacío -->
-					{{onEmptyListMessage}}
+					{{ onEmptyListMessage }}
 				</p>
 			</template>
 		</b-skeleton-wrapper>
