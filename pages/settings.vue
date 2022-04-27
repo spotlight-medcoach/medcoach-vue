@@ -129,7 +129,7 @@
 				</b-col>
 
 				<!-- // Formulario de pago -->
-				<b-col>
+				<b-col v-if="userInfo.plan_id !== undefined">
 					<div align="left" v-if="userInfo.card !== null">
 						<div class="d-flex justify-content-between mb-4">
 							<p class="title">
@@ -227,6 +227,25 @@
 						</b-row>
 					</div>
 				</b-col>
+				<b-col v-else>
+					<div align="left" class="mt-5">
+						<p class="title mb-4">
+							Estudio
+						</p>
+						<div class="my-3">
+							<label class="lblInfo">Fecha de examen</label>
+							<b-form-datepicker id="dateExam" v-model="userInfo.test_date" class="mb-2" :disabled="true" />
+						</div>
+						<div class="my-3">
+							<label class="lblInfo">Dia de descanso</label>
+							<b-form-select v-model="userInfo.free_day" :disabled="!profileEnabled">
+								<option v-for="option in dayOptions" :key="option.value" :value="option.value">
+									{{ option.label }}
+								</option>
+							</b-form-select>
+						</div>
+					</div>
+				</b-col>
 			</b-row>
 		</b-container>
 		<cancel-subscription-modal
@@ -321,8 +340,8 @@ export default {
 		studentInfo (newVal) {
 			if (newVal) {
 				this.userInfo = JSON.parse(JSON.stringify(newVal))
-				this.cardNumber = `•••• •••• •••• ${this.userInfo.card.last4}`
-				this.cardExpiration = `${this.userInfo.card.exp_month}/${this.userInfo.card.exp_year}`
+				this.cardNumber = `•••• •••• •••• ${this.userInfo.card ? this.userInfo.card.last4 : '••••'}`
+				this.cardExpiration = `${this.userInfo.card ? this.userInfo.card.exp_month : ''}/${this.userInfo.card ? this.userInfo.card.exp_year : ''}`
 			}
 		}
 	},
@@ -339,8 +358,8 @@ export default {
 		this.getSpecialitiesData()
 		if (this.studentInfo) {
 			this.userInfo = JSON.parse(JSON.stringify(this.studentInfo))
-			this.cardNumber = `•••• •••• •••• ${this.userInfo.card.last4}`
-			this.cardExpiration = `${this.userInfo.card.exp_month}/${this.userInfo.card.exp_year}`
+			this.cardNumber = `•••• •••• •••• ${this.userInfo.card ? this.userInfo.card.last4 : '••••'}`
+			this.cardExpiration = `${this.userInfo.card ? this.userInfo.card.exp_month : ''}/${this.userInfo.card ? this.userInfo.card.exp_year : ''}`
 		}
 	},
 	mounted () {
@@ -457,6 +476,10 @@ export default {
 					this.$toastr.success('Suscripción cancelada', '¡Éxito!')
 					this.userInfo.active_subscription = false
 					this.$store.commit('setStudentInfo', this.userInfo)
+					this.$store.commit('setActiveSubscription', this.userInfo)
+					if (process.client) {
+						localStorage.setItem('active_subscription', this.userInfo.active_subscription)
+					}
 				})
 				.catch((err) => {
 					this.userInfo.active_subscription = true
@@ -487,6 +510,10 @@ export default {
 					this.$toastr.success('Suscripción reanudada', '¡Éxito!')
 					this.userInfo.active_subscription = true
 					this.$store.commit('setStudentInfo', this.userInfo)
+					this.$store.commit('setActiveSubscription', this.userInfo)
+					if (process.client) {
+						localStorage.setItem('active_subscription', this.userInfo.active_subscription)
+					}
 				})
 				.catch((err) => {
 					this.userInfo.active_subscription = true

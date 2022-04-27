@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background-gray">
     <div class="only-pc">
       <Login v-if="screen == 'login'" />
       <RecoveryPassword v-else-if="screen == 'recovery-password'" />
@@ -39,3 +39,8 @@ export default {
   }
 }
 </script>
+<style>
+    .background-gray {
+        background: rgba(238, 242, 245, 0.725005);
+    }
+</style>

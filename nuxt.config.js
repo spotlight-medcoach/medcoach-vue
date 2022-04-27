@@ -100,7 +100,8 @@ export default {
     { src: '~plugins/vue-toastr-plugin', ssr:false },
     { src: '~plugins/vue-flip-plugin', ssr:false },
     { src: '~/plugins/axios'},
-    { src: '~/plugins/vee-validate-plugin.js' }
+    { src: '~/plugins/vee-validate-plugin.js' },
+    { src: '~/plugins/vue-phone-number-input.js' }
   ],
   /*
   ** Nuxt.js dev-modules

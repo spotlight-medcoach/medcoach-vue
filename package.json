@@ -34,6 +34,7 @@
     "vue-event-calendar": "^1.5.2",
     "vue-flip": "^1.0.2",
     "vue-html-to-paper": "^1.4.4",
+    "vue-phone-number-input": "^1.1.12",
     "vue-picture-input": "^2.1.6",
     "vue-quill-editor": "^3.0.6",
     "vue-select": "^3.16.0",

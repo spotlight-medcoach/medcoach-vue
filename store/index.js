@@ -19,7 +19,8 @@ export const state = () => ({
 	landing: 'login',
 	showModalImage: false,
 	showStudentHeader: true,
-	subscriptionPlans: null
+	subscriptionPlans: null,
+	activeSubscription: localStorage.getItem('active_subscription') && localStorage.getItem('active_subscription') === 'true'
 })
 
 export const getters = {
@@ -35,6 +36,17 @@ export const mutations = {
 		if (payload) {
 			state.isFreeTrial = payload.is_free_trial
 			state.daysDisabled[payload.free_day] = 1
+		}
+	},
+	setActiveSubscription (state, payload) {
+		if (payload.plan_id !== undefined && payload.plan_id !== null && payload.plan_id !== '') {
+			if (payload.active_subscription) {
+				state.activeSubscription = true
+			} else {
+				state.activeSubscription = false
+			}
+		} else {
+			state.activeSubscription = true
 		}
 	},
 	setBearer (state) {
@@ -117,6 +129,7 @@ export const actions = {
 		return this.$axios.$get('/students/info')
 			.then((result) => {
 				commit('setStudentInfo', result.student)
+				commit('setActiveSubscription', result.student)
 			})
 	},
 	fetchSyllabus ({ commit, dispatch, state }, message) {
