@@ -168,6 +168,9 @@ export const mutations = {
 			if (question.marked === undefined) {
 				question.marked = false
 			}
+			if (question.time === undefined) {
+				question.time = 0
+			}
 			question.index = index
 			return question
 		})
@@ -346,7 +349,10 @@ export const actions = {
 	},
 	sendAnswers ({ state, commit }) {
 		const _ans = state.customTest.questions.map((question) => {
-			return question.response
+			return {
+				answer: question.response,
+				time: question.time
+			}
 		})
 		const params = { answers: _ans }
 		commit('setSendingAnswers', true)

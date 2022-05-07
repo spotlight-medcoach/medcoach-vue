@@ -139,5 +139,10 @@ export default {
   #custom-test-config {
     padding: 20px 16px;
     display: flex;
+
+    & > div {
+      height: 86vh;
+      overflow-y: scroll;
+    }
   }
 </style>

@@ -70,9 +70,9 @@ export default {
 				height: fit-content;
 				width: fit-content;
 				top: 0;
-				left: 0;
+				left: 8px;
 				right: 0;
-				bottom: 20px;
+				bottom: 4px;
 			}
 		}
 	}

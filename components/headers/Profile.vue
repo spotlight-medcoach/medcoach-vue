@@ -26,7 +26,7 @@ import { mapGetters } from 'vuex'
 export default {
 	data () {
 		return {
-			profile_img: require('@/assets/images/profile.png')
+			profile_img: require('@/assets/images/profile.svg')
 		}
 	},
 	computed: {
