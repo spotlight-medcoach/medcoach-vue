@@ -68,10 +68,12 @@ export default {
 	watch: {
 		selectedQuestion (newVal) {
 			if (newVal) {
-				this.$store.commit('custom_test/setQuestionTime', {
-					index: this.selectedQuestion.index,
-					value: 0
-				})
+				if (!this.retro) {
+					this.$store.commit('custom_test/setQuestionTime', {
+						index: this.selectedQuestion.index,
+						value: 0
+					})
+				}
 				this.question = JSON.parse(JSON.stringify(newVal))
 			}
 		}
@@ -98,8 +100,9 @@ export default {
 	},
 	mounted () {
 		this.question = JSON.parse(JSON.stringify(this.selectedQuestion))
-		console.log('tracking 1')
-		this.addSecondToSelectedQuestion()
+		if (!this.retro) {
+			this.addSecondToSelectedQuestion()
+		}
 	}
 }
 </script>
