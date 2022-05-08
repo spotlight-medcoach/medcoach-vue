@@ -171,6 +171,9 @@ export const mutations = {
 			if (question.time === undefined) {
 				question.time = 0
 			}
+			if (question.first_answer === undefined) {
+				question.first_answer = 0
+			}
 			question.index = index
 			return question
 		})
@@ -184,12 +187,20 @@ export const mutations = {
 	},
 	setQuestionResponse (state, payload) {
 		const { index, value } = payload
+		if (state.customTest.questions[index].first_answer === 0) {
+			state.customTest.questions[index].first_answer = value
+		}
 		state.customTest.questions[index].response = value
 		localStorage.setItem(`test_${state.customTest.id}`, JSON.stringify(state.customTest))
 	},
 	setQuestionMark (state, payload) {
 		const { index, value } = payload
 		state.customTest.questions[index].marked = value
+		localStorage.setItem(`test_${state.customTest.id}`, JSON.stringify(state.customTest))
+	},
+	setQuestionTime (state, payload) {
+		const { index, value } = payload
+		state.customTest.questions[index].time = value
 		localStorage.setItem(`test_${state.customTest.id}`, JSON.stringify(state.customTest))
 	},
 	setCaseIndex (state, payload) {
@@ -351,7 +362,8 @@ export const actions = {
 		const _ans = state.customTest.questions.map((question) => {
 			return {
 				answer: question.response,
-				time: question.time
+				time: question.time,
+				first_answer: question.first_answer
 			}
 		})
 		const params = { answers: _ans }

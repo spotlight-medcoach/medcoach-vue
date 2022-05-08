@@ -54,7 +54,8 @@ export default {
 	},
 	data () {
 		return {
-			question: {}
+			question: {},
+			stop_timing: false
 		}
 	},
 	computed: {
@@ -67,6 +68,10 @@ export default {
 	watch: {
 		selectedQuestion (newVal) {
 			if (newVal) {
+				this.$store.commit('custom_test/setQuestionTime', {
+					index: this.selectedQuestion.index,
+					value: 0
+				})
 				this.question = JSON.parse(JSON.stringify(newVal))
 			}
 		}
@@ -74,10 +79,27 @@ export default {
 	methods: {
 		setAnswer (questionIndex, response) {
 			this.$store.commit('custom_test/setQuestionResponse', { index: questionIndex, value: response })
+		},
+		async addSecondToSelectedQuestion () {
+			if (this.selectedQuestion) {
+				const time = this.selectedQuestion.time + 1
+				this.$store.commit('custom_test/setQuestionTime', {
+					index: this.selectedQuestion.index,
+					value: time
+				})
+			}
+			if (this.stop_timing) {
+				return false
+			}
+			return await setTimeout(() => {
+				return this.addSecondToSelectedQuestion()
+			}, 1000)
 		}
 	},
 	mounted () {
 		this.question = JSON.parse(JSON.stringify(this.selectedQuestion))
+		console.log('tracking 1')
+		this.addSecondToSelectedQuestion()
 	}
 }
 </script>

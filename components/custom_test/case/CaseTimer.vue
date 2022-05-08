@@ -1,5 +1,8 @@
 <template>
   <section id="case-timer" class="custom-card p-0">
+    <p>
+      {{ selectedQuestion.time }}
+    </p>
     <div
       v-if="retro"
       class="case-timer-container case-timer-retro"
