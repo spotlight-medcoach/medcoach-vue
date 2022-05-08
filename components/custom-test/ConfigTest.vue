@@ -1,4 +1,5 @@
 <template>
+<!-- Este debe ser eliminado -->
 <div id="main">
   <div id="row-mode" class="d-flex">
     <div id="exam-mode">

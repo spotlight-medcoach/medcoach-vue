@@ -1,0 +1,144 @@
+<template>
+  <div class="__vev_calendar-wrapper">
+    <cal-panel
+      :events="events"
+      :calendar="calendarOptions"
+      :selectedDay="selectedDayEvents.date"
+      @options-changed="calendarOptions"
+      @cur-day-changed="handleChangeCurDay"
+      @month-changed="handleMonthChanged"
+    />
+  </div>
+</template>
+<script>
+import { isEqualDateStr } from './tools.js'
+import calPanel from './components/cal-panel.vue'
+
+const inBrowser = typeof window !== 'undefined'
+export default {
+  name: 'VueEventCalendar',
+  components: {
+    'cal-panel': calPanel
+  },
+  props: {
+    events: {
+      type: Array,
+      required: true,
+      default: () => { return [] },
+      validator (events) {
+        let validate = true
+        events.forEach((event, index) => {
+          if (!event.date) {
+            console.error('Vue-Event-Calendar-Error:' + 'Prop events Wrong at index ' + index)
+            validate = false
+          }
+        })
+        return validate
+      }
+    }
+  },
+  data () {
+    return {
+      selectedDay: '',
+      selectedDayEvents: {
+        date: 'all',
+        events: this.events || [] // default show all event
+      }
+    }
+  },
+  computed: {
+    calendarOptions () {
+      console.log('calendarOptions')
+      const dateObj = new Date()
+      let calendarOptions = {}
+      if (inBrowser) {
+        calendarOptions = window.VueCalendarBarEventBus.CALENDAR_EVENTS_DATA
+      } else {
+        calendarOptions = {
+          options: {
+            locale: 'en', // zh
+            color: ' #ffffff'
+          },
+          params: {
+            curYear: dateObj.getFullYear(),
+            curMonth: dateObj.getMonth(),
+            curDate: dateObj.getDate(),
+            curEventsDate: 'all'
+          }
+        }
+      }
+      this.$emit('options-changed', calendarOptions.options)
+      return calendarOptions
+    },
+    calendarParams () {
+      console.log('calendarParams')
+      const dateObj = new Date()
+      if (inBrowser) {
+        return window.VueCalendarBarEventBus.CALENDAR_EVENTS_DATA.params
+      } else {
+        return {
+          curYear: dateObj.getFullYear(),
+          curMonth: dateObj.getMonth(),
+          curDate: dateObj.getDate(),
+          curEventsDate: 'all'
+        }
+      }
+    }
+  },
+  watch: {
+    calendarParams () {
+      console.log('calendarParams')
+      if (this.calendarParams.curEventsDate !== 'all') {
+        const events = this.events.filter((event) => {
+          return isEqualDateStr(event.date, this.calendarParams.curEventsDate)
+        })
+        this.selectedDayEvents = {
+          date: this.calendarParams.curEventsDate,
+          events
+        }
+      } else {
+        this.selectedDayEvents = {
+          date: 'all',
+          events: this.events
+        }
+      }
+    },
+    events () {
+      console.log('events', this.selectedDayEvents.date, this.dateString)
+      this.selectedDayEvents = {
+        date: this.dateString,
+        events: this.events || []
+      }
+    }
+  },
+  created () {
+    console.log('created')
+    if (this.calendarParams.curEventsDate !== 'all') {
+      this.handleChangeCurDay(this.calendarParams.curEventsDate)
+    }
+  },
+  methods: {
+    handleChangeCurDay (_date) {
+      console.log('handleChangeCurDay', _date)
+      this.dateString = _date
+      const _events = this.events.filter(function (event) {
+        return isEqualDateStr(event.date, _date)
+      })
+      if (_events.length > 0) {
+        this.selectedDayEvents = {
+          date: _date,
+          events: _events
+        }
+      }
+      this.$emit('day-changed', {
+        date: _date,
+        events: _events
+      })
+    },
+    handleMonthChanged (yearMonth) {
+      this.$emit('month-changed', yearMonth)
+    }
+  }
+}
+// <style src="./style.less" lang="less"></style>
+</script>

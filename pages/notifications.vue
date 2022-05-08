@@ -1,15 +1,15 @@
 <template>
-<div id="notifications">
-  <div v-if="onHttpRequest">
-    <loading-state :message="message" />
+  <div id="notifications">
+    <div v-if="onHttpRequest">
+      <loading-state :message="message" />
+    </div>
+    <div v-else-if="errorHttp">
+      <p>{{ message }}</p>
+    </div>
+    <div v-else>
+      <notifications-index />
+    </div>
   </div>
-  <div v-else-if="errorHttp">
-    <p>{{ message }}</p>
-  </div>
-  <div v-else>
-    <notifications-index />
-  </div>
-</div>
 </template>
 
 <script>

@@ -1,26 +1,27 @@
 <template>
-<div id="config_custom_test">
-  <div v-if="onHttpRequest">
-    <loading-state :message="message" />
+  <div id="config_custom_test">
+    <div v-if="onHttpRequest">
+      <loading-state :message="message" />
+    </div>
+    <div v-else-if="errorHttp">
+      <p>{{ message }}</p>
+    </div>
+    <div v-else>
+      <CustomTestConfig />
+    </div>
   </div>
-  <div v-else-if="errorHttp">
-    <p>{{ message }}</p>
-  </div>
-  <div v-else>
-    <config-test />
-  </div>
-</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
-import ConfigTest from '@/components/custom-test/ConfigTest.vue'
+import CustomTestConfig from '@/components/custom_test_config/CustomTestConfig.vue'
 
 export default {
+  layout: 'new_default',
   components: {
     LoadingState,
-    ConfigTest
+    CustomTestConfig
   },
   computed: {
     ...mapState({

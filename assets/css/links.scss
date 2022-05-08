@@ -1,0 +1,31 @@
+/* Estilos para los links */
+
+.link {
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 16px !important;
+
+	&-no-decoration {
+		text-decoration: none;		
+	}
+
+	&-default {
+		color: black;
+
+		&:hover {
+			color: darkblue;
+		}
+	}
+
+	&-primary {
+		color: #FF9300;
+
+		&:hover {
+			color: #FF0300 !important;
+		}
+	}
+
+	&:hover {
+		text-decoration: underline !important;
+	}
+}

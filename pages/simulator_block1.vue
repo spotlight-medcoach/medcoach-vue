@@ -6,51 +6,55 @@
     <div class="container">
       <div class="d-flex justify-content-between countdown mb-4">
         <h3>Primera parte</h3>
-        <h3>{{this.count}}</h3>
+        <h3>{{ count }}</h3>
       </div>
       <b-button
-        v-on:click="gotoTest(index)"
-        class="question"
         v-for="(item, index) in questions"
+        :key="item.id"
+        class="question"
         :class="{'answered': item.answer !== '0'}"
-        v-bind:item="item"
-        v-bind:key="item.id">
-        {{index + 1}}
+        :item="item"
+        @click="gotoTest(index)"
+      >
+        {{ index + 1 }}
       </b-button>
       <div class="start">
-        <b-button style="margin-right:28px;" width="100" class="bg-danger" v-on:click="startTest">Comenzar</b-button>
-      <div>
+        <b-button style="margin-right:28px;" width="100" class="bg-danger" @click="startTest">
+          Comenzar
+        </b-button>
+        <div />
+      </div>
+      <b-modal
+        id="modal-finishblock"
+        hide-footer
+        hide-header
+        no-close-on-backdrop
+        no-close-on-esc
+        class="text-center"
+      >
+        <p class="title" style="font-size:24px">
+          <b>Finalizando bloque</b>
+        </p>
+        <div>
+          <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+        </div>
+      </b-modal>
     </div>
   </div>
-  <b-modal
-    id="modal-finishblock"
-    hide-footer
-    hide-header
-    no-close-on-backdrop
-    no-close-on-esc
-    class="text-center"
-  >
-    <p class="title" style="font-size:24px"><b>Finalizando bloque</b></p>
-    <div>
-      <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
-    </div>
-  </b-modal>
-</div>
-</div>
 </template>
 <script>
 import moment from 'moment/moment'
 
 export default {
+  props: {
+    // ...
+  },
   data () {
     return {
       questions: [],
       count: '',
       countdown: ''
     }
-  },
-  props: {
-    // ...
   },
   created () {
     const simulator = JSON.parse(localStorage.getItem('simulator'))

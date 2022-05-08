@@ -1,0 +1,144 @@
+
+//------------------------------------------------------------------------------------------- AVENIR FONT
+
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 900;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Black.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 900;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-BlackOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 800;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Heavy.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 800;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-HeavyOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 700;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Medium.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 700;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-MediumOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 600;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Medium.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 600;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-MediumOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 500;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Roman.otf') format("opentype");
+}
+
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 500;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Oblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 400;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Book.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 400;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-BookOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 300;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Book.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 300;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-BookOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 200;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Light.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 200;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-LightOblique.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	font-weight: 100;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Light.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	font-weight: 100;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-LightOblique.otf') format("opentype");
+}
+
+// default font weight
+@font-face {
+	font-family: "Avenir";
+	font-style: normal;
+	font-display: auto;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Roman.otf') format("opentype");
+}
+@font-face {
+	font-family: "Avenir";
+	font-style: italic;
+	font-display: auto;
+	src: local("Avenir"), url('./../../fonts/AvenirLTStd/AvenirLTStd-Oblique.otf') format("opentype");
+}

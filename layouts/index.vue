@@ -1,17 +1,17 @@
 <template>
   <div>
-    <landing-header v-if="$route.name==='reset_password'"></landing-header>
-    <welcome-header v-else-if="$route.name === 'welcome'" />
+    <!-- landing-header v-if="$route.name==='reset_password'"></landing-header> -->
+    <welcome-header v-if="$route.name === 'welcome'" />
     <nuxt />
   </div>
 </template>
 <script>
-import LandingHeader from '@/components/headers/LandingHeader'
+// import LandingHeader from '@/components/headers/LandingHeader'
 import WelcomeHeader from '@/components/headers/WelcomeHeader'
 
 export default {
   components: {
-    LandingHeader,
+    // LandingHeader,
     WelcomeHeader
   },
   mounted () {
