@@ -46,6 +46,7 @@ export default {
 		padding: 0px 16px 20px 16px !important;
 		overflow-y: auto;
 		position: relative;
+		height: 86vh;
 
 		&-header {
 			padding-bottom: 10px;

@@ -30,9 +30,9 @@
 					<div class="doughnut-chart w-100 w-100">
 						<doughnut-chart
 							:chart-data="{
-								labels: ['Pendientes','Estudiados'],
+								labels: ['Utilizadas','Sin utilizar'],
 								datasets: [{
-									data: [5, 95],
+									data: [studentStats.total_used_questions, studentStats.total - studentStats.total_used_questions],
 									backgroundColor: ['#FFB63F', '#BBBBB3']
 								}]
 							}"
@@ -106,12 +106,13 @@ export default {
 				bodyFontColor: '#000000',
 				xPadding: 24,
 				yPadding: 8,
+				yAlign: 'center',
 				displayColors: false,
 				callbacks: {
 					title: () => {},
 					label: (tooltipItem, data) => {
 						const indice = tooltipItem.index
-						const tag = data.datasets[0].data[indice] === 1 ? 'manual' : 'manuales'
+						const tag = data.datasets[0].data[indice] === 1 ? 'pregunta' : 'preguntas'
 						return data.datasets[0].data[indice] + ' ' + tag
 					}
 				}
@@ -222,7 +223,7 @@ export default {
 			if (totalValue !== 0 && actualValue !== 0) {
 				const learned = +parseFloat(actualValue / totalValue * 100).toFixed(2)
 				const pending = 100 - learned
-				return [learned, pending]
+				return [learned.toFixed(2), pending.toFixed(2)]
 			}
 			return [0, 100]
 		}

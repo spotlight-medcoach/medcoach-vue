@@ -34,11 +34,7 @@
         </div>
       </article>
     </div>
-    <CustomTestHistory
-      :style="{
-        'height': `${left_article_height}px`
-      }"
-    />
+    <CustomTestHistory />
   </section>
 </template>
 <script>
@@ -66,7 +62,7 @@ export default {
       },
       customTestTopics: null,
       custom_test_loading: false,
-      left_article_height: 900
+      left_article_height: 86
     }
   },
   computed: {
