@@ -113,7 +113,7 @@ export default {
 	},
 	methods: {
 		calculeChartSize (containerSize, nElements, chartScale) {
-			return Math.floor(containerSize / nElements * chartScale)
+			return Math.floor((containerSize * 0.7) / nElements * chartScale)
 		},
 		calculePercentage (totalValue, actualValue) {
 			if (totalValue !== 0 && actualValue !== 0) {
