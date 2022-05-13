@@ -107,12 +107,14 @@ export default {
 		})
 	},
 	mounted () {
+		console.log('mounted mystudy')
 		const containerWidth = this.$refs['my-general-progress'].offsetWidth
 		const nElements = this.topics.length + 1
 		this.doughnutWidthContainer = this.calculeChartSize(containerWidth, nElements, 1)
 	},
 	methods: {
 		calculeChartSize (containerSize, nElements, chartScale) {
+			console.log('chartSize', Math.floor((containerSize * 0.7) / nElements * chartScale))
 			return Math.floor((containerSize * 0.7) / nElements * chartScale)
 		},
 		calculePercentage (totalValue, actualValue) {

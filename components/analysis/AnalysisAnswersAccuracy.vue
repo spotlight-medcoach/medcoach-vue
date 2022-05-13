@@ -1,10 +1,11 @@
 <template>
-	<article v-if="studentStats" class="d-flex flex-row justify-content-between align-items-center">
+	<article v-if="studentStats" class="d-flex flex-row justify-content-between align-items-center ml-5">
+
 		<div class="analysis-column">
 			<!----------------------------------------- Tu puntaje dougnut chart -->
 			<div class="chart-container mb-3">
 				<template v-if="studentStats">
-					<div class="doughnut-chart w-100 w-100">
+					<div class="doughnut-chart">
 						<doughnut-chart
 							:chart-data="{
 								labels: ['Pendientes','Estudiados'],
@@ -27,7 +28,7 @@
 			<!----------------------------------------- Uso del banco dougnut chart -->
 			<div class="chart-container mb-3">
 				<template v-if="studentStats">
-					<div class="doughnut-chart w-100 w-100">
+					<div class="doughnut-chart">
 						<doughnut-chart
 							:chart-data="{
 								labels: ['Utilizadas','Sin utilizar'],
@@ -252,7 +253,7 @@ export default {
 		.analysis-column {
 			> .table-container {
 				min-height: 168px;
-				width: 330px;
+				min-width: 260px;
 			}
 		}
 		::v-deep {
