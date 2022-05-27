@@ -102,8 +102,8 @@ export default {
   created () {
     if (this.retro) {
       let auxIndex = this.questionIndex
-      if (auxIndex >= 250) {
-        auxIndex -= 250
+      if (auxIndex >= 280) {
+        auxIndex -= 280
       }
       this.idx_page = parseInt(auxIndex / 20)
     }

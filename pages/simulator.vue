@@ -83,6 +83,7 @@ import ShowBreak from '@/components/simulators/intro/ShowBreak'
 import { prepareSimulator, prepareTest } from '@/assets/js/helper'
 
 export default {
+  layout: 'new_default',
   components: {
     SelectSession,
     BlockMessage,
@@ -100,8 +101,8 @@ export default {
     }
     return {
       block_1: {
-        title: 'PRIMERA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS',
-        message: 'PRIMERA PARTE QUE CONSTA DE 250 PREGUNTAS DE OPCIÓN MÚLTIPLE, PARA LAS CUALES TENDRÁS 5 HORAS.<br> RECUERDA RELLENAR DE FORMA COMPLETA EN UNA SOLA RESPUESTA POR PREGUNTA. NO MALTRATES ESTA HOJA.',
+        title: 'EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS',
+        message: 'BLOQUE QUE CONSTA DE 280 PREGUNTAS DE OPCIÓN MÚLTIPLE, PARA LAS CUALES TENDRÁS 5 HORAS.<br> RECUERDA RELLENAR DE FORMA COMPLETA EN UNA SOLA RESPUESTA POR PREGUNTA. NO MALTRATES ESTA HOJA.',
         duration_ms: 18060000 // duración del primer bloque en milisegundos 5 hrs + 1 min
       },
       startTimeBreak: null,
@@ -182,12 +183,12 @@ export default {
         })
         console.log(answers)
         const res = await this.$axios.put(`/student/simulators?simulator_id=${this.simulator_id}`, { answers })
-        if (this.session === '1') {
-          this.goToBreak(res.start_break)
-        } else if (this.session === '2') {
+        // if (this.session === '1') {
+        //   this.goToBreak(res.start_break)
+        // } else if (this.session === '2') {
           this.clearLocalStorage()
           this.$router.push('/simulators')
-        }
+        // }
         this.showFinishButton = false
       } catch (error) {
         console.error(error)

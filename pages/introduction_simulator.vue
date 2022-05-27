@@ -13,11 +13,11 @@
       <h6>Bienvenido al simulador ENARM</h6>
       <h6>Antes de comenzar debes considerar ciertos puntos para contestar tu examen.</h6>
       <h6>El formato que se presenta es muy similar a lo que encontrarás el día de tu Nacional, incluyendo la interfaz de usuario.</h6>
-      <h6>Debes elegir un día donde te encuentres completamente libre, ya que la duración total del examen es alrededor de <b>11 horas.</b></h6>
-      <h6>El examen se compone de <b>450 reactivos</b>; 405 preguntas en español y 45 en inglés.</h6>
-      <h6>A su vez, se divide en dos bloques; el <b>bloque 1 tiene 250 reactivos</b> y tendrás un tiempo de </b>5 horas para contestarlo.</b></h6>
+      <h6>Debes elegir un día donde te encuentres completamente libre, ya que la duración total del examen es alrededor de <b>5 horas.</b></h6>
+      <h6>El examen se compone de <b>280 reactivos.</b><!--; 405 preguntas en español y 45 en inglés.--></h6>
+      <!-- <h6>A su vez, se divide en dos bloques; el <b>bloque 1 tiene 250 reactivos</b> y tendrás un tiempo de </b>5 horas para contestarlo.</b></h6>
       <h6>Posteriormente, recibirás un periodo de </b>descanso de 1 hora.</b></h6>
-      <h6>Después de las cuales iniciara automáticamente el <b>bloque 2 que consta de 200 reactivos</b> donde tendrás <b>4 horas </b> para contestarlo.</h6>
+      <h6>Después de las cuales iniciara automáticamente el <b>bloque 2 que consta de 200 reactivos</b> donde tendrás <b>4 horas </b> para contestarlo.</h6> -->
       <h6>Mucha suerte.</h6>
     </div>
     <div class="button">

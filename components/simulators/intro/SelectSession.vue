@@ -8,14 +8,14 @@
         @click="setSession('1')"
       >
         DÍA 1 SESIÓN 1</button>
-      <button
+      <!-- <button
         class="btn-sec"
         :disabled="session !== '2'"
         :class="{'disabled': session !== '2'}"
         @click="setSession('2')"
       >
         DÍA 1 SESIÓN 2
-      </button>
+      </button> -->
     </div>
     <button
       v-if="showFinishButton"
