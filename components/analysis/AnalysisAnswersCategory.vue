@@ -99,8 +99,8 @@ export default {
 	article {
 		position: relative;
 		.radar-chart {
-			width: 100%;
-			//margin-left: auto;
+			width: 89%;
+			margin-left: 20px;
 			//margin-top: -50px;
 			//margin-bottom: -50px;
 		}
