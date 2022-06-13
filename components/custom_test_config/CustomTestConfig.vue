@@ -77,7 +77,7 @@ export default {
   display: flex;
 
   & > div {
-    height: 86vh;
+    height: 87vh;
     overflow-y: scroll;
   }
 }
