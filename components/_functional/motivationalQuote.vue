@@ -1,8 +1,8 @@
 <template>
 	<div class="quote-container d-flex align-items-center justify-content-center py-2">
-		<div class="quote text-center body-medium-3">
+		<div class="quote text-center body-medium-4">
 			<q>{{ quoteSelected.quote }}</q>
-			<span class="author body-title-3">
+			<span class="author body-title-4">
 				- {{ quoteSelected.author }}
 			</span>
 		</div>
