@@ -58,6 +58,8 @@ export default {
 <style lang="scss" scoped>
 	@import '@/assets/css/variables/color-palette.scss';
 	#manuals-subtopics {
+		height: 300px;
+		overflow-y:scroll ;
 		.subtopics-container {
 			color: #{$accent_b-500} !important;
 		}
