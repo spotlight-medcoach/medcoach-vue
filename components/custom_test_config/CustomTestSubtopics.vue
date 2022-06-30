@@ -18,12 +18,12 @@
       </ul>
       <b-row>
         <b-col cols="4" sm="4" md="4" lg="4" xl="4"
-          ><p class="body-title-2 float-right">Número de preguntas</p></b-col
+          ><p class="body-title-2 float-left">Número de preguntas</p></b-col
         >
         <b-col sm="2" md="2" lg="2" xl="2">
           <b-form-input
             id="questions-quantity"
-            class="float-left mt-n1"
+            class="float-right mt-n1"
             type="number"
             :min="settings.minQuestions"
             :max="settings.maxQuestions"
@@ -32,14 +32,18 @@
             :disabled="!fetchedData"
         /></b-col>
         <b-col cols="3" sm="3" md="3" lg="3" xl="3"
-          ><p class="ml-3">
+          ><p class="ml-n2">
             Máximo {{ settings.maxQuestions }} por bloque
           </p></b-col
         >
         <b-col cols="3" sm="3" md="3" lg="3" xl="3"
-          ><b-overlay :show="custom_test_loading" spinner-small class="mt-n1">
+          ><b-overlay
+            :show="custom_test_loading"
+            spinner-small
+            class="mt-n1 float-right"
+          >
             <b-button variant="primary" @click="generateCustomTest">
-              Generar examen
+              Generar examenn
             </b-button>
           </b-overlay></b-col
         >
