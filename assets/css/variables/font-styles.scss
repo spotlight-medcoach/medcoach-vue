@@ -326,3 +326,11 @@ $text-decoration-underline: underline;
     letter-spacing: $letter-spacing-7;
     text-decoration: $text-decoration-underline;
 }
+.body-lg-text-light {
+    font-family: 'Avenir', sans-serif;
+    font-weight:$font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-6;
+    letter-spacing: $letter-spacing-13;
+    color:   #5d6d7e  ;
+}
