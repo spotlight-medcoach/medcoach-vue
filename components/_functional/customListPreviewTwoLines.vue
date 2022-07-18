@@ -48,7 +48,7 @@
 			</template>
 			<template v-else>
 				<p class="text-center mt-5"><!-- Mensaje cuando está vacío -->
-					{{onEmptyListMessage}}
+					{{ onEmptyListMessage }}
 				</p>
 			</template>
 		</b-skeleton-wrapper>
@@ -99,7 +99,7 @@ export default {
 			border-bottom: 1px solid #979797;
 			display: grid;
 			grid-template-columns: 1fr auto;
-			grid-auto-rows: 1fr 1fr;
+			//grid-auto-rows: 1fr 1fr;
 			gap: 5px;
 			.body-title-4 {
 				font-weight: 900;

@@ -25,7 +25,7 @@
 			<section
 				v-else-if="$route.hash === '#performance'"
 				id="my-performance"
-				class="px-5 pt-4 pb-3"
+				class="px-0 pt-4 pb-3"
 			>
 				<analysis-answers-accuracy id="my-answers-accuracy" />
 				<analysis-answers-category id="my-answers-category" />
@@ -124,8 +124,8 @@ export default {
 		&#my-performance {
 			display: grid;
 			grid-template-areas:
-				"accuracy category"
-				"scores scores";
+				"accuracy accuracy category"
+				"scores scores scores";
 			gap: 1rem;
 			#my-answers-accuracy {
 				grid-area: accuracy;

@@ -8,18 +8,16 @@
         <span>Respuesta correcta:</span>
         <span>{{ String.fromCharCode(64 + selectedQuestion.correct_answer) }}</span>
       </p>
-      <p>
-        <StatisticsIcon />
-        <span>{{ testGrade }}%</span>
+      <p class="d-flex align-items-center">
+        <StatisticsIcon class="mr-2" />
+        <span class="mr-1">{{ testGrade }}%</span>
         <span>Contesto correctamente</span>
       </p>
-      <!--
-      <p>
-        <ClockIcon />
-        <span>Tiempo en contestar: </span>
-        <span>79 s</span>
+      <p class="d-flex align-items-center">
+        <ClockIcon class="mr-2" />
+        <span class="mr-1">Tiempo en contestar: </span>
+        <span>{{ selectedQuestion.time || '-' }} seg</span>
       </p>
-      -->
     </div>
     <div
       v-else
@@ -48,7 +46,7 @@
 import { mapState, mapGetters } from 'vuex'
 import ToggleSwitch from '@/components/ToggleSwitch.vue'
 import StatisticsIcon from '@/components/icons/StatisticsIcon'
-// import ClockIcon from '@/components/icons/ClockIcon'
+import ClockIcon from '@/components/icons/ClockIcon'
 
 export default {
   props: {
@@ -59,8 +57,8 @@ export default {
   },
   components: {
     ToggleSwitch,
-    StatisticsIcon
-    // ClockIcon
+    StatisticsIcon,
+    ClockIcon
   },
   data () {
     return {

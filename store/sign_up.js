@@ -1,17 +1,22 @@
+const screenTypes = {
+  signUp: 'sign-up',
+  validatePhone: 'validate-phone',
+  payment: 'payment'
+}
 
 export const state = () => ({
-	promotedPlanId: '1',
+  screen: screenTypes.signUp,
+  promotedPlanId: '1',
 	subscriptionPlans: [],
 	promotedPlan: undefined,
 	conektaCheckoutId: undefined
 })
 
-export const getters = {
-	subscriptionPlans: state => state.subscriptionPlans
-}
-
 export const mutations = {
-	setSubscriptionPlans (state, payload) {
+  setScreen (state, payload) {
+    state.screen = payload
+  },
+  setSubscriptionPlans (state, payload) {
 		state.subscriptionPlans = payload
 	},
 	setPromotedPlan (state, payload) {
@@ -20,6 +25,12 @@ export const mutations = {
 	setCheckoutId (state, payload) {
 		state.conektaCheckoutId = payload
 	}
+}
+
+export const getters = {
+  screen: state => state.screen,
+  subscriptionPlans: state => state.subscriptionPlans,
+  promotedPlan: state => state.promotedPlan
 }
 
 export const actions = {

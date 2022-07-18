@@ -94,8 +94,8 @@ export default {
 	}
 
 	#right-side-questions {
-		min-width: 793px;
-		width: 793px;
+		min-width: 880px;
+		width: 880px;
 		margin-right: 15px;
 		height: 100%;
 		overflow-y: auto;

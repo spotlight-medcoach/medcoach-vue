@@ -28,7 +28,7 @@ export default {
   components: {
     SimulatorCard
   },
-  layout: 'default',
+  layout: 'new_default',
   props: {
     // ...
   },

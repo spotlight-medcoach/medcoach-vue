@@ -1,17 +1,14 @@
 <template>
 	<div class="h-100">
 		<CaseIndex v-if="caseId"/>
-		<!-- <QuestionsIndex :custom_test="custom_test" v-else/> -->
 	</div>
 </template>
 <script>
 import { mapState } from 'vuex'
-import QuestionsIndex from '@/components/custom_test/QuestionsIndex.vue'
 import CaseIndex from '@/components/custom_test/case/CaseIndex.vue'
 export default {
 	name: 'custom-test',
 	components: {
-		QuestionsIndex,
 		CaseIndex
 	},
 	data () {

@@ -186,6 +186,14 @@ $text-decoration-underline: underline;
     font-size: $font-size-8;
     letter-spacing: $letter-spacing-9;
 }
+
+.body-xxlg2 {
+    font-family: 'Avenir', sans-serif;
+    font-weight: $font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-6;
+    letter-spacing: $letter-spacing-9;
+}
 .body-xlg {
     font-family: 'Avenir', sans-serif;
     font-weight: $font-weight-avenir-lt-std-4;
@@ -317,4 +325,12 @@ $text-decoration-underline: underline;
     font-size: $font-size-3;
     letter-spacing: $letter-spacing-7;
     text-decoration: $text-decoration-underline;
+}
+.body-lg-text-light {
+    font-family: 'Avenir', sans-serif;
+    font-weight:$font-weight-avenir-lt-std-4;
+    line-height: $line-height-9;
+    font-size: $font-size-6;
+    letter-spacing: $letter-spacing-13;
+    color:   #5d6d7e  ;
 }

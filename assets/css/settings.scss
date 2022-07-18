@@ -1,23 +1,111 @@
 #settings {
-  .title{
-    font-size:30px;
-    border-bottom:1px solid;
-  }
-  .inputForm{
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    border-radius: 0;
+
+  .row {
+    gap: 40px;
   }
 
-  .lblInfo{
+  .title{
+    font-size: 24px;
+  }
+
+  .inputForm{
+    border: 1px solid #979797;
+    background-color: white;
+    border-radius: 6px;
+    
+    &:disabled {
+      border: none;
+    }
+    // box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .vs__dropdown-toggle {
+    border: 1px solid #979797;
+    background-color: white;
+    border-radius: 6px;
+  }
+
+  .vs--disabled {
+    background-color: white;
+    color: #5b5b5b !important;
+    .vs__dropdown-toggle {
+      border: none !important;
+    }
+    .vs__search, .vs__open-indicator {
+      background-color: white;
+    }
+    .vs__clear {
+      display: none;
+    }
+  }
+
+  select[disabled] > option {
+    color: #5b5b5b !important;
+  }
+
+  .lblInfo {
     display: flex;
     text-align: start;
   }
+
+  .b-form-datepicker {
+    background-color: white;
+    
+    border: none;
+  }
+
   .boxInfo{
     border: solid 2px black;
     border-radius: 10px;
     -webkit-box-shadow: 0 0 5px black;
           box-shadow: 0 0 5px black;
   }
+
+  .custom-select:disabled {
+    border: none;
+    background-color: white;
+    color: #5b5b5b;
+    opacity: 1;
+  }
+
+  label {
+    color: #5B5B5B;
+  }
+
+  .input-group-prepend {
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    background: white;
+    border-radius: 6px 0px 0px 6px;
+  }
+
+  .input-group input {
+    border-radius: 0px 6px 6px 0px;
+  }
+
+  h4 {
+    font-size: 24px;
+  }
+
+  .alert-success {
+    border-color: #2FAA2E;
+    background-color: #EDFEDF;
+    color: #2FAA2E;
+
+    p {
+      font-size: 20px;
+    }
+  }
+
+  .btn-outline-light {
+    border: none;
+    text-decoration: underline;
+    color: #1D1D1B;
+
+    &:hover {
+      background-color: white;
+    }
+  }
+
 }

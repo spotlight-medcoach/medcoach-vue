@@ -5,7 +5,8 @@ module.exports = {
     node: true
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser',
+    "requireConfigFile": false
   },
   extends: [
     '@nuxtjs',
@@ -16,8 +17,9 @@ module.exports = {
     'unicorn/escape-case': 'off',
     'no-console': 'off',
     'no-tabs': 0,
-    'indent': ['error', 'tab'],
-    'vue/html-indent': ['error', 'tab'],
+    'indent': 'off',
+    // 'indent': ['error', 'tab'],
+    // 'vue/html-indent': ['error', 'tab'],
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off'
   }

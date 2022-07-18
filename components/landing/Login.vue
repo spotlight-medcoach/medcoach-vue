@@ -76,7 +76,7 @@
 			</div>
 			<div class="d-flex justify-content-around px-4">
 				<span>¿Nuevo en MedCOACH?</span>
-				<a class="link link-primary" href="https://spotlightmed.com">Crea una cuenta</a>
+				<router-link to="/sign_up">Crea una cuenta</router-link>
 			</div>
 		</div>
 		<div class="mx-auto mt-auto mb-40px">
@@ -129,9 +129,21 @@ export default {
 								if (process.client) {
 									localStorage.setItem('usertoken', data.token)
 									this.$store.commit('setToken', data.token)
+									this.$store.commit('setActiveSubscription', { plan_id: student.plan_id, active_subscription: student.plan_id !== undefined ? student.active_subscription : true })
 								}
 								if (student.finished_diagnostic_test || student.is_free_trial) {
-									this.$router.push({ path: '/dashboard' })
+									if (student.plan_id !== undefined && student.plan_id !== null && student.plan_id !== '') {
+										if (student.active_subscription) {
+											localStorage.setItem('active_subscription', student.active_subscription)
+											this.$router.push({ path: '/dashboard' })
+										} else {
+											localStorage.setItem('active_subscription', student.active_subscription)
+											this.$router.push({ path: '/settings' })
+										}
+									} else {
+										localStorage.setItem('active_subscription', true)
+										this.$router.push({ path: '/dashboard' })
+									}
 								} else {
 									this.$router.push({ path: '/diagnostic_test' })
 								}

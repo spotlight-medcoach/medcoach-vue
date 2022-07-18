@@ -1,5 +1,5 @@
 <template>
-	<article>
+	<article class="mx-5">
 		<div class="controls">
 			<span class="score body-title-3 ml-5">Calificación por exámenes</span>
 			<span class="pending body-title-3 ml-5">Exámen pendiente</span>
@@ -130,6 +130,7 @@ export default {
 	@import '@/assets/css/variables/color-palette.scss';
 	article {
 		.bar-chart, .bar-chart > * {
+			width: 100%;
 			height: 260px !important;
 		}
 	}

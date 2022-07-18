@@ -6,7 +6,7 @@
 		}"
 	>
 		<!-- Dashboard -->
-		<div class="text-center nav-item-tooltip">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': !isFreeTrial && !activeSubscription }">
 			<nuxt-link to="/dashboard">
 				<HomeIcon class="nav-icon" />
 			</nuxt-link>
@@ -14,7 +14,7 @@
 		</div>
 
 		<!-- Calendario -->
-		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial }">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial || !activeSubscription }">
 			<nuxt-link to="/calendar">
 				<CalendarIcon class="nav-icon" />
 			</nuxt-link>
@@ -22,7 +22,7 @@
 		</div>
 
 		<!-- Manuales -->
-		<div class="text-center nav-item-tooltip">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': !isFreeTrial && !activeSubscription }">
 			<nuxt-link to="/manuals">
 				<ManualsIcon class="nav-icon" />
 			</nuxt-link>
@@ -30,7 +30,7 @@
 		</div>
 
 		<!-- Notas -->
-		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial }">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial || !activeSubscription }">
 			<nuxt-link to="/notes">
 				<NotesIcon class="nav-icon" />
 			</nuxt-link>
@@ -38,7 +38,7 @@
 		</div>
 
 		<!-- Exámenes -->
-		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial }">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial || !activeSubscription }">
 			<nuxt-link to="/custom_test_config">
 				<TestsIcon class="nav-icon" />
 			</nuxt-link>
@@ -46,7 +46,7 @@
 		</div>
 
 		<!-- Infográficos -->
-		<div class="text-center nav-item-tooltip">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': !isFreeTrial && !activeSubscription }">
 			<nuxt-link to="/infographics">
 				<InfographicsIcon class="nav-icon" />
 			</nuxt-link>
@@ -54,7 +54,7 @@
 		</div>
 
 		<!-- Análisis -->
-		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial }">
+		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial || !activeSubscription }">
 			<nuxt-link to="/analysis">
 				<InsightsIcon class="nav-icon" />
 			</nuxt-link>
@@ -83,7 +83,8 @@ export default {
 	},
 	computed: {
 		...mapState(({
-			isFreeTrial: state => state.isFreeTrial
+			isFreeTrial: state => state.isFreeTrial,
+			activeSubscription: state => state.activeSubscription
 		})),
 		...mapGetters({
 			sidebarActive: 'sidebar/sidebarActive',

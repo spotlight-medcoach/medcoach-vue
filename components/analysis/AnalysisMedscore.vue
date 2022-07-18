@@ -40,7 +40,7 @@ export default {
 	},
 	computed: {
 		medscore () {
-			return this.studentInfo ? this.studentInfo.medscore : 0
+			return this.studentInfo ? parseFloat(this.studentInfo.medscore).toFixed(2) : 0
 		},
 		medscoreSegmented () {
 			const medscoreSegmented = this.medscore.toString().split('.')
@@ -70,9 +70,9 @@ export default {
 				height: fit-content;
 				width: fit-content;
 				top: 0;
-				left: 0;
+				left: 8px;
 				right: 0;
-				bottom: 20px;
+				bottom: 4px;
 			}
 		}
 	}

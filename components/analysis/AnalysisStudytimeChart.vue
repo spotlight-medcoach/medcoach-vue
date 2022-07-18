@@ -21,7 +21,7 @@
 			<div v-if="chartDay.datasets.length > 1" class="line-chart">
 				<line-chart
 					ref="chartDay"
-					class="w-100 h-100"
+					class="h-100"
 					:chart-data="chartDay"
 					:options="chartOptions"
 				/>
@@ -222,6 +222,7 @@ export default {
 		}
 		.chart-container {
 			position: relative;
+			width:99%;
 			.line-chart {
 				height: 300px;
 				margin-top: -60px;

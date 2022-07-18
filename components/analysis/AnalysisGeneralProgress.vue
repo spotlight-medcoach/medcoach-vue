@@ -23,7 +23,7 @@
 							:options="chartOptions"
 						/>
 					</div>
-					<div class="caption-progress body-xxlg">{{ topicCalculations[0] }} %</div>
+					<div class="caption-progress body-xxlg2">{{ topicCalculations[0] }} %</div>
 				</div>
 				<h4>{{ manual.name }}</h4>
 			</div>
@@ -45,7 +45,7 @@
 							:options="chartOptions"
 						/>
 					</div>
-					<div class="caption-progress body-xxlg">{{ topicCalculations[0] }} %</div>
+					<div class="caption-progress body-xxlg2">{{ topicCalculations[0] }} %</div>
 				</div>
 				<h4>Todas las materias</h4>
 			</div>
@@ -107,13 +107,15 @@ export default {
 		})
 	},
 	mounted () {
+		console.log('mounted mystudy')
 		const containerWidth = this.$refs['my-general-progress'].offsetWidth
 		const nElements = this.topics.length + 1
 		this.doughnutWidthContainer = this.calculeChartSize(containerWidth, nElements, 1)
 	},
 	methods: {
 		calculeChartSize (containerSize, nElements, chartScale) {
-			return Math.floor(containerSize / nElements * chartScale)
+			console.log('chartSize', Math.floor((containerSize * 0.7) / nElements * chartScale))
+			return Math.floor((containerSize * 0.7) / nElements * chartScale)
 		},
 		calculePercentage (totalValue, actualValue) {
 			if (totalValue !== 0 && actualValue !== 0) {

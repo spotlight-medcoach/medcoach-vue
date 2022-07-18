@@ -1,5 +1,5 @@
 <template>
-	<article ref="my-general-progress">
+	<article ref="my-general-progress" class="d-flex flex-row justify-content-between align-items-center mr-5">
 		<div class="radar-chart">
 			<radar-chart
 				:chart-data="{
@@ -36,6 +36,8 @@ export default {
 	},
 	data: () => ({
 		chartOptions: {
+			responsive: true,
+			maintainAspectRatio: true,
 			legend: {
 				display: false
 			},
@@ -97,10 +99,10 @@ export default {
 	article {
 		position: relative;
 		.radar-chart {
-			width: 520px;
-			margin-left: auto;
-			margin-top: -50px;
-			margin-bottom: -50px;
+			width: 89%;
+			margin-left: 20px;
+			//margin-top: -50px;
+			//margin-bottom: -50px;
 		}
 	}
 </style>

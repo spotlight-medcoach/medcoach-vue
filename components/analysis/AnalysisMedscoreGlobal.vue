@@ -67,7 +67,7 @@ export default {
 	}),
 	computed: {
 		medscore () {
-			return this.studentInfo ? this.studentInfo.medscore : 0
+			return this.studentInfo ? parseFloat(this.studentInfo.medscore).toFixed(2) : 0
 		},
 		medscoreMedia () {
 			const max = Math.max(...this.gaussDataset.values)

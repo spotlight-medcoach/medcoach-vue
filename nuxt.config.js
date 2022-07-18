@@ -5,7 +5,7 @@ export default {
     port: 8000
   },
   env: {
-    BASE_PATH: process.env.BASE_PATH,
+    BASE_PATH: process.env.DEVELOP === 'true' ? process.env.BASE_PATH : process.env.BASE_PATH_PROD,
     BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE,
     IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
     STORAGE_BASE_URL: process.env.STORAGE_BASE_URL || false,
@@ -46,7 +46,7 @@ export default {
       { src: 'https://kit.fontawesome.com/b9fa278f43.js', crossorigin:'anonymous' },
       { src: 'https://pay.conekta.com/v1.0/js/conekta-checkout.min.js' },
       { src: 'https://unpkg.com/@lottiefiles/lottie-player@0.4.0/dist/lottie-player.js' },
-      { src: '/js/userback.js' }
+      { src: process.env.DEVELOP === 'true' ? '/js/userback-test.js' : '/js/userback.js' }
     ]
   },
   /*
@@ -100,7 +100,8 @@ export default {
     { src: '~plugins/vue-toastr-plugin', ssr:false },
     { src: '~plugins/vue-flip-plugin', ssr:false },
     { src: '~/plugins/axios'},
-    { src: '~/plugins/vee-validate-plugin.js' }
+    { src: '~/plugins/vee-validate-plugin.js' },
+    { src: '~/plugins/vue-phone-number-input.js' }
   ],
   /*
   ** Nuxt.js dev-modules
