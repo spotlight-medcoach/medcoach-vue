@@ -60,6 +60,14 @@
 			</nuxt-link>
 			<span class="nav-item-tooltip-text">Análisis</span>
 		</div>
+
+		<!-- Simuladores -->
+		<div class="text-center nav-item-tooltip" :class="{'disabled': isFreeTrial || !activeSubscription }">
+			<nuxt-link to="/simulators">
+				<SimulatorsIcon class="nav-icon" />
+			</nuxt-link>
+			<span class="nav-item-tooltip-text">Simuladores</span>
+		</div>
 	</nav>
 </template>
 <script>
@@ -71,6 +79,7 @@ import NotesIcon from '@/components/icons/NotesIcon.vue'
 import InsightsIcon from '@/components/icons/InsightsIcon.vue'
 import InfographicsIcon from '@/components/icons/InfographicsIcon.vue'
 import TestsIcon from '@/components/icons/TestsIcon.vue'
+import SimulatorsIcon from '@/components/icons/SimulatorsIcon'
 export default {
 	components: {
 		HomeIcon,
@@ -79,7 +88,8 @@ export default {
 		NotesIcon,
 		InsightsIcon,
 		InfographicsIcon,
-		TestsIcon
+		TestsIcon,
+		SimulatorsIcon
 	},
 	computed: {
 		...mapState(({

@@ -40,7 +40,7 @@
 								:top-hint="calcAverageValue(p.total, p.progress) + '%'"
 								:color-variant="p.componentStyle"
 								:bottom-header="p.title"
-								:bottom-subheader="`( ${p.total} ${p.scope} )`"
+								:bottom-subheader="`( ${p.total - p.progress} ${p.scope} )`"
 								:bottom-hint="p.textOverview"
 								:enabled="isEnablePhase(phaseId)"
 							/>
@@ -66,7 +66,7 @@
 								:top-hint="calcAverageValue(p.total, p.progress) + '%'"
 								:color-variant="p.componentStyle"
 								:bottom-header="p.title"
-								:bottom-subheader="'( ' + p.progress + ' días )'"
+								:bottom-subheader="'( ' + (p.progress) + ' días )'"
 								:bottom-hint="p.textOverview"
 							/>
 						</div>
@@ -138,7 +138,7 @@ export default {
 			case 1: {
 				// fase I tiene una duración elástica que se determina a partir del día de inicio hasta terminar los manuales
 				Object.assign(phasesContent[1], {
-					total: this.phase.total,
+					total: this.phase.progress > this.phase.total ? this.phase.progress : this.phase.total,
 					progress: this.phase.progress
 				})
 				break
@@ -146,19 +146,30 @@ export default {
 			case 2: {
 				// fase_II tiene una duración a partir del día de terminada fase_I hasta el comienzo de fase_III
 				// fecha_actual - fecha_inicio_fase_II
-				const initFase2 = this.now.diff(moment(this.phase.init_date_phase_2), 'days')
+				Object.assign(phasesContent[1], {
+					total: 1,
+					progress: 1
+				})
 				Object.assign(phasesContent[2], {
-					total: initFase2 - this.phase_3_days - 1,
-					progress: initFase2
+					total: this.phase.progress > this.phase.total ? this.phase.progress : this.phase.total,
+					progress: this.phase.progress
 				})
 				break
 			}
 			case 3: {
 				// fase_III tiene una duración fija de 40 días
 				// el progreso se determina a partir de cuánto tiempo queda antes del exámen final
+				Object.assign(phasesContent[1], {
+					total: 1,
+					progress: 1
+				})
+				Object.assign(phasesContent[2], {
+					total: 1,
+					progress: 1
+				})
 				Object.assign(phasesContent[3], {
-					total: this.phase_3_days,
-					progress: this.phase_3_days - this.restDays
+					total: this.phase.progress > this.phase.total ? this.phase.progress : this.phase.total,
+					progress: this.phase.progress
 				})
 				break
 			}

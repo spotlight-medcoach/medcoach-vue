@@ -4,7 +4,7 @@
         <p><b>{{this.topic.topic_name}}</b></p>
       </div>
       <div>
-        <p>{{percentage}}</p>
+        <p>{{`${this.topic.total_correct} de ${this.topic.total}`}}</p>
       </div>
 </div>
 </template>

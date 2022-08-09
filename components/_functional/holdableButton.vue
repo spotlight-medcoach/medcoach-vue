@@ -23,90 +23,90 @@
 </template>
 <script>
 export default {
-  name: "HoldableButton",
+  name: 'HoldableButton',
   props: {
     message: {
       type: String,
-      default: "Manten presionado",
+      default: 'Manten presionado'
     },
     checkOnMiliseconds: {
       // tiempo delay para check
       type: Number,
-      default: 3000,
+      default: 3000
     },
     maxWidth: {
       type: Number,
-      default: 200,
+      default: 200
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     defaultValue: {
       type: Boolean,
-      defaultValue: false,
-    },
+      defaultValue: false
+    }
   },
-  data() {
+  data () {
     return {
       holdTimeMiliseconds: 0,
       holdListener: undefined,
       checked: false,
       isHoldOn: false,
-      step: 100,
-    };
+      step: 100
+    }
   },
   watch: {
-    defaultValue(defaultVal) {
-      this.checked = defaultVal;
-    },
+    defaultValue (defaultVal) {
+      this.checked = defaultVal
+    }
   },
-  mounted() {
+  mounted () {
     if (this.defaultValue === true) {
-      this.checked = this.defaultValue;
+      this.checked = this.defaultValue
     }
   },
   methods: {
-    holdOn() {
-      this.isHoldOn = true; // registra el evento de click
-      clearInterval(this.holdListener);
+    holdOn () {
+      this.isHoldOn = true // registra el evento de click
+      clearInterval(this.holdListener)
       this.holdListener = setInterval(
         function () {
-          this.holdTimeMiliseconds += this.step; // cada 100ms se reporta a la variable que sigue en hold
+          this.holdTimeMiliseconds += this.step // cada 100ms se reporta a la variable que sigue en hold
           if (this.holdTimeMiliseconds >= this.checkOnMiliseconds) {
             // cuando el tiempo en hold es mayor o igual al tiempo establecido para check
-            clearInterval(this.holdListener);
-            this.$emit("onCheck");
-            this.checked = true;
+            clearInterval(this.holdListener)
+            this.$emit('onCheck')
+            this.checked = true
             // se hace check y limpia buffer
           }
         }.bind(this),
         this.step
-      );
+      )
     },
-    holdOff() {
-      this.isHoldOn = false; // registra el evento unhold
-      clearInterval(this.holdListener); // por si hubiera un evento previo de holdOn se limpia el buffer
+    holdOff () {
+      this.isHoldOn = false // registra el evento unhold
+      clearInterval(this.holdListener) // por si hubiera un evento previo de holdOn se limpia el buffer
       if (this.checked === false) {
         this.holdListener = setInterval(
           function () {
-            this.holdTimeMiliseconds -= this.step; // cada 100ms se reporta a la variable que no hay hold
+            this.holdTimeMiliseconds -= this.step // cada 100ms se reporta a la variable que no hay hold
             if (this.holdTimeMiliseconds <= 0) {
               // cuando el tiempo en holdOff es menor o igual a 0 detiene el proceso
-              clearInterval(this.holdListener);
+              clearInterval(this.holdListener)
             }
           }.bind(this),
           this.step
-        );
+        )
       }
     },
-    reset() {
+    reset () {
       setTimeout(() => {
-        this.checked = false;
-      }, 1);
-    },
-  },
-};
+        this.checked = false
+      }, 1)
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 @import "@/assets/css/variables/color-palette.scss";

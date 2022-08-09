@@ -57,6 +57,7 @@
 import { prepareSimulator, prepareTest } from '@/assets/js/helper'
 
 export default {
+  layout: 'new_default',
   data () {
     return {
       error: false,
