@@ -161,7 +161,7 @@ export default {
     async load () {
       window.scrollTo(0, 0)
       this.current_question = parseInt(localStorage.getItem('current_question')) + 1
-      this.simulator_data = JSON.parse(localStorage.getItem('simulator'))
+      this.simulator_data = this.$store.state.simulator
       if (localStorage.getItem('start_break') != null && localStorage.getItem('start_second_block') === null) {
         this.$router.push({ path: `/simulator_break/?id=${this.simulator_date.id}` })
       }
