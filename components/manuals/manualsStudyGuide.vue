@@ -5,6 +5,12 @@
     ref="skills"
   >
     <div
+      v-if="isNotes"
+      class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3"
+    >
+      <div class="text-center body-medium-3">Notas y Flashcards</div>
+    </div>
+    <div
       v-if="subtopic.manuals.length"
       class="manuals-list"
       :style="{ 'column-count': calculeColumns(this.$refs.skills) }"

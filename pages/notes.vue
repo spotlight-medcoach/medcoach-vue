@@ -17,12 +17,7 @@
       </article>
       <article class="p-2">
         <!-- Manual List column -->
-        <div
-          v-if="isNotes"
-          class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3"
-        >
-          <div class="text-center body-medium-3">Notas y Flashcards</div>
-        </div>
+
         <ManualsStudyGuide
           class="shadow-sm px-4 py-4"
           :class="isNotes ? 'full reduced' : 'full'"
