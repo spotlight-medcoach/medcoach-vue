@@ -83,7 +83,7 @@ export default {
   created () {
     const session = localStorage.getItem('session')
     if (session === '1') {
-      this.title = 'PRIMERA PARTE'
+      this.title = 'RESPUESTAS'
     } else if (session === '2') {
       this.title = 'SEGUNDA PARTE'
     }

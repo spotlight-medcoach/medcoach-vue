@@ -170,37 +170,77 @@ export const mutations = {
 }
 
 export const actions = {
-  getRetro ({ commit }, simulatorId) {
-    return this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('usertoken')}`
-      }
-    }).then((res) => {
+  async getRetro ({ commit }, simulatorId) {
+    try {
+      const cases1 = await this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}&type=cases-1`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      })
+
+      const cases2 = await this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}&type=cases-2`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      })
+
+      const questions = await this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}&type=questions`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      })
+
       const simulator = {
         id: simulatorId,
-        cases: res.data.cases,
-        questions: res.data.questions
+        cases: [...cases1.data.cases, ...cases2.data.cases],
+        questions: questions.data.questions
       }
+
       simulator.questions.forEach((question, index) => {
         question.index = index
       })
 
-      const questionsBlock1 = simulator.questions.slice(0, 250)
-      const questionsBlock2 = simulator.questions.slice(250)
+      const questionsBlock1 = simulator.questions.slice(0, 280)
       const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 }, true)
-      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 }, true)
 
       console.log(testBlock1)
 
-      // localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
-      // localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
-      // localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
-
       commit('setTestBlock1', testBlock1)
-      commit('setTestBlock2', testBlock2)
       commit('setSimulator', simulator)
-    }).catch((err) => {
-      console.log(err)
-    })
+    } catch (err) {
+      console.log('Error:', err)
+    }
+
+    // return this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}`, {
+    //   headers: {
+    //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    //   }
+    // }).then((res) => {
+    //   const simulator = {
+    //     id: simulatorId,
+    //     cases: res.data.cases,
+    //     questions: res.data.questions
+    //   }
+    //   simulator.questions.forEach((question, index) => {
+    //     question.index = index
+    //   })
+
+    //   const questionsBlock1 = simulator.questions.slice(0, 280)
+    //   const questionsBlock2 = simulator.questions.slice(280)
+    //   const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 }, true)
+    //   const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 }, true)
+
+    //   console.log(testBlock1)
+
+    //   // localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+    //   // localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
+    //   // localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
+
+    //   commit('setTestBlock1', testBlock1)
+    //   commit('setTestBlock2', testBlock2)
+    //   commit('setSimulator', simulator)
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
   }
 }

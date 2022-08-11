@@ -12,14 +12,14 @@
     index % 2 === 0 ? 'par' : 'impar',
     index === difficults.length - 1 ? 'last-row' : ''
     ]">
-                    <p>{{item.name}}</p>
+                    <p style="margin-top: 5px;">{{item.name}}</p>
                 </div>
             <div
             :class=" ['subtopic_content',
     index % 2 === 0 ? 'par' : 'impar',
     index === difficults.length - 1 ? 'last-row' : ''
     ]">
-                <p>{{ `${item.total_correct} de ${item.total}` }}</p>
+                <p style="margin-top: 5px;">{{ `${item.total_correct} de ${item.total}` }}</p>
             </div>
         </div>
         </div>

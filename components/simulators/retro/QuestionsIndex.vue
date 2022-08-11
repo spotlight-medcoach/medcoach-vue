@@ -1,6 +1,13 @@
 <template>
   <div id="questions-index" class="container">
-    <p class="bg-title red-theme" v-if="session === 0">PRIMERA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
+    <span
+        @click="goBack"
+        style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;position: absolute;left: 20px;top: 118px;cursor: pointer;"
+      >
+        <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;" />
+        <b>Regresar a los resultados</b>
+    </span>
+    <p class="bg-title red-theme" v-if="session === 0">EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
     <p class="bg-title red-theme" v-else>SEGUNDA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
     <div class="container-questions">
       <div
@@ -57,7 +64,7 @@ export default {
     questionsByRow () {
       const array = [20, 20]
       if (this.session === 0) {
-        array.push(10)
+        array.push(16)
       }
       return array
     },
@@ -88,6 +95,9 @@ export default {
     },
     goToQuestion (index) {
       this.$emit('onClickQuestion', index)
+    },
+    goBack () {
+      this.$emit('goBack')
     }
   }
 }
