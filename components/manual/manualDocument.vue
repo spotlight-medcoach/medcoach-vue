@@ -20,9 +20,10 @@
         oncopy="return false"
         oncut="return false"
         onpaste="return false"
+        class="widthS"
       >
         <div
-          class="widthS p-3 px-4"
+          class="p-3 px-4"
           ref="manual-html"
           @contextmenu.prevent.stop="return true;"
           @mouseup.prevent.stop="
@@ -208,6 +209,6 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/css/variables/color-palette.scss";
 .widthS {
-  width: 667px;
+  min-width: 600px;
 }
 </style>
