@@ -27,7 +27,7 @@ export default {
     }
   },
   created () {
-    const simulator = JSON.parse(localStorage.getItem('simulator'))
+    const simulator = this.$store.state.simulator
     this.questions = simulator.questions
     const StartBlock = parseInt(localStorage.getItem('start_break'))
     const date = moment(StartBlock)

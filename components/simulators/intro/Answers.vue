@@ -15,7 +15,7 @@
             v-for="(answer, indexA) in question.answers"
             :class="{'selected-answer': answer.id === question.answer}"
             :key="`question-${indexA}-answ-${indexA}`"
-            @click="setAnswer(question, answer)"
+            @click="setAnswer(question, answer, currentPage)"
           >
             {{ String.fromCharCode(64 + answer.id) }}
           </span>
@@ -71,9 +71,9 @@ export default {
     }
   },
   methods: {
-    setAnswer (question, answer) {
+    setAnswer (question, answer, currentPage) {
       if (!this.retro) {
-        this.$emit('onSetAnswer', { question, answer })
+        this.$emit('onSetAnswer', { question, answer, currentPage })
       }
     },
     goToQuestion (index) {

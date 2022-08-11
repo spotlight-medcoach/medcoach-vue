@@ -1,6 +1,7 @@
 import { prepareTest } from '@/assets/js/helper'
 
 const _simulator = JSON.parse(localStorage.getItem('simulator'))
+// const _test = JSON.parse(localStorage.getItem('test'))
 // const _simulatorFeedback = JSON.parse(localStorage.getItem('simulator_feedback'))
 const _answersStorage = localStorage.getItem('answers')
 let _answers = []
@@ -19,6 +20,8 @@ export const state = () => ({
   caseIndex: -1,
   questionsPerPage: 20,
   simulator: _simulator,
+  pages: [],
+  answers: [],
   timeBlock1: 18060000, // 5 hrs
   timeBlock2: 16260000, //  4.4 hrs,
   test_block_1: [],
@@ -50,6 +53,9 @@ export const getters = {
     for (let i = 0; i < totalCases; i++) {
       const _case = state.simulator.cases[i]
       const questions = state.simulator.questions.filter(question => question.case_id === _case.id)
+      if (i === 0) {
+        console.log('Questions:', questions)
+      }
 
       if (questions.length === 0) {
         continue
@@ -94,6 +100,9 @@ export const getters = {
   questions (state) {
     return state.simulator.questions
   },
+  pages (state) {
+    return state.pages
+  },
   testBlock1: state => state.test_block_1,
   testBlock2: state => state.test_block_2
 }
@@ -104,6 +113,34 @@ export const mutations = {
   },
   setSimulator (state, payload) {
     state.simulator = payload
+  },
+  setPages (state, payload) {
+    state.pages = payload
+  },
+  setAnswer (state, payload) {
+    state.pages[payload.page_index].forEach((_case) => {
+      _case.questions.forEach((question) => {
+        if (question.index === payload.question_index) {
+          console.log('Question')
+          question.answer = payload.answer
+          state.answers[question.index] = payload.answer
+          localStorage.setItem('answers', JSON.stringify(state.answers))
+        }
+      })
+    })
+  },
+  setAnswers (state, payload) {
+    state.answers = payload
+    let i = 0
+    state.pages.forEach((page) => {
+      page.forEach((_case) => {
+        _case.questions.forEach((question) => {
+          question.answer = payload[i]
+          i++
+        })
+      })
+    })
+    localStorage.setItem('answers', JSON.stringify(payload))
   },
   setCaseIndex (state, payload) {
     state.caseIndex = payload

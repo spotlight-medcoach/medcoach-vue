@@ -78,6 +78,7 @@ export default {
     currentQuestions () {
       const questions = []
       this.cases.forEach((_case) => {
+        console.log('Case:', _case)
         const _qs = _case.questions.map(quest => quest)
         questions.push(..._qs)
       })
@@ -93,9 +94,9 @@ export default {
     finishTest (val) {
       this.$emit('onFinishTest', val)
     },
-    setAnswer ({ question, answer }) {
+    setAnswer ({ question, answer, currentPage }) {
       if (!this.retro) {
-        this.$emit('onSetAnswer', { question, answer })
+        this.$emit('onSetAnswer', { question, answer, currentPage })
       }
     }
   },
