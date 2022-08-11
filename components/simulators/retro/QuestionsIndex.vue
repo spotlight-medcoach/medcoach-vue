@@ -1,18 +1,31 @@
 <template>
   <div id="questions-index" class="container">
     <span
-        @click="goBack"
-        style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;position: absolute;left: 20px;top: 118px;cursor: pointer;"
-      >
-        <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;" />
-        <b>Regresar a los resultados</b>
+      @click="goBack"
+      style="
+        background-color: #fff;
+        color: #fe9400;
+        font-size: 18px;
+        border-style: none;
+        position: absolute;
+        left: 20px;
+        top: 118px;
+        cursor: pointer;
+      "
+    >
+      <b-icon-chevron-left style="color: #fe9400; width: 25px; height: 25px" />
+      <b>Regresar a los resultados</b>
     </span>
-    <p class="bg-title red-theme" v-if="session === 0">EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
-    <p class="bg-title red-theme" v-else>SEGUNDA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS</p>
+    <p class="bg-title red-theme" v-if="session === 0">
+      EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS
+    </p>
+    <p class="bg-title red-theme" v-else>
+      SEGUNDA PARTE - EXAMEN NACIONAL PARA RESIDENCIAS MÉDICAS
+    </p>
     <div class="container-questions">
       <div
         v-for="col in cols"
-        class="col"
+        class="col borderRightHidden"
         :key="`col-${col}`"
       >
         <div
@@ -34,71 +47,77 @@
   </div>
 </template>
 <script>
-import QuestionElement from '@/components/simulators/retro/QuestionElement'
+import QuestionElement from "@/components/simulators/retro/QuestionElement";
 export default {
   components: {
-    QuestionElement
+    QuestionElement,
   },
   props: {
     session: {
       type: Number,
-      required: true
+      required: true,
     },
     test: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      cols: 5
-    }
+      cols: 5,
+    };
   },
   computed: {
-    rows () {
+    rows() {
       if (this.session === 0) {
-        return 3
+        return 3;
       }
-      return 2
+      return 2;
     },
-    questionsByRow () {
-      const array = [20, 20]
+    questionsByRow() {
+      const array = [20, 20];
       if (this.session === 0) {
-        array.push(16)
+        array.push(16);
       }
-      return array
+      return array;
     },
-    questionsByCol () {
-      return this.questionsByRow.reduce((acc, acu) => acc + acu)
+    questionsByCol() {
+      return this.questionsByRow.reduce((acc, acu) => acc + acu);
     },
-    questions () {
-      const questions = []
+    questions() {
+      const questions = [];
       this.test.forEach((page) => {
         page.forEach((_case) => {
           _case.questions.forEach((question) => {
-            questions.push(question)
-          })
-        })
-      })
-      return questions
-    }
+            questions.push(question);
+          });
+        });
+      });
+      return questions;
+    },
   },
   methods: {
-    getQuestion (col, row, qbr) {
-      const prevRow = this.questionsByRow.slice(0, row)
-      let prevQuest = 0
+    getQuestion(col, row, qbr) {
+      const prevRow = this.questionsByRow.slice(0, row);
+      let prevQuest = 0;
       if (prevRow.length) {
-        prevQuest = prevRow.reduce((acc, acu) => acc + acu)
+        prevQuest = prevRow.reduce((acc, acu) => acc + acu);
       }
-      const index = (this.questionsByCol * col) + prevQuest + qbr
-      return this.questions[index]
+      const index = this.questionsByCol * col + prevQuest + qbr;
+      return this.questions[index];
     },
-    goToQuestion (index) {
-      this.$emit('onClickQuestion', index)
+    goToQuestion(index) {
+      this.$emit("onClickQuestion", index);
     },
-    goBack () {
-      this.$emit('goBack')
-    }
-  }
-}
+    goBack() {
+      this.$emit("goBack");
+    },
+  },
+};
 </script>
+
+<style>
+.borderRightHidden {
+  border-right: dashed rgb(255, 255, 255);
+}
+</style>
