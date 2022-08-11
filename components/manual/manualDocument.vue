@@ -22,9 +22,8 @@
         onpaste="return false"
       >
         <div
-          :style="{ width: '200' }"
+          class="widthS p-3 px-4"
           ref="manual-html"
-          class="p-3 px-4"
           @contextmenu.prevent.stop="return true;"
           @mouseup.prevent.stop="
             handleMouseUp($event, { selection: my_window.getSelection() })
@@ -208,4 +207,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "@/assets/css/variables/color-palette.scss";
+.widthS {
+  width: 667px;
+}
 </style>
