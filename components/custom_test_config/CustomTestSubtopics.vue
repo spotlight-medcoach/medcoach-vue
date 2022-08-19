@@ -43,7 +43,7 @@
             class="mt-n1 float-right"
           >
             <b-button variant="primary" @click="generateCustomTest">
-              Generar examenn
+              Generar examen
             </b-button>
           </b-overlay></b-col
         >
