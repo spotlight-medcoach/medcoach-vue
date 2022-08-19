@@ -51,54 +51,54 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import HoldableButton from "@/components/_functional/HoldableButton.vue";
+import { mapGetters } from 'vuex'
+import HoldableButton from '@/components/_functional/holdableButton.vue'
 export default {
-  name: "InfographicsCarouselModal",
+  name: 'InfographicsCarouselModal',
   components: {
-    HoldableButton,
+    HoldableButton
   },
   props: {
     selectedInfographicId: {
       type: String,
-      default: undefined,
-    },
+      default: undefined
+    }
   },
-  data() {
+  data () {
     return {
-      infographicIdx: 0,
-    };
+      infographicIdx: 0
+    }
   },
   computed: {
-    selectedInfographic() {
+    selectedInfographic () {
       return this.allInfographics
         ? this.allInfographics[this.infographicIdx]
-        : undefined;
+        : undefined
     },
     ...mapGetters({
-      allInfographics: "infographics/allInfographics",
-      studentInfographics: "infographics/studentInfographics",
-    }),
+      allInfographics: 'infographics/allInfographics',
+      studentInfographics: 'infographics/studentInfographics'
+    })
   },
   watch: {
-    selectedInfographicId(infographicId) {
+    selectedInfographicId (infographicId) {
       if (this.allInfographics) {
         this.infographicIdx = this.allInfographics.findIndex(
-          (infographic) => infographic._id === infographicId
-        );
+          infographic => infographic._id === infographicId
+        )
       }
-    },
+    }
   },
-  mounted() {
-    console.log(this.infographicIdx);
+  mounted () {
+    console.log(this.infographicIdx)
   },
   methods: {
-    markAsLearned() {
-      this.$refs["infographics-carousel-modal"].hide();
-      this.$emit("onMarkAsLearned", this.selectedInfographicId);
-    },
-  },
-};
+    markAsLearned () {
+      this.$refs['infographics-carousel-modal'].hide()
+      this.$emit('onMarkAsLearned', this.selectedInfographicId)
+    }
+  }
+}
 </script>
 <style lang="scss">
 #infographics-carousel-modal {

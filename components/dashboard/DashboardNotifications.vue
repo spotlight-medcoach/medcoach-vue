@@ -12,7 +12,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-// import CustomListPreviewTwoLines from '@/components/_functional/CustomListPreviewTwoLines.vue'
+// import CustomListPreviewTwoLines from '@/components/_functional/customListPreviewTwoLines.vue'
 export default {
 	components: {
 		// CustomListPreviewTwoLines

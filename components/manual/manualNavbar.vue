@@ -63,71 +63,71 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import SwitchBrightnessButton from "@/components/_functional/SwitchBrightnessButton.vue";
-import HoldableButton from "@/components/_functional/HoldableButton.vue";
+import { mapState } from 'vuex'
+import SwitchBrightnessButton from '@/components/_functional/switchBrightnessButton.vue'
+import HoldableButton from '@/components/_functional/holdableButton.vue'
 export default {
   components: {
     SwitchBrightnessButton,
-    HoldableButton,
+    HoldableButton
   },
   props: {
     manual_id: {
       type: String,
-      default: "5e214ebdb1131e0411f37e65",
+      default: '5e214ebdb1131e0411f37e65'
     },
     allowFinishManual: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  data() {
+  data () {
     return {
-      fontSize: 1,
-    };
+      fontSize: 1
+    }
   },
   computed: {
-    title() {
-      let name = "";
+    title () {
+      let name = ''
       this.topics.some((topic) => {
         return topic.subtopics.some((subtopic) => {
           return subtopic.manuals.some((manual) => {
             if (manual.id === this.manual_id) {
-              name = manual.name;
-              return true;
+              name = manual.name
+              return true
             }
-            return false;
-          });
-        });
-      });
-      return name;
+            return false
+          })
+        })
+      })
+      return name
     },
     ...mapState({
-      isFreeTrial: "isFreeTrial",
-      phase: (state) => state.phase,
-      topics: (state) => state.topics.data,
-    }),
+      isFreeTrial: 'isFreeTrial',
+      phase: state => state.phase,
+      topics: state => state.topics.data
+    })
   },
   methods: {
-    changeFontSize(change) {
-      const scale = 0.1;
-      const fontSize = +parseFloat(change * scale + this.fontSize).toFixed(1);
+    changeFontSize (change) {
+      const scale = 0.1
+      const fontSize = +parseFloat(change * scale + this.fontSize).toFixed(1)
       if (fontSize >= 1 && fontSize <= 1.4) {
-        this.fontSize = fontSize;
-        this.$emit("onChangeFontSize", this.fontSize);
+        this.fontSize = fontSize
+        this.$emit('onChangeFontSize', this.fontSize)
       }
     },
-    changeBrightness(brightness) {
-      this.$emit("onChangeBrightness", brightness);
+    changeBrightness (brightness) {
+      this.$emit('onChangeBrightness', brightness)
     },
-    finishManual() {
-      this.$emit("onFinishManual");
+    finishManual () {
+      this.$emit('onFinishManual')
     },
-    resetFinishManualButton() {
-      this.$refs["finish-manual-button"].reset();
-    },
-  },
-};
+    resetFinishManualButton () {
+      this.$refs['finish-manual-button'].reset()
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 @import "@/assets/css/variables/color-palette.scss";
