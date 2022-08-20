@@ -34,7 +34,7 @@
 import { mapState } from 'vuex'
 import LoadingState from '@/components/LoadingState.vue'
 
-import MotivationalQuote from '~/components/_functional/MotivationalQuote.vue'
+import MotivationalQuote from '~/components/_functional/motivationalQuote.vue'
 import PhasesIndex from '@/components/phases/phasesIndex.vue'
 import DashboardCalendar from '@/components/dashboard/DashboardCalendar.vue'
 import DashboardPlanPanel from '~/components/dashboard/DashboardPlanPanel.vue'

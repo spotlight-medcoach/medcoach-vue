@@ -81,7 +81,7 @@ import moment from 'moment'
 import { mapState } from 'vuex'
 import { phaseVariants } from './phasesStaticData'
 import { getRandomNumberBetween } from '@/helpers/skeleton'
-import CustomProgressBar from '~/components/_functional/CustomProgressBar.vue'
+import CustomProgressBar from '~/components/_functional/customProgressBar.vue'
 export default {
 	name: 'PhasesIndex',
 	components: {

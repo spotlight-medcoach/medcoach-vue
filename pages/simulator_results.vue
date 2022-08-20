@@ -66,7 +66,7 @@
 import simulatorResultCard from '../components/simulators/simulatorResultCard.vue'
 // import simulatorResultTopic from '../components/simulators/simulatorResultTopic.vue'
 import simulatorResultType from '../components/simulators/simulatorResultType.vue'
-import simulatorResultTopicType from '../components/simulators/SimulatorResultTopicType'
+import simulatorResultTopicType from '../components/simulators/simulatorResultTopicType'
 import simulatorResultDifficult from '../components/simulators/simulatorResultDifficult'
 
 export default {
