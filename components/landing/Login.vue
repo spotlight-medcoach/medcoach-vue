@@ -80,7 +80,7 @@
 			</div>
 		</div>
 		<div class="mx-auto mt-auto mb-40px">
-			<a style="color: #7D7A7A" href="#">AVISO DE PRIVACIDAD</a>
+			<a style="color: #7D7A7A" href="https://spotlightmed.com/terminos-y-condiciones/">AVISO DE PRIVACIDAD</a>
 		</div>
 		<validate-phone-modal
 			v-if="loaded"
