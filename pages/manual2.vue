@@ -287,6 +287,7 @@ export default {
         .then((res) => {
           console.log(res.data)
           this.$store.dispatch('fetchSyllabus')
+          this.$store.dispatch('topics/fetchTopics')
           this.$router.push({ path: '/dashboard' })
         }).catch((err) => {
           this.error_http = true

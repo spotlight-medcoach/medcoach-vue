@@ -160,7 +160,9 @@ export const actions = {
 				if (!today.manuals.length && day !== state.studentInfo.free_day) {
 					commit('setAlertScondStage', true)
 				}
+				return dispatch('topics/fetchTopics')
 			})
+			.then((result) => console.log('Topics:', result))
 			.catch((error) => {
 				console.log('Error en el syllabus', error.response)
 			})
