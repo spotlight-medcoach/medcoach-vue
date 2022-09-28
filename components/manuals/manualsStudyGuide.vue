@@ -143,7 +143,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/css/variables/color-palette.scss";
 #manuals-study-guide {
-  height: 87vh;
+  height: 100%;
   overflow-y: scroll;
   .review a {
     color: #{$neutral-1000};

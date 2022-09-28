@@ -129,6 +129,8 @@ export default {
             extra: this.is_extra,
           })
           .then((res) => {
+            console.log('res', res);
+            this.$toastr.success(res.data.message)
             this.$store.dispatch("fetchSyllabus");
             this.$router.push({ path: "/dashboard" });
           })
