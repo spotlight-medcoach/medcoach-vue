@@ -45,7 +45,7 @@ export default {
 				token_id: token.id
 			})
 			if (data) {
-				this.$router.push('congrats')
+				this.$router.push('/congrats')
 			}
 			this.loading = false
 		},
