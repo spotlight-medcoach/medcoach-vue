@@ -31,7 +31,6 @@
                                                 v-model="form.first_name"
                                                 trim
                                                 type="text"
-												placeholder="Alexander"
                                             />
                                             <small class="text-danger">{{ errors[0] }}</small>
                                         </validation-provider>
@@ -52,7 +51,6 @@
                                                 id="last_name"
                                                 v-model="form.last_name"
                                                 type="text"
-												placeholder="Fleming"
                                             />
                                             <small class="text-danger">{{ errors[0] }}</small>
                                         </validation-provider>
@@ -108,7 +106,6 @@
                                                 v-model="form.email"
                                                 trim
                                                 type="email"
-												placeholder="alexander@fleming.com"
                                             />
                                             <small class="text-danger">{{ errors[0] }}</small>
                                         </validation-provider>
