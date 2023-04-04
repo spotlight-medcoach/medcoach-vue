@@ -32,6 +32,14 @@
         </div>
       </div>
     </b-modal>
+    <b-modal id="modal-load-simulator" hide-footer hide-header no-close-on-backdrop no-close-on-esc>
+        <p class="title-modal" style="font-size:24px">
+          <b>Cargando simulador, espere</b>
+        </p>
+        <div style="text-align: center;">
+          <img class="image" src="@/assets/simulator_loading.svg" width="70" height="70">
+        </div>
+      </b-modal>
     <div class="content">
       <select-session
         v-if="steps.SelectSession === step"
@@ -49,7 +57,7 @@
         @onEnter="step = steps.ShowTest"
       />
       <test
-        v-else-if="steps.ShowTest === step"
+        v-else-if="steps.ShowTest === step && getPages.length > 0"
         class="m-auto"
         :start-time="startTime"
         :duration="durationMs"
@@ -76,11 +84,12 @@
 </template>
 <script>
 import moment from 'moment'
+import { mapGetters } from 'vuex'
 import SelectSession from '@/components/simulators/intro/SelectSession'
 import BlockMessage from '@/components/simulators/intro/BlockMessage'
 import Test from '@/components/simulators/intro/Test'
 import ShowBreak from '@/components/simulators/intro/ShowBreak'
-import { prepareSimulator, prepareTest } from '@/assets/js/helper'
+import { getSimulator, prepareSimulator, prepareTest } from '@/assets/js/helper'
 
 export default {
   layout: 'new_default',
@@ -129,12 +138,14 @@ export default {
         return this.block_2.duration_ms
       }
       return null
-    }
+    },
+    ...mapGetters({
+      getPages: 'simulators/pages'
+    })
   },
   created () {
     this.session = localStorage.getItem('session')
     this.startTimeBreak = localStorage.getItem('start_break')
-    this.test = JSON.parse(localStorage.getItem('test'))
 
     if (this.session) {
       if (this.session === '1') {
@@ -150,6 +161,28 @@ export default {
     // const simu = JSON.parse(localStorage.getItem('simulator'))
     // this.test = prepareTest(simu)
   },
+  async mounted () {
+    if (this.getPages.length === 0) {
+      this.showLoading()
+      const res = await getSimulator(this.$axios, this.simulator_id)
+      const simulator = prepareSimulator(res, this.simulator_id)
+      this.$store.commit('simulators/setSimulator', simulator)
+      const pages = prepareTest(simulator)
+      this.$store.commit('simulators/setPages', pages)
+      this.test = pages
+      if (localStorage.getItem('answers') !== null) {
+        const answers = JSON.parse(localStorage.getItem('answers'))
+        this.$store.commit('simulators/setAnswers', answers)
+      } else {
+        console.log('Not answers')
+        const answers = new Array(simulator.questions.length).fill(0)
+        this.$store.commit('simulators/setAnswers', answers)
+      }
+      this.hideLoading()
+    } else {
+      this.test = this.getPages
+    }
+  },
   methods: {
     clearLocalStorage () {
       localStorage.removeItem('session')
@@ -158,6 +191,12 @@ export default {
       localStorage.removeItem('start_first_block')
       localStorage.removeItem('start_second_block')
       localStorage.removeItem('start_break')
+    },
+    showLoading () {
+      this.$bvModal.show('modal-load-simulator')
+    },
+    hideLoading () {
+      this.$bvModal.hide('modal-load-simulator')
     },
     onClickSelectSession (value) {
       if (value === '1') {
@@ -182,7 +221,7 @@ export default {
           })
         })
         console.log(answers)
-        const res = await this.$axios.put(`/student/simulators?simulator_id=${this.simulator_id}`, { answers })
+        await this.$axios.put(`/student/simulators?simulator_id=${this.simulator_id}`, { answers })
         // if (this.session === '1') {
         //   this.goToBreak(res.start_break)
         // } else if (this.session === '2') {
@@ -223,10 +262,15 @@ export default {
       this.step = this.steps.SelectSession
       this.showFinishButton = true
     },
-    setAnswer ({ question, answer }) {
-      question.answer = answer.id
-      localStorage.setItem('test', JSON.stringify(this.test))
+    setAnswer ({ question, answer, currentPage }) {
+      this.$store.commit('simulators/setAnswer', { page_index: currentPage, question_index: question.index, answer: answer.id })
     }
   }
 }
 </script>
+<style lang="scss">
+  .title-modal{
+    margin-bottom: 45px;
+    text-align:center;
+  }
+</style>

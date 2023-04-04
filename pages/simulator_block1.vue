@@ -57,7 +57,7 @@ export default {
     }
   },
   created () {
-    const simulator = JSON.parse(localStorage.getItem('simulator'))
+    const simulator = this.$store.state.simulator
     this.questions = simulator.questions
     const answers = localStorage.getItem('answers').split(',')
     this.questions.forEach((question, index) => {

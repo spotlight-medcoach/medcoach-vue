@@ -1,6 +1,7 @@
 import { prepareTest } from '@/assets/js/helper'
 
 const _simulator = JSON.parse(localStorage.getItem('simulator'))
+// const _test = JSON.parse(localStorage.getItem('test'))
 // const _simulatorFeedback = JSON.parse(localStorage.getItem('simulator_feedback'))
 const _answersStorage = localStorage.getItem('answers')
 let _answers = []
@@ -19,6 +20,8 @@ export const state = () => ({
   caseIndex: -1,
   questionsPerPage: 20,
   simulator: _simulator,
+  pages: [],
+  answers: [],
   timeBlock1: 18060000, // 5 hrs
   timeBlock2: 16260000, //  4.4 hrs,
   test_block_1: [],
@@ -50,6 +53,9 @@ export const getters = {
     for (let i = 0; i < totalCases; i++) {
       const _case = state.simulator.cases[i]
       const questions = state.simulator.questions.filter(question => question.case_id === _case.id)
+      if (i === 0) {
+        console.log('Questions:', questions)
+      }
 
       if (questions.length === 0) {
         continue
@@ -94,6 +100,9 @@ export const getters = {
   questions (state) {
     return state.simulator.questions
   },
+  pages (state) {
+    return state.pages
+  },
   testBlock1: state => state.test_block_1,
   testBlock2: state => state.test_block_2
 }
@@ -104,6 +113,34 @@ export const mutations = {
   },
   setSimulator (state, payload) {
     state.simulator = payload
+  },
+  setPages (state, payload) {
+    state.pages = payload
+  },
+  setAnswer (state, payload) {
+    state.pages[payload.page_index].forEach((_case) => {
+      _case.questions.forEach((question) => {
+        if (question.index === payload.question_index) {
+          console.log('Question')
+          question.answer = payload.answer
+          state.answers[question.index] = payload.answer
+          localStorage.setItem('answers', JSON.stringify(state.answers))
+        }
+      })
+    })
+  },
+  setAnswers (state, payload) {
+    state.answers = payload
+    let i = 0
+    state.pages.forEach((page) => {
+      page.forEach((_case) => {
+        _case.questions.forEach((question) => {
+          question.answer = payload[i]
+          i++
+        })
+      })
+    })
+    localStorage.setItem('answers', JSON.stringify(payload))
   },
   setCaseIndex (state, payload) {
     state.caseIndex = payload
@@ -133,37 +170,77 @@ export const mutations = {
 }
 
 export const actions = {
-  getRetro ({ commit }, simulatorId) {
-    return this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('usertoken')}`
-      }
-    }).then((res) => {
+  async getRetro ({ commit }, simulatorId) {
+    try {
+      const cases1 = await this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}&type=cases-1`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      })
+
+      const cases2 = await this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}&type=cases-2`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      })
+
+      const questions = await this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}&type=questions`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        }
+      })
+
       const simulator = {
         id: simulatorId,
-        cases: res.data.cases,
-        questions: res.data.questions
+        cases: [...cases1.data.cases, ...cases2.data.cases],
+        questions: questions.data.questions
       }
+
       simulator.questions.forEach((question, index) => {
         question.index = index
       })
 
-      const questionsBlock1 = simulator.questions.slice(0, 250)
-      const questionsBlock2 = simulator.questions.slice(250)
+      const questionsBlock1 = simulator.questions.slice(0, 280)
       const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 }, true)
-      const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 }, true)
 
       console.log(testBlock1)
 
-      // localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
-      // localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
-      // localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
-
       commit('setTestBlock1', testBlock1)
-      commit('setTestBlock2', testBlock2)
       commit('setSimulator', simulator)
-    }).catch((err) => {
-      console.log(err)
-    })
+    } catch (err) {
+      console.log('Error:', err)
+    }
+
+    // return this.$axios.get(`/student/simulators/retro?simulator_id=${simulatorId}`, {
+    //   headers: {
+    //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    //   }
+    // }).then((res) => {
+    //   const simulator = {
+    //     id: simulatorId,
+    //     cases: res.data.cases,
+    //     questions: res.data.questions
+    //   }
+    //   simulator.questions.forEach((question, index) => {
+    //     question.index = index
+    //   })
+
+    //   const questionsBlock1 = simulator.questions.slice(0, 280)
+    //   const questionsBlock2 = simulator.questions.slice(280)
+    //   const testBlock1 = prepareTest({ cases: simulator.cases, questions: questionsBlock1 }, true)
+    //   const testBlock2 = prepareTest({ cases: simulator.cases, questions: questionsBlock2 }, true)
+
+    //   console.log(testBlock1)
+
+    //   // localStorage.setItem('simulator_feedback', JSON.stringify(simulator))
+    //   // localStorage.setItem('test_block_1', JSON.stringify(testBlock1))
+    //   // localStorage.setItem('test_block_2', JSON.stringify(testBlock2))
+
+    //   commit('setTestBlock1', testBlock1)
+    //   commit('setTestBlock2', testBlock2)
+    //   commit('setSimulator', simulator)
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
   }
 }

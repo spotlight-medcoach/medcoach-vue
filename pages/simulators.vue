@@ -1,10 +1,10 @@
 <template>
   <div class="return">
     <div class="d-flex">
-      <b-button style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;" @click="back()">
+      <!-- <b-button style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;" @click="back()">
         <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;" />
         <b>Regresar</b>
-      </b-button>
+      </b-button> -->
     </div>
     <div class="simulators">
       <h1>Exámenes</h1>

@@ -4,8 +4,7 @@
       <nuxt-link
         v-if="step === steps.Init"
         :to="`/simulator_results?id=${simulator_id}`"
-        class="mt-4 ml-4"
-        style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;"
+        style="background-color:#fff; color:#FE9400;font-size:18px; border-style:none;position: absolute;left: 20px;top: 118px;"
       >
         <b-icon-chevron-left style="color:#FE9400; width:25px; height:25px;" />
         <b>Regresar a los resultados</b>
@@ -20,14 +19,14 @@
               class="btn-sec"
               @click="setSession(0)"
             >
-              PRIMERA PARTE
+              RESULTADOS
             </button>
-            <button
+            <!-- <button
               class="btn-sec"
               @click="setSession(1)"
             >
               SEGUNDA PARTE
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -37,6 +36,7 @@
         :session="session"
         @onClickBack="step = steps.Init"
         @onClickQuestion="goToQuestion"
+        @goBack="goBack"
       />
       <test
         v-if="step === steps.Test"
@@ -82,14 +82,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      testBlock1: 'simulators/testBlock1',
-      testBlock2: 'simulators/testBlock2'
+      testBlock1: 'simulators/testBlock1'
+      // testBlock2: 'simulators/testBlock2'
     })
   },
   async mounted () {
     this.$bvModal.show('modal-1')
     await this.$store.dispatch('simulators/getRetro', this.simulator_id)
-    this.tests = [this.testBlock1, this.testBlock2]
+    this.tests = [this.testBlock1]
     this.$bvModal.hide('modal-1')
   },
   methods: {
@@ -102,6 +102,9 @@ export default {
     goToQuestion (index) {
       this.step = this.steps.Test
       this.questionIndex = index
+    },
+    goBack () {
+      this.step = this.steps.Init
     }
   }
 }

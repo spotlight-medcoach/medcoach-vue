@@ -1,5 +1,39 @@
 import moment from 'moment'
 
+export const getSimulator = async (axios, simulatorId) => {
+  const info = await axios.get(`/student/simulators/get?simulator_id=${simulatorId}&type=info`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    }
+  })
+
+  const cases1 = await axios.get(`/student/simulators/get?simulator_id=${simulatorId}&type=cases-1`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    }
+  })
+
+  const cases2 = await axios.get(`/student/simulators/get?simulator_id=${simulatorId}&type=cases-2`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    }
+  })
+
+  const questions = await axios.get(`/student/simulators/get?simulator_id=${simulatorId}&type=questions`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+    }
+  })
+
+  return {
+    data: {
+      cases: [...cases1.data.cases, ...cases2.data.cases],
+      questions: questions.data.questions,
+      ...info.data
+    }
+  }
+}
+
 export const prepareSimulator = (responseAPI, simulatorId) => {
   const { data } = responseAPI
   const simulator = {
@@ -13,7 +47,7 @@ export const prepareSimulator = (responseAPI, simulatorId) => {
     question.answer = 0
   })
   localStorage.setItem('session', currentBlock)
-  localStorage.setItem('simulator', JSON.stringify(simulator))
+  // localStorage.setItem('simulator', JSON.stringify(simulator))
   if (currentBlock === 1) {
     localStorage.setItem('start_first_block', moment(data.start_first_block).valueOf())
     localStorage.setItem('start_second_block', null)
@@ -80,8 +114,8 @@ export const prepareTest = (simulator, retro = false) => {
     }
   }
   pages.push(actualPage)
-  if (!retro) {
-    localStorage.setItem('test', JSON.stringify(pages))
-  }
+  // if (!retro) {
+  //   localStorage.setItem('test', JSON.stringify(pages))
+  // }
   return pages
 }

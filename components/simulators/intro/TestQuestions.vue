@@ -11,8 +11,8 @@
           class="test-question"
         >
           <p class="title">PREGUNTA {{ question.index + 1 }}</p>
-          <p v-html="question.html"></p>
-          <div class="answers">
+          <p class="mt-2" v-html="question.html"></p>
+          <div class="answers mt-2">
             <div
               v-for="(answer, indexA) in question.answers"
               :key="`case-${indexC}-q-${indexQ}-a-${indexA}`"
@@ -23,17 +23,28 @@
               }"
             >
               <input
-                v-if="retro && answer.id === question.answer"
+                v-if="retro"
                 :id="`case-${indexC}-q-${indexQ}-a-${indexA}`"
                 :value="answer.id"
                 v-model="question.answer"
                 type="radio"
-                class="mr-2"
+                :class="{
+                  'mr-2': true,
+                  'blocked': retro
+                }"
+                @click="mayDisableClick"
               >
+              <p
+                :class="{
+                  'ml-2': (retro)
+                }"
+              >
+                {{ options[indexA] }}
+              </p>
               <label
                 :for="`case-${indexC}-q-${indexQ}-a-${indexA}`"
                 :class="{
-                  'ml-4': (retro && answer.id !== question.answer),
+                  'ml-2': true,
                   'selected-answer': (answer.id === question.answer && !retro)
                 }"
                 v-html="answer.html"
@@ -70,12 +81,28 @@ export default {
       default: false
     }
   },
+  data () {
+    return {
+      options: ['A)', 'B)', 'C)', 'D)']
+    }
+  },
   methods: {
     setAnswer (question, answer) {
       if (!this.retro) {
         this.$emit('onSetAnswer', { question, answer })
       }
+    },
+    mayDisableClick (e) {
+      if (this.retro) {
+        e.preventDefault()
+        console.log('Disabled')
+      }
     }
   }
 }
 </script>
+<style>
+  .blocked {
+    cursor: not-allowed;
+  }
+</style>

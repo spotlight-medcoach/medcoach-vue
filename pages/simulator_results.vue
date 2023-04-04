@@ -36,9 +36,17 @@
         <simulatorResultCard :topic="item" />
       </div>
     </div>
-    <div class="justify-content-center">
-      <div v-for="item in topics" :key="item.topic" class="question_results">
-        <simulatorResultTopic :topic="item" />
+    <div class="d-flex justify-content-center flex-wrap mb-20">
+      <div v-for="item in topics" :key="item.topic" class="question_results_2">
+        <simulatorResultTopicType :topic="item" />
+      </div>
+    </div>
+    <div class="bg-orange col border">
+      <p class="d-flex justify-content-center"><b>ACIERTOS POR GRADO DE DIFICULTAD</b></p>
+    </div>
+    <div class="d-flex justify-content-center mb-20">
+      <div v-for="item in questions_by_difficult" :key="item.name" class="question_results_3">
+        <simulatorResultDifficult :type="item" />
       </div>
     </div>
     <div class="d-flex justify-content-center">
@@ -56,15 +64,20 @@
 </template>
 <script>
 import simulatorResultCard from '../components/simulators/simulatorResultCard.vue'
-import simulatorResultTopic from '../components/simulators/simulatorResultTopic.vue'
+// import simulatorResultTopic from '../components/simulators/simulatorResultTopic.vue'
 import simulatorResultType from '../components/simulators/simulatorResultType.vue'
+import simulatorResultTopicType from '../components/simulators/simulatorResultTopicType'
+import simulatorResultDifficult from '../components/simulators/simulatorResultDifficult'
 
 export default {
   components: {
     simulatorResultCard,
-    simulatorResultTopic,
-    simulatorResultType
+    // simulatorResultTopic,
+    simulatorResultType,
+    simulatorResultTopicType,
+    simulatorResultDifficult
   },
+  layout: 'new_default',
   props: {
     // ...
   },
@@ -73,7 +86,8 @@ export default {
       correct_answers: '',
       result: '',
       topics: [],
-      questions_by_type: []
+      questions_by_type: [],
+      questions_by_difficult: []
     }
   },
   mounted () {
@@ -101,6 +115,7 @@ export default {
         this.result = res.data.topics.result.toFixed(2)
         this.topics = res.data.topics.questions_by_topic
         this.questions_by_type = res.data.topics.questions_by_type
+        this.questions_by_difficult = res.data.topics.questions_by_difficult
       }).catch((err) => {
         console.log(err)
       })
@@ -130,12 +145,42 @@ export default {
     border-bottom-style:solid;
     border-width: thin;
 }
+.border {
+  border-color: black !important;
+  border-left: solid;
+  border-top: solid;
+  border-width: thin;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-wrap .question_results_2:nth-child(even) > .table-subtopic {
+  border-left: none !important;
+}
+.flex-wrap .question_results_2:first-child > .table-subtopic,
+.flex-wrap .question_results_2:nth-child(2) > .table-subtopic {
+  border-bottom: none !important;
+}
 .question_results{
   display: flex; /* or inline-flex */
   flex-direction: row;
 }
+.question_results_2{
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+  flex: 1 0 45%;
+}
+.question_results_3{
+  display: flex; /* or inline-flex */
+  flex-direction: row;
+  flex: 1 0 30%;
+}
 .popup{
   text-align:center;
   font-size:20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
 }
 </style>

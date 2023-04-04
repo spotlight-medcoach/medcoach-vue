@@ -186,6 +186,10 @@ export default {
 		}
 		.trigger {
 			width: 50px;
+			opacity: 0.15;
+			&:hover {
+				opacity: 1;
+			}
 		}
 		.ql-container {
 			height: 100px !important;

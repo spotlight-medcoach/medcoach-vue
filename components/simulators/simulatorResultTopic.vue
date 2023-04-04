@@ -9,13 +9,13 @@
             :class=" ['subtopic_content',
   index % 2 === 0 ? 'par' : 'impar'
  ]">
-                <p>{{item.subtopic_name}}</p>
+                <p style="margin-top: 5px;">{{item.subtopic_name}}</p>
             </div>
         <div
         :class=" ['subtopic_content',
   index % 2 === 0 ? 'par' : 'impar'
  ]">
-            <p>{{item.percentage.toFixed(2)}}</p>
+            <p style="margin-top: 5px;">{{item.percentage.toFixed(2)}}</p>
         </div>
       </div>
     </div>

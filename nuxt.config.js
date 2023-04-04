@@ -9,7 +9,9 @@ export default {
     BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE,
     IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
     STORAGE_BASE_URL: process.env.STORAGE_BASE_URL || false,
-    DEVELOP: process.env.DEVELOP || false
+    DEVELOP: process.env.DEVELOP || false,
+    NAME: process.env.NAME || 'MedCoach',
+    CONEKTA_PUBLIC_KEY: process.env.DEVELOP === 'true' ? process.env.CONEKTA_PUBLIC_KEY : process.env.CONEKTA_PUBLIC_KEY_PROD
   },
   ssr: false,
   // mode: 'spa',
@@ -17,7 +19,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.NAME || 'MedCoach',
+    title: 'MedCoach SpotlightMed',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

@@ -54,9 +54,10 @@
 </template>
 <script>
 
-import { prepareSimulator, prepareTest } from '@/assets/js/helper'
+import { getSimulator, prepareSimulator, prepareTest } from '@/assets/js/helper'
 
 export default {
+  layout: 'new_default',
   data () {
     return {
       error: false,
@@ -68,28 +69,82 @@ export default {
     back () {
       this.$router.push({ path: '/simulators' })
     },
-    gotoSimulator () {
+    async gotoSimulator () {
       if (this.enarm === 'ENARM') {
         this.$bvModal.hide('modal-1')
         this.$bvModal.show('modal-2')
 
-        this.$axios.post(`/student/simulators?simulator_id=${this.simulator_id}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('usertoken')}`
-          }
-        }).then(() => {
-          this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}`, {
+        try {
+          await this.$axios.post(`/student/simulators?simulator_id=${this.simulator_id}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('usertoken')}`
             }
-          }).then((res) => {
-            const simulator = prepareSimulator(res, this.simulator_id)
-            prepareTest(simulator)
-            this.$router.push(`/simulator?simulator_id=${this.simulator_id}`)
-          }).catch((err) => {
-            console.log(err)
           })
-        })
+
+          const res = await getSimulator(this.$axios, this.simulator_id)
+
+          // const info = await this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}&type=info`, {
+          //   headers: {
+          //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+          //   }
+          // })
+
+          // const cases1 = await this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}&type=cases-1`, {
+          //   headers: {
+          //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+          //   }
+          // })
+
+          // const cases2 = await this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}&type=cases-2`, {
+          //   headers: {
+          //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+          //   }
+          // })
+
+          // const questions = await this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}&type=questions`, {
+          //   headers: {
+          //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+          //   }
+          // })
+
+          // const res = {
+          //   data: {
+          //     cases: [...cases1.data.cases, ...cases2.data.cases],
+          //     questions: questions.data.questions,
+          //     ...info.data
+          //   }
+          // }
+
+          const simulator = prepareSimulator(res, this.simulator_id)
+          if (localStorage.getItem('answers') === null || localStorage.getItem('answers') === '') {
+            const answers = new Array(simulator.questions.length).fill(0)
+            this.$store.commit('simulators/setAnswers', answers)
+          }
+          this.$store.commit('simulators/setSimulator', simulator)
+          const pages = prepareTest(simulator)
+          this.$store.commit('simulators/setPages', pages)
+          this.$router.push(`/simulator?simulator_id=${this.simulator_id}`)
+        } catch (err) {
+          console.log(err)
+        }
+
+        // this.$axios.post(`/student/simulators?simulator_id=${this.simulator_id}`, {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        //   }
+        // }).then(() => {
+        //   this.$axios.get(`/student/simulators/get?simulator_id=${this.simulator_id}`, {
+        //     headers: {
+        //       Authorization: `Bearer ${localStorage.getItem('usertoken')}`
+        //     }
+        //   }).then((res) => {
+        //     const simulator = prepareSimulator(res, this.simulator_id)
+        //     prepareTest(simulator)
+        //     this.$router.push(`/simulator?simulator_id=${this.simulator_id}`)
+        //   }).catch((err) => {
+        //     console.log(err)
+        //   })
+        // })
       } else {
         this.error = true
       }
