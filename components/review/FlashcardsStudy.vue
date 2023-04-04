@@ -241,6 +241,17 @@ export default {
             father.nextFlashcard();
           }
         }
+
+        if (event.key == "a") {
+          if (father.prevBtnActive) {
+            father.prevFlashcard();
+          }
+        }
+        if (event.key == "d") {
+          if (father.nextBtnActive) {
+            father.nextFlashcard();
+          }
+        }
       },
       false
     );
