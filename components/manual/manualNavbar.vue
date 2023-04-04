@@ -83,7 +83,7 @@ export default {
   },
   data () {
     return {
-      fontSize: 1
+      fontSize: 1.2
     }
   },
   computed: {

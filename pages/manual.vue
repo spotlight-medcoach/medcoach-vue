@@ -85,7 +85,7 @@ export default {
       finish_manual_extra: this.$route.query.finishManualExtra === "true",
       selectedImage: "",
       finished: false,
-      font_size: 1,
+      font_size: 1.2,
       brightness: brightnessStates.light,
       showFlashCards: false,
       flash_a: "",
