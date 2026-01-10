@@ -132,7 +132,11 @@ export default {
     async loadQuestions () {
       try {
         const response = await this.getQuestions();
-        this.questions = response.data.questions.map((question) => {
+        // La respuesta tiene estructura: { data: { questions: [...] }, success: true }
+        // Axios envuelve esto en response.data, entonces: response.data.data.questions
+        const questions =
+          response.data?.data?.questions || response.data?.questions || [];
+        this.questions = questions.map((question) => {
           question.marked = false;
           return question;
         });
@@ -183,14 +187,20 @@ export default {
           const response = await this.getQuestions();
           // Exam is ready, stop polling and load questions
           this.stopPolling();
-          this.questions = response.data.questions.map((question) => {
+          // La respuesta tiene estructura: { data: { questions: [...] }, success: true }
+          // Axios envuelve esto en response.data, entonces: response.data.data.questions
+          const questions =
+            response.data?.data?.questions || response.data?.questions || [];
+          this.questions = questions.map((question) => {
             question.marked = false;
             return question;
           });
-          localStorage.setItem(
-            'diagnostic_test_answers',
-            JSON.stringify(this.answers),
-          );
+          if (this.questions.length > 0) {
+            localStorage.setItem(
+              'diagnostic_test_answers',
+              JSON.stringify(this.answers),
+            );
+          }
           setTimeout(() => {
             this.setSizes();
           }, 1000);

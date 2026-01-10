@@ -92,16 +92,19 @@ export const mutations = {
 };
 
 export const actions = {
-  async initialize ({ commit, dispatch, state }) {
+  async initialize ({ commit, dispatch, state }, options = {}) {
     commit('setBearer');
     commit('http_request/setOnHttpRequest', true);
     await dispatch('fetchStudentInfo'); // necesita obtener la info del estudiante para saber si es free_trial
     const promises = [
       // en todos los casos (sea trial o no)
-      dispatch('infographics/fetchInfographics'),
       dispatch('calculeTestLeftDays', state.studentInfo?.test_date || null),
       await dispatch('topics/fetchTopics'),
     ];
+    // Solo cargar infographics si no se debe omitir (no en rutas de diagnóstico)
+    if (!options.skipInfographics) {
+      promises.push(dispatch('infographics/fetchInfographics'));
+    }
     if (state.isFreeTrial && state.studentInfo) {
       // sólo para free_trial
       const startTrialOn = state.studentInfo.start_free_trial_on;
@@ -109,9 +112,14 @@ export const actions = {
         dispatch('free_trial/calculeTrialLeftDays', startTrialOn),
         await dispatch('payment/fetchSubscriptionPlans'),
       ]);
-    } else if (state.phase !== 0) {
+    } else if (
+      state.studentInfo &&
+      state.studentInfo.phase > 0 &&
+      !options.skipSyllabus
+    ) {
+      // sólo para usuario con suscripción y que haya completado el diagnóstico (phase > 0)
+      // skipSyllabus permite evitar llamar a fetchSyllabus en rutas específicas como diagnostic_test
       promises.concat([
-        // sólo para usuario con suscripción
         dispatch('notifications/loopFetchData'),
         await dispatch('fetchSyllabus'),
       ]);
@@ -155,10 +163,12 @@ export const actions = {
     }
     const minDay = 0 - day;
     const maxDay = minDay + 6;
+    // Asegurar que daysDisabled esté inicializado
+    const daysDisabled = state.daysDisabled || [0, 0, 0, 0, 0, 0, 0];
     const params = {
       min_index: minDay,
       max_index: maxDay,
-      days_disabled: state.daysDisabled,
+      days_disabled: daysDisabled,
     };
     return this.$axios
       .$post('/student/syllabus', params)
