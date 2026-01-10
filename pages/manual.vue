@@ -59,12 +59,12 @@
 </template>
 
 <script>
-import brightnessStates from "@/assets/json/brightness.json";
-import ManualNavbar from "@/components/manual/manualNavbar.vue";
-import ManualFlashcard from "@/components/manual/manualFlashcard.vue";
-import ManualDocument from "@/components/manual/manualDocument.vue";
-import ManualNotes from "@/components/manual/manualNotes.vue";
-import ModalImage from "@/components/ModalImage";
+import brightnessStates from '@/assets/json/brightness.json';
+import ManualNavbar from '@/components/manual/manualNavbar.vue';
+import ManualFlashcard from '@/components/manual/manualFlashcard.vue';
+import ManualDocument from '@/components/manual/manualDocument.vue';
+import ManualNotes from '@/components/manual/manualNotes.vue';
+import ModalImage from '@/components/ModalImage';
 export default {
   components: {
     ManualNavbar,
@@ -73,85 +73,85 @@ export default {
     ManualNotes,
     ModalImage,
   },
-  async beforeRouteLeave(to, from, next) {
+  async beforeRouteLeave (to, from, next) {
     await this.$refs.notes.finalize();
     next();
   },
-  layout: "new_default",
-  data() {
+  layout: 'new_default',
+  data () {
     return {
       manual_id: this.$route.query.manual_id,
-      is_extra: this.$route.query.extra === "true",
-      finish_manual_extra: this.$route.query.finishManualExtra === "true",
-      selectedImage: "",
+      is_extra: this.$route.query.extra === 'true',
+      finish_manual_extra: this.$route.query.finishManualExtra === 'true',
+      selectedImage: '',
       finished: false,
       font_size: 1.2,
       brightness: brightnessStates.light,
       showFlashCards: false,
-      flash_a: "",
-      flash_b: "",
-      notes: "Cargando notas...",
-      message_error: "Ocurrió un error su petición",
+      flash_a: '',
+      flash_b: '',
+      notes: 'Cargando notas...',
+      message_error: 'Ocurrió un error su petición',
       error_http: false,
     };
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       if (from.manual_id !== to.query.manual_id) {
         this.manual_id = to.query.manual_id;
       }
     },
   },
   methods: {
-    allowFlashCards() {
+    allowFlashCards () {
       this.showFlashCards = true;
     },
-    changeFontSize(fontSize) {
+    changeFontSize (fontSize) {
       this.font_size = fontSize;
     },
-    changeBrightness(brightnessState) {
+    changeBrightness (brightnessState) {
       this.brightness = brightnessState;
     },
-    getFinishedState(isFinished) {
+    getFinishedState (isFinished) {
       this.finished = isFinished;
     },
-    copyToFlashCard(htmlSelection) {
+    copyToFlashCard (htmlSelection) {
       this.flash_b = htmlSelection;
     },
-    copyToNotes(htmlSelection) {
+    copyToNotes (htmlSelection) {
       this.notes = htmlSelection;
     },
-    finishManual() {
-      if (this.$refs.notes.content.trim() !== "") {
+    finishManual () {
+      if (this.$refs.notes.content.trim() !== '') {
         this.$axios
-          .put("/students/syllabus", {
+          .put('/student/syllabus', {
             manual_id: this.manual_id,
             extra: this.is_extra,
           })
           .then((res) => {
             console.log('res', res);
-            this.$toastr.success(res.data.message)
-            this.$store.dispatch("fetchSyllabus");
-            this.$router.push({ path: "/dashboard" });
+            this.$toastr.success(res.data.message);
+            this.$store.dispatch('fetchSyllabus');
+            this.$router.push({ path: '/dashboard' });
           })
           .catch((err) => {
             this.error_http = true;
             this.message_error = err.response.data.message;
           });
       } else {
-        this.$refs["manual-navbar-header"].resetFinishManualButton();
-        this.$toastr.error("Su nota está vacía", "Error");
+        this.$refs['manual-navbar-header'].resetFinishManualButton();
+        this.$toastr.error('Su nota está vacía', 'Error');
       }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/variables/_student_main.scss";
+@import '@/assets/css/variables/_student_main.scss';
 #manual {
   display: grid;
   grid-template-columns: 3fr minmax(340px, 1fr);
-  grid-template-areas: "main notes";
+  grid-template-areas: 'main notes';
   .general-container {
     grid-area: main;
     position: relative;

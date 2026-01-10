@@ -9,7 +9,11 @@
             alt="MedCoach Logo"
           />
           <div class="card registration-card mb-20px">
-            <validation-observer ref="registrationValidation">
+            <!-- Skeleton loader -->
+            <CompleteRegistrationSkeleton v-if="loading" />
+
+            <!-- Form content -->
+            <validation-observer v-else ref="registrationValidation">
               <b-form @submit.prevent="completeRegistration">
                 <div class="text-center mb-32px">
                   <p class="login-title">Completar Registro</p>
@@ -85,7 +89,7 @@
                         id="speciality"
                         v-model="form.speciality"
                         :options="specialityOptions"
-                        :disabled="loading || !specialitiesList.length"
+                        :disabled="!specialitiesList.length"
                       />
                       <small class="text-danger">{{ errors[0] }}</small>
                     </validation-provider>
@@ -212,8 +216,12 @@
 
 <script>
 import { required, min } from '@/assets/utils/validations.js';
+import CompleteRegistrationSkeleton from '@/components/register/complete-registration-skeleton.vue';
 
 export default {
+  components: {
+    CompleteRegistrationSkeleton,
+  },
   layout: 'index',
   data () {
     return {
@@ -276,15 +284,15 @@ export default {
       return;
     }
 
-    await this.loadStudentData();
-    await this.loadSpecialities();
+    // Load both in parallel but keep loading true until both complete
+    await Promise.all([this.loadStudentData(), this.loadSpecialities()]);
+    this.loading = false;
   },
   methods: {
     async loadStudentData () {
       try {
-        this.loading = true;
         const { data } = await this.$axios.get(
-          `/students/registration/${this.token}`,
+          `/student/registration/${this.token}`,
         );
         // Backend returns data in data.data (successResponse structure)
         this.studentData = data.data || data.payload;
@@ -295,14 +303,15 @@ export default {
           'Error',
         );
         this.$router.push('/');
-      } finally {
-        this.loading = false;
+        throw error; // Re-throw to prevent loading from being set to false
       }
     },
     async loadSpecialities () {
       try {
-        const { data } = await this.$axios.get('/specialities');
-        this.specialitiesList = data.specialities || [];
+        const { data } = await this.$axios.get('/catalogues/specialities');
+        // La respuesta puede estar en data.data (si viene envuelta) o directamente en data
+        const responseData = data.data || data;
+        this.specialitiesList = responseData.specialities || [];
       } catch (error) {
         console.error('Error loading specialities:', error);
       }
@@ -386,14 +395,31 @@ export default {
         const photoBase64 = await this.uploadPhoto();
 
         // Complete registration
-        await this.$axios.post('/students/complete-registration', {
-          token: this.token,
-          speciality: this.form.speciality,
-          rest_day: this.form.rest_day,
-          photo_url: photoBase64, // Backend will handle S3 upload
-          password: this.form.password,
-          password_confirmation: this.form.password_confirmation,
-        });
+        const response = await this.$axios.post(
+          '/student/registration/complete',
+          {
+            token: this.token,
+            speciality: this.form.speciality,
+            rest_day: this.form.rest_day,
+            photo_url: photoBase64, // Backend will handle S3 upload
+            password: this.form.password,
+            password_confirmation: this.form.password_confirmation,
+          },
+        );
+
+        // Save token to localStorage for session management
+        if (response.data && response.data.token) {
+          if (process.client) {
+            localStorage.setItem('usertoken', response.data.token);
+            // Also save payload if needed
+            if (response.data.payload) {
+              localStorage.setItem(
+                'userPayload',
+                JSON.stringify(response.data.payload),
+              );
+            }
+          }
+        }
 
         this.$toastr?.success('Registro completado exitosamente', 'Éxito');
 

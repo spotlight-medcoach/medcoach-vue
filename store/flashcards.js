@@ -100,7 +100,7 @@ export const actions = {
 	},
 	async updateFlashcard ({ commit, dispatch, state }, formData) {
 		try {
-			const { data } = await this.$axios.put('/manuals/flashcard', formData)
+			const { data } = await this.$axios.put('/student/manuals/flashcard', formData)
 			await dispatch('fetchFlashcardsByManualId', state.manual_id)
 			this._vm.$toastr.success('Flashcard actualizada correctamente', '¡Éxito!')
 			return data
@@ -111,7 +111,7 @@ export const actions = {
 	},
 	async createFlashcard ({ commit, dispatch, state }, formData) {
 		try {
-			const { data } = await this.$axios.post('/manuals/flashcard', formData)
+			const { data } = await this.$axios.post('/student/manuals/flashcard', formData)
 			await dispatch('fetchFlashcardsByManualId', state.manual_id)
 			this._vm.$toastr.success('Flashcard agregada correctamente', '¡Éxito!')
 			return data
