@@ -41,17 +41,21 @@ export const mutations = {
     }
   },
   setActiveSubscription (state, payload) {
+    // Si payload es null o undefined, establecer suscripción como activa por defecto
+    if (!payload) {
+      state.activeSubscription = true;
+      return;
+    }
+
+    // Si plan_id existe y tiene un valor, validar active_subscription
     if (
       payload.plan_id !== undefined &&
       payload.plan_id !== null &&
       payload.plan_id !== ''
     ) {
-      if (payload.active_subscription) {
-        state.activeSubscription = true;
-      } else {
-        state.activeSubscription = false;
-      }
+      state.activeSubscription = payload.active_subscription === true;
     } else {
+      // Si no hay plan_id, considerar la suscripción como activa (estudiante nuevo o sin plan)
       state.activeSubscription = true;
     }
   },
@@ -95,10 +99,10 @@ export const actions = {
     const promises = [
       // en todos los casos (sea trial o no)
       dispatch('infographics/fetchInfographics'),
-      dispatch('calculeTestLeftDays', state.studentInfo.test_date),
+      dispatch('calculeTestLeftDays', state.studentInfo?.test_date || null),
       await dispatch('topics/fetchTopics'),
     ];
-    if (state.isFreeTrial) {
+    if (state.isFreeTrial && state.studentInfo) {
       // sólo para free_trial
       const startTrialOn = state.studentInfo.start_free_trial_on;
       promises.concat([
@@ -137,8 +141,10 @@ export const actions = {
   },
   fetchStudentInfo ({ commit }) {
     return this.$axios.$get('/student/profile').then((result) => {
-      commit('setStudentInfo', result.student);
-      commit('setActiveSubscription', result.student);
+      if (result && result.student) {
+        commit('setStudentInfo', result.student);
+        commit('setActiveSubscription', result.student || {});
+      }
     });
   },
   fetchSyllabus ({ commit, dispatch, state }, message) {
@@ -167,8 +173,10 @@ export const actions = {
         commit('setPhase', phase);
         // Valido si ya está disponible la segunda fase
         const today = result.days.find((day) => day.index === 0);
-        if (!today.manuals.length && day !== state.studentInfo.free_day) {
-          commit('setAlertScondStage', true);
+        if (today && state.studentInfo && day !== state.studentInfo.free_day) {
+          if (!today.manuals.length) {
+            commit('setAlertScondStage', true);
+          }
         }
         return dispatch('topics/fetchTopics');
       })

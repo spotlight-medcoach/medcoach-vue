@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import ManualsProgress from "@/components/manuals/manualsProgress.vue";
-import ManualsSubTopics from "@/components/manuals/manualsSubTopics.vue";
-import ManualsStudyGuide from "@/components/manuals/manualsStudyGuide.vue";
+import { mapState } from 'vuex';
+import ManualsProgress from '@/components/manuals/manualsProgress.vue';
+import ManualsSubTopics from '@/components/manuals/manualsSubTopics.vue';
+import ManualsStudyGuide from '@/components/manuals/manualsStudyGuide.vue';
 // import ManualsResults from '@/components/manuals/manualsResults.vue'
 
 export default {
@@ -43,14 +43,14 @@ export default {
     ManualsStudyGuide,
     // ManualsResults
   },
-  layout: "new_default",
+  layout: 'new_default',
   props: {
     isNotes: {
       type: Boolean,
       default: true,
     },
   },
-  data() {
+  data () {
     return {
       allManuals: [],
       manuals_not_found: false,
@@ -58,15 +58,15 @@ export default {
     };
   },
   computed: {
-    subtopics_cols() {
+    subtopics_cols () {
       if (this.isSearch) {
         return 12;
       } else {
         return 9;
       }
     },
-    results() {
-      let search = "";
+    results () {
+      let search = '';
       search = this.removeAccents(this.search.toLowerCase());
       if (search.length > 2) {
         return this.filterManuals(search);
@@ -74,7 +74,7 @@ export default {
         return this.manuals;
       }
     },
-    containerClass() {
+    containerClass () {
       if (!this.isSearch) {
         return this.default_container;
       } else {
@@ -85,7 +85,7 @@ export default {
       manuals: (state) => state.topics.manuals,
     }),
   },
-  mounted() {
+  mounted () {
     if (!this.$store.state.topics.fetchedManuals) {
       this.getAllManuals();
     } else {
@@ -93,16 +93,18 @@ export default {
     }
   },
   methods: {
-    getAllManuals() {
+    getAllManuals () {
       return this.$axios
-        .get("/topics", {
+        .get('/catalogues/topics', {
           headers: {
             Authorization: `Bearer ${this.$store.state.token}`,
           },
         })
         .then((res) => {
-          this.allManuals = res.data.topics;
-          this.$store.commit("topics/setTopics", this.allManuals);
+          // La respuesta puede estar en res.data.data o directamente en res.data
+          const responseData = res.data.data || res.data;
+          this.allManuals = responseData.topics || responseData;
+          this.$store.commit('topics/setTopics', this.allManuals);
           this.load = true;
         })
         .catch((err) => {
@@ -110,7 +112,7 @@ export default {
           this.manuals_not_found = true;
         });
     },
-    filterManuals(search) {
+    filterManuals (search) {
       const manuals = this.manuals.filter((manual) => {
         return (
           manual.low_manual.includes(search) ||
@@ -120,23 +122,23 @@ export default {
       });
       return manuals;
     },
-    removeAccents(cadena) {
+    removeAccents (cadena) {
       const acentos = {
-        á: "a",
-        é: "e",
-        í: "i",
-        ó: "o",
-        ú: "u",
-        Á: "A",
-        É: "E",
-        Í: "I",
-        Ó: "O",
-        Ú: "U",
+        á: 'a',
+        é: 'e',
+        í: 'i',
+        ó: 'o',
+        ú: 'u',
+        Á: 'A',
+        É: 'E',
+        Í: 'I',
+        Ó: 'O',
+        Ú: 'U',
       };
       return cadena
-        .split("")
+        .split('')
         .map((letra) => acentos[letra] || letra)
-        .join("")
+        .join('')
         .toString();
     },
   },
@@ -144,7 +146,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variables/_student_main.scss";
+@import '@/assets/css/variables/_student_main.scss';
 .general-container {
   min-height: 100%;
   > article {

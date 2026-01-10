@@ -6,10 +6,32 @@ export default function ({ $axios, redirect, store }) {
   );
   // Content Type
   $axios.setHeader('Content-Type', 'application/json');
-  // Interceptors
+
+  // Interceptor de request: Configurar token automáticamente en cada petición
+  $axios.onRequest((config) => {
+    if (process.client) {
+      const token = localStorage.getItem('usertoken');
+      if (token) {
+        config.headers.common.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  });
+
+  // Interceptors de error
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status);
-    if (code === 403 || code === 402) {
+    if (code === 401) {
+      // Token inválido o expirado
+      if (process.client) {
+        localStorage.removeItem('usertoken');
+        store.dispatch('killSession');
+        redirect({
+          path: '/',
+          query: { invalid_token: 'Su token ha expirado' },
+        });
+      }
+    } else if (code === 403 || code === 402) {
       store.dispatch('killSession');
       redirect({ path: '/', query: { invalid_token: 'Su token ha expirado' } });
     }

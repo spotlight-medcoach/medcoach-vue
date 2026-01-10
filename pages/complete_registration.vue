@@ -407,18 +407,28 @@ export default {
           },
         );
 
+        // Backend returns { success: true, data: { token, payload } }
+        const responseData = response.data?.data || response.data;
+
         // Save token to localStorage for session management
-        if (response.data && response.data.token) {
+        if (responseData && responseData.token) {
           if (process.client) {
-            localStorage.setItem('usertoken', response.data.token);
+            localStorage.setItem('usertoken', responseData.token);
             // Also save payload if needed
-            if (response.data.payload) {
+            if (responseData.payload) {
               localStorage.setItem(
                 'userPayload',
-                JSON.stringify(response.data.payload),
+                JSON.stringify(responseData.payload),
               );
             }
           }
+        } else {
+          console.error('No token received in response:', response.data);
+          this.$toastr?.error(
+            'No se recibió el token de autenticación',
+            'Error',
+          );
+          return;
         }
 
         this.$toastr?.success('Registro completado exitosamente', 'Éxito');
