@@ -1,0 +1,15 @@
+[build]
+  # Para SPAs de Nuxt, usar 'generate' en lugar de 'build' para generar archivos estáticos
+  command = "npm run generate"
+  publish = "dist"
+
+[build.environment]
+  NPM_FLAGS = "--no-audit --no-fund"
+  NODE_VERSION = "18"
+  # Forzar Git a usar HTTPS en lugar de SSH
+  GIT_TERMINAL_PROMPT = "0"
+  # Deshabilitar Yarn para forzar el uso de npm
+  NETLIFY_USE_YARN = "false"
+  # Node.js 18 permite --openssl-legacy-provider en NODE_OPTIONS
+  NODE_OPTIONS = "--openssl-legacy-provider"
+
