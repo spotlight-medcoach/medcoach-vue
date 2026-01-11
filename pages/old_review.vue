@@ -64,7 +64,7 @@ export default {
 	methods: {
 		getManualNote (manualId) {
 			return this.$axios
-				.get(`/manuals/note?manual_id=${manualId}`)
+				.get(`/student/manuals/note?manual_id=${manualId}`)
 				.then((res) => {
 					this.notes = res.data.note
 				}).catch((err) => {

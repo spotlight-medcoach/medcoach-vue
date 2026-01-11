@@ -116,7 +116,7 @@ export default {
   methods: {
     getManualHTML() {
       return this.$axios
-        .get(`/manuals?manual_id=${this.manual_id}`)
+        .get(`/student/manuals?manual_id=${this.manual_id}`)
         .then((res) => {
           this.manualHTML = res.data;
           this.$emit("onFetchedManual");

@@ -111,7 +111,7 @@ export default {
 		},
 		getManualNote () {
 			return this.$axios
-				.get(`/manuals/note?manual_id=${this.manual_id}`)
+				.get(`/student/manuals/note?manual_id=${this.manual_id}`)
 				.then((res) => {
 					this.editor.clipboard.dangerouslyPasteHTML(res.data.note)
 					this.finished = res.data.finished
