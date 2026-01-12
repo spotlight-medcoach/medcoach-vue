@@ -10,11 +10,12 @@
       <article class="shadow-sm m-2 mb-3">
         <manual-navbar
           ref="manual-navbar-header"
-          :manual_id="manual_id"
+          :manual-id="manual_id"
           :allow-finish-manual="!finished && !finish_manual_extra"
           @onChangeFontSize="changeFontSize"
           @onChangeBrightness="changeBrightness"
           @onFinishManual="finishManual"
+          @onManualInfoLoaded="onManualInfoLoaded"
         />
       </article>
       <!----------------------------------------------------------------- DOCUMENT FILE HTML -->
@@ -93,6 +94,7 @@ export default {
       notes: 'Cargando notas...',
       message_error: 'Ocurrió un error su petición',
       error_http: false,
+      manualInfo: null,
     };
   },
   watch: {
@@ -103,6 +105,11 @@ export default {
     },
   },
   methods: {
+    onManualInfoLoaded (manualInfo) {
+      // Guardar la información del manual para uso futuro
+      this.manualInfo = manualInfo;
+      // Aquí puedes usar manualInfo.topic, manualInfo.subtopic, manualInfo.reading_time
+    },
     allowFlashCards () {
       this.showFlashCards = true;
     },

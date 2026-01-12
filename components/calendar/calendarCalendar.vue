@@ -54,9 +54,9 @@ export default {
   computed: {
     dayEvents () {
       let events = [];
-      if (this.days) {
+      if (this.days && Array.isArray(this.days)) {
         events = this.days.filter((day) => {
-          if (day.manuals.length) {
+          if (day && day.manuals && day.manuals.length > 0) {
             day.date = day.date.replace(/-/g, '/');
             day.date = day.date.replace(/\/0/g, '/');
             day.title = 'Titulo';
@@ -64,7 +64,9 @@ export default {
           }
           return false;
         });
-        this.$EventCalendar.toDate(this.now.format('YYYY/M/DD'));
+        if (this.$EventCalendar && this.now) {
+          this.$EventCalendar.toDate(this.now.format('YYYY/M/DD'));
+        }
       }
       return events;
     },
@@ -76,11 +78,13 @@ export default {
     this.max_day = this.now.daysInMonth() - actualDay;
     await this.fetchInfo();
     await this.fetchSyllabus(this.min_day, this.max_day);
+    // Actualizar el estado de carga del store después de cargar los datos
+    this.$store.commit('http_request/setOnHttpRequest', false);
   },
   methods: {
     fetchSyllabus (minDay, maxDay) {
       return this.$axios
-        .post(
+        .$post(
           '/student/syllabus',
           {
             min_index: minDay,
@@ -94,14 +98,24 @@ export default {
             },
           },
         )
-        .then((response) => {
-          const data = response.data;
+        .then((result) => {
+          // $post automáticamente extrae response.data, pero sendSuccess envuelve en { success: true, data: {...} }
+          const data = result.data || result;
           this.days = data.days;
           this.phase.id = data.phase;
           this.phase.progress = data.progress;
           this.phase.total = data.total;
           this.phase.init_date_phase_2 = data.start_phase_two;
           this.fetchedData = true;
+
+          // Actualizar el store con la información de la fase
+          const phase = {
+            id: data.phase,
+            progress: data.progress,
+            total: data.total,
+            init_date_phase_2: data.start_phase_two,
+          };
+          this.$store.commit('setPhase', phase);
         })
         .catch((error) => {
           this.http_error = true;
@@ -117,9 +131,15 @@ export default {
           },
         })
         .then((response) => {
-          const data = response.data;
-          this.student = data.student;
-          this.daysDisabled[this.student.free_day] = 1;
+          // sendSuccess envuelve la respuesta en { success: true, data: {...} }
+          const data = response.data.data || response.data;
+          this.student = data.student || data;
+          if (
+            this.student.free_day !== undefined &&
+            this.student.free_day !== null
+          ) {
+            this.daysDisabled[this.student.free_day] = 1;
+          }
         });
     },
     async handleMonthChanged (params) {

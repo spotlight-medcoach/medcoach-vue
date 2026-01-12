@@ -6,7 +6,14 @@
   >
     <div
       v-if="isNotes"
-      class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3"
+      class="
+        d-flex
+        align-items-center
+        justify-content-center
+        shadow-sm
+        p-3
+        mb-3
+      "
     >
       <div class="text-center body-medium-3">Notas y Flashcards</div>
     </div>
@@ -57,7 +64,14 @@
     </div>
     <div class="row" v-else-if="!fetchedManuals">
       <div
-        class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center"
+        class="
+          col-sm-12
+          text-center
+          d-flex
+          justify-content-around
+          pointer
+          align-items-center
+        "
       >
         <div>
           <b class="mb-2">Cargando manuales</b>
@@ -67,7 +81,14 @@
     </div>
     <div class="row" v-else>
       <div
-        class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center"
+        class="
+          col-sm-12
+          text-center
+          d-flex
+          justify-content-around
+          pointer
+          align-items-center
+        "
       >
         <div>
           <b class="mb-2">No hay manuales</b>
@@ -81,42 +102,16 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
-  props: ["topicId", "subTopicId", "allManuals", "isNotes"],
-  data() {
+  props: ['topicId', 'subTopicId', 'allManuals', 'isNotes'],
+  data () {
     return {
       manuals: [],
     };
   },
-  watch: {
-    subTopicId() {
-      console.log("Topic:", this.topicId);
-      console.log("Subtopic:", this.subTopicId);
-      const filtered = this.allManuals
-        .filter((topic) => topic.id === this.topicId)[0]
-        .subtopics.filter((subtopic) => subtopic.id === this.subTopicId);
-      if (filtered.length > 0) {
-        const manuals = filtered[0].manuals;
-        console.log("Manuals: ", manuals);
-        this.manuals = manuals;
-      }
-    },
-    allManuals() {
-      console.log("Topic:", this.topicId);
-      console.log("Subtopic:", this.subTopicId);
-      const filtered = this.allManuals
-        .filter((topic) => topic.id === this.topicId)[0]
-        .subtopics.filter((subtopic) => subtopic.id === this.subTopicId);
-      if (filtered.length > 0) {
-        const manuals = filtered[0].manuals;
-        console.log("Manuals: ", manuals);
-        this.manuals = manuals;
-      }
-    },
-  },
   computed: {
-    columnCount() {
+    columnCount () {
       let count = 1;
       if (this.subtopic.manuals.length >= 12) {
         count = 2;
@@ -130,8 +125,28 @@ export default {
       fetchedManuals: (state) => state.topics.fetchedManuals,
     }),
   },
+  watch: {
+    subTopicId () {
+      const filtered = this.allManuals
+        .filter((topic) => topic.id === this.topicId)[0]
+        .subtopics.filter((subtopic) => subtopic.id === this.subTopicId);
+      if (filtered.length > 0) {
+        const manuals = filtered[0].manuals;
+        this.manuals = manuals;
+      }
+    },
+    allManuals () {
+      const filtered = this.allManuals
+        .filter((topic) => topic.id === this.topicId)[0]
+        .subtopics.filter((subtopic) => subtopic.id === this.subTopicId);
+      if (filtered.length > 0) {
+        const manuals = filtered[0].manuals;
+        this.manuals = manuals;
+      }
+    },
+  },
   methods: {
-    calculeColumns(container) {
+    calculeColumns (container) {
       if (container) {
         return Math.floor(container.clientWidth / 270);
       }
@@ -141,7 +156,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/variables/color-palette.scss";
+@import '@/assets/css/variables/color-palette.scss';
 #manuals-study-guide {
   height: 100%;
   overflow-y: scroll;

@@ -414,6 +414,8 @@ export default {
         if (responseData && responseData.token) {
           if (process.client) {
             localStorage.setItem('usertoken', responseData.token);
+            // Update Vuex store with the token
+            this.$store.commit('setToken', responseData.token);
             // Also save payload if needed
             if (responseData.payload) {
               localStorage.setItem(

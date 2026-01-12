@@ -4,7 +4,7 @@
     class="w-100 d-inline-flex justify-content-between align-items-center"
   >
     <!------------------------------------------------------------------------- LEFT CONTENT -->
-    <b-skeleton-wrapper :loading="!title">
+    <b-skeleton-wrapper :loading="loading || !title">
       <template #loading>
         <div>
           <b-skeleton
@@ -63,74 +63,154 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import SwitchBrightnessButton from '@/components/_functional/switchBrightnessButton.vue'
-import HoldableButton from '@/components/_functional/holdableButton.vue'
+import { mapState } from 'vuex';
+import SwitchBrightnessButton from '@/components/_functional/switchBrightnessButton.vue';
+import HoldableButton from '@/components/_functional/holdableButton.vue';
 export default {
   components: {
     SwitchBrightnessButton,
-    HoldableButton
+    HoldableButton,
   },
   props: {
-    manual_id: {
+    manualId: {
       type: String,
-      default: '5e214ebdb1131e0411f37e65'
+      default: '',
     },
     allowFinishManual: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
-      fontSize: 1.2
-    }
+      fontSize: 1.2,
+      manualInfo: null,
+      loading: false,
+    };
   },
   computed: {
     title () {
-      let name = ''
-      this.topics.some((topic) => {
-        return topic.subtopics.some((subtopic) => {
-          return subtopic.manuals.some((manual) => {
-            if (manual.id === this.manual_id) {
-              name = manual.name
-              return true
+      // Usar la información del manual obtenida del endpoint
+      if (this.manualInfo && this.manualInfo.name) {
+        return this.manualInfo.name;
+      }
+
+      // Fallback: buscar en el array plano de manuals (más eficiente)
+      if (
+        this.manuals &&
+        Array.isArray(this.manuals) &&
+        this.manuals.length > 0
+      ) {
+        const manual = this.manuals.find((m) => {
+          const manualId = m.manual_id ? m.manual_id.toString() : '';
+          const searchId = this.manualId.toString();
+          return manualId === searchId;
+        });
+        if (manual && manual.manual_name) {
+          return manual.manual_name;
+        }
+      }
+
+      // Fallback: buscar en la estructura de topics
+      if (this.topics && Array.isArray(this.topics) && this.topics.length > 0) {
+        let name = '';
+        this.topics.some((topic) => {
+          if (!topic || !topic.subtopics || !Array.isArray(topic.subtopics)) {
+            return false;
+          }
+          return topic.subtopics.some((subtopic) => {
+            if (
+              !subtopic ||
+              !subtopic.manuals ||
+              !Array.isArray(subtopic.manuals)
+            ) {
+              return false;
             }
-            return false
-          })
-        })
-      })
-      return name
+            return subtopic.manuals.some((manual) => {
+              if (!manual || !manual.id) {
+                return false;
+              }
+              const manualId = manual.id.toString();
+              const searchId = this.manualId.toString();
+              if (manualId === searchId) {
+                name = manual.name || '';
+                return true;
+              }
+              return false;
+            });
+          });
+        });
+        return name;
+      }
+
+      return '';
     },
     ...mapState({
-      isFreeTrial: 'isFreeTrial',
-      phase: state => state.phase,
-      topics: state => state.topics.data
-    })
+      isFreeTrial: (state) => state.isFreeTrial,
+      phase: (state) => state.phase,
+      topics: (state) => state.topics.data,
+      manuals: (state) => state.topics.manuals,
+    }),
+  },
+  watch: {
+    manualId: {
+      immediate: true,
+      handler (newId) {
+        if (newId) {
+          this.fetchManualInfo();
+        } else {
+          this.manualInfo = null;
+        }
+      },
+    },
   },
   methods: {
+    async fetchManualInfo () {
+      if (!this.manualId) {
+        return;
+      }
+
+      this.loading = true;
+      try {
+        const response = await this.$axios.get('/student/manuals/info', {
+          params: {
+            manual_id: this.manualId,
+          },
+        });
+        if (response.data && response.data.data && response.data.data.manual) {
+          this.manualInfo = response.data.data.manual;
+          // Emitir evento con la información del manual para que el componente padre la use
+          this.$emit('onManualInfoLoaded', this.manualInfo);
+        }
+      } catch (error) {
+        console.error('Error fetching manual info:', error);
+        // No mostrar error al usuario, usar fallback
+      } finally {
+        this.loading = false;
+      }
+    },
     changeFontSize (change) {
-      const scale = 0.1
-      const fontSize = +parseFloat(change * scale + this.fontSize).toFixed(1)
+      const scale = 0.1;
+      const fontSize = +parseFloat(change * scale + this.fontSize).toFixed(1);
       if (fontSize >= 1 && fontSize <= 1.4) {
-        this.fontSize = fontSize
-        this.$emit('onChangeFontSize', this.fontSize)
+        this.fontSize = fontSize;
+        this.$emit('onChangeFontSize', this.fontSize);
       }
     },
     changeBrightness (brightness) {
-      this.$emit('onChangeBrightness', brightness)
+      this.$emit('onChangeBrightness', brightness);
     },
     finishManual () {
-      this.$emit('onFinishManual')
+      this.$emit('onFinishManual');
     },
     resetFinishManualButton () {
-      this.$refs['finish-manual-button'].reset()
-    }
-  }
-}
+      this.$refs['finish-manual-button'].reset();
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/variables/color-palette.scss";
+@import '@/assets/css/variables/color-palette.scss';
 #manual-navbar {
   height: 60px;
   small {

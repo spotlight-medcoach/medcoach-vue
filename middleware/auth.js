@@ -8,19 +8,6 @@ const PUBLIC_ROUTES = [
   'complete_registration',
 ];
 
-// Rutas que no requieren validación de suscripción activa
-const ROUTES_WITHOUT_SUBSCRIPTION_CHECK = [
-  'diagnostic_test',
-  'after_diagnostic_test',
-  'settings',
-];
-
-// Rutas que nunca deben redirigir a settings
-const ROUTES_NEVER_REDIRECT_TO_SETTINGS = [
-  'diagnostic_test',
-  'after_diagnostic_test',
-];
-
 /**
  * Determina qué acciones deben ejecutarse según el estado del usuario y la ruta
  * @param {Object} studentState - Estado del estudiante
@@ -80,16 +67,36 @@ export default async function auth ({ redirect, route, store }) {
     return;
   }
 
-  // Cargar información del estudiante si no está disponible
-  if (!store.state.studentInfo) {
-    // Primero cargar studentInfo básico para determinar el estado
-    await store.dispatch('fetchStudentInfo');
+  // Para la ruta dashboard, siempre actualizar studentInfo para obtener el phase más reciente
+  // Esto es importante porque después de completar el diagnóstico, el phase puede cambiar
+  if (routeName === 'dashboard') {
+    try {
+      const student = await store.dispatch('fetchStudentInfo');
+      // Verificar que el estado se haya actualizado
+      if (!store.state.studentInfo && student) {
+        // Si por alguna razón el commit no se ejecutó, hacerlo manualmente
+        store.commit('setStudentInfo', student);
+      }
+    } catch (error) {
+      console.error('Error fetching student info in dashboard:', error);
+    }
+  } else if (!store.state.studentInfo) {
+    // Para otras rutas, solo cargar si no está disponible
+    try {
+      await store.dispatch('fetchStudentInfo');
+    } catch (error) {
+      console.error('Error fetching student info:', error);
+    }
   }
 
   // Determinar qué acciones ejecutar según el estado del usuario y la ruta
+  // Usar directamente los valores de studentInfo para asegurar que estén actualizados
   const studentState = {
     phase: store.state.studentInfo?.phase || 0,
-    isFreeTrial: store.state.isFreeTrial || false,
+    isFreeTrial:
+      store.state.studentInfo?.is_free_trial !== undefined
+        ? store.state.studentInfo.is_free_trial
+        : store.state.isFreeTrial || false,
   };
 
   const actions = getActionsForRoute(studentState, routeName);
@@ -105,25 +112,53 @@ export default async function auth ({ redirect, route, store }) {
     if (actions.loadNotifications) {
       store.dispatch('notifications/loopFetchData');
     }
+  } else if (routeName === 'dashboard') {
+    // Para dashboard, siempre verificar y cargar lo necesario
+    // Activar el estado de carga
+    store.commit('http_request/setOnHttpRequest', true);
+
+    // Cargar topics e infographics si no se han cargado
+    const promises = [store.dispatch('topics/fetchTopics')];
+
+    if (actions.loadInfographics) {
+      promises.push(store.dispatch('infographics/fetchInfographics'));
+    }
+
+    // Cargar syllabus si corresponde
+    // Verificar condiciones directamente desde studentInfo para asegurar que se cargue
+    const shouldLoadSyllabusForDashboard =
+      studentState.phase > 0 &&
+      !studentState.isFreeTrial &&
+      store.state.studentInfo;
+
+    if (shouldLoadSyllabusForDashboard) {
+      // Siempre recargar el syllabus en dashboard para asegurar que esté actualizado
+      promises.push(
+        store.dispatch('fetchSyllabus').catch((error) => {
+          console.error('Error loading syllabus in dashboard:', error);
+          // No fallar completamente si el syllabus no se puede cargar
+          return null;
+        }),
+      );
+    }
+
+    // Cargar notificaciones si corresponde
+    if (actions.loadNotifications) {
+      store.dispatch('notifications/loopFetchData');
+    }
+
+    // Ejecutar todas las promesas, pero no fallar si alguna falla
+    await Promise.allSettled(promises);
+
+    // Desactivar el estado de carga después de un breve delay
+    setTimeout(() => {
+      store.commit('http_request/setOnHttpRequest', false);
+    }, 1500);
   } else if (actions.loadSyllabus && !store.state.syllabus) {
     // Si ya tenemos studentInfo pero falta syllabus, cargarlo
-    await store.dispatch('fetchSyllabus');
-  }
-
-  // Validar suscripción activa
-  const shouldCheckSubscription =
-    !ROUTES_NEVER_REDIRECT_TO_SETTINGS.includes(routeName) &&
-    !ROUTES_WITHOUT_SUBSCRIPTION_CHECK.includes(routeName) &&
-    !store.state.activeSubscription;
-
-  if (shouldCheckSubscription) {
-    redirect({
-      path: '/settings',
-      query: {
-        invalid_token: 'Suscripción Inactiva',
-      },
+    await store.dispatch('fetchSyllabus').catch((error) => {
+      console.error('Error loading syllabus:', error);
     });
-    return;
   }
 
   return true;
