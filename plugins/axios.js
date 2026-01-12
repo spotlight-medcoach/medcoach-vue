@@ -1,9 +1,12 @@
 export default function ({ $axios, redirect, store }) {
   // Base URL - ahora apunta a /api (sin /student)
-  $axios.setBaseURL(
-    process.env.BASE_PATH ||
-      'https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api',
-  );
+  // process.env.BASE_PATH está definido en nuxt.config.js
+  // Verificar si existe y tiene un valor válido, de lo contrario usar el valor por defecto
+  const baseURL = (process.env.BASE_PATH && process.env.BASE_PATH.trim() !== '') 
+    ? process.env.BASE_PATH
+    : 'https://wup7ric684.execute-api.us-west-2.amazonaws.com/refinery/api';
+  
+  $axios.setBaseURL(baseURL);
   // Content Type
   $axios.setHeader('Content-Type', 'application/json');
 
