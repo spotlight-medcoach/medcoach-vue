@@ -7,7 +7,7 @@ export default {
   env: {
     BASE_PATH:
       process.env.BASE_PATH ||
-      'https://1q66rzf5zl.execute-api.us-east-1.amazonaws.com/api/student',
+      'https://1q66rzf5zl.execute-api.us-east-1.amazonaws.com/api',
     BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE,
     IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
     STORAGE_BASE_URL: process.env.STORAGE_BASE_URL || false,
