@@ -164,7 +164,7 @@ export default {
           this.load = true;
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           this.manuals_not_found = true;
         });
     },

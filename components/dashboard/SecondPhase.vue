@@ -32,8 +32,7 @@ export default {
         .then(() => {
           this.$router.push({ path: '/diagnostic_test' });
         })
-        .catch((error) => {
-          console.log('Error en second phase:', error.response);
+        .catch(() => {
           this.$store.dispatch('http_request/errorHttp');
         });
     },

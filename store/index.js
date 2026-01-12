@@ -20,9 +20,6 @@ export const state = () => ({
   showModalImage: false,
   showStudentHeader: true,
   subscriptionPlans: null,
-  activeSubscription:
-    localStorage.getItem('active_subscription') &&
-    localStorage.getItem('active_subscription') === 'true',
 });
 
 export const getters = {
@@ -38,25 +35,6 @@ export const mutations = {
     if (payload) {
       state.isFreeTrial = payload.is_free_trial;
       state.daysDisabled[payload.free_day] = 1;
-    }
-  },
-  setActiveSubscription (state, payload) {
-    // Si payload es null o undefined, establecer suscripción como activa por defecto
-    if (!payload) {
-      state.activeSubscription = true;
-      return;
-    }
-
-    // Si plan_id existe y tiene un valor, validar active_subscription
-    if (
-      payload.plan_id !== undefined &&
-      payload.plan_id !== null &&
-      payload.plan_id !== ''
-    ) {
-      state.activeSubscription = payload.active_subscription === true;
-    } else {
-      // Si no hay plan_id, considerar la suscripción como activa (estudiante nuevo o sin plan)
-      state.activeSubscription = true;
     }
   },
   setBearer (state) {
@@ -148,12 +126,27 @@ export const actions = {
     commit('setPhase', phase);
   },
   fetchStudentInfo ({ commit }) {
-    return this.$axios.$get('/student/profile').then((result) => {
-      if (result && result.student) {
-        commit('setStudentInfo', result.student);
-        commit('setActiveSubscription', result.student || {});
-      }
-    });
+    return this.$axios
+      .$get('/student/profile')
+      .then((result) => {
+        // La respuesta puede venir en result.student o directamente en result.data.student
+        // Dependiendo del formato de respuesta de la API
+        const student = result?.student || result?.data?.student || result;
+        if (student && (student._id || student.id)) {
+          commit('setStudentInfo', student);
+          return student;
+        } else {
+          console.warn(
+            'fetchStudentInfo: No student data found in response',
+            result,
+          );
+          return null;
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching student info:', error);
+        throw error;
+      });
   },
   fetchSyllabus ({ commit, dispatch, state }, message) {
     const now = moment();
@@ -173,26 +166,35 @@ export const actions = {
     return this.$axios
       .$post('/student/syllabus', params)
       .then((result) => {
-        commit('setSyllabus', result);
+        // $post automáticamente extrae response.data, pero sendSuccess envuelve en { success: true, data: {...} }
+        const data = result.data || result;
+        // Siempre asignar el syllabus
+        commit('setSyllabus', data);
         const phase = {
-          id: result.phase,
-          progress: result.progress,
-          total: result.total,
-          init_date_phase_2: result.start_phase_two,
+          id: data.phase,
+          progress: data.progress,
+          total: data.total,
+          init_date_phase_2: data.start_phase_two,
         };
         commit('setPhase', phase);
         // Valido si ya está disponible la segunda fase
-        const today = result.days.find((day) => day.index === 0);
-        if (today && state.studentInfo && day !== state.studentInfo.free_day) {
-          if (!today.manuals.length) {
-            commit('setAlertScondStage', true);
+        if (data.days && Array.isArray(data.days)) {
+          const today = data.days.find((d) => d.index === 0);
+          const currentDayOfWeek = day; // día de la semana (0-6) calculado arriba
+          if (
+            today &&
+            state.studentInfo &&
+            currentDayOfWeek !== state.studentInfo.free_day
+          ) {
+            if (!today.manuals || !today.manuals.length) {
+              commit('setAlertScondStage', true);
+            }
           }
         }
         return dispatch('topics/fetchTopics');
       })
-      .then((result) => console.log('Topics:', result))
       .catch((error) => {
-        console.log('Error en el syllabus', error.response);
+        console.error('Error en el syllabus', error?.response || error);
       });
   },
   calculeTestLeftDays ({ commit }, testDate) {

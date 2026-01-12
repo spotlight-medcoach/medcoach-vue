@@ -53,17 +53,14 @@ export const mutations = {
 export const actions = {
   fetchInfographics ({ commit }) {
     commit('setLoadingState', true);
-    return Promise.all([
-      this.$axios.get('/infographics'),
-      this.$axios
-        .get('/student/infographics')
-        .catch(() => ({ data: { studentInfographics: [] } })),
-    ])
-      .then(([infographicsResponse, StudentInfographicsResponse]) => {
-        const studentInfographics =
-          StudentInfographicsResponse.data?.studentInfographics || [];
+    return this.$axios
+      .get('/student/infographics')
+      .then((response) => {
+        const data = response.data?.data || response.data;
+        const allInfographics = data.infographics || [];
+        const studentInfographics = data.studentInfographics || [];
+
         commit('setStudentInfographics', studentInfographics);
-        const allInfographics = infographicsResponse.data?.infographics || [];
         commit(
           'setInfographics',
           allInfographics
@@ -72,6 +69,7 @@ export const actions = {
                 storage + '/infographics/' + infographic.image;
               infographic.learned = studentInfographics.some(
                 (studentInfographic) =>
+                  studentInfographic.infographic_id?._id === infographic._id ||
                   studentInfographic.infographic_id === infographic._id,
               );
               return infographic;
@@ -84,6 +82,9 @@ export const actions = {
       })
       .catch((error) => {
         console.warn('Error fetching infographics:', error);
+        // Asegurar que el estado se inicialice incluso si hay error
+        commit('setInfographics', []);
+        commit('setStudentInfographics', []);
         return error;
       })
       .finally(() => {

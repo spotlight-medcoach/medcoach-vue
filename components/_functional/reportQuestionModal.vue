@@ -17,7 +17,12 @@
         :clearable="false"
         v-model="form.type"
       ></v-select>
-      <textarea v-model="form.description" class="txt-area" rows="4" placeholder="Describe el problema"></textarea>
+      <textarea
+        v-model="form.description"
+        class="txt-area"
+        rows="4"
+        placeholder="Describe el problema"
+      ></textarea>
       <div class="btn-container">
         <b-overlay
           :show="loading"
@@ -39,8 +44,8 @@ export default {
   props: {
     caseId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -48,7 +53,7 @@ export default {
       form: {
         type: null,
         description: '',
-        case_id: null
+        case_id: null,
       },
       loading: false,
       typesProblems: [
@@ -57,51 +62,56 @@ export default {
         'Incomprensible',
         'Respuesta incorrecta',
         'Error de redacción',
-        'Otros'
-      ]
-    }
+        'Otros',
+      ],
+    };
   },
   methods: {
     showModal (event) {
-      this.showForm = true
-      document.body.style.overflow = 'hidden'
-      this.$store.commit('setShowStudentHeader', false)
+      this.showForm = true;
+      document.body.style.overflow = 'hidden';
+      this.$store.commit('setShowStudentHeader', false);
     },
     hideModal (event) {
-      this.showForm = false
-      this.$bvModal.hide('report-question-modal')
-      this.$store.commit('setShowStudentHeader', true)
+      this.showForm = false;
+      this.$bvModal.hide('report-question-modal');
+      this.$store.commit('setShowStudentHeader', true);
     },
     clearForm () {
-      this.form.type = null
-      this.form.description = ''
+      this.form.type = null;
+      this.form.description = '';
     },
     async sendReport () {
-      this.form.description = this.form.description.trim()
+      this.form.description = this.form.description.trim();
       if (!this.form.type) {
-        this.$toastr.error('Debe seleccionar el tipo de problema', 'Error')
-        return false
+        this.$toastr.error('Debe seleccionar el tipo de problema', 'Error');
+        return false;
       }
       if (this.form.description === '') {
-        this.$toastr.error('Debe introducir la descripción de su problema', 'Error')
-        return false
+        this.$toastr.error(
+          'Debe introducir la descripción de su problema',
+          'Error',
+        );
+        return false;
       }
-      this.form.case_id = this.caseId
-      this.loading = true
+      this.form.case_id = this.caseId;
+      this.loading = true;
       try {
-        const response = await this.$axios.post('/report', this.form)
-        this.$toastr.success('Su reporte se ha guardado correctamente', 'Éxito')
-        console.log(response)
-        this.clearForm()
-        this.hideModal()
+        await this.$axios.post('/report', this.form);
+        this.$toastr.success(
+          'Su reporte se ha guardado correctamente',
+          'Éxito',
+        );
+        this.clearForm();
+        this.hideModal();
       } catch (error) {
-        console.error(error)
-        this.$toastr.error('Hubo un problema al guardar el reporte', 'Error')
+        console.error(error);
+        this.$toastr.error('Hubo un problema al guardar el reporte', 'Error');
       }
-      this.loading = false
-    }
-  }
-}
+      this.loading = false;
+    },
+  },
+};
 </script>
 <style lang="scss">
 #report-question-modal {
@@ -111,7 +121,7 @@ export default {
   }
 
   .title {
-    font-family: "Avenir";
+    font-family: 'Avenir';
     font-size: 24px;
     font-weight: 800;
     line-height: normal;
@@ -122,7 +132,7 @@ export default {
   .report-wrapper {
     width: 100%;
     .txt-area {
-      background-color: #EBEBEB;
+      background-color: #ebebeb;
       padding: 8px 12px;
       width: 100%;
       margin-top: 28px;
@@ -139,7 +149,7 @@ export default {
     }
     .button {
       color: white;
-      background-color: #FE9501;
+      background-color: #fe9501;
       padding: 11px 82px;
       margin: 0px auto;
       border: none;

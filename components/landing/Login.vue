@@ -130,51 +130,14 @@ export default {
             const student = data.payload;
             if (student) {
               this.$store.commit('setFreeTrial', student.is_free_trial);
-              if (!student.is_verified) {
-                this.$root.$emit('bv::show::modal', 'validate-phone-modal');
-              } else if (student.validated || student.is_free_trial) {
-                if (process.client) {
-                  localStorage.setItem('usertoken', data.token);
-                  this.$store.commit('setToken', data.token);
-                  this.$store.commit('setActiveSubscription', {
-                    plan_id: student.plan_id,
-                    active_subscription:
-                      student.plan_id !== undefined
-                        ? student.active_subscription
-                        : true,
-                  });
-                }
-                if (student.finished_diagnostic_test || student.is_free_trial) {
-                  if (
-                    student.plan_id !== undefined &&
-                    student.plan_id !== null &&
-                    student.plan_id !== ''
-                  ) {
-                    if (student.active_subscription) {
-                      localStorage.setItem(
-                        'active_subscription',
-                        student.active_subscription,
-                      );
-                      this.$router.push({ path: '/dashboard' });
-                    } else {
-                      localStorage.setItem(
-                        'active_subscription',
-                        student.active_subscription,
-                      );
-                      this.$router.push({ path: '/settings' });
-                    }
-                  } else {
-                    localStorage.setItem('active_subscription', true);
-                    this.$router.push({ path: '/dashboard' });
-                  }
-                } else {
-                  this.$router.push({ path: '/diagnostic_test' });
-                }
+              if (process.client) {
+                localStorage.setItem('usertoken', data.token);
+                this.$store.commit('setToken', data.token);
+              }
+              if (student.finished_diagnostic_test || student.is_free_trial) {
+                this.$router.push({ path: '/dashboard' });
               } else {
-                this.$router.push({
-                  name: 'welcome',
-                  query: { token: data.token },
-                });
+                this.$router.push({ path: '/diagnostic_test' });
               }
             } else {
               this.$toastr.error('Verifica tus claves de acceso', 'Error');

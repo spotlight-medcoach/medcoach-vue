@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import LoadingState from "@/components/LoadingState.vue";
+import LoadingState from '@/components/LoadingState.vue';
 export default {
   components: {
     LoadingState,
@@ -61,131 +61,131 @@ export default {
     brightness: undefined,
   },
   watch: {
-    async manual_id() {
+    async manual_id () {
       this.showLoading = true;
       await this.getManualHTML();
       this.showLoading = false;
     },
   },
-  data() {
+  data () {
     return {
       showLoading: true,
       my_window: window,
       manualHTML: null,
-      html_selection: "",
-      selection: "",
+      html_selection: '',
+      selection: '',
       cursor_index: 0,
       showFlashCards: false,
       optionsMenu: [
         {
-          name: "Crear Nota",
-          slug: "crear-nota",
-          class: "note-option",
+          name: 'Crear Nota',
+          slug: 'crear-nota',
+          class: 'note-option',
           id: 1,
         },
         {
-          name: "Crear Flashcard",
-          slug: "crear-flashcard",
-          class: "flashcard-option",
+          name: 'Crear Flashcard',
+          slug: 'crear-flashcard',
+          class: 'flashcard-option',
           id: 2,
         },
       ],
-      message: "Cargando manual, por favor espere",
-      message_error: "Ocurrió un error su petición",
+      message: 'Cargando manual, por favor espere',
+      message_error: 'Ocurrió un error su petición',
       error_http: false,
     };
   },
   computed: {
-    fontSize() {
+    fontSize () {
       return this.font_size;
     },
-    actualColorBg() {
+    actualColorBg () {
       return this.brightness.background;
     },
-    actualColorFont() {
+    actualColorFont () {
       return this.brightness.font;
     },
-    actualColorBtn() {
+    actualColorBtn () {
       return this.brightness.button;
     },
   },
-  async created() {
+  async created () {
     await this.getManualHTML();
     this.showLoading = false;
   },
   methods: {
-    getManualHTML() {
+    getManualHTML () {
       return this.$axios
         .get(`/student/manuals?manual_id=${this.manual_id}`)
         .then((res) => {
           this.manualHTML = res.data;
-          this.$emit("onFetchedManual");
+          this.$emit('onFetchedManual');
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     },
-    changeFontSize(change) {
+    changeFontSize (change) {
       const scale = 0.1;
       const fontSize = +parseFloat(change * scale + this.fontSize).toFixed(1);
       if (fontSize >= 1 && fontSize <= 1.4) {
         this.fontSize = fontSize;
       }
     },
-    changeBrightness(brightnessState) {
+    changeBrightness (brightnessState) {
       this.actualColorBg = brightnessState.background;
       this.actualColorBtn = brightnessState.button;
       this.actualColorFont = brightnessState.font;
     },
-    handleMouseUp(event, item) {
-      if (event.target.localName === "img") {
-        const modal = document.getElementById("myModal");
-        const modalImg = document.getElementById("img01");
-        const captionText = document.getElementById("caption");
+    handleMouseUp (event, item) {
+      if (event.target.localName === 'img') {
+        const modal = document.getElementById('myModal');
+        const modalImg = document.getElementById('img01');
+        const captionText = document.getElementById('caption');
         modalImg.src = event.target.src;
         captionText.innerHTML = event.target.alt;
-        modal.style.display = "block";
+        modal.style.display = 'block';
       }
       this.selection = item.selection.toString().trim();
       this.html_selection = this.selection2Html(item.selection);
-      if (this.html_selection !== "") {
+      if (this.html_selection !== '') {
         setTimeout(() => {
           this.showMenu(event, item);
         }, 250);
       }
-      this.html_selection += "<p><br></p>";
+      this.html_selection += '<p><br></p>';
     },
-    showMenu(event, item) {
+    showMenu (event, item) {
       const vueContextMenu = this.$refs.vueContextMenu;
       vueContextMenu.item = item;
       const menu = document.getElementById(vueContextMenu.elementId);
       if (!menu) {
-        alert("No hay elemento");
+        alert('No hay elemento');
         return;
       }
       if (!vueContextMenu.menuWidth || !vueContextMenu.menuHeight) {
-        menu.style.visibility = "hidden";
-        menu.style.display = "block";
+        menu.style.visibility = 'hidden';
+        menu.style.display = 'block';
         vueContextMenu.menuWidth = menu.offsetWidth;
         vueContextMenu.menuHeight = menu.offsetHeight;
-        menu.removeAttribute("style");
+        menu.removeAttribute('style');
       }
       if (vueContextMenu.menuWidth + event.pageX >= window.innerWidth) {
-        menu.style.left = event.pageX - vueContextMenu.menuWidth + 2 + "px";
+        menu.style.left = event.pageX - vueContextMenu.menuWidth + 2 + 'px';
       } else {
-        menu.style.left = event.pageX - 2 + "px";
+        menu.style.left = event.pageX - 2 + 'px';
       }
       if (vueContextMenu.menuHeight + event.pageY >= window.innerHeight) {
-        menu.style.top = event.pageY - vueContextMenu.menuHeight + 2 + "px";
+        menu.style.top = event.pageY - vueContextMenu.menuHeight + 2 + 'px';
       } else {
-        menu.style.top = event.pageY - 2 + "px";
+        menu.style.top = event.pageY - 2 + 'px';
       }
-      menu.classList.add("vue-simple-context-menu--active");
+      menu.classList.add('vue-simple-context-menu--active');
     },
-    selection2Html(selection) {
-      let html = "";
+    selection2Html (selection) {
+      let html = '';
       if (selection.rangeCount) {
-        const container = document.createElement("div");
+        const container = document.createElement('div');
         for (let i = 0, len = selection.rangeCount; i < len; ++i) {
           container.appendChild(selection.getRangeAt(i).cloneContents());
         }
@@ -193,13 +193,13 @@ export default {
       }
       return html;
     },
-    optionClicked(event) {
+    optionClicked (event) {
       if (event.option.id === 1) {
-        this.$emit("onCopyToNotes", this.html_selection);
+        this.$emit('onCopyToNotes', this.html_selection);
       } else {
         this.showFlashCards = true;
         setTimeout(() => {
-          this.$emit("onCopyToFlashCard", this.html_selection);
+          this.$emit('onCopyToFlashCard', this.html_selection);
         }, 500);
       }
     },
@@ -207,7 +207,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/variables/color-palette.scss";
+@import '@/assets/css/variables/color-palette.scss';
 .widthS {
   min-width: 600px;
 }
