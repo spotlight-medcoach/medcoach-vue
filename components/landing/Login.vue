@@ -127,12 +127,13 @@ export default {
               '/student/auth/login',
               this.form,
             );
-            const student = data.payload;
+            const student = data.data.payload;
+            const token = data.data.token;
             if (student) {
               this.$store.commit('setFreeTrial', student.is_free_trial);
               if (process.client) {
-                localStorage.setItem('usertoken', data.token);
-                this.$store.commit('setToken', data.token);
+                localStorage.setItem('usertoken', token);
+                this.$store.commit('setToken', token);
               }
               if (student.finished_diagnostic_test || student.is_free_trial) {
                 this.$router.push({ path: '/dashboard' });
