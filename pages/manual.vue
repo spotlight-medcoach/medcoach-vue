@@ -157,11 +157,15 @@ export default {
 @import '@/assets/css/variables/_student_main.scss';
 #manual {
   display: grid;
-  grid-template-columns: 3fr minmax(340px, 1fr);
+  grid-template-columns: 1fr minmax(324px, auto);
   grid-template-areas: 'main notes';
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
   .general-container {
     grid-area: main;
     position: relative;
+    min-width: 0;
     .shadow-sm.full {
       height: calc(#{$student-main-content-height} - 3rem - 60px);
     }
@@ -169,6 +173,7 @@ export default {
   .quill-notes-container {
     grid-area: notes;
     overflow-y: auto;
+    min-width: 324px;
     &.shadow-sm.full {
       height: calc(#{$student-main-content-height} - 2rem);
     }
