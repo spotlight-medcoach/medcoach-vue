@@ -99,12 +99,14 @@ export default {
         try {
           const response = await this.$axios.get('/student/profile');
           // Verificar si la respuesta es 200 o 201 y si el plan está listo
+          console.log('Response status: ', response.status);
           if (
             (response.status === 200 ||
               response.status === 201 ||
               response.status === 304) &&
             response.data
           ) {
+            console.log('Response data: ', response.data);
             const student = response.data.student || response.data;
             // Si phase > 0, el plan está listo
             if (student && student.phase > 0) {

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 export default {
   computed: {
     ...mapState({
@@ -50,14 +50,14 @@ export default {
     }),
   },
   methods: {
-    selectSubtopic(index) {
-      this.$store.dispatch("topics/changeSubtopic", index);
+    selectSubtopic (index) {
+      this.$store.dispatch('topics/changeSubtopic', index);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/variables/color-palette.scss";
+@import '@/assets/css/variables/color-palette.scss';
 #manuals-subtopics {
   height: 100%;
   overflow-y: scroll;
