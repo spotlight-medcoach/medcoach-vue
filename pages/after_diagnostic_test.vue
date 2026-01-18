@@ -99,19 +99,26 @@ export default {
         try {
           const response = await this.$axios.get('/student/profile');
           // Verificar si la respuesta es 200 o 201 y si el plan está listo
-          console.log('Response status: ', response.status);
           if (
             (response.status === 200 ||
               response.status === 201 ||
               response.status === 304) &&
             response.data
           ) {
-            console.log('Response data: ', response.data);
-            const student = response.data.student || response.data;
-            // Si phase > 0, el plan está listo
-            if (student && student.phase > 0) {
-              this.stopPolling();
-              this.initializeDashboard();
+            if (
+              !response.data &&
+              !response.data.data &&
+              !response.data.data.student
+            ) {
+              console.error('No student data found in response');
+              return;
+            } else if (response.data.data.student) {
+              const student = response.data.data.student;
+              // Si phase > 0, el plan está listo
+              if (student && student.phase > 0) {
+                this.stopPolling();
+                this.initializeDashboard();
+              }
             }
           }
         } catch (error) {
