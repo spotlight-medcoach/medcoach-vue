@@ -4,22 +4,26 @@
       <article id="left-article" ref="leftArticle">
         <CustomTestMode :settings="settings" class="mb-16px" />
         <CustomTestTopics
-          :settings="settings"
           ref="customTestTopics"
+          :settings="settings"
           class="mb-16px"
         />
-        <CustomTestSubtopics :settings="settings" class="mb-32px" />
+        <CustomTestSubtopics
+          :settings="settings"
+          class="mb-32px"
+          @update:questions-quantity="settings.questions_quantity = $event"
+        />
       </article>
     </div>
     <CustomTestHistory />
   </section>
 </template>
 <script>
-import { mapState } from "vuex";
-import CustomTestMode from "@/components/custom_test_config/CustomTestMode";
-import CustomTestTopics from "@/components/custom_test_config/CustomTestTopics";
-import CustomTestSubtopics from "@/components/custom_test_config/CustomTestSubtopics";
-import CustomTestHistory from "@/components/custom_test_config/CustomTestHistory";
+import { mapState } from 'vuex';
+import CustomTestMode from '@/components/custom_test_config/CustomTestMode';
+import CustomTestTopics from '@/components/custom_test_config/CustomTestTopics';
+import CustomTestSubtopics from '@/components/custom_test_config/CustomTestSubtopics';
+import CustomTestHistory from '@/components/custom_test_config/CustomTestHistory';
 
 export default {
   components: {
@@ -28,11 +32,11 @@ export default {
     CustomTestSubtopics,
     CustomTestHistory,
   },
-  data() {
+  data () {
     return {
       settings: {
         time: false,
-        mode: "",
+        mode: '',
         questions_quantity: 1,
         minQuestions: 1,
         maxQuestions: 40,
@@ -44,31 +48,23 @@ export default {
   computed: {
     ...mapState({
       topics: (state) => state.custom_test.topics,
-      fetchedData: (state) => state.custom_test.fetchedData,
     }),
   },
   watch: {
-    "settings.mode"(newVal) {
+    'settings.mode' (newVal) {
       if (newVal) {
-        this.$store.commit("custom_test/setType", newVal);
+        this.$store.commit('custom_test/setType', newVal);
         this.topics.forEach((topic) => {
           this.customTestTopics.updateTopic(topic._id, false);
         });
       }
     },
   },
-  methods: {},
-  mounted() {
+  mounted () {
     this.customTestTopics = this.$refs.customTestTopics;
     this.left_article_height = this.$refs.leftArticle.clientHeight;
   },
-  async created() {
-    this.$store.commit("custom_test/setHistory", null);
-    this.$store.dispatch("custom_test/fetchHistory");
-    if (!this.fetchedData) {
-      await this.$store.dispatch("custom_test/init");
-    }
-  },
+  methods: {},
 };
 </script>
 <style lang="scss">

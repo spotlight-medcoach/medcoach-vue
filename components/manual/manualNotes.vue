@@ -150,9 +150,9 @@ export default {
     },
     getManualNote () {
       return this.$axios
-        .get(`/student/manuals/note?manualId=${this.manualId}`)
+        .get(`/student/manuals/note?manual_id=${this.manualId}`)
         .then((res) => {
-          this.editor.clipboard.dangerouslyPasteHTML(res.data.note);
+          this.editor.clipboard.dangerouslyPasteHTML(res.data.data.note);
           this.finished = res.data.finished;
           this.$emit('isFinished', this.finished);
           this.autoSave();
@@ -187,7 +187,7 @@ export default {
     async saveNote () {
       if (this.content.trim() !== '') {
         const params = {
-          manualId: this.manualId,
+          manual_id: this.manualId,
           body: this.content,
         };
         this.savingNotes = true;

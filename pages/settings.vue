@@ -30,7 +30,7 @@
               <b-col>
                 <label>Nombre</label>
                 <b-form-input
-                  v-model="userInfo.first_name"
+                  v-model="userInfo.name"
                   class="inputForm input-valid"
                   :state="null"
                   placeholder="Nombre"

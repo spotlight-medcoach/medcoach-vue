@@ -1,6 +1,6 @@
 <template>
   <div id="config_custom_test">
-    <div v-if="onHttpRequest">
+    <div v-if="loading">
       <loading-state :message="message" />
     </div>
     <div v-else-if="errorHttp">
@@ -13,22 +13,42 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import LoadingState from '@/components/LoadingState.vue'
-import CustomTestConfig from '@/components/custom_test_config/CustomTestConfig.vue'
+import { mapState } from 'vuex';
+import LoadingState from '@/components/LoadingState.vue';
+import CustomTestConfig from '@/components/custom_test_config/CustomTestConfig.vue';
 
 export default {
-  layout: 'new_default',
   components: {
     LoadingState,
-    CustomTestConfig
+    CustomTestConfig,
+  },
+  layout: 'new_default',
+  data () {
+    return {
+      loading: true,
+    };
   },
   computed: {
     ...mapState({
-      onHttpRequest: state => state.http_request.onHttpRequest,
-      message: state => state.http_request.message,
-      errorHttp: state => state.http_request.errorHttp
-    })
-  }
-}
+      message: (state) => state.http_request.message,
+      errorHttp: (state) => state.http_request.errorHttp,
+      fetchedData: (state) => state.custom_test.fetchedData,
+    }),
+  },
+  async created () {
+    try {
+      // Iniciar carga de datos del custom test
+      this.$store.commit('custom_test/setHistory', null);
+      this.$store.dispatch('custom_test/fetchHistory');
+      if (!this.fetchedData) {
+        await this.$store.dispatch('custom_test/init');
+      }
+    } catch (error) {
+      console.error('Error loading custom test config:', error);
+    } finally {
+      // Desactivar loading después de cargar los datos
+      this.loading = false;
+    }
+  },
+};
 </script>

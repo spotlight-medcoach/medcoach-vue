@@ -41,6 +41,9 @@ export default {
       return this.$route.name;
     },
   },
+  mounted () {
+    console.log(this.user);
+  },
   methods: {
     logout () {
       this.$router.push({ path: '/' });
