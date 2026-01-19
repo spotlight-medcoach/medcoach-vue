@@ -22,34 +22,35 @@
     <!------------------------------------------------------------------------- RIGHT CONTENT -->
     <div class="d-inline-flex align-items-center neutral-color-600">
       <!----------------------------------------------------------------- Cambiar brillo de vista -->
-      <div class="mx-2 d-inline-flex align-items-center">
+      <div
+        v-b-tooltip.hover
+        class="mx-2 d-inline-flex align-items-center"
+        title="Cambiar modo de lectura"
+      >
         <switch-brightness-button @onChangeBrightness="changeBrightness" />
       </div>
       <div class="v-divider" />
       <!----------------------------------------------------------------- Cambiar tamaño de letra -->
       <div class="mx-2 d-inline-flex align-items-center">
-        <b-icon icon="dash" class="m-2 pointer" @click="changeFontSize(-1)" />
+        <span
+          v-b-tooltip.hover
+          title="Disminuir tamaño de letra"
+          class="pointer"
+        >
+          <b-icon icon="dash" class="m-2" @click="changeFontSize(-1)" />
+        </span>
         <strong class="change-font-size-button">
           <small>A</small>
           <span>A</span>
         </strong>
-        <b-icon icon="plus" class="m-2 pointer" @click="changeFontSize(1)" />
+        <span
+          v-b-tooltip.hover
+          title="Aumentar tamaño de letra"
+          class="pointer"
+        >
+          <b-icon icon="plus" class="m-2" @click="changeFontSize(1)" />
+        </span>
       </div>
-      <!----------------------------------------------------------------- Marcar como aprendido -->
-      <template v-if="phase.id !== 2">
-        <div class="v-divider" />
-        <div class="mx-2 d-inline-flex align-items-center">
-          <holdable-button
-            ref="finish-manual-button"
-            message="Manten presionado para marcar como aprendido"
-            :max-width="230"
-            :default-value="!allowFinishManual"
-            :disabled="isFreeTrial || !allowFinishManual"
-            @onCheck="finishManual"
-          />
-        </div>
-        <!-- <div class="v-divider" /> -->
-      </template>
       <!----------------------------------------------------------------- Reportar manual -->
       <!-- <div class="mx-2 d-inline-flex align-items-center main-color">
 				<b-icon
@@ -65,11 +66,9 @@
 <script>
 import { mapState } from 'vuex';
 import SwitchBrightnessButton from '@/components/_functional/switchBrightnessButton.vue';
-import HoldableButton from '@/components/_functional/holdableButton.vue';
 export default {
   components: {
     SwitchBrightnessButton,
-    HoldableButton,
   },
   props: {
     manualId: {
@@ -146,8 +145,6 @@ export default {
       return '';
     },
     ...mapState({
-      isFreeTrial: (state) => state.isFreeTrial,
-      phase: (state) => state.phase,
       topics: (state) => state.topics.data,
       manuals: (state) => state.topics.manuals,
     }),
@@ -204,7 +201,10 @@ export default {
       this.$emit('onFinishManual');
     },
     resetFinishManualButton () {
-      this.$refs['finish-manual-button'].reset();
+      // Este método se mantiene para compatibilidad, pero el botón ya no está aquí
+      if (this.$refs['finish-manual-button']) {
+        this.$refs['finish-manual-button'].reset();
+      }
     },
   },
 };
