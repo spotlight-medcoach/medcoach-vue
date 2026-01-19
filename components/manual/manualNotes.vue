@@ -40,7 +40,7 @@
 import { mapGetters } from 'vuex';
 export default {
   props: {
-    manual_id: {
+    manualId: {
       type: String,
       default: undefined,
     },
@@ -53,6 +53,7 @@ export default {
     return {
       next: () => true,
       content: '',
+      cursor_index: null,
       savingNotes: false,
       savedNotesCheck: undefined,
       savedNotes: true,
@@ -88,8 +89,10 @@ export default {
     }),
   },
   watch: {
-    notes () {
-      this.content += '<br>' + this.notes;
+    notes (newNotes) {
+      if (newNotes && newNotes.trim() !== '') {
+        this.insertNotesAtCursor(newNotes);
+      }
     },
   },
   async created () {
@@ -101,19 +104,53 @@ export default {
     };
   },
   methods: {
-    copyText () {
-      this.editor.clipboard.dangerouslyPasteHTML(
-        this.cursor_index,
-        this.html_selection,
-      );
+    insertNotesAtCursor (htmlContent) {
+      this.$nextTick(() => {
+        const quill = this.editor;
+        // Enfocar el editor para asegurar que el placeholder desaparezca
+        quill.focus();
+
+        // Obtener la selección actual o usar la última posición guardada
+        const range = quill.getSelection(true);
+        let insertIndex;
+
+        if (range) {
+          insertIndex = range.index;
+        } else if (
+          this.cursor_index !== undefined &&
+          this.cursor_index !== null
+        ) {
+          insertIndex = this.cursor_index;
+        } else {
+          // Si no hay posición guardada, insertar al final
+          insertIndex = quill.getLength() - 1;
+        }
+
+        // Insertar un salto de línea antes del contenido si no estamos al inicio
+        if (insertIndex > 0) {
+          quill.insertText(insertIndex, '\n', 'api');
+          insertIndex += 1;
+        }
+
+        // Usar dangerouslyPasteHTML para insertar HTML en la posición correcta
+        quill.clipboard.dangerouslyPasteHTML(insertIndex, htmlContent, 'api');
+
+        // Mover el cursor al final del contenido insertado
+        this.$nextTick(() => {
+          const newLength = quill.getLength();
+          quill.setSelection(newLength - 1, 0, 'api');
+        });
+      });
     },
     onEditorBlur (event) {
-      this.cursor_index = event.selection.savedRange.index;
-      this.cursor_index = event.getLength();
+      // Guardar la posición del cursor cuando el editor pierde el foco
+      if (event.selection && event.selection.savedRange) {
+        this.cursor_index = event.selection.savedRange.index;
+      }
     },
     getManualNote () {
       return this.$axios
-        .get(`/student/manuals/note?manual_id=${this.manual_id}`)
+        .get(`/student/manuals/note?manualId=${this.manualId}`)
         .then((res) => {
           this.editor.clipboard.dangerouslyPasteHTML(res.data.note);
           this.finished = res.data.finished;
@@ -150,7 +187,7 @@ export default {
     async saveNote () {
       if (this.content.trim() !== '') {
         const params = {
-          manual_id: this.manual_id,
+          manualId: this.manualId,
           body: this.content,
         };
         this.savingNotes = true;

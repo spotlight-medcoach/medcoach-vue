@@ -22,9 +22,9 @@
       <article>
         <manual-document
           class="shadow-sm full m-2"
-          :manual_id="manual_id"
+          :manual-id="manual_id"
           :brightness="brightness"
-          :font_size="font_size"
+          :font-size="font_size"
           @onFetchedManual="allowFlashCards"
           @onCopyToFlashCard="copyToFlashCard"
           @onCopyToNotes="copyToNotes"
@@ -33,9 +33,9 @@
       <!----------------------------------------------------------------- FLASHCARDS -->
       <manual-flashcard
         v-if="showFlashCards"
-        :manual_id="manual_id"
+        :manual-id="manual_id"
         :brightness="brightness"
-        :flash_b="flash_b"
+        :flash-b="flash_b"
       />
     </section>
     <!-- END MANUAL CONTENT -->
@@ -46,7 +46,7 @@
         <client-only>
           <manual-notes
             ref="notes"
-            :manual_id="manual_id"
+            :manual-id="manual_id"
             :notes="notes"
             @isFinished="getFinishedState"
           />
@@ -174,6 +174,7 @@ export default {
     grid-area: notes;
     overflow-y: auto;
     min-width: 324px;
+    max-width: 324px;
     &.shadow-sm.full {
       height: calc(#{$student-main-content-height} - 2rem);
     }

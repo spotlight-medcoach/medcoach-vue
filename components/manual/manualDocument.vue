@@ -23,13 +23,13 @@
         class="widthS"
       >
         <div
-          class="p-3 px-4"
           ref="manual-html"
+          class="p-3 px-4"
           @contextmenu.prevent.stop="return true;"
           @mouseup.prevent.stop="
             handleMouseUp($event, { selection: my_window.getSelection() })
           "
-          v-html="manualHTML"
+          v-html="manualHTML /* eslint-disable-line vue/no-v-html */"
         />
       </div>
       <!-- CONTEXT MENU -->
@@ -50,22 +50,15 @@ export default {
     LoadingState,
   },
   props: {
-    manual_id: {
+    manualId: {
       type: String,
       default: undefined,
     },
-    font_size: {
+    fontSize: {
       type: Number,
       default: 1,
     },
     brightness: undefined,
-  },
-  watch: {
-    async manual_id () {
-      this.showLoading = true;
-      await this.getManualHTML();
-      this.showLoading = false;
-    },
   },
   data () {
     return {
@@ -78,8 +71,8 @@ export default {
       showFlashCards: false,
       optionsMenu: [
         {
-          name: 'Crear Nota',
-          slug: 'crear-nota',
+          name: 'Agregar a notas',
+          slug: 'agregar-nota',
           class: 'note-option',
           id: 1,
         },
@@ -96,9 +89,6 @@ export default {
     };
   },
   computed: {
-    fontSize () {
-      return this.font_size;
-    },
     actualColorBg () {
       return this.brightness.background;
     },
@@ -109,6 +99,13 @@ export default {
       return this.brightness.button;
     },
   },
+  watch: {
+    async manualId () {
+      this.showLoading = true;
+      await this.getManualHTML();
+      this.showLoading = false;
+    },
+  },
   async created () {
     await this.getManualHTML();
     this.showLoading = false;
@@ -116,7 +113,7 @@ export default {
   methods: {
     getManualHTML () {
       return this.$axios
-        .get(`/student/manuals?manual_id=${this.manual_id}`)
+        .get(`/student/manuals?manual_id=${this.manualId}`)
         .then((res) => {
           this.manualHTML = res.data;
           this.$emit('onFetchedManual');
@@ -127,9 +124,11 @@ export default {
     },
     changeFontSize (change) {
       const scale = 0.1;
-      const fontSize = +parseFloat(change * scale + this.fontSize).toFixed(1);
-      if (fontSize >= 1 && fontSize <= 1.4) {
-        this.fontSize = fontSize;
+      const newFontSize = +parseFloat(change * scale + this.fontSize).toFixed(
+        1,
+      );
+      if (newFontSize >= 1 && newFontSize <= 1.4) {
+        this.$emit('update:fontSize', newFontSize);
       }
     },
     changeBrightness (brightnessState) {
@@ -163,6 +162,8 @@ export default {
         alert('No hay elemento');
         return;
       }
+
+      // Obtener dimensiones del menú
       if (!vueContextMenu.menuWidth || !vueContextMenu.menuHeight) {
         menu.style.visibility = 'hidden';
         menu.style.display = 'block';
@@ -170,16 +171,41 @@ export default {
         vueContextMenu.menuHeight = menu.offsetHeight;
         menu.removeAttribute('style');
       }
-      if (vueContextMenu.menuWidth + event.pageX >= window.innerWidth) {
-        menu.style.left = event.pageX - vueContextMenu.menuWidth + 2 + 'px';
+
+      // Usar clientX/clientY para posición relativa al viewport
+      const clickX = event.clientX;
+      const clickY = event.clientY;
+      const menuWidth = vueContextMenu.menuWidth;
+      const menuHeight = vueContextMenu.menuHeight;
+
+      // Calcular posición horizontal
+      let posX;
+      if (clickX + menuWidth >= window.innerWidth) {
+        posX = clickX - menuWidth + 2;
       } else {
-        menu.style.left = event.pageX - 2 + 'px';
+        posX = clickX - 2;
       }
-      if (vueContextMenu.menuHeight + event.pageY >= window.innerHeight) {
-        menu.style.top = event.pageY - vueContextMenu.menuHeight + 2 + 'px';
+
+      // Calcular posición vertical - verificar si hay espacio abajo o arriba
+      let posY;
+      const spaceBelow = window.innerHeight - clickY;
+      const spaceAbove = clickY;
+
+      if (spaceBelow >= menuHeight) {
+        // Hay espacio abajo, mostrar debajo del cursor
+        posY = clickY - 2;
+      } else if (spaceAbove >= menuHeight) {
+        // No hay espacio abajo pero sí arriba, mostrar encima
+        posY = clickY - menuHeight + 2;
       } else {
-        menu.style.top = event.pageY - 2 + 'px';
+        // No hay suficiente espacio en ningún lado, mostrar lo más arriba posible
+        posY = Math.max(2, clickY - menuHeight + 2);
       }
+
+      // Usar position fixed para evitar problemas de scroll
+      menu.style.position = 'fixed';
+      menu.style.left = posX + 'px';
+      menu.style.top = posY + 'px';
       menu.classList.add('vue-simple-context-menu--active');
     },
     selection2Html (selection) {
