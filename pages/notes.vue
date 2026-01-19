@@ -21,7 +21,7 @@
         <ManualsStudyGuide
           class="shadow-sm px-4 py-4"
           :class="isNotes ? 'full reduced' : 'full'"
-          :isNotes="isNotes"
+          :is-notes="isNotes"
         />
       </article>
     </section>
@@ -86,29 +86,18 @@ export default {
     }),
   },
   mounted () {
-    if (!this.$store.state.topics.fetchedManuals) {
-      this.getAllManuals();
-    } else {
-      this.load = true;
-    }
+    // Forzar actualización de topics al entrar a notes
+    this.refreshTopics();
   },
   methods: {
-    getAllManuals () {
-      return this.$axios
-        .get('/catalogues/topics', {
-          headers: {
-            Authorization: `Bearer ${this.$store.state.token}`,
-          },
-        })
-        .then((res) => {
-          // La respuesta puede estar en res.data.data o directamente en res.data
-          const responseData = res.data.data || res.data;
-          this.allManuals = responseData.topics || responseData;
-          this.$store.commit('topics/setTopics', this.allManuals);
+    refreshTopics () {
+      this.$store
+        .dispatch('topics/fetchTopics', true)
+        .then(() => {
           this.load = true;
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           this.manuals_not_found = true;
         });
     },

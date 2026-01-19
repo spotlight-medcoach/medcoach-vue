@@ -14,21 +14,14 @@
       <article class="p-2">
         <div
           v-if="isNotes"
-          class="
-            d-flex
-            align-items-center
-            justify-content-center
-            shadow-sm
-            p-3
-            mb-3
-          "
+          class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3"
         >
           <div class="text-center body-medium-3">Notas y Flashcards</div>
         </div>
         <ManualsStudyGuide
           class="shadow-sm px-4 py-4"
           :class="isNotes ? 'full reduced' : 'full'"
-          :isNotes="isNotes"
+          :is-notes="isNotes"
         />
       </article>
     </section>
@@ -53,6 +46,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  mounted () {
+    // Forzar actualización de topics al entrar a manuals
+    this.$store.dispatch('topics/fetchTopics', true);
   },
 };
 </script>

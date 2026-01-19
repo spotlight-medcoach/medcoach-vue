@@ -67,25 +67,25 @@ export default async function auth ({ redirect, route, store }) {
     return;
   }
 
-  // Para la ruta dashboard, siempre actualizar studentInfo para obtener el phase más reciente
-  // Esto es importante porque después de completar el diagnóstico, el phase puede cambiar
-  if (routeName === 'dashboard') {
+  // Cargar studentInfo usando caché inteligente
+  // El caché se maneja dentro de fetchStudentInfo
+  if (!store.state.studentInfo) {
     try {
-      const student = await store.dispatch('fetchStudentInfo');
-      // Verificar que el estado se haya actualizado
-      if (!store.state.studentInfo && student) {
-        // Si por alguna razón el commit no se ejecutó, hacerlo manualmente
-        store.commit('setStudentInfo', student);
-      }
-    } catch (error) {
-      console.error('Error fetching student info in dashboard:', error);
-    }
-  } else if (!store.state.studentInfo) {
-    // Para otras rutas, solo cargar si no está disponible
-    try {
+      // fetchStudentInfo usará el caché si está disponible y válido
       await store.dispatch('fetchStudentInfo');
     } catch (error) {
       console.error('Error fetching student info:', error);
+    }
+  }
+
+  // Para rutas post-diagnóstico donde el phase puede haber cambiado,
+  // forzar actualización solo si viene de after_diagnostic_test
+  if (routeName === 'dashboard' && !store.state.studentInfo?.phase) {
+    try {
+      // Forzar actualización si no hay phase (puede haber cambiado después del diagnóstico)
+      await store.dispatch('fetchStudentInfo', true);
+    } catch (error) {
+      console.error('Error refreshing student info in dashboard:', error);
     }
   }
 

@@ -1,4 +1,5 @@
 import * as data from '@/components/manuals/manualsData.json';
+import { getTopicsCache, setTopicsCache } from '@/helpers/topicsCache';
 const initTopic = data.topics[0];
 const initSubtopic = initTopic.subtopics[0];
 
@@ -114,12 +115,28 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchTopics ({ commit }) {
+  /**
+   * Obtiene los topics, primero verificando el caché
+   * @param {boolean} forceRefresh - Si es true, ignora el caché y consulta la API
+   */
+  fetchTopics ({ commit }, forceRefresh = false) {
+    // Verificar caché primero (a menos que se fuerce la actualización)
+    if (!forceRefresh) {
+      const cachedTopics = getTopicsCache();
+      if (cachedTopics) {
+        commit('setTopics', cachedTopics);
+        return Promise.resolve(true);
+      }
+    }
+
+    // Si no hay caché válido o se forzó actualización, consultar la API
     return this.$axios.get('/catalogues/topics').then((res) => {
       // La respuesta puede estar en res.data.data o directamente en res.data
       const responseData = res.data.data || res.data;
       const allManuals = responseData.topics || responseData;
       commit('setTopics', allManuals);
+      // Guardar en caché
+      setTopicsCache(allManuals);
       return true;
     });
   },

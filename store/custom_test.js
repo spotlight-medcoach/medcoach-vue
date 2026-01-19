@@ -193,7 +193,7 @@ export const mutations = {
           question.time = 0;
         }
         if (question.first_answer === undefined) {
-          question.first_answer = 0;
+          question.first_answer = -1;
         }
         question.index = index;
         return question;
@@ -211,7 +211,7 @@ export const mutations = {
   },
   setQuestionResponse (state, payload) {
     const { index, value } = payload;
-    if (state.customTest.questions[index].first_answer === 0) {
+    if (state.customTest.questions[index].first_answer === -1) {
       state.customTest.questions[index].first_answer = value;
     }
     state.customTest.questions[index].response = value;
@@ -285,10 +285,14 @@ export const mutations = {
   },
   setSelectedQuestion (state, payload) {
     state.selectedQuestion = payload;
-    state.caseId = payload.case_id;
-    state.caseIndex = state.customTest.cases.findIndex(
-      (caso) => caso.id === state.caseId,
-    );
+    state.caseId = payload?.case_id || null;
+    if (state.caseId && state.customTest?.cases?.length) {
+      state.caseIndex = state.customTest.cases.findIndex(
+        (caso) => caso.id === state.caseId,
+      );
+    } else {
+      state.caseIndex = -1;
+    }
   },
 };
 

@@ -1,4 +1,9 @@
 import moment from 'moment';
+import {
+  getStudentCache,
+  setStudentCache,
+  clearStudentCache,
+} from '@/helpers/studentCache';
 moment.locale('es');
 
 export const state = () => ({
@@ -114,6 +119,8 @@ export const actions = {
   },
   killSession ({ commit }) {
     localStorage.removeItem('usertoken');
+    // Limpiar caché del perfil
+    clearStudentCache();
     commit('setToken', null);
     commit('setStudentInfo', null);
     commit('setBearer');
@@ -125,7 +132,21 @@ export const actions = {
     };
     commit('setPhase', phase);
   },
-  fetchStudentInfo ({ commit }) {
+  /**
+   * Obtiene la información del estudiante, primero verificando el caché
+   * @param {boolean} forceRefresh - Si es true, ignora el caché y consulta la API
+   */
+  fetchStudentInfo ({ commit }, forceRefresh = false) {
+    // Verificar caché primero (a menos que se fuerce la actualización)
+    if (!forceRefresh) {
+      const cachedStudent = getStudentCache();
+      if (cachedStudent) {
+        commit('setStudentInfo', cachedStudent);
+        return Promise.resolve(cachedStudent);
+      }
+    }
+
+    // Si no hay caché válido o se forzó actualización, consultar la API
     return this.$axios
       .$get('/student/profile')
       .then((result) => {
@@ -134,6 +155,8 @@ export const actions = {
         const student = result?.student || result?.data?.student || result;
         if (student && (student._id || student.id)) {
           commit('setStudentInfo', student);
+          // Guardar en caché
+          setStudentCache(student);
           return student;
         } else {
           console.warn(

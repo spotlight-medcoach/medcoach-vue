@@ -210,6 +210,7 @@ import { mapState } from 'vuex';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import LoadingState from '@/components/LoadingState.vue';
+import { updateStudentCache } from '@/helpers/studentCache';
 
 export default {
   name: 'Configuracion',
@@ -368,6 +369,8 @@ export default {
         .then(() => {
           this.$toastr.success('Información guardada correctamente', '¡Éxito!');
           this.$store.commit('setStudentInfo', this.userInfo);
+          // Actualizar el caché con la nueva información
+          updateStudentCache(this.userInfo);
         })
         .catch((err) => {
           console.error(err);

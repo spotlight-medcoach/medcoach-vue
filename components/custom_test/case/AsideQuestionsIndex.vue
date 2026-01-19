@@ -8,11 +8,11 @@
     <p v-else class="text-center body-title-1 mb-32px">Preguntas</p>
     <div>
       <div
-        class="question-element cursor-pointer"
         v-for="(question, index) in custom_test.questions"
         :key="`question-${index}`"
+        class="question-element cursor-pointer"
         :class="{
-          'question-element-answered': question.response != 0,
+          'question-element-answered': question.response >= 0,
           'question-element-current': question.index == selectedQuestion.index,
           'question-element-correct':
             retro && question.correct_answer === question.response,
@@ -51,14 +51,14 @@ import { mapState, mapGetters } from 'vuex';
 import RedFlagIcon from '@/components/icons/RedFlagIcon';
 
 export default {
+  components: {
+    RedFlagIcon,
+  },
   props: {
     retro: {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    RedFlagIcon,
   },
   computed: {
     ...mapGetters({
