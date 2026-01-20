@@ -82,7 +82,7 @@ export const actions = {
     return this.$axios
       .get(`/student/flashcards?manual_id=${manualId}`)
       .then((response) => {
-        commit('setFlashcards', response.data.flashcards);
+        commit('setFlashcards', response.data.data.flashcards);
         return true;
       });
   },
