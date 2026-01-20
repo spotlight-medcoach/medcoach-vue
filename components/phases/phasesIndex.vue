@@ -155,12 +155,24 @@ export default {
       switch (this.phase.id) {
         case 1: {
           // fase I tiene una duración elástica que se determina a partir del día de inicio hasta terminar los manuales
+          const phase1Total =
+            normalizedProgress > normalizedTotal
+              ? normalizedProgress
+              : normalizedTotal;
+          // Días restantes de fase 1 (lo que muestra el subheader)
+          const phase1Remaining = phase1Total - normalizedProgress;
+          // Estimación de fase 2: días restantes ENARM - días restantes fase 1 - 40 días de fase 3
+          const phase2Estimate = Math.max(
+            1,
+            (this.restDays || 0) - phase1Remaining - this.phase_3_days,
+          );
           Object.assign(phasesContent[1], {
-            total:
-              normalizedProgress > normalizedTotal
-                ? normalizedProgress
-                : normalizedTotal,
+            total: phase1Total,
             progress: normalizedProgress,
+          });
+          Object.assign(phasesContent[2], {
+            total: phase2Estimate,
+            progress: 0,
           });
           break;
         }
