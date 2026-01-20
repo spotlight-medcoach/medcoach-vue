@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/prop-name-casing -->
 <template>
   <section id="note-review">
     <div class="note-sheet">
@@ -19,20 +20,19 @@
             <div class="d-inline-flex align-items-center">
               <holdable-button
                 message="Manten presionado para marcar como aprendido"
-                :maxWidth="230"
+                :max-width="230"
                 @onCheck="finishReview"
-              >
-              </holdable-button>
+              />
             </div>
           </div>
         </div>
       </div>
       <div class="note-edition-area">
         <!-- Contenedor de la nota del manual -->
-        <div id="review-content" v-if="printing">
-          <div class="ql-editor" id="print-div">
+        <div v-if="printing" id="review-content">
+          <div id="print-div" class="ql-editor">
             <h3>{{ title }}</h3>
-            <div v-html="content"></div>
+            <div v-html="content" />
           </div>
         </div>
         <div v-else class="position-relative">
@@ -46,7 +46,7 @@
               spinner-variant="primary"
               class="d-inline-block"
             >
-              <img src="@/assets/icons/save.svg" width="30" @click="saveNote" />
+              <img src="@/assets/icons/save.svg" width="30" @click="saveNote">
             </b-overlay>
           </div>
           <!----- Editor de Nota -------->
@@ -90,6 +90,13 @@ import ExcludeIcon from '@/components/icons/ExcludeIcon.vue';
 import PrintIcon from '@/components/icons/PrintIcon.vue';
 
 export default {
+  components: {
+    HoldableButton,
+    ExpandIcon,
+    ManualsIcon,
+    ExcludeIcon,
+    PrintIcon,
+  },
   props: {
     manual_id: {
       type: String,
@@ -103,13 +110,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    HoldableButton,
-    ExpandIcon,
-    ManualsIcon,
-    ExcludeIcon,
-    PrintIcon,
   },
   data () {
     return {
@@ -159,6 +159,9 @@ export default {
     ...mapGetters({
       notesTimelapse: 'studytime/notesTimelapse',
     }),
+  },
+  created () {
+    this.content = this.note.note.slice(0, -1);
   },
   methods: {
     saveNote () {
@@ -234,12 +237,6 @@ export default {
     goToFlashcardsList () {
       this.$emit('setCurrentComponent', 'flashcards_list');
     },
-  },
-  created () {
-    this.content = this.note.note.slice(0, -1);
-  },
-  mounted () {
-    // this.addStudyTime()
   },
 };
 </script>

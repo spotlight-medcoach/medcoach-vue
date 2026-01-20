@@ -1,26 +1,19 @@
 <template>
   <div
     id="manuals-study-guide"
-    class="d-flex flex-column justify-content-between"
     ref="skills"
+    class="d-flex flex-column justify-content-between"
   >
     <div
       v-if="isNotes"
-      class="
-        d-flex
-        align-items-center
-        justify-content-center
-        shadow-sm
-        p-3
-        mb-3
-      "
+      class="d-flex align-items-center justify-content-center shadow-sm p-3 mb-3"
     >
       <div class="text-center body-medium-3">Notas y Flashcards</div>
     </div>
     <div
       v-if="subtopic.manuals.length"
       class="manuals-list"
-      :style="{ 'column-count': calculeColumns(this.$refs.skills) }"
+      :style="{ 'column-count': calculeColumns($refs.skills) }"
     >
       <template v-if="isNotes === true">
         <div
@@ -30,19 +23,24 @@
           :class="{ review: manual.finished }"
         >
           <nuxt-link
+            v-if="manual.finished"
             class="pointer body-medium-3"
             :to="`/review?manual_id=${manual.id}`"
-            v-if="manual.finished"
           >
             {{ manual.name }}
           </nuxt-link>
-          <div class="body-medium-3" style="opacity: 0.3" v-else>
+          <div v-else class="body-medium-3" style="opacity: 0.3">
             {{ manual.name }}
           </div>
         </div>
       </template>
       <template v-else>
-        <div v-for="manual in subtopic.manuals" :key="manual._id" class="mb-3">
+        <div
+          v-for="manual in subtopic.manuals"
+          :key="manual._id"
+          class="mb-3"
+          :class="{ review: manual.finished }"
+        >
           <div v-if="manual.isExtra">
             <nuxt-link
               class="pointer body-medium-3"
@@ -62,40 +60,26 @@
         </div>
       </template>
     </div>
-    <div class="row" v-else-if="!fetchedManuals">
+    <div v-else-if="!fetchedManuals" class="row">
       <div
-        class="
-          col-sm-12
-          text-center
-          d-flex
-          justify-content-around
-          pointer
-          align-items-center
-        "
+        class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center"
       >
         <div>
           <b class="mb-2">Cargando manuales</b>
-          <div><img src="@/assets/icons/loading.svg" width="40" /></div>
+          <div><img src="@/assets/icons/loading.svg" width="40"></div>
         </div>
       </div>
     </div>
-    <div class="row" v-else>
+    <div v-else class="row">
       <div
-        class="
-          col-sm-12
-          text-center
-          d-flex
-          justify-content-around
-          pointer
-          align-items-center
-        "
+        class="col-sm-12 text-center d-flex justify-content-around pointer align-items-center"
       >
         <div>
           <b class="mb-2">No hay manuales</b>
         </div>
       </div>
     </div>
-    <div class="text-center mx-5 mt-4" v-if="isNotes === true">
+    <div v-if="isNotes === true" class="text-center mx-5 mt-4">
       Los manuales resaltados son aquellos en los que has realizado notas y/o
       flashcards
     </div>
@@ -104,7 +88,24 @@
 <script>
 import { mapState } from 'vuex';
 export default {
-  props: ['topicId', 'subTopicId', 'allManuals', 'isNotes'],
+  props: {
+    topicId: {
+      type: String,
+      required: true,
+    },
+    subTopicId: {
+      type: String,
+      required: true,
+    },
+    allManuals: {
+      type: Array,
+      required: true,
+    },
+    isNotes: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data () {
     return {
       manuals: [],

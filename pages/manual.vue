@@ -59,10 +59,20 @@
           <template v-if="phase && phase.id !== 2">
             <holdable-button
               ref="finish-manual-button"
-              message="Manten presionado para marcar como aprendido"
+              :message="
+                finishedFromBackend
+                  ? 'Manual finalizado'
+                  : 'Manten presionado para marcar como aprendido'
+              "
               :max-width="230"
+              :min-width="230"
               :default-value="!(!finished && !finish_manual_extra)"
-              :disabled="isFreeTrial || finished || finish_manual_extra"
+              :disabled="
+                isFreeTrial ||
+                  finished ||
+                  finish_manual_extra ||
+                  finishedFromBackend
+              "
               @onCheck="finishManual"
             />
           </template>
@@ -126,6 +136,7 @@ export default {
       finish_manual_extra: this.$route.query.finishManualExtra === 'true',
       selectedImage: '',
       finished: false,
+      finishedFromBackend: false,
       font_size: 1.2,
       brightness: brightnessStates.light,
       showFlashCards: false,
@@ -156,7 +167,11 @@ export default {
     onManualInfoLoaded (manualInfo) {
       // Guardar la información del manual para uso futuro
       this.manualInfo = manualInfo;
-      // Aquí puedes usar manualInfo.topic, manualInfo.subtopic, manualInfo.reading_time
+      // Actualizar el estado de finalizado si el manual ya fue completado
+      if (manualInfo.finished) {
+        this.finished = true;
+        this.finishedFromBackend = true;
+      }
     },
     allowFlashCards () {
       this.showFlashCards = true;
@@ -168,7 +183,10 @@ export default {
       this.brightness = brightnessState;
     },
     getFinishedState (isFinished) {
-      this.finished = isFinished;
+      // No sobrescribir si el backend ya confirmó que está finalizado
+      if (!this.finishedFromBackend) {
+        this.finished = isFinished;
+      }
     },
     copyToFlashCard (htmlSelection) {
       this.flash_b = htmlSelection;

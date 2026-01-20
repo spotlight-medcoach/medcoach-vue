@@ -1,8 +1,8 @@
 <template>
   <div
-    class="holdable-button pointer d-inline-flex align-items-center justify-content-around"
+    class="holdable-button"
     :class="{ holded: isHoldOn || checked, disabled: disabled }"
-    :style="`max-width: ${maxWidth}px`"
+    :style="`max-width: ${maxWidth}px; min-width: ${minWidth}px`"
     @mousedown="holdOn()"
     @mouseup="holdOff()"
   >
@@ -11,9 +11,7 @@
       class="h4 m-2 ml-2"
     />
     <div class="my-2 mr-1">
-      <strong
-        ><p style="font-size: 12px">{{ message }}</p></strong
-      >
+      <strong><p style="font-size: 12px">{{ message }}</p></strong>
     </div>
     <span
       class="bg-layout"
@@ -27,25 +25,29 @@ export default {
   props: {
     message: {
       type: String,
-      default: 'Manten presionado'
+      default: 'Manten presionado',
     },
     checkOnMiliseconds: {
       // tiempo delay para check
       type: Number,
-      default: 3000
+      default: 3000,
     },
     maxWidth: {
       type: Number,
-      default: 200
+      default: 200,
+    },
+    minWidth: {
+      type: Number,
+      default: 200,
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     defaultValue: {
       type: Boolean,
-      defaultValue: false
-    }
+      defaultValue: false,
+    },
   },
   data () {
     return {
@@ -53,68 +55,74 @@ export default {
       holdListener: undefined,
       checked: false,
       isHoldOn: false,
-      step: 100
-    }
+      step: 100,
+    };
   },
   watch: {
     defaultValue (defaultVal) {
-      this.checked = defaultVal
-    }
+      this.checked = defaultVal;
+    },
   },
   mounted () {
     if (this.defaultValue === true) {
-      this.checked = this.defaultValue
+      this.checked = this.defaultValue;
     }
   },
   methods: {
     holdOn () {
-      this.isHoldOn = true // registra el evento de click
-      clearInterval(this.holdListener)
+      this.isHoldOn = true; // registra el evento de click
+      clearInterval(this.holdListener);
       this.holdListener = setInterval(
         function () {
-          this.holdTimeMiliseconds += this.step // cada 100ms se reporta a la variable que sigue en hold
+          this.holdTimeMiliseconds += this.step; // cada 100ms se reporta a la variable que sigue en hold
           if (this.holdTimeMiliseconds >= this.checkOnMiliseconds) {
             // cuando el tiempo en hold es mayor o igual al tiempo establecido para check
-            clearInterval(this.holdListener)
-            this.$emit('onCheck')
-            this.checked = true
+            clearInterval(this.holdListener);
+            this.$emit('onCheck');
+            this.checked = true;
             // se hace check y limpia buffer
           }
         }.bind(this),
-        this.step
-      )
+        this.step,
+      );
     },
     holdOff () {
-      this.isHoldOn = false // registra el evento unhold
-      clearInterval(this.holdListener) // por si hubiera un evento previo de holdOn se limpia el buffer
+      this.isHoldOn = false; // registra el evento unhold
+      clearInterval(this.holdListener); // por si hubiera un evento previo de holdOn se limpia el buffer
       if (this.checked === false) {
         this.holdListener = setInterval(
           function () {
-            this.holdTimeMiliseconds -= this.step // cada 100ms se reporta a la variable que no hay hold
+            this.holdTimeMiliseconds -= this.step; // cada 100ms se reporta a la variable que no hay hold
             if (this.holdTimeMiliseconds <= 0) {
               // cuando el tiempo en holdOff es menor o igual a 0 detiene el proceso
-              clearInterval(this.holdListener)
+              clearInterval(this.holdListener);
             }
           }.bind(this),
-          this.step
-        )
+          this.step,
+        );
       }
     },
     reset () {
       setTimeout(() => {
-        this.checked = false
-      }, 1)
-    }
-  }
-}
+        this.checked = false;
+      }, 1);
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-@import "@/assets/css/variables/color-palette.scss";
+@import '@/assets/css/variables/color-palette.scss';
 .holdable-button {
   position: relative;
   font-size: 14px;
   line-height: 17px;
   color: #{$neutral-700};
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 4px;
+  cursor: pointer;
+
   .bg-layout {
     position: absolute;
     left: 0;
