@@ -36,7 +36,7 @@
       <div v-if="retro" class="mb-5">
         <div class="body-title-1 mb-10px">Retroalimentación</div>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="question.retro" />
+        <div class="retro-content" v-html="question.retro" />
       </div>
       <!-- FIN RETRO -->
     </div>
@@ -135,6 +135,11 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+  .retro-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>

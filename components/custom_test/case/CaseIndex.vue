@@ -1,7 +1,7 @@
 <template>
   <section id="case-index" class="d-flex mx-0 justify-content-center h-100">
     <div id="right-side-questions">
-      <CaseTimer class="mb-16px" :retro="retro" />
+      <!-- <CaseTimer class="mb-16px" :retro="retro" /> -->
       <!-- Descripción del caso clínico -->
       <section
         id="case-content"
@@ -24,7 +24,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from 'vuex';
-import CaseTimer from '@/components/custom_test/case/CaseTimer.vue';
+// import CaseTimer from '@/components/custom_test/case/CaseTimer.vue';
 import CaseQuestions from '@/components/custom_test/case/CaseQuestions.vue';
 import AsideQuestionsIndex from '@/components/custom_test/case/AsideQuestionsIndex.vue';
 import CaseFooter from '@/components/custom_test/case/CaseFooter.vue';
@@ -32,7 +32,7 @@ import ModalImage from '@/components/ModalImage';
 
 export default {
   components: {
-    CaseTimer,
+    // CaseTimer,
     CaseQuestions,
     AsideQuestionsIndex,
     CaseFooter,
