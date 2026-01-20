@@ -117,6 +117,11 @@ export default async function auth ({ redirect, route, store }) {
     // Activar el estado de carga
     store.commit('http_request/setOnHttpRequest', true);
 
+    // Calcular días restantes para el ENARM (puede no haberse calculado si studentInfo venía del caché)
+    if (store.state.studentInfo?.test_date) {
+      store.dispatch('calculeTestLeftDays', store.state.studentInfo.test_date);
+    }
+
     // Cargar topics e infographics si no se han cargado
     const promises = [store.dispatch('topics/fetchTopics')];
 
