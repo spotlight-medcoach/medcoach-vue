@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="row notes pt-5">
     <!-- NOTES -->
@@ -12,7 +13,7 @@
             spinner-variant="primary"
             class="d-inline-block"
           >
-            <img src="@/assets/icons/save.svg" width="30" @click="saveNote" />
+            <img src="@/assets/icons/save.svg" width="30" @click="saveNote">
           </b-overlay>
         </div>
         <quill-editor
@@ -21,10 +22,10 @@
           :options="editorOption"
         />
       </div>
-      <div id="review-content" v-else-if="content !== ''">
-        <div class="ql-editor" id="print-div">
+      <div v-else-if="content !== ''" id="review-content">
+        <div id="print-div" class="ql-editor">
           <h3>{{ manual.manual_name }}</h3>
-          <div v-html="content"></div>
+          <div v-html="content" />
         </div>
       </div>
       <div v-else>
@@ -38,11 +39,11 @@
         class="d-flex align-items-start flex-column text-center"
       >
         <div class="option mb-auto pointer" @click="openFlashcards">
-          <img src="@/assets/icons/review/flashcards.svg" width="35" />
+          <img src="@/assets/icons/review/flashcards.svg" width="35">
           <p>Flashcards</p>
         </div>
         <div class="option mb-auto pointer" @click="showQuill = !showQuill">
-          <img src="@/assets/icons/review/edit_notes.svg" width="35" />
+          <img src="@/assets/icons/review/edit_notes.svg" width="35">
           <p>Editar Notas</p>
         </div>
         <div class="option mb-auto">
@@ -51,20 +52,20 @@
             target="_blank"
             :to="`/manual?manual_id=${manual_id}`"
           >
-            <img src="@/assets/icons/review/show_manual.svg" width="35" />
+            <img src="@/assets/icons/review/show_manual.svg" width="35">
             <p>Ver Manual</p>
           </nuxt-link>
         </div>
         <div class="option mb-auto pointer" @click="printNote">
-          <img src="@/assets/icons/review/print.svg" width="35" />
+          <img src="@/assets/icons/review/print.svg" width="35">
           <p>Imprimir</p>
         </div>
         <div
+          v-if="!is_extra"
           class="option mb-auto pointer"
           @click="finishReview"
-          v-if="!is_extra"
         >
-          <img src="@/assets/icons/review/finish_review.svg" width="35" />
+          <img src="@/assets/icons/review/finish_review.svg" width="35">
           <p>Finalizar revisión</p>
         </div>
       </div>
@@ -77,13 +78,13 @@
       :centered="true"
       :no-close-on-backdrop="true"
     >
-      <template v-slot:modal-title>
+      <template #modal-title>
         <div>Flashcards</div>
-        <div style="font-size: 16px" v-if="flashcards.length">
+        <div v-if="flashcards.length" style="font-size: 16px">
           {{ flashcards_index + 1 }} / {{ flashcards.length }}
         </div>
-        <div class="loading-delete" v-if="deletingFlashCard">
-          <img src="@/assets/icons/loading.svg" height="48" />
+        <div v-if="deletingFlashCard" class="loading-delete">
+          <img src="@/assets/icons/loading.svg" height="48">
         </div>
         <div v-else-if="showDeleteAlert" class="delete-flashcard-alert">
           <p class="font-italic">
@@ -129,8 +130,8 @@
         <div id="flip-container">
           <vue-flip v-model="flipped" width="100%" height="100%">
             <!-- FRONT -->
-            <template v-slot:front class="front">
-              <div class="tarjeta frente" v-if="flashcard">
+            <template #front class="front">
+              <div v-if="flashcard" class="tarjeta frente">
                 <div v-if="showQuillA">
                   <quill-editor
                     ref="noteQuillA"
@@ -151,16 +152,14 @@
                           size="sm"
                           variant="outline-success"
                           @click.stop.prevent="updateFlashcard('A')"
-                          >Guardar</b-button
-                        >
+                        >Guardar</b-button>
                       </b-overlay>
                     </div>
                     <b-button
                       size="sm"
                       variant="danger"
                       @click.stop.prevent="cancelQuillA"
-                      >Cancelar</b-button
-                    >
+                    >Cancelar</b-button>
                   </div>
                 </div>
                 <div v-else @click="flipped = !flipped">
@@ -176,14 +175,9 @@
                     </div>
                   </div>
                   <div
-                    class="
-                      note-content
-                      d-flex
-                      justify-content-center
-                      align-items-center
-                    "
+                    class="note-content d-flex justify-content-center align-items-center"
                   >
-                    <div v-html="flashcard.body_note"></div>
+                    <div v-html="flashcard.body_note" />
                   </div>
                   <div class="mt-3">Frente</div>
                 </div>
@@ -191,8 +185,8 @@
               <div v-else>No hay flashcards</div>
             </template>
             <!-- BACK -->
-            <template v-slot:back class="back">
-              <div class="tarjeta detras" v-if="flashcard">
+            <template #back class="back">
+              <div v-if="flashcard" class="tarjeta detras">
                 <div v-if="showQuillB">
                   <quill-editor
                     ref="noteQuillB"
@@ -213,16 +207,14 @@
                           size="sm"
                           variant="outline-success"
                           @click.stop.prevent="updateFlashcard('B')"
-                          >Guardar</b-button
-                        >
+                        >Guardar</b-button>
                       </b-overlay>
                     </div>
                     <b-button
                       size="sm"
                       variant="danger"
                       @click.stop.prevent="cancelQuillB"
-                      >Cancelar</b-button
-                    >
+                    >Cancelar</b-button>
                   </div>
                 </div>
                 <div v-else @click="flipped = !flipped">
@@ -233,10 +225,10 @@
                     <b-icon icon="pencil-square" />
                   </div>
                   <div
-                    class="note-content d-flex justify-content-center"
                     v-if="flashcard"
+                    class="note-content d-flex justify-content-center"
                   >
-                    <div v-html="flashcard.body_user"></div>
+                    <div v-html="flashcard.body_user" />
                   </div>
                   <div class="mt-3">Detrás</div>
                 </div>
@@ -265,7 +257,7 @@
 import { mapGetters } from 'vuex';
 import { printHtml } from '@/assets/js/print_html';
 export default {
-  name: 'notes-review',
+  name: 'NotesReview',
   props: {
     manual_id: {
       type: String,
@@ -318,6 +310,12 @@ export default {
       showSuccessAlert: false,
       studyTimeTimelapseListener: undefined,
     };
+  },
+  created () {
+    this.content = this.notes.slice(0, -1);
+  },
+  mounted () {
+    this.addStudyTime();
   },
   methods: {
     openQuillA () {
@@ -409,13 +407,12 @@ export default {
     },
     updateFlashcard (side) {
       const params = {
-        flashcard_id: this.flashcard._id,
         body_note: this.flashcard.body_note,
         body_user: this.flashcard.body_user,
       };
       this.savingFlashcard = true;
       this.$axios
-        .put('/student/manuals/flashcard', params, {
+        .put(`/student/flashcards/${this.flashcard._id}`, params, {
           headers: {
             Authorization: `Bearer ${this.$store.state.token}`,
             'Content-type': 'application/json',
@@ -482,12 +479,6 @@ export default {
     finalize () {
       this.clearInterval(this.studyTimeTimelapseListener);
     },
-  },
-  created () {
-    this.content = this.notes.slice(0, -1);
-  },
-  mounted () {
-    this.addStudyTime();
   },
   computed: {
     flashcard: {

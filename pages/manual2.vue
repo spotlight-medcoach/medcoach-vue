@@ -12,7 +12,7 @@
       variant="info"
     >
       <b-navbar-brand class="cursor-pointer" @click="beforeLeave">
-        <img src="@/assets/icons/home_logo_off.svg" width="50" height="50" />
+        <img src="@/assets/icons/home_logo_off.svg" width="50" height="50">
       </b-navbar-brand>
       <span class="ml-3 manual-title">{{ manual_name }}</span>
       <b-navbar-toggle target="nav-collapse" />
@@ -21,13 +21,7 @@
         <b-navbar-nav class="ml-auto">
           <b-button
             size="sm"
-            class="
-              btnLetterChange
-              mr-2
-              d-flex
-              justify-content-center
-              align-items-center
-            "
+            class="btnLetterChange mr-2 d-flex justify-content-center align-items-center"
             type="submit"
             :style="`font-size:${fontSize}em;`"
             @click="onChangeFontSize"
@@ -44,9 +38,9 @@
           <b-button
             v-if="
               !showLoading &&
-              !finished &&
-              phase.id !== 2 &&
-              !finish_manual_extra
+                !finished &&
+                phase.id !== 2 &&
+                !finish_manual_extra
             "
             size="sm"
             class="my-2 my-sm-0 finishManualBtn"
@@ -107,7 +101,7 @@
                         src="@/assets/icons/save.svg"
                         width="35"
                         @click="saveFlashcard"
-                      />
+                      >
                     </b-overlay>
                     <b-overlay
                       :show="false"
@@ -122,7 +116,7 @@
                         width="35"
                         class="ml-2"
                         @click="closeFlashcard"
-                      />
+                      >
                     </b-overlay>
                   </div>
                   <div class="editors">
@@ -149,7 +143,7 @@
                 </div>
               </transition>
               <div class="trigger" @click="showFlashCards = !showFlashCards">
-                <img src="@/assets/icons/flashcard_trigger.svg" height="50px" />
+                <img src="@/assets/icons/flashcard_trigger.svg" height="50px">
               </div>
             </div>
           </div>
@@ -169,7 +163,7 @@
                   src="@/assets/icons/save.svg"
                   width="30"
                   @click="saveNote"
-                />
+                >
               </b-overlay>
             </div>
             <quill-editor
@@ -401,7 +395,7 @@ export default {
         body_user: this.flashB,
       };
       this.$axios
-        .post('/student/manuals/flashcard', params)
+        .post('/student/flashcards', params)
         .then((response) => {
           this.$toastr.success('Flashcard guardada correctamente', '¡Éxito!');
           this.closeFlashcard();

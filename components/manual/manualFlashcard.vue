@@ -149,7 +149,7 @@ export default {
         body_user: this.flashBContent,
       };
       this.$axios
-        .post('/student/manuals/flashcard', params)
+        .post('/student/flashcards', params)
         .then((response) => {
           this.$toastr.success('Flashcard guardada correctamente', '¡Éxito!');
           this.closeFlashcard();
