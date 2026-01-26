@@ -115,7 +115,10 @@ export default {
       return this.$axios
         .get(`/student/manuals?manual_id=${this.manualId}`)
         .then((res) => {
-          this.manualHTML = res.data;
+          this.manualHTML = res.data.replace(
+            /color: #000000/g,
+            'color: inherit',
+          );
           this.$emit('onFetchedManual');
         })
         .catch((err) => {
