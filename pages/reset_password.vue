@@ -9,12 +9,8 @@
         <validation-observer ref="formValidation">
           <b-form @submit.prevent="resetPassword">
             <div class="text-center mb-40px">
-              <p class="title-lg">
-                Cambiar Contraseña
-              </p>
-              <p class="title-sm">
-                Cambia y confirma tu contraseña
-              </p>
+              <p class="title-lg">Cambiar Contraseña</p>
+              <p class="title-sm">Cambia y confirma tu contraseña</p>
             </div>
             <div class="mb-48px">
               <b-form-group
@@ -78,12 +74,12 @@
       <a class="link link-primary" href="/">Cancelar</a>
     </div>
     <div class="mx-auto mt-auto mb-40px">
-      <a style="color: #7D7A7A" href="#">AVISO DE PRIVACIDAD</a>
+      <a style="color: #7d7a7a" href="#">AVISO DE PRIVACIDAD</a>
     </div>
   </div>
 </template>
 <script>
-import { required } from '@/assets/utils/validations.js'
+import { required } from '@/assets/utils/validations.js';
 export default {
   layout: 'index',
   data () {
@@ -92,58 +88,63 @@ export default {
       confirm_password: '',
       resetLoading: false,
       token: '',
-      required
-    }
+      required,
+    };
   },
   created () {
     if (this.$route.query.token) {
-      this.token = this.$route.query.token
+      this.token = this.$route.query.token;
     } else {
-      this.$router.push({ path: '/', query: { invalid_token: 'Token inválido' } })
+      this.$router.push({
+        path: '/',
+        query: { invalid_token: 'Token inválido' },
+      });
     }
   },
   methods: {
     async resetPassword () {
       try {
         if (!this.resetLoading) {
-          this.resetLoading = true
-          const success = await this.$refs.formValidation.validate()
+          this.resetLoading = true;
+          const success = await this.$refs.formValidation.validate();
           if (success) {
             const params = {
               token: this.token,
-              password: this.password,
-              password_confirm: this.confirm_password
-            }
-            const { data } = await this.$axios.put('/student/resetpassword', params)
-            this.$toastr.success(data.message, 'Éxito')
-            this.$router.push('/')
+              newPassword: this.password,
+            };
+            const { data } = await this.$axios.put(
+              '/student/auth/reset-password',
+              params,
+            );
+            this.$toastr.success(data.message, 'Éxito');
+            this.$router.push('/');
           } else {
-            this.$toastr.error('Hay campos incorrectos', 'Error')
+            this.$toastr.error('Hay campos incorrectos', 'Error');
           }
-          this.resetLoading = false
+          this.resetLoading = false;
         }
       } catch (error) {
-        console.error(error)
-        this.$toastr.error('Lo sentimos. Hubo un error', 'Error')
+        console.error(error);
+        this.$toastr.error('Lo sentimos. Hubo un error', 'Error');
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss">
-  #reset-password {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    overflow-x: hidden;
-    flex-direction: column;
+#reset-password {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: column;
 
-    .logo {
-      width: 238px;
-    }
-
-    .reset-password-card {
-      width: 511px;
-    }
+  .logo {
+    width: 238px;
   }
+
+  .reset-password-card {
+    width: 511px;
+  }
+}
 </style>

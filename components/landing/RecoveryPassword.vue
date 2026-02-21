@@ -20,7 +20,7 @@
                 class="mb-24px"
               >
                 <validation-provider
-                  #default="{ errors }"
+                  v-slot="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
@@ -50,64 +50,72 @@
       </div>
     </div>
     <div class="text-center link link-primary">
-      <p class="link" @click="$store.commit('landing/setScreen', 'login')">Cancelar</p>
+      <p class="link" @click="$store.commit('landing/setScreen', 'login')">
+        Cancelar
+      </p>
     </div>
     <div class="mx-auto mt-auto mb-40px">
-      <a style="color: #7D7A7A" href="#">AVISO DE PRIVACIDAD</a>
+      <a style="color: #7d7a7a" href="#">AVISO DE PRIVACIDAD</a>
     </div>
   </div>
 </template>
 <script>
-import { required, email } from '@/assets/utils/validations.js'
+import { required, email } from '@/assets/utils/validations.js';
 export default {
   data () {
     return {
       form: {
-        email: ''
+        email: '',
       },
       required,
       email,
-      recoveryLoading: false
-    }
+      recoveryLoading: false,
+    };
   },
   methods: {
     async recoveryPassword () {
       try {
         if (!this.recoveryLoading) {
-          this.recoveryLoading = true
-          const success = await this.$refs.formValidation.validate()
+          this.recoveryLoading = true;
+          const success = await this.$refs.formValidation.validate();
           if (success) {
-            const { data } = await this.$axios.post(`student/resetpassword?email=${this.form.email}`)
-            this.$toastr.success(data.message, 'Éxito')
-            this.form.email = ''
-            this.$store.commit('landing/setScreen', 'login')
+            const { data } = await this.$axios.post(
+              `student/auth/reset-password?email=${encodeURIComponent(
+                this.form.email,
+              )}`,
+            );
+            this.$toastr.success(data.message, 'Éxito');
+            this.form.email = '';
+            this.$store.commit('landing/setScreen', 'login');
           } else {
-            this.$toastr.error('Hay campos incorrectos', 'Error')
+            this.$toastr.error('Hay campos incorrectos', 'Error');
           }
-          this.recoveryLoading = false
+          this.recoveryLoading = false;
         }
       } catch (error) {
-        console.error(error)
-        this.$toastr.error('Lo sentimos. Hubo un error', 'Error')
+        console.error(error);
+        this.$toastr.error('Lo sentimos. Hubo un error', 'Error');
+      } finally {
+        this.recoveryLoading = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss">
-  #recovery-password {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    overflow-x: hidden;
-    flex-direction: column;
+#recovery-password {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  overflow-x: hidden;
+  flex-direction: column;
 
-    .logo {
-      width: 238px;
-    }
-
-    .recovery-password-card {
-      width: 511px;
-    }
+  .logo {
+    width: 238px;
   }
+
+  .recovery-password-card {
+    width: 511px;
+  }
+}
 </style>
