@@ -21,6 +21,42 @@ data.topics.forEach((topic) => {
   });
 });
 
+// Debounce for persisting to localStorage when only time updates (every second)
+const PERSIST_DEBOUNCE_MS = 3000;
+let persistTimeTimeout = null;
+
+function schedulePersist (state) {
+  if (persistTimeTimeout) {
+    clearTimeout(persistTimeTimeout);
+  }
+  persistTimeTimeout = setTimeout(() => {
+    if (state.customTest) {
+      localStorage.setItem(
+        `test_${state.customTest.id}`,
+        JSON.stringify(state.customTest),
+      );
+    }
+    persistTimeTimeout = null;
+  }, PERSIST_DEBOUNCE_MS);
+}
+
+function clearPersistTimeout () {
+  if (persistTimeTimeout) {
+    clearTimeout(persistTimeTimeout);
+    persistTimeTimeout = null;
+  }
+}
+
+function doFlushPersist (state) {
+  clearPersistTimeout();
+  if (state.customTest) {
+    localStorage.setItem(
+      `test_${state.customTest.id}`,
+      JSON.stringify(state.customTest),
+    );
+  }
+}
+
 // STATE
 export const state = () => ({
   topics: data.topics,
@@ -184,7 +220,11 @@ export const mutations = {
     state.customTest.questions = state.customTest.questions.map(
       (question, index) => {
         if (question.response === undefined) {
-          question.response = question.answer || 0;
+          // -1 means no option selected; only use existing answer if it's a valid option index (>= 0)
+          question.response =
+            question.answer !== undefined && question.answer >= 0
+              ? question.answer
+              : -1;
         }
         if (question.marked === undefined) {
           question.marked = false;
@@ -231,10 +271,11 @@ export const mutations = {
   setQuestionTime (state, payload) {
     const { index, value } = payload;
     state.customTest.questions[index].time = value;
-    localStorage.setItem(
-      `test_${state.customTest.id}`,
-      JSON.stringify(state.customTest),
-    );
+    // Debounce localStorage write (timer ticks every second; avoid overwriting constantly)
+    schedulePersist(state);
+  },
+  flushPersistToStorage (state) {
+    doFlushPersist(state);
   },
   setCaseIndex (state, payload) {
     state.caseIndex = payload;
@@ -250,6 +291,7 @@ export const mutations = {
     state.seconds = payload;
   },
   initCustomTest (state) {
+    clearPersistTimeout();
     state.caseId = null;
     state.caseIndex = -1;
     state.customTest = null;
@@ -407,6 +449,8 @@ export const actions = {
     }
   },
   sendAnswers ({ state, commit }) {
+    // Flush any debounced persist so we don't overwrite localStorage after removeItem
+    commit('flushPersistToStorage');
     const _ans = state.customTest.questions.map((question) => {
       return {
         answer: question.response,

@@ -23,7 +23,9 @@
           md="4"
           lg="4"
           xl="4"
-        ><p class="body-title-2 float-left">Número de preguntas</p></b-col>
+        >
+          <p class="body-title-2 float-left">Número de preguntas</p>
+        </b-col>
         <b-col sm="2" md="2" lg="2" xl="2">
           <b-form-input
             id="questions-quantity"
@@ -35,31 +37,36 @@
             step="1"
             :disabled="!fetchedData"
             @input="$emit('update:questions-quantity', Number($event))"
-          /></b-col>
+          />
+        </b-col>
         <b-col
           cols="3"
           sm="3"
           md="3"
           lg="3"
           xl="3"
-        ><p class="ml-n2">
-          Máximo {{ settings.maxQuestions }} por bloque
-        </p></b-col>
-        <b-col
-          cols="3"
-          sm="3"
-          md="3"
-          lg="3"
-          xl="3"
-        ><b-overlay
-          :show="custom_test_loading"
-          spinner-small
-          class="mt-n1 float-right"
         >
-          <b-button variant="primary" @click="generateCustomTest">
-            Generar examen
-          </b-button>
-        </b-overlay></b-col>
+          <p class="ml-n2">
+            Máximo {{ settings.maxQuestions }} por bloque
+          </p>
+        </b-col>
+        <b-col
+          cols="3"
+          sm="3"
+          md="3"
+          lg="3"
+          xl="3"
+        >
+          <b-overlay
+            :show="custom_test_loading"
+            spinner-small
+            class="mt-n1 float-right"
+          >
+            <b-button variant="primary" @click="generateCustomTest">
+              Generar examen
+            </b-button>
+          </b-overlay>
+        </b-col>
       </b-row>
     </div>
   </section>

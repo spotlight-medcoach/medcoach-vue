@@ -28,6 +28,8 @@ export default {
     if (this.$refs.customTest) {
       this.$refs.customTest.finalize();
     }
+    // Persist any debounced progress so it's not lost when leaving
+    this.$store.commit('custom_test/flushPersistToStorage');
     next();
   },
   layout: 'new_default',
