@@ -17,13 +17,7 @@
         </li>
       </ul>
       <b-row>
-        <b-col
-          cols="4"
-          sm="4"
-          md="4"
-          lg="4"
-          xl="4"
-        >
+        <b-col cols="4" sm="4" md="4" lg="4" xl="4">
           <p class="body-title-2 float-left">Número de preguntas</p>
         </b-col>
         <b-col sm="2" md="2" lg="2" xl="2">
@@ -39,24 +33,10 @@
             @input="$emit('update:questions-quantity', Number($event))"
           />
         </b-col>
-        <b-col
-          cols="3"
-          sm="3"
-          md="3"
-          lg="3"
-          xl="3"
-        >
-          <p class="ml-n2">
-            Máximo {{ settings.maxQuestions }} por bloque
-          </p>
+        <b-col cols="3" sm="3" md="3" lg="3" xl="3">
+          <p class="ml-n2">Máximo {{ settings.maxQuestions }} por bloque</p>
         </b-col>
-        <b-col
-          cols="3"
-          sm="3"
-          md="3"
-          lg="3"
-          xl="3"
-        >
+        <b-col cols="3" sm="3" md="3" lg="3" xl="3">
           <b-overlay
             :show="custom_test_loading"
             spinner-small
@@ -155,7 +135,7 @@ export default {
       } else if (this.settings.mode === 'not_answered') {
         return subtopic.questions_not_answered;
       } else if (this.settings.mode === 'answered') {
-        return subtopic.questions_correct;
+        return subtopic.questions_correct + subtopic.questions_incorrect;
       } else if (this.settings.mode === 'wrong') {
         return subtopic.questions_incorrect;
       } else {
