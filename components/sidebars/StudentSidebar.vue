@@ -54,12 +54,12 @@
     </div>
 
     <!-- Análisis -->
-    <!-- <div class="text-center nav-item-tooltip">
+    <div class="text-center nav-item-tooltip">
       <nuxt-link to="/analysis">
         <InsightsIcon class="nav-icon" />
       </nuxt-link>
       <span class="nav-item-tooltip-text">Análisis</span>
-    </div> -->
+    </div>
 
     <!-- Simuladores -->
     <!-- <div class="text-center nav-item-tooltip">
@@ -76,7 +76,7 @@ import HomeIcon from '@/components/icons/HomeIcon.vue';
 import CalendarIcon from '@/components/icons/CalendarIcon.vue';
 import ManualsIcon from '@/components/icons/ManualsIcon.vue';
 import NotesIcon from '@/components/icons/NotesIcon.vue';
-// import InsightsIcon from '@/components/icons/InsightsIcon.vue';
+import InsightsIcon from '@/components/icons/InsightsIcon.vue';
 import InfographicsIcon from '@/components/icons/InfographicsIcon.vue';
 import TestsIcon from '@/components/icons/TestsIcon.vue';
 // import SimulatorsIcon from '@/components/icons/SimulatorsIcon';
@@ -86,7 +86,7 @@ export default {
     CalendarIcon,
     ManualsIcon,
     NotesIcon,
-    // InsightsIcon,
+    InsightsIcon,
     InfographicsIcon,
     TestsIcon,
     // SimulatorsIcon,
