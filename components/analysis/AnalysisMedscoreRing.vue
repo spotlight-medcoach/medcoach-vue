@@ -41,7 +41,7 @@
     </div>
 
     <div v-if="showLabel" class="score-label">
-      <span class="score-value">{{ displayScore }}%</span>
+      <span class="score-value">{{ displayScore }}</span>
       <span class="score-text">MedScore</span>
     </div>
   </div>
