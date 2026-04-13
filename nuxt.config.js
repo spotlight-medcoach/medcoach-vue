@@ -161,6 +161,7 @@ export default {
     { src: '~/plugins/axios' },
     { src: '~/plugins/vee-validate-plugin.js' },
     { src: '~/plugins/vue-phone-number-input.js' },
+    { src: '~/plugins/heartbeat.js', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
