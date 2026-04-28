@@ -204,15 +204,30 @@ export const actions = {
         if (data.days && Array.isArray(data.days)) {
           const today = data.days.find((d) => d.index === 0);
           const currentDayOfWeek = day; // día de la semana (0-6) calculado arriba
+          const phaseOneFinishedByDate =
+            data.phase === 1 &&
+            Number.isFinite(data.progress) &&
+            Number.isFinite(data.total) &&
+            data.total > 0 &&
+            data.progress >= data.total;
+
+          let shouldShowSecondPhase = false;
           if (
             today &&
             state.studentInfo &&
-            currentDayOfWeek !== state.studentInfo.free_day
+            currentDayOfWeek !== state.studentInfo.free_day &&
+            (!today.manuals || !today.manuals.length)
           ) {
-            if (!today.manuals || !today.manuals.length) {
-              commit('setAlertScondStage', true);
-            }
+            shouldShowSecondPhase = true;
           }
+
+          if (phaseOneFinishedByDate) {
+            shouldShowSecondPhase = true;
+          }
+
+          commit('setAlertScondStage', shouldShowSecondPhase);
+        } else {
+          commit('setAlertScondStage', false);
         }
         return dispatch('topics/fetchTopics');
       })
