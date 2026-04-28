@@ -16,7 +16,7 @@
         </div>
         <!----- Marcar como aprendido -->
         <div class="col-sm">
-          <div v-if="!note.finished" class="d-flex justify-content-end">
+          <div v-if="canFinishReview" class="d-flex justify-content-end">
             <div class="d-inline-flex align-items-center">
               <holdable-button
                 message="Manten presionado para marcar como aprendido"
@@ -138,6 +138,14 @@ export default {
     };
   },
   computed: {
+    canFinishReview () {
+      // En fase 2 el estado de "finished" de la nota puede venir de progreso
+      // histórico y no del flujo activo de repaso.
+      if (this.phase && this.phase.id === 2) {
+        return true;
+      }
+      return !(this.note && this.note.finished);
+    },
     title () {
       let name = '';
       this.topics.some((topic) => {
@@ -155,6 +163,7 @@ export default {
     },
     ...mapState({
       topics: (state) => state.topics.data,
+      phase: (state) => state.phase,
     }),
     ...mapGetters({
       notesTimelapse: 'studytime/notesTimelapse',
@@ -217,9 +226,13 @@ export default {
           this.$router.push({ path: '/dashboard' });
         })
         .catch((err) => {
+          const message =
+            err?.response?.data?.message ||
+            err?.response?.data?.error?.message ||
+            'Ocurrió un error al finalizar el manual';
           this.$store.dispatch(
             'http_request/errorHttp',
-            err.response.data.message,
+            message,
           );
         });
     },
