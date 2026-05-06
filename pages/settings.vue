@@ -224,7 +224,7 @@ export default {
       saving: false,
       profileEnabled: false,
       userInfo: {
-        first_name: '',
+        name: '',
         last_name: '',
         address: '',
         email: '',
@@ -286,16 +286,17 @@ export default {
   watch: {
     studentInfo (newVal) {
       if (newVal) {
-        this.userInfo = JSON.parse(JSON.stringify(newVal));
+        this.userInfo = { ...this.userInfo, ...JSON.parse(JSON.stringify(newVal)) };
       }
     },
   },
 
   created () {
+    this.$store.commit('http_request/setOnHttpRequest', false);
     this.getUniversitiesData();
     this.getSpecialitiesData();
     if (this.studentInfo) {
-      this.userInfo = JSON.parse(JSON.stringify(this.studentInfo));
+      this.userInfo = { ...this.userInfo, ...JSON.parse(JSON.stringify(this.studentInfo)) };
     }
   },
   mounted () {
@@ -346,17 +347,17 @@ export default {
       }
 
       const data = {
-        first_name: this.userInfo.first_name,
-        last_name: this.userInfo.last_name,
-        country: this.userInfo.country,
-        university: this.userInfo.university,
-        free_day: this.userInfo.free_day,
-        phone: this.userInfo.phone,
-        state: this.userInfo.state,
-        address: this.userInfo.address,
-        test_date: this.userInfo.test_date,
-        email: this.userInfo.email,
-        speciality: this.userInfo.speciality,
+        name: this.userInfo.name || '',
+        last_name: this.userInfo.last_name || '',
+        country: this.userInfo.country || '',
+        university: this.userInfo.university || null,
+        free_day: this.userInfo.free_day ?? -1,
+        phone: this.userInfo.phone || '',
+        state: this.userInfo.state || '',
+        address: this.userInfo.address || '',
+        test_date: this.userInfo.test_date || null,
+        email: this.userInfo.email || '',
+        speciality: this.userInfo.speciality || null,
       };
       this.saving = true;
       this.$axios

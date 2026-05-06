@@ -56,7 +56,9 @@ export default {
       let events = [];
       if (this.days && Array.isArray(this.days)) {
         events = this.days.filter((day) => {
-          if (day && day.manuals && day.manuals.length > 0) {
+          const hasManuals = day && day.manuals && day.manuals.length > 0;
+          const hasReviewed = day && day.reviewed && day.reviewed.length > 0;
+          if (hasManuals || hasReviewed) {
             day.date = day.date.replace(/-/g, '/');
             day.date = day.date.replace(/\/0/g, '/');
             day.title = 'Titulo';
