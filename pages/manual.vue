@@ -56,7 +56,7 @@
             </b-button>
           </template>
           <!----------------------------------------------------------------- Marcar como aprendido -->
-          <template v-if="phase && phase.id !== 2">
+          <template v-if="phase">
             <holdable-button
               ref="finish-manual-button"
               :message="

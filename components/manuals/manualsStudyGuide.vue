@@ -20,10 +20,10 @@
           v-for="manual in subtopic.manuals"
           :key="manual._id"
           class="mb-3"
-          :class="{ review: manual.finished }"
+          :class="{ review: manual.finished || manual.has_note }"
         >
           <nuxt-link
-            v-if="manual.finished"
+            v-if="manual.finished || manual.has_note"
             class="pointer body-medium-3"
             :to="`/review?manual_id=${manual.id}`"
           >
