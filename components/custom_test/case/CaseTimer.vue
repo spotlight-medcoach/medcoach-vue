@@ -12,7 +12,7 @@
         <span class="mr-1">{{ correctAnswerPercentage }}%</span>
         <span>Contesto correctamente</span>
       </p>
-      <p v-if="selectedQuestion.time" class="d-flex align-items-center">
+      <p v-if="selectedQuestion.time != null" class="d-flex align-items-center">
         <ClockIcon class="mr-2" />
         <span class="mr-1">Tiempo en contestar: </span>
         <span>{{ selectedQuestion.time }} seg</span>

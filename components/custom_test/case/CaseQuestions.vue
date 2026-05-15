@@ -61,7 +61,6 @@ export default {
   data () {
     return {
       question: {},
-      stop_timing: false,
     };
   },
   computed: {
@@ -74,21 +73,12 @@ export default {
   watch: {
     selectedQuestion (newVal) {
       if (newVal) {
-        if (!this.retro) {
-          this.$store.commit('custom_test/setQuestionTime', {
-            index: this.selectedQuestion.index,
-            value: 0,
-          });
-        }
         this.question = JSON.parse(JSON.stringify(newVal));
       }
     },
   },
   mounted () {
     this.question = JSON.parse(JSON.stringify(this.selectedQuestion));
-    if (!this.retro) {
-      this.addSecondToSelectedQuestion();
-    }
   },
   methods: {
     answerPercentage (ans) {
@@ -101,21 +91,6 @@ export default {
         index: questionIndex,
         value: response,
       });
-    },
-    async addSecondToSelectedQuestion () {
-      if (this.selectedQuestion) {
-        const time = this.selectedQuestion.time + 1;
-        this.$store.commit('custom_test/setQuestionTime', {
-          index: this.selectedQuestion.index,
-          value: time,
-        });
-      }
-      if (this.stop_timing) {
-        return false;
-      }
-      return await setTimeout(() => {
-        return this.addSecondToSelectedQuestion();
-      }, 1000);
     },
   },
 };

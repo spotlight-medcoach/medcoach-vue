@@ -265,7 +265,11 @@ export const mutations = {
   setQuestionTime (state, payload) {
     const { index, value } = payload;
     state.customTest.questions[index].time = value;
-    // Debounce localStorage write (timer ticks every second; avoid overwriting constantly)
+    schedulePersist(state);
+  },
+  addQuestionTime (state, { index, elapsed }) {
+    if (!state.customTest || !state.customTest.questions[index]) { return; }
+    state.customTest.questions[index].time += elapsed;
     schedulePersist(state);
   },
   flushPersistToStorage (state) {
@@ -440,6 +444,16 @@ export const actions = {
       const question = state.customTest.questions[nextIndex];
       commit('setSelectedQuestion', question);
     }
+  },
+  syncQuestionTimes ({ state }) {
+    if (!state.customTest || state.finishedTest) { return; }
+    const times = state.customTest.questions.map((q) => q.time || 0);
+    return this.$axios
+      .$patch('/student/custom-tests/question-times', {
+        custom_test_id: state.customTest.id,
+        times,
+      })
+      .catch(() => {});
   },
   sendAnswers ({ state, commit }) {
     // Flush any debounced persist so we don't overwrite localStorage after removeItem
