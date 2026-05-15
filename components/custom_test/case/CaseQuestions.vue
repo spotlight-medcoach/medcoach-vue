@@ -8,7 +8,7 @@
         <div
           v-for="(ans, index2) in question.answers"
           :key="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
-          class="position-relative d-flex cursor-pointer"
+          :class="['position-relative d-flex', { 'cursor-pointer': !retro }]"
         >
           <b-form-radio
             :id="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
@@ -16,13 +16,13 @@
             :disabled="retro && ans.id !== question.response"
             :name="`answer-radio-${caseSelected.id}-${question.index}`"
             :value="ans.id"
-            class="mr-16px cursor-pointer"
+            :class="['mr-16px', { 'cursor-pointer': !retro }]"
             @change="setAnswer(question.index, question.response)"
           />
           <label
             :for="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
-            class="cursor-pointer"
             :class="{
+              'cursor-pointer': !retro,
               correct: retro && question.correct_answer === ans.id,
               incorrect: retro && ans.id !== question.correct_answer,
             }"

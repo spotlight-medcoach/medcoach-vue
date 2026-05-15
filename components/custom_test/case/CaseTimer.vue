@@ -9,13 +9,13 @@
       </p>
       <p class="d-flex align-items-center">
         <StatisticsIcon class="mr-2" />
-        <span class="mr-1">{{ testGrade }}%</span>
+        <span class="mr-1">{{ correctAnswerPercentage }}%</span>
         <span>Contesto correctamente</span>
       </p>
-      <p class="d-flex align-items-center">
+      <p v-if="selectedQuestion.time" class="d-flex align-items-center">
         <ClockIcon class="mr-2" />
         <span class="mr-1">Tiempo en contestar: </span>
-        <span>{{ selectedQuestion.time || '-' }} seg</span>
+        <span>{{ selectedQuestion.time }} seg</span>
       </p>
     </div>
     <div v-else class="case-timer-container">
@@ -59,6 +59,20 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters({
+      selectedQuestion: 'custom_test/selectedQuestion',
+    }),
+    ...mapState({
+      timerString: (state) => state.custom_test.timerString,
+    }),
+    correctAnswerPercentage () {
+      const q = this.selectedQuestion;
+      if (!q || !q.total_responses) { return 0; }
+      const correctAns = (q.answers || []).find((a) => a.id === q.correct_answer);
+      return Math.round(((correctAns?.count || 0) / q.total_responses) * 100);
+    },
+  },
   watch: {
     selectedQuestion (newVal) {
       if (newVal) {
@@ -71,15 +85,6 @@ export default {
         value,
       });
     },
-  },
-  computed: {
-    ...mapGetters({
-      testGrade: 'custom_test/testGrade',
-      selectedQuestion: 'custom_test/selectedQuestion',
-    }),
-    ...mapState({
-      timerString: (state) => state.custom_test.timerString,
-    }),
   },
   mounted () {
     this.question = JSON.parse(JSON.stringify(this.selectedQuestion));
