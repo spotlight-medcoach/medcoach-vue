@@ -67,9 +67,16 @@ export default {
       }
 
       if (this.customTest && this.customTest.questions) {
+        const qParam = parseInt(this.$route.query.q);
+        const startIndex =
+          !isNaN(qParam) &&
+          qParam >= 0 &&
+          qParam < this.customTest.questions.length
+            ? qParam
+            : 0;
         this.$store.commit(
           'custom_test/setSelectedQuestion',
-          this.customTest.questions[0],
+          this.customTest.questions[startIndex],
         );
       }
     } catch (error) {

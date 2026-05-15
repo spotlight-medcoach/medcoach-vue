@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"question\\\\\\\\.content\\\\|question\\\\\\\\.answers\\\\|question\\\\\\\\.retro\\\\|question\\\\\\\\.marked\" 'c:\\\\Users\\\\Katt\\\\Desktop\\\\Spotlight\\\\medcoach-vue\\\\components\\\\custom_test\\\\' --include=\"*.vue\")",
+      "Bash(grep -r \"ans\\\\\\\\.id\\\\|ans\\\\\\\\.html\" 'c:\\\\Users\\\\Katt\\\\Desktop\\\\Spotlight\\\\medcoach-vue\\\\components\\\\custom_test\\\\' --include=\"*.vue\" -B 2 -A 2)"
+    ]
+  }
+}

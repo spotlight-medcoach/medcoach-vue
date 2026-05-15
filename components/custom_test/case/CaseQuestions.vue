@@ -8,7 +8,7 @@
         <div
           v-for="(ans, index2) in question.answers"
           :key="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
-          class="position-relative d-flex cursor-pointer"
+          :class="['position-relative d-flex', { 'cursor-pointer': !retro }]"
         >
           <b-form-radio
             :id="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
@@ -16,19 +16,25 @@
             :disabled="retro && ans.id !== question.response"
             :name="`answer-radio-${caseSelected.id}-${question.index}`"
             :value="ans.id"
-            class="mr-16px cursor-pointer"
+            :class="['mr-16px', { 'cursor-pointer': !retro }]"
             @change="setAnswer(question.index, question.response)"
           />
           <label
             :for="`answer-radio-${caseSelected.id}-${question.index}-${index2}`"
-            class="cursor-pointer"
             :class="{
+              'cursor-pointer': !retro,
               correct: retro && question.correct_answer === ans.id,
               incorrect: retro && ans.id !== question.correct_answer,
             }"
           >
             <!-- eslint-disable-next-line vue/no-v-html -->
             <div v-html="ans.html" />
+            <div
+              v-if="retro && question.total_responses > 0"
+              class="answer-stat"
+            >
+              {{ answerPercentage(ans) }}% de los estudiantes eligieron esta opción
+            </div>
           </label>
         </div>
       </div>
@@ -55,7 +61,6 @@ export default {
   data () {
     return {
       question: {},
-      stop_timing: false,
     };
   },
   computed: {
@@ -68,43 +73,24 @@ export default {
   watch: {
     selectedQuestion (newVal) {
       if (newVal) {
-        if (!this.retro) {
-          this.$store.commit('custom_test/setQuestionTime', {
-            index: this.selectedQuestion.index,
-            value: 0,
-          });
-        }
         this.question = JSON.parse(JSON.stringify(newVal));
       }
     },
   },
   mounted () {
     this.question = JSON.parse(JSON.stringify(this.selectedQuestion));
-    if (!this.retro) {
-      this.addSecondToSelectedQuestion();
-    }
   },
   methods: {
+    answerPercentage (ans) {
+      if (!this.question.total_responses) { return 0; }
+      const count = ans.count || 0;
+      return Math.round((count / this.question.total_responses) * 100);
+    },
     setAnswer (questionIndex, response) {
       this.$store.commit('custom_test/setQuestionResponse', {
         index: questionIndex,
         value: response,
       });
-    },
-    async addSecondToSelectedQuestion () {
-      if (this.selectedQuestion) {
-        const time = this.selectedQuestion.time + 1;
-        this.$store.commit('custom_test/setQuestionTime', {
-          index: this.selectedQuestion.index,
-          value: time,
-        });
-      }
-      if (this.stop_timing) {
-        return false;
-      }
-      return await setTimeout(() => {
-        return this.addSecondToSelectedQuestion();
-      }, 1000);
     },
   },
 };
@@ -140,6 +126,12 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  .answer-stat {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
   }
 }
 </style>
