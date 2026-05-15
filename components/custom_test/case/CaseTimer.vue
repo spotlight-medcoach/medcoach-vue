@@ -4,7 +4,7 @@
       <p>
         <span>Respuesta correcta:</span>
         <span>{{
-          String.fromCharCode(64 + selectedQuestion.correct_answer)
+          String.fromCharCode(65 + selectedQuestion.correct_answer)
         }}</span>
       </p>
       <p class="d-flex align-items-center">

@@ -29,6 +29,12 @@
           >
             <!-- eslint-disable-next-line vue/no-v-html -->
             <div v-html="ans.html" />
+            <div
+              v-if="retro && question.total_responses > 0"
+              class="answer-stat"
+            >
+              {{ answerPercentage(ans) }}% de los estudiantes eligieron esta opción
+            </div>
           </label>
         </div>
       </div>
@@ -85,6 +91,11 @@ export default {
     }
   },
   methods: {
+    answerPercentage (ans) {
+      if (!this.question.total_responses) { return 0; }
+      const count = ans.count || 0;
+      return Math.round((count / this.question.total_responses) * 100);
+    },
     setAnswer (questionIndex, response) {
       this.$store.commit('custom_test/setQuestionResponse', {
         index: questionIndex,
@@ -140,6 +151,12 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 16px;
+  }
+
+  .answer-stat {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
   }
 }
 </style>

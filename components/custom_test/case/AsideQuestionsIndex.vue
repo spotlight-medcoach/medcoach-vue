@@ -44,6 +44,14 @@
     >
       Terminar examen
     </b-button>
+    <b-button
+      v-else
+      class="mt-auto"
+      variant="primary"
+      @click="$router.push('/custom_test_config')"
+    >
+      Regresar
+    </b-button>
   </aside>
 </template>
 <script>

@@ -7,7 +7,7 @@
       Reportar pregunta
     </span>
     <b-button
-      :disabled="selectedQuestion.index >= customTest.questions.length - 1"
+      v-if="selectedQuestion.index < customTest.questions.length - 1"
       variant="primary"
       @click="$store.dispatch('custom_test/nextQuestion')"
     >
@@ -19,22 +19,22 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from 'vuex'
-import ReportQuestionModal from '@/components/_functional/reportQuestionModal.vue'
+import { mapState, mapGetters } from 'vuex';
+import ReportQuestionModal from '@/components/_functional/reportQuestionModal.vue';
 
 export default {
   components: {
-    ReportQuestionModal
+    ReportQuestionModal,
   },
   computed: {
     ...mapState({
-      customTest: state => state.custom_test.customTest
+      customTest: (state) => state.custom_test.customTest,
     }),
     ...mapGetters({
       caseSelected: 'custom_test/caseSelected',
       caseIndex: 'custom_test/caseIndex',
-      selectedQuestion: 'custom_test/selectedQuestion'
-    })
-  }
-}
+      selectedQuestion: 'custom_test/selectedQuestion',
+    }),
+  },
+};
 </script>

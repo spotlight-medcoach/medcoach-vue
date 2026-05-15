@@ -216,29 +216,23 @@ export const mutations = {
     }
   },
   setCustomTest (state, payload) {
+    // Process questions BEFORE assigning to state so Vue 2 observes all fields
+    // as reactive from the start. Adding properties to an already-observed object
+    // in Vue 2 is non-reactive; this avoids that pitfall.
+    payload.questions = payload.questions.map((question, index) => {
+      if (question.response === undefined) {
+        question.response =
+          question.answer !== undefined && question.answer >= 0
+            ? question.answer
+            : -1;
+      }
+      if (question.marked === undefined) { question.marked = false; }
+      if (question.time === undefined) { question.time = 0; }
+      if (question.first_answer === undefined) { question.first_answer = -1; }
+      question.index = index;
+      return question;
+    });
     state.customTest = payload;
-    state.customTest.questions = state.customTest.questions.map(
-      (question, index) => {
-        if (question.response === undefined) {
-          // -1 means no option selected; only use existing answer if it's a valid option index (>= 0)
-          question.response =
-            question.answer !== undefined && question.answer >= 0
-              ? question.answer
-              : -1;
-        }
-        if (question.marked === undefined) {
-          question.marked = false;
-        }
-        if (question.time === undefined) {
-          question.time = 0;
-        }
-        if (question.first_answer === undefined) {
-          question.first_answer = -1;
-        }
-        question.index = index;
-        return question;
-      },
-    );
   },
   setFetchedTest (state, payload) {
     state.fetchedTest = payload;
@@ -292,6 +286,9 @@ export const mutations = {
   },
   initCustomTest (state) {
     clearPersistTimeout();
+    if (state.timer) {
+      clearInterval(state.timer);
+    }
     state.caseId = null;
     state.caseIndex = -1;
     state.customTest = null;
@@ -299,6 +296,8 @@ export const mutations = {
     state.finishedTest = false;
     state.minutes = 0;
     state.seconds = 0;
+    state.timer = null;
+    state.timerString = '';
   },
   setSendingAnswers (state, payload) {
     state.sendingAnswers = payload;
@@ -366,15 +365,9 @@ export const actions = {
         console.log('Error en el fetchHistory', error.response);
       });
   },
-  loadCustomTest ({ state, commit, dispatch }, customTest) {
+  loadCustomTest ({ commit }, customTest) {
     commit('setCustomTest', customTest);
-    if (state.customTest.by_time) {
-      if (dispatch('prepareTimeTest')) {
-        commit('setFetchedTest', true);
-      }
-    } else {
-      commit('setFetchedTest', true);
-    }
+    commit('setFetchedTest', true);
   },
   fetchCustomTest ({ state, commit, dispatch }, customTestId) {
     return this.$axios
@@ -474,26 +467,22 @@ export const actions = {
       });
   },
   initTimer ({ state, commit }, duration) {
+    if (state.timer) {
+      clearInterval(state.timer);
+      commit('setTimer', null);
+    }
+    const fmt = (d) => [d.hours(), d.minutes(), d.seconds()]
+      .map((n) => String(n).padStart(2, '0'))
+      .join(':');
+    commit('setTimerString', fmt(duration));
     const timer = setInterval(() => {
-      if (duration.asSeconds <= 0) {
-        clearInterval(state.timer);
-      } else {
-        duration = moment.duration(duration.asSeconds() - 1, 'seconds');
-        let hours = duration.hours().toString();
-        let minutes = duration.minutes().toString();
-        let seconds = duration.seconds().toString();
-        if (hours.length < 2) {
-          hours = '0' + hours;
-        }
-        if (minutes.length < 2) {
-          minutes = '0' + minutes;
-        }
-        if (seconds.length < 2) {
-          seconds = '0' + seconds;
-        }
-        const timerString = `${hours}:${minutes}:${seconds}`;
-        commit('setTimerString', timerString);
+      if (duration.asSeconds() <= 0) {
+        clearInterval(timer);
+        commit('setTimer', null);
+        return;
       }
+      duration = moment.duration(duration.asSeconds() - 1, 'seconds');
+      commit('setTimerString', fmt(duration));
     }, 1000);
     commit('setTimer', timer);
   },
