@@ -162,6 +162,7 @@ export default {
     { src: '~/plugins/vee-validate-plugin.js' },
     { src: '~/plugins/vue-phone-number-input.js' },
     { src: '~/plugins/heartbeat.js', mode: 'client' },
+    { src: '~/plugins/report-widget.js', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules

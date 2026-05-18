@@ -11,6 +11,7 @@
         dispositivo de escritorio o laptop con resolución mínima de 900px
       </p>
     </div>
+    <ReportWidget />
   </div>
 </template>
 <script>
