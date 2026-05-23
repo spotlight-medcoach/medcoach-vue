@@ -25,7 +25,7 @@ export default {
     CustomTest,
   },
   beforeRouteLeave (to, from, next) {
-    if (this.$refs.customTest) {
+    if (to.path !== from.path && this.$refs.customTest) {
       this.$refs.customTest.finalize();
     }
     // Persist any debounced progress so it's not lost when leaving

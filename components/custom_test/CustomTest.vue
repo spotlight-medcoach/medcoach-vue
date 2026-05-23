@@ -20,8 +20,6 @@ export default {
       custom_test_id: null,
       studyTimeTimelapseListener: undefined,
       countdownTimeout: null,
-      questionFocusedAt: null,
-      activeQuestionIndex: null,
       isPaused: false,
       syncInterval: null,
     };
@@ -60,6 +58,9 @@ export default {
     if (this.fetchedTest && this.custom_test) {
       this.startCountdown();
     }
+    if (this.selectedQuestion !== null) {
+      this.$store.commit('custom_test/startQuestionTimer', this.selectedQuestion.index);
+    }
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     window.addEventListener('blur', this.handleWindowBlur);
     window.addEventListener('focus', this.handleWindowFocus);
@@ -78,6 +79,7 @@ export default {
   },
   methods: {
     startCountdown () {
+      if (!this.custom_test.by_time) { return; }
       if (this.countdownTimeout !== null) { return; }
       const totalSeconds = CONST_TIME * this.custom_test.questions.length;
       const duration = moment.duration(totalSeconds, 'seconds');
@@ -99,34 +101,31 @@ export default {
       );
     },
     onQuestionChange (newIndex) {
-      this.flushQuestionTime();
-      this.questionFocusedAt = Date.now();
-      this.activeQuestionIndex = newIndex;
+      this.$store.commit('custom_test/flushActiveQuestionTime');
+      this.$store.commit('custom_test/startQuestionTimer', newIndex);
       this.isPaused = false;
-      this.$router.replace({ query: { ...this.$route.query, q: newIndex } }).catch(() => {});
+      // Use history.replaceState directly to avoid triggering Vue Router navigation
+      // guards (beforeRouteLeave) which would stop the countdown timer.
+      const url = new URL(window.location.href);
+      url.searchParams.set('q', String(newIndex));
+      window.history.replaceState(null, '', url.toString());
     },
     flushQuestionTime () {
-      if (this.isPaused || this.questionFocusedAt === null || this.activeQuestionIndex === null) {
-        return;
-      }
-      const elapsed = Math.floor((Date.now() - this.questionFocusedAt) / 1000);
-      if (elapsed > 0) {
-        this.$store.commit('custom_test/addQuestionTime', {
-          index: this.activeQuestionIndex,
-          elapsed,
-        });
-      }
-      this.questionFocusedAt = null;
+      if (this.isPaused) { return; }
+      this.$store.commit('custom_test/flushActiveQuestionTime');
     },
     pauseTimer () {
       if (this.isPaused) { return; }
-      this.flushQuestionTime();
+      this.$store.commit('custom_test/flushActiveQuestionTime');
       this.isPaused = true;
     },
     resumeTimer () {
       if (!this.isPaused) { return; }
       this.isPaused = false;
-      this.questionFocusedAt = Date.now();
+      const activeIndex = this.$store.state.custom_test.activeQuestionIndex;
+      if (activeIndex !== null) {
+        this.$store.commit('custom_test/startQuestionTimer', activeIndex);
+      }
     },
     handleVisibilityChange () {
       if (document.visibilityState === 'hidden') {
@@ -158,6 +157,7 @@ export default {
       if (storeTimer) {
         clearInterval(storeTimer);
         this.$store.commit('custom_test/setTimer', null);
+        this.$store.commit('custom_test/setTimerString', '');
       }
       this.flushQuestionTime();
       this.$store.dispatch('custom_test/syncQuestionTimes');

@@ -72,6 +72,8 @@ export const state = () => ({
   timer: null,
   timerString: '',
   selectedQuestion: null,
+  activeQuestionIndex: null,
+  questionFocusedAt: null,
 });
 
 // GETTERS
@@ -272,6 +274,20 @@ export const mutations = {
     state.customTest.questions[index].time += elapsed;
     schedulePersist(state);
   },
+  startQuestionTimer (state, index) {
+    state.activeQuestionIndex = index;
+    state.questionFocusedAt = Date.now();
+  },
+  flushActiveQuestionTime (state) {
+    if (state.questionFocusedAt === null || state.activeQuestionIndex === null) { return; }
+    if (!state.customTest || !state.customTest.questions[state.activeQuestionIndex]) { return; }
+    const elapsed = Math.floor((Date.now() - state.questionFocusedAt) / 1000);
+    if (elapsed > 0) {
+      state.customTest.questions[state.activeQuestionIndex].time += elapsed;
+      schedulePersist(state);
+    }
+    state.questionFocusedAt = null;
+  },
   flushPersistToStorage (state) {
     doFlushPersist(state);
   },
@@ -302,6 +318,8 @@ export const mutations = {
     state.seconds = 0;
     state.timer = null;
     state.timerString = '';
+    state.activeQuestionIndex = null;
+    state.questionFocusedAt = null;
   },
   setSendingAnswers (state, payload) {
     state.sendingAnswers = payload;
@@ -456,6 +474,7 @@ export const actions = {
       .catch(() => {});
   },
   sendAnswers ({ state, commit }) {
+    commit('flushActiveQuestionTime');
     // Flush any debounced persist so we don't overwrite localStorage after removeItem
     commit('flushPersistToStorage');
     const _ans = state.customTest.questions.map((question) => {
