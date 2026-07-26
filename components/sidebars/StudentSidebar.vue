@@ -61,13 +61,13 @@
       <span class="nav-item-tooltip-text">Análisis</span>
     </div>
 
-    <!-- Simuladores -->
-    <!-- <div class="text-center nav-item-tooltip">
-      <nuxt-link to="/simulators">
+    <!-- Simuladores (app externa en Next.js; se entra con handoff de token) -->
+    <div class="text-center nav-item-tooltip">
+      <a href="#" @click.prevent="goToSimulators">
         <SimulatorsIcon class="nav-icon" />
-      </nuxt-link>
+      </a>
       <span class="nav-item-tooltip-text">Simuladores</span>
-    </div> -->
+    </div>
   </nav>
 </template>
 <script>
@@ -79,7 +79,8 @@ import NotesIcon from '@/components/icons/NotesIcon.vue';
 import InsightsIcon from '@/components/icons/InsightsIcon.vue';
 import InfographicsIcon from '@/components/icons/InfographicsIcon.vue';
 import TestsIcon from '@/components/icons/TestsIcon.vue';
-// import SimulatorsIcon from '@/components/icons/SimulatorsIcon';
+import SimulatorsIcon from '@/components/icons/SimulatorsIcon';
+import { goToSimulatorsApp } from '@/helpers/simulatorsApp';
 export default {
   components: {
     HomeIcon,
@@ -89,7 +90,7 @@ export default {
     InsightsIcon,
     InfographicsIcon,
     TestsIcon,
-    // SimulatorsIcon,
+    SimulatorsIcon,
   },
   computed: {
     ...mapState({
@@ -98,6 +99,11 @@ export default {
     ...mapGetters({
       sidebarActive: 'sidebar/sidebarActive',
     }),
+  },
+  methods: {
+    goToSimulators() {
+      goToSimulatorsApp();
+    },
   },
 };
 </script>

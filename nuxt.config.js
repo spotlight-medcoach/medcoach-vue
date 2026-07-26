@@ -11,6 +11,7 @@ export default {
     BASE_PATH_BUBBLE: process.env.BASE_PATH_BUBBLE,
     IN_MAINTENANCE: process.env.IN_MAINTENANCE || false,
     STORAGE_BASE_URL: process.env.STORAGE_BASE_URL || false,
+    SIMULATORS_URL: process.env.SIMULATORS_URL || 'http://localhost:3008',
     DEVELOP: process.env.DEVELOP || false,
     NAME: process.env.NAME || 'MedCoach',
     CONEKTA_PUBLIC_KEY:
