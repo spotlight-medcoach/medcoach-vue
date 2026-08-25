@@ -29,7 +29,8 @@ export default {
 				.filter(noti => noti.type === 'simuladores')
 				.map((noti) => {
 					return {
-						id: noti.manual_id,
+						// El id de la notificación: las de simuladores no traen manual_id.
+						id: noti.id,
 						title: noti.title,
 						enabled: !noti.readed,
 						data: noti
