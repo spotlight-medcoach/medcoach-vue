@@ -52,9 +52,10 @@ export const actions = {
   },
   readNotification ({ commit }, notificationID) {
     return this.$axios
-      .$post(`/student/notifications?notification_id=${notificationID}`)
-      .then((response) => {
-        console.log('read notification', response);
+      .$post('/student/notifications/read', {
+        notification_id: notificationID,
+      })
+      .then(() => {
         commit('setReadNotification', notificationID);
       });
   },
