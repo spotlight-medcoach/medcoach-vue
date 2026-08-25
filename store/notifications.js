@@ -39,8 +39,11 @@ export const getters = {
 
 export const actions = {
   fetchNotifications ({ commit }) {
+    // La API envuelve la respuesta: { success, data: { notifications } }. Leer
+    // `result.notifications` daba siempre undefined, así que la lista se
+    // vaciaba aunque el backend devolviera datos.
     return this.$axios.$get('/student/notifications').then((result) => {
-      commit('setData', result.notifications);
+      commit('setData', result.data && result.data.notifications);
     });
   },
   // Hace un loop para actualizar las notificaciones cada n minutos

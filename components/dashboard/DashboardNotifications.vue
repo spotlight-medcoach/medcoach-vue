@@ -2,20 +2,20 @@
 	<div id="dashboard-notifications">
 		<h3 class="my-2 text-center body-title-2">Notificaciones</h3>
 		<hr class="mb-0 mt-4">
-		<!-- <custom-list-preview-two-lines
+		<custom-list-preview-two-lines
 			:loading="loading"
 			:items="notifications"
 			:onEmptyListMessage="'No tiene nuevas notificaciones'"
 			@item-selected="itemSelected"
-		/> -->
+		/>
 	</div>
 </template>
 <script>
 import { mapState } from 'vuex'
-// import CustomListPreviewTwoLines from '@/components/_functional/customListPreviewTwoLines.vue'
+import CustomListPreviewTwoLines from '@/components/_functional/customListPreviewTwoLines.vue'
 export default {
 	components: {
-		// CustomListPreviewTwoLines
+		CustomListPreviewTwoLines
 	},
 	props: {
 		loading: {
@@ -33,7 +33,10 @@ export default {
 				})
 				.map((noti) => {
 					return {
-						id: noti.manual_id,
+						// El id de la notificación, no manual_id: los avisos
+						// generales no traen manual y marcarlas como leídas
+						// necesita este id.
+						id: noti.id,
 						title: noti.title,
 						hint: `${noti.content} - ${noti.date}`,
 						enabled: !noti.readed,
@@ -46,7 +49,11 @@ export default {
 		itemSelected (notification) {
 			this.$store.dispatch('notifications/readNotification', notification.id)
 				.then(() => {
-					this.$router.push({ path: '/manual', query: { manual_id: notification.manual_id } })
+					// Sólo las de manual llevan a algún lado. Un aviso general se
+					// marca como leído y se queda donde está.
+					if (notification.manual_id) {
+						this.$router.push({ path: '/manual', query: { manual_id: notification.manual_id } })
+					}
 				})
 		}
 	}

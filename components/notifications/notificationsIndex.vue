@@ -20,8 +20,9 @@
           <b-icon icon="chevron-right" />
         </div>
       </div>
+      <!-- Sólo las de manual tienen a dónde ir; un aviso general no lleva CTA. -->
       <div
-        v-else
+        v-else-if="noti.manual_id"
         @click="goToManual(noti.id, noti.readed, noti.manual_id)"
         class="d-flex align-items-center orange"
         :class="{pointer: !noti.readed}">
