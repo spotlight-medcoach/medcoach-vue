@@ -216,5 +216,18 @@ export default {
    */
   router: {
     middleware: ['auth'],
+    // El correo de bienvenida arma el enlace como /complete-registration, pero
+    // la página es pages/complete_registration.vue, así que la grafía con guion
+    // no resuelve y el alumno nunca llega al formulario. Se acepta como alias
+    // en lugar de corregir el correo porque los ya enviados no se pueden
+    // reescribir. Tiene que ser `alias` y no una ruta aparte: así route.name
+    // sigue siendo 'complete_registration', que es como el middleware auth la
+    // reconoce en PUBLIC_ROUTES.
+    extendRoutes (routes) {
+      const route = routes.find((r) => r.name === 'complete_registration');
+      if (route) {
+        route.alias = '/complete-registration';
+      }
+    },
   },
 };

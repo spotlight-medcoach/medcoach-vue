@@ -4,7 +4,6 @@ const PUBLIC_ROUTES = [
   'new_login',
   'welcome',
   'reset_password',
-  'sign_up',
   'complete_registration',
 ];
 
