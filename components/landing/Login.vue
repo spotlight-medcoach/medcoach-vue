@@ -74,10 +74,6 @@
           </b-form>
         </validation-observer>
       </div>
-      <div class="d-flex justify-content-around px-4">
-        <span>¿Nuevo en MedCOACH?</span>
-        <router-link to="/sign_up">Crea una cuenta</router-link>
-      </div>
     </div>
     <div class="mx-auto mt-auto mb-40px">
       <a
