@@ -1,5 +1,33 @@
 import webpack from 'webpack';
 
+/**
+ * Rutas que los correos de la API enlazan con una grafía que este SPA no tiene.
+ * La API es la misma Lambda para V1 y V2, y sus plantillas arman los enlaces
+ * con las rutas del app V2 (Next, kebab-case), mientras que aquí las páginas
+ * son pages/*.vue con guion bajo. La grafía que no existe no degrada: el
+ * alumno cae en el 404 del SPA con un token válido en la query.
+ *
+ * Se aceptan como alias en lugar de -o además de- corregir el correo, porque
+ * los que ya están en las bandejas no se pueden reescribir.
+ *
+ * Tiene que ser `alias` y no una segunda ruta: el middleware auth autoriza por
+ * nombre de ruta, y una ruta duplicada -que vue-router obliga a nombrar
+ * distinto- quedaría fuera de PUBLIC_ROUTES y rebotaría al alumno al login,
+ * cambiando un callejón sin salida por otro.
+ *
+ * Clave: nombre de la ruta de Nuxt (derivado de pages/). Valor: la grafía que
+ * llega desde fuera.
+ */
+const EXTERNAL_LINK_ALIASES = {
+  // Correo de bienvenida / invitación (admin/email.service.ts).
+  complete_registration: '/complete-registration',
+  // Correo de recuperación de contraseña (student/email.service.ts).
+  reset_password: '/reset-password',
+  // Correo de credenciales (student/email.service.ts) apunta a /login, que en
+  // V1 no existe como página: el login vive en la landing, pages/index.vue.
+  index: '/login',
+};
+
 export default {
   server: {
     port: 3003,
@@ -216,17 +244,12 @@ export default {
    */
   router: {
     middleware: ['auth'],
-    // El correo de bienvenida arma el enlace como /complete-registration, pero
-    // la página es pages/complete_registration.vue, así que la grafía con guion
-    // no resuelve y el alumno nunca llega al formulario. Se acepta como alias
-    // en lugar de corregir el correo porque los ya enviados no se pueden
-    // reescribir. Tiene que ser `alias` y no una ruta aparte: así route.name
-    // sigue siendo 'complete_registration', que es como el middleware auth la
-    // reconoce en PUBLIC_ROUTES.
     extendRoutes (routes) {
-      const route = routes.find((r) => r.name === 'complete_registration');
-      if (route) {
-        route.alias = '/complete-registration';
+      for (const [name, alias] of Object.entries(EXTERNAL_LINK_ALIASES)) {
+        const route = routes.find((r) => r.name === name);
+        if (route) {
+          route.alias = alias;
+        }
       }
     },
   },
