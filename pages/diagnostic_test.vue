@@ -42,9 +42,9 @@
         @goToQuestion="goToQuestion"
       />
     </div>
-    <!-- <div v-else-if="error_request" class="mt-5" style="font-size: 32px;">
-			{{ message_error }}
-		</div> -->
+    <div v-else-if="error_request" class="mt-5" style="font-size: 32px;">
+      {{ message_error }}
+    </div>
     <div v-else>
       <loading-state
         :message="
@@ -161,6 +161,10 @@ export default {
       } catch (e) {
         // Check if it's a 404 error (exam not created yet)
         if (e.response && e.response.status === 404) {
+          // El examen se crea por SQS al completar el registro; si ese job
+          // falla nunca llega a existir. El POST es idempotente (devuelve el
+          // existente), así que lo pedimos aquí antes de esperar.
+          await this.createTest();
           console.log('Examen no creado aún, iniciando polling...');
           this.startPolling();
         } else {
@@ -226,6 +230,14 @@ export default {
       if (this.pollingTimeout) {
         clearTimeout(this.pollingTimeout);
         this.pollingTimeout = null;
+      }
+    },
+    async createTest () {
+      try {
+        await this.$axios.post('/student/diagnostic', { first: true });
+      } catch (e) {
+        // El polling posterior muestra el error si el examen sigue sin existir
+        console.error(e);
       }
     },
     nextQuestion () {
